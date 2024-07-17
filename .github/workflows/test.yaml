@@ -12,7 +12,8 @@ on:
       - main
 
 jobs:
-  build:
+  eslint-test:
+    name: Run ESLint by Node.js 18x, 20.x
     runs-on: ubuntu-latest
 
     strategy:
