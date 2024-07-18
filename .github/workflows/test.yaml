@@ -1,4 +1,4 @@
-name: Run ESLint
+name: Run ESLint & Jest test
 
 on:
   pull_request:
@@ -31,9 +31,15 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: npm install, build, and test
-        run: |
-          npm ci
-          npm run lint
+      - name: install dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        run: npm run lint
+        env:
+          CI: true
+
+      - name: Run Jest test
+        run: npm test
         env:
           CI: true
