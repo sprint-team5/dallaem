@@ -1,3 +1,26 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": [
+    "airbnb",
+    // "airbnb-typescript",
+    "airbnb/hooks",
+    "next/core-web-vitals"
+  ],
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "rules": {
+    "quotes": ["error", "double"],
+    // "@typescript-eslint/quotes": ["error", "double", { 
+    //   "avoidEscape": true, 
+    //   "allowTemplateLiterals": true 
+    // }],
+    "react/jsx-filename-extension": [
+      "error",
+      { "extensions": [".tsx", ".jsx"] }
+    ],
+    "react/jsx-one-expression-per-line": "off",
+    "no-undef": "off",
+    "max-len": "off",
+    "import/extensions": "off"
+  }
 }
