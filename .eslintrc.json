@@ -2,10 +2,21 @@
   "extends": [
     "airbnb",
     "airbnb/hooks",
-    "airbnb-typescript",
+    // "airbnb-typescript",
     "next/core-web-vitals"
   ],
   "parserOptions": {
     "project": "./tsconfig.json"
+  },
+  "rules": {
+    "quotes": ["error", "double"],
+    "react/jsx-filename-extension": [
+      "error",
+      { "extensions": [".tsx", ".jsx"] }
+    ],
+    "react/jsx-one-expression-per-line": "off",
+    "no-undef": "off",
+    "max-len": "off",
+    "import/extensions": "off"
   }
 }
