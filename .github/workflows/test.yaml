@@ -39,6 +39,9 @@ jobs:
         env:
           CI: true
 
+      - name: Run build
+        run: npm run build
+
       - name: Run Jest test
         run: npm test
         env:
