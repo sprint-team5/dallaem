@@ -1,8 +1,8 @@
 {
   "extends": [
     "airbnb",
-    "airbnb/hooks",
     // "airbnb-typescript",
+    "airbnb/hooks",
     "next/core-web-vitals"
   ],
   "parserOptions": {
@@ -10,6 +10,10 @@
   },
   "rules": {
     "quotes": ["error", "double"],
+    // "@typescript-eslint/quotes": ["error", "double", { 
+    //   "avoidEscape": true, 
+    //   "allowTemplateLiterals": true 
+    // }],
     "react/jsx-filename-extension": [
       "error",
       { "extensions": [".tsx", ".jsx"] }
