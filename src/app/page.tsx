@@ -5,7 +5,7 @@ import {
 } from "@tanstack/react-query";
 // import getData from "./data";
 
-const Home = async () => {
+const Home = () => {
   const queryClient = new QueryClient();
   // queryClient.prefetchQuery(getData);
 
