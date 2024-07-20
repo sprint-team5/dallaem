@@ -3,11 +3,11 @@ import {
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
-import getData from "./data";
+// import getData from "./data";
 
 const Home = async () => {
   const queryClient = new QueryClient();
-  queryClient.prefetchQuery(getData);
+  // queryClient.prefetchQuery(getData);
 
   return (
     <main>
