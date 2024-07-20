@@ -1,0 +1,3 @@
+jest.config.js
+__test__/**/*.jsx
+coverage/lcov-report/**/*.js
