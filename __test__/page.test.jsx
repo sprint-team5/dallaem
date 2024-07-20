@@ -5,7 +5,7 @@ import Page from "../src/app/page";
 describe("적용 테스트", () => {
   test("적용 테스트1", () => {
     render(<Page />);
-    const docs = screen.getByText("Docs");
+    const docs = screen.getByText(/초기화/i);
     expect(docs).toBeInTheDocument();
   });
 });
