@@ -1,7 +1,5 @@
 "use client"
 
-import Image from "next/image"
-
 import { ReactNode } from "react"
 
 import { QueryClient, QueryClientProvider, isServer } from "@tanstack/react-query"
@@ -29,12 +27,7 @@ const getQueryClient = () => {
 const Providers = ({ children }: { children: ReactNode }) => {
   const queryClient = getQueryClient()
 
-  return (
-    <>
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-      <Image src="/favicon.ico" width={0} height={0} alt={"test"} />
-    </>
-  )
+  return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
 }
 
 export default Providers

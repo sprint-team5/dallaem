@@ -6,12 +6,10 @@
     "airbnb/hooks",
     // 성능 최적화를 위해 nextjs 자체 api를 권장하도록 하는 rules
     "next/core-web-vitals",
-    // eslint의 포맷팅을 prettier로 사용하도록 설정
-    "plugin:prettier/recommended",
-    // eslint-config-prettier -> prettier와 중복된 eslint 규칙 제거
-    "prettier",
-    "prettier/react",
-    "plugin:@tanstack/eslint-plugin-query/recommended"
+    "plugin:@tanstack/eslint-plugin-query/recommended",
+    "plugin:react/recommended",
+    // eslint-plugin-prettier -> prettier와 충돌하는 eslint 규칙 제거
+    "prettier"
   ],
   "parserOptions": {
     "project": "./tsconfig.json"
@@ -31,19 +29,6 @@
     "React": "readonly"
   },
   "rules": {
-    // 문자열 등에 큰 따옴표 사용
-    "quotes": [
-      "error",
-      "double",
-      {
-        // 이스케이프 필요한 따옴표 포함 시 작은 따옴표, 큰 따옴표 허용
-        "avoidEscape": true,
-        // 백틱 사용 허용
-        "allowTemplateLiterals": true
-      }
-    ],
-    // 탭 공백 2칸
-    "indent": ["error", 2],
     // 긴 라인 줄바꿈 시 연산자 뒤에서 줄바꿈
     "operator-linebreak": "off",
     // 화살표 함수 사용 시 중괄호 포함시키도록
@@ -54,19 +39,15 @@
     "react/jsx-filename-extension": ["error", { "extensions": [".tsx", ".jsx"] }],
     // 기명 함수 선언 시 functional, arrow function 방식 모두 허용
     "react/function-component-definition": "off",
-    // 한 라인에 여러 표현식 사용 불가능(문자열 리터럴만 허용)
-    "react/jsx-one-expression-per-line": ["error", { "allow": "literal" }],
     // 선언하지 않는 변수에 에러표기
     "no-undef": "error",
-    // 한 라인 길이 제한
-    "max-len": "off",
-    // import 확장자 포함 규칙 해제
-    "import/extensions": "off",
-    // ts 권장 따옴표 규칙 해제(자체적으로 설정)
-    "@typescript-eslint/quotes": "off",
-    // 마지막 줄 콤마 사용
-    "comma-dangle": ["error", "always"],
+    // linux, windows 모두 lf로 통합
+    "linebreak-style": ["error", "unix"],
     // jsx 파일에서 react import 없어도 사용 가능하도록
-    "react/react-in-jsx-scope": "off"
+    "react/react-in-jsx-scope": "off",
+    // import 확장자 포함 규칙 해제
+    "import/extensions": "off"
+    // // 한 라인에 여러 표현식 사용 불가능(문자열 리터럴만 허용)
+    // "react/jsx-one-expression-per-line": ["error", { "allow": "literal" }],
   }
 }
