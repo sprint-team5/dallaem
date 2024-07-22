@@ -1,4 +1,4 @@
-const nextJest = require("next/jest");
+const nextJest = require("next/jest")
 /**
  * For a detailed explanation regarding each configuration property, visit:
  * https://jestjs.io/docs/configuration
@@ -7,7 +7,7 @@ const nextJest = require("next/jest");
 
 const createJestConfig = nextJest({
   dir: "./",
-});
+})
 
 const config = {
   // All imported modules in your tests should be mocked automatically
@@ -198,6 +198,6 @@ const config = {
 
   // Whether to use watchman for file crawling
   // watchman: true,
-};
+}
 
-module.exports = createJestConfig(config);
+module.exports = createJestConfig(config)
