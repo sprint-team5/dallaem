@@ -1,40 +1,53 @@
 {
   "extends": [
+    // airbnb eslint 규칙 사용
     "airbnb",
     "airbnb-typescript",
     "airbnb/hooks",
+    // 성능 최적화를 위해 nextjs 자체 api를 권장하도록 하는 rules
     "next/core-web-vitals",
-    "plugin:@tanstack/eslint-plugin-query/recommended"
+    "plugin:@tanstack/eslint-plugin-query/recommended",
+    "plugin:react/recommended",
+    // eslint-plugin-prettier -> prettier와 충돌하는 eslint 규칙 제거
+    "prettier"
   ],
   "parserOptions": {
     "project": "./tsconfig.json"
   },
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint"],
+  "plugins": ["@typescript-eslint", "prettier"],
+  // 전역 객체를 eslint가 인식하는 범위
+  "env": {
+    // window, document, navitagor와 같은 전역 변수와 api 사용할 수 있도록
+    "browser": true,
+    // process, require, module 등 node.js 전역 변수와 api 사용할 수 있도록
+    "node": true,
+    // es6 문법 사용할 수 있도록
+    "es6": true
+  },
+  "globals": {
+    "React": "readonly"
+  },
   "rules": {
-    "quotes": [
-      "error",
-      "double",
-      {
-        "avoidEscape": true,
-        "allowTemplateLiterals": true
-      }
-    ],
+    // 긴 라인 줄바꿈 시 연산자 뒤에서 줄바꿈
     "operator-linebreak": "off",
-    "arrow-body-style": 0,
-    "implicit-arrow-linebreak": 0,
-    "react/jsx-filename-extension": [
-      "error",
-      { "extensions": [".tsx", ".jsx"] }
-    ],
-    "react/function-component-definition": [
-      2,
-      { "namedComponents": ["arrow-function", "function-declaration"] }
-    ],
-    "react/jsx-one-expression-per-line": "off",
-    "no-undef": "off",
-    "max-len": "off",
-    "import/extensions": "off",
-    "@typescript-eslint/quotes": "off"
+    // 화살표 함수 사용 시 중괄호 포함시키도록
+    "arrow-body-style": ["error", "always"],
+    // 화살표 함수 사용 시 줄바꿈 포함하도록 -> XXX: ts rule과 충돌가능성 있어서 warn으로 처리해둠
+    "implicit-arrow-linebreak": ["warn", "below"],
+    // jsx 문법 사용한 파일은 .jsx, .tsx 확장자만 사용하도록
+    "react/jsx-filename-extension": ["error", { "extensions": [".tsx", ".jsx"] }],
+    // 기명 함수 선언 시 functional, arrow function 방식 모두 허용
+    "react/function-component-definition": "off",
+    // 선언하지 않는 변수에 에러표기
+    "no-undef": "error",
+    // linux, windows 모두 lf로 통합
+    "linebreak-style": ["error", "unix"],
+    // jsx 파일에서 react import 없어도 사용 가능하도록
+    "react/react-in-jsx-scope": "off",
+    // import 확장자 포함 규칙 해제
+    "import/extensions": "off"
+    // // 한 라인에 여러 표현식 사용 불가능(문자열 리터럴만 허용)
+    // "react/jsx-one-expression-per-line": ["error", { "allow": "literal" }],
   }
 }
