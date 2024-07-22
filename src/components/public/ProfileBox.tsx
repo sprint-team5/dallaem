@@ -2,7 +2,7 @@ import Image from "next/image";
 import ProfileEditBtn from "./ProfileEditBtn";
 import LogoutBtn from "./LogoutBtn";
 
-interface Props {
+interface IProfileBoxProps {
   company: string;
   email: string;
   id: string;
@@ -14,7 +14,7 @@ const ProfileBox = ({
   email = "codeit@codeit.com",
   id = "럽윈즈올",
   imgSrc,
-}: Props) => {
+}: IProfileBoxProps) => {
   const profileImgSrc = imgSrc || "/img/profile/defaultProfile.jpg";
   return (
     <div className="rounded-3xl h-44 mx-auto w-profile-sm md:w-profile-md lg:w-profile-lg border-2 border-gray-200">
