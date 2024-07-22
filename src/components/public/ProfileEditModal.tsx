@@ -1,12 +1,15 @@
 import Image from "next/image";
 import CloseIcon from "@/public/icon/closeIcon.svg";
 
-interface Props {
+interface IProfileEditModalProps {
   company: string;
   src: string;
 }
 
-const ProfileEditModal = ({ company = "코드잇", src }: Props) => {
+const ProfileEditModal = ({
+  company = "코드잇",
+  src,
+}: IProfileEditModalProps) => {
   const profileImgSrc = src || "/img/profile/defaultProfile.jpg";
   return (
     <form className="flex flex-col gap-4 border mx-auto rounded-xl p-6 w-profileEdit-md lg:w-profileEdit-lg">
