@@ -1,8 +1,44 @@
 import type { Metadata } from "next"
+import localFont from "next/font/local"
 
 import Providers from "@/components/app/provider"
 
 import "./globals.css"
+
+const pretendard = localFont({
+  src: [
+    {
+      path: "./font/Pretendard-Thin.subset.woff2",
+      weight: "100",
+      style: "thin",
+    },
+    {
+      path: "./font/Pretendard-Light.subset.woff2",
+      weight: "300",
+      style: "light",
+    },
+    {
+      path: "./font/Pretendard-Regular.subset.woff2",
+      weight: "400",
+      style: "regular",
+    },
+    {
+      path: "./font/Pretendard-Medium.subset.woff2",
+      weight: "500",
+      style: "medium",
+    },
+    {
+      path: "./font/Pretendard-SemiBold.subset.woff2",
+      weight: "600",
+      style: "semiBold",
+    },
+    {
+      path: "./font/Pretendard-Bold.subset.woff2",
+      weight: "700",
+      style: "bold",
+    },
+  ],
+})
 
 export const metadata: Metadata = {
   title: "같이 달램",
@@ -16,7 +52,7 @@ const RootLayout = ({
   children: React.ReactNode
 }>) => {
   return (
-    <html lang="ko">
+    <html lang="ko" className={pretendard.className}>
       <body>
         <Providers>{children}</Providers>
       </body>
