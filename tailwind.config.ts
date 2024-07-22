@@ -20,6 +20,8 @@ const config: Config = {
         "profile-lg": "996px",
         "profileEdit-lg": "520px",
         "profileEdit-md": "343px",
+        signUp: "300px",
+        cancel: "450px",
       },
     },
   },
