@@ -52,9 +52,9 @@
     "react/function-component-definition": "off",
     // 한 라인에 여러 표현식 사용 불가능(문자열 리터럴만 허용)
     "react/jsx-one-expression-per-line": ["error", { "allow": "literal" }],
-    // 선언하지 않는 변수에 에러표기(XXX: window, document 등에 대해선 확인 필요)
+    // 선언하지 않는 변수에 에러표기
     "no-undef": "error",
-    // 한 라인 길이 제한(XXX: ts, prettier rules과 같이 확인 필요)
+    // 한 라인 길이 제한
     "max-len": "off",
     // import 확장자 포함 규칙 해제
     "import/extensions": "off",
