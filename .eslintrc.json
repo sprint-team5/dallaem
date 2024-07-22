@@ -10,6 +10,7 @@
     "plugin:prettier/recommended",
     // eslint-config-prettier -> prettier와 중복된 eslint 규칙 제거
     "prettier",
+    "prettier/react",
     "plugin:@tanstack/eslint-plugin-query/recommended"
   ],
   "parserOptions": {
@@ -25,6 +26,9 @@
     "node": true,
     // es6 문법 사용할 수 있도록
     "es6": true
+  },
+  "globals": {
+    "React": "readonly"
   },
   "rules": {
     // 문자열 등에 큰 따옴표 사용
@@ -60,6 +64,9 @@
     "import/extensions": "off",
     // ts 권장 따옴표 규칙 해제(자체적으로 설정)
     "@typescript-eslint/quotes": "off",
-    "comma-dangle": ["error", "always"]
+    // 마지막 줄 콤마 사용
+    "comma-dangle": ["error", "always"],
+    // jsx 파일에서 react import 없어도 사용 가능하도록
+    "react/react-in-jsx-scope": "off"
   }
 }
