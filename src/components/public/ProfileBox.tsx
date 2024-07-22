@@ -1,12 +1,13 @@
-import Image from "next/image";
-import ProfileEditBtn from "./ProfileEditBtn";
-import LogoutBtn from "./LogoutBtn";
+import Image from "next/image"
+
+import LogoutBtn from "./LogoutBtn"
+import ProfileEditBtn from "./ProfileEditBtn"
 
 interface IProfileBoxProps {
-  company: string;
-  email: string;
-  id: string;
-  imgSrc: string;
+  company: string
+  email: string
+  id: string
+  imgSrc: string
 }
 
 const ProfileBox = ({
@@ -15,24 +16,19 @@ const ProfileBox = ({
   id = "럽윈즈올",
   imgSrc,
 }: IProfileBoxProps) => {
-  const profileImgSrc = imgSrc || "/img/profile/defaultProfile.jpg";
+  const profileImgSrc = imgSrc || "/img/profile/defaultProfile.jpg"
   return (
-    <div className="rounded-3xl h-44 mx-auto w-profile-sm md:w-profile-md lg:w-profile-lg border-2 border-gray-200">
-      <div className="px-6 pt-3.5 pb-5 flex items-center justify-between bg-profile-sm md:bg-profile-md lg:bg-profile-lg bg-no-repeat">
-        <h3 className="font-semibold text-lg">내 프로필</h3>
+    <div className="w-profile-sm md:w-profile-md lg:w-profile-lg mx-auto h-44 rounded-3xl border-2 border-gray-200">
+      <div className="bg-profile-sm md:bg-profile-md lg:bg-profile-lg flex items-center justify-between bg-no-repeat px-6 pb-5 pt-3.5">
+        <h3 className="text-lg font-semibold">내 프로필</h3>
         <ProfileEditBtn />
       </div>
       <div className="relative">
-        <div className="size-14 absolute -top-3 left-3 rounded-full">
-          <Image
-            fill
-            src={profileImgSrc}
-            alt="default profile"
-            className="block rounded-full"
-          />
+        <div className="absolute -top-3 left-3 size-14 rounded-full">
+          <Image fill src={profileImgSrc} alt="default profile" className="block rounded-full" />
         </div>
-        <div className="absolute top-0 left-16 py-3 px-2">
-          <div className="flex gap-3 items-center mb-1">
+        <div className="absolute left-16 top-0 px-2 py-3">
+          <div className="mb-1 flex items-center gap-3">
             <h3 className="font-semibold">{id}</h3>
             <LogoutBtn />
           </div>
@@ -49,7 +45,7 @@ const ProfileBox = ({
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ProfileBox;
+export default ProfileBox
