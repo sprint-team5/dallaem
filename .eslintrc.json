@@ -42,7 +42,7 @@
     // 선언하지 않는 변수에 에러표기
     "no-undef": "error",
     // linux, windows 모두 lf로 통합
-    "linebreak-style": ["error", "unix"],
+    "linebreak-style": "off",
     // jsx 파일에서 react import 없어도 사용 가능하도록
     "react/react-in-jsx-scope": "off",
     // import 확장자 포함 규칙 해제
