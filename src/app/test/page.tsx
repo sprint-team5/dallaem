@@ -1,15 +1,25 @@
-import Calendars from "@/components/public/Calendars";
-import Card from "@/components/public/Card";
-import Review from "@/components/public/Review";
+"use client"
 
-const page = () => {
+import { useState } from "react"
+
+import Calendars from "@/components/public/Calendars/Calendars"
+import Review from "@/components/public/Review"
+import dayjs from "dayjs"
+
+type ValuePiece = Date | null
+
+type Value = ValuePiece | [ValuePiece, ValuePiece]
+
+const Page = () => {
+  const [change, setChange] = useState<Value>(new Date())
+
   return (
     <div>
-      <Card />
       <Review />
-      <Calendars />
+      <p>{dayjs(change as Date).format("YYYY-MM-DD")}</p>
+      <Calendars value={change} onChange={setChange} />
     </div>
-  );
-};
+  )
+}
 
-export default page;
+export default Page
