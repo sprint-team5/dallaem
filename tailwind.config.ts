@@ -9,8 +9,19 @@ const config: Config = {
   theme: {
     extend: {
       backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+        "profile-sm": "url('/img/profile/profileHeader-sm.jpg')",
+        "profile-md": "url('/img/profile/profileHeader-md.jpg')",
+        "profile-lg": "url('/img/profile/profileHeader-lg.jpg')",
+        editBtn: "url('/img/profile/editBtn.jpg')",
+      },
+      width: {
+        "profile-sm": "343px",
+        "profile-md": "696px",
+        "profile-lg": "996px",
+        "modal-lg": "520px",
+        "modal-md": "343px",
+        signUp: "300px",
+        cancel: "450px",
       },
     },
   },
