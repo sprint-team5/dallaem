@@ -1,7 +1,7 @@
-import ByeSVG from "@/public/icon/bye.svg"
+import ByeSVG from "@/public/icon/staticIcon/bye.svg"
 
 interface IByeProps {
-  className: string
+  className?: string
 }
 
 const Bye = ({ className }: IByeProps) => {

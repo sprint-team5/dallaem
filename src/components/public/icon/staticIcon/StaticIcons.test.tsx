@@ -1,45 +1,46 @@
-import Alarm from "@public/ic/Alarm"
-import ArrowRight from "@public/ic/ArrowRight"
-import Bye from "@public/ic/Bye"
-import Check from "@public/ic/Check"
-import Dalaemfit from "@public/ic/Dalaemfit"
-import Edit from "@public/ic/Edit"
-import Person from "@public/ic/Person"
-import VisibilityOff from "@public/ic/VisibilityOff"
-import VisibilityOn from "@public/ic/VisibilityOn"
-import Workation from "@public/ic/Workation"
-import X from "@public/ic/X"
 import "@testing-library/jest-dom"
 import { render } from "@testing-library/react"
 
-jest.mock("@/public/icon/alarm.svg", () => {
+import Alarm from "./Alarm"
+import ArrowRight from "./ArrowRight"
+import Bye from "./Bye"
+import Check from "./Check"
+import Dalaemfit from "./Dalaemfit"
+import Edit from "./Edit"
+import Person from "./Person"
+import VisibilityOff from "./VisibilityOff"
+import VisibilityOn from "./VisibilityOn"
+import Workation from "./Workation"
+import X from "./X"
+
+jest.mock("@/public/icon/staticIcon/alarm.svg", () => {
   return "SvgrMock"
 })
-jest.mock("@public/icon/arrow_right.svg", () => {
+jest.mock("@/public/icon/staticIcon/arrow_right.svg", () => {
   return "SvgrMock"
 })
-jest.mock("@public/icon/bye.svg", () => {
+jest.mock("@/public/icon/staticIcon/bye.svg", () => {
   return "SvgrMock"
 })
-jest.mock("@public/icon/check.svg", () => {
+jest.mock("@/public/icon/staticIcon/check.svg", () => {
   return "SvgrMock"
 })
-jest.mock("@public/icon/dalaemfit.svg", () => {
+jest.mock("@/public/icon/staticIcon/dalaemfit.svg", () => {
   return "SvgrMock"
 })
-jest.mock("@public/icon/edit.svg", () => {
+jest.mock("@/public/icon/staticIcon/edit.svg", () => {
   return "SvgrMock"
 })
-jest.mock("@public/icon/person.svg", () => {
+jest.mock("@/public/icon/staticIcon/person.svg", () => {
   return "SvgrMock"
 })
-jest.mock("@public/icon/visibility_off.svg", () => {
+jest.mock("@/public/icon/staticIcon/visibility_off.svg", () => {
   return "SvgrMock"
 })
-jest.mock("@public/icon/visibility_on.svg", () => {
+jest.mock("@/public/icon/staticIcon/visibility_on.svg", () => {
   return "SvgrMock"
 })
-jest.mock("@public/icon/workation.svg", () => {
+jest.mock("@/public/icon/staticIcon/workation.svg", () => {
   return "SvgrMock"
 })
 

@@ -1,7 +1,7 @@
-import EditSVG from "@/public/icon/edit.svg"
+import EditSVG from "@/public/icon/staticIcon/edit.svg"
 
 interface IEditProps {
-  className: string
+  className?: string
 }
 
 const Edit = ({ className }: IEditProps) => {

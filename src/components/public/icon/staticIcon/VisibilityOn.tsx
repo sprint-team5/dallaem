@@ -1,7 +1,7 @@
-import VisibilityOnSVG from "@/public/icon/visibility_on.svg"
+import VisibilityOnSVG from "@/public/icon/staticIcon/visibility_on.svg"
 
 interface IVisibilityOnProps {
-  className: string
+  className?: string
 }
 
 const VisibilityOn = ({ className }: IVisibilityOnProps) => {

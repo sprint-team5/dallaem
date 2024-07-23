@@ -1,7 +1,7 @@
-import AlarmSVG from "@/public/icon/alarm.svg"
+import AlarmSVG from "@/public/icon/staticIcon/alarm.svg"
 
 interface IAlarmProps {
-  className: string
+  className?: string
 }
 
 const Alarm = ({ className }: IAlarmProps) => {

@@ -1,7 +1,7 @@
-import XSVG from "@/public/icon/X.svg"
+import XSVG from "@/public/icon/staticIcon/X.svg"
 
 interface IXProps {
-  className: string
+  className?: string
 }
 
 const X = ({ className }: IXProps) => {

@@ -1,7 +1,7 @@
-import CheckSVG from "@/public/icon/check.svg"
+import CheckSVG from "@/public/icon/staticIcon/check.svg"
 
 interface ICheckProps {
-  className: string
+  className?: string
 }
 
 const Check = ({ className }: ICheckProps) => {

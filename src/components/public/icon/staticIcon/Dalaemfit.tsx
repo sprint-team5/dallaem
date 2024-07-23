@@ -1,7 +1,7 @@
-import DalaemfitSVG from "@/public/icon/dalaemfit.svg"
+import DalaemfitSVG from "@/public/icon/staticIcon/dalaemfit.svg"
 
 interface IDalaemfitProps {
-  className: string
+  className?: string
 }
 
 const Dalaemfit = ({ className }: IDalaemfitProps) => {
