@@ -1,6 +1,6 @@
 import { ReactNode } from "react"
 
-import CloseIcon from "@/public/icon/closeIcon.svg"
+import CloseBtn from "../CloseBtn"
 
 interface ICancelModalProps {
   children: ReactNode
@@ -9,8 +9,10 @@ interface ICancelModalProps {
 
 const CancelModal = ({ children, isOneBtn = true }: ICancelModalProps) => {
   return (
-    <div className="w-cancel mx-auto flex flex-col items-center justify-around rounded-lg p-6 shadow-md">
-      <CloseIcon fill="true" className="self-end" />
+    <div className="mx-auto flex w-cancel flex-col items-center justify-around rounded-lg p-6 shadow-md">
+      <div className="self-end">
+        <CloseBtn />
+      </div>
       <div className="mb-10 mt-6">
         <p>{children}</p>
       </div>

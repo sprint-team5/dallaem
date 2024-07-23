@@ -1,6 +1,6 @@
 import Image from "next/image"
 
-import CloseIcon from "@/public/icon/closeIcon.svg"
+import CloseBtn from "../CloseBtn"
 
 interface IProfileEditModalProps {
   company: string
@@ -10,12 +10,10 @@ interface IProfileEditModalProps {
 const ProfileEditModal = ({ company = "코드잇", src }: IProfileEditModalProps) => {
   const profileImgSrc = src || "/img/profile/defaultProfile.jpg"
   return (
-    <form className="w-modal-md lg:w-modal-lg mx-auto flex flex-col gap-4 rounded-xl border p-6">
+    <form className="w-modal-md lg:w-modal-lg mx-auto flex flex-col gap-4 rounded-xl border p-6 shadow-md">
       <div className="flex items-center justify-between">
         <h3 className="text-lg font-semibold">프로필 수정하기</h3>
-        <button aria-label="close button" type="button" className="block size-3.5">
-          <CloseIcon fill="true" />
-        </button>
+        <CloseBtn />
       </div>
       <div>
         <label htmlFor="profileImg" className="relative">
