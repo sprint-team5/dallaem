@@ -2,14 +2,14 @@ import { ReactNode } from "react"
 
 import CloseIcon from "@/public/icon/closeIcon.svg"
 
-interface ICompleteSignUpProps {
+interface ICompleteSignUpModalProps {
   children: ReactNode
   isOneBtn: boolean
 }
 
-const CompleteSignUp = ({ children, isOneBtn }: ICompleteSignUpProps) => {
+const CompleteSignUpModal = ({ children, isOneBtn }: ICompleteSignUpModalProps) => {
   return (
-    <div className="w-signUp mx-auto flex flex-col items-center justify-around rounded-lg p-6 shadow-md">
+    <div className="mx-auto flex w-signUp flex-col items-center justify-around rounded-lg p-6 shadow-md">
       <CloseIcon fill="true" className="self-end" />
       <div className="mb-10 mt-6">
         <p>{children}</p>
@@ -34,4 +34,4 @@ const CompleteSignUp = ({ children, isOneBtn }: ICompleteSignUpProps) => {
   )
 }
 
-export default CompleteSignUp
+export default CompleteSignUpModal
