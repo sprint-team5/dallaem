@@ -10,16 +10,13 @@ interface ICustomResponse {
 
 const generateMeetUp = async (formData: FormData) => {
   try {
-    const response = await fetch(
-      "https://fe-adv-project-together-dallaem.vercel.app/team5/gatherings",
-      {
-        method: "POST",
-        body: formData,
-        headers: {
-          "content-type": "multipart/form-data",
-        },
+    const response = await fetch(`${process.env.BASE_URL}/gatherings`, {
+      method: "POST",
+      body: formData,
+      headers: {
+        "content-type": "multipart/form-data",
       },
-    )
+    })
 
     if (!response.ok) {
       const json: ICustomResponse = await response.json()
