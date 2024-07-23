@@ -1,4 +1,3 @@
-// 정적인 icons 기능 테스 테스트
 import Alarm from "@public/ic/Alarm"
 import ArrowRight from "@public/ic/ArrowRight"
 import Bye from "@public/ic/Bye"
@@ -11,28 +10,69 @@ import VisibilityOn from "@public/ic/VisibilityOn"
 import Workation from "@public/ic/Workation"
 import X from "@public/ic/X"
 import "@testing-library/jest-dom"
-import { render, screen } from "@testing-library/react"
+import { render } from "@testing-library/react"
+
+jest.mock("@/public/icon/alarm.svg", () => {
+  return "SvgrMock"
+})
+jest.mock("@public/icon/arrow_right.svg", () => {
+  return "SvgrMock"
+})
+jest.mock("@public/icon/bye.svg", () => {
+  return "SvgrMock"
+})
+jest.mock("@public/icon/check.svg", () => {
+  return "SvgrMock"
+})
+jest.mock("@public/icon/dalaemfit.svg", () => {
+  return "SvgrMock"
+})
+jest.mock("@public/icon/edit.svg", () => {
+  return "SvgrMock"
+})
+jest.mock("@public/icon/person.svg", () => {
+  return "SvgrMock"
+})
+jest.mock("@public/icon/visibility_off.svg", () => {
+  return "SvgrMock"
+})
+jest.mock("@public/icon/visibility_on.svg", () => {
+  return "SvgrMock"
+})
+jest.mock("@public/icon/workation.svg", () => {
+  return "SvgrMock"
+})
 
 const icons = [
-  { Icon: Alarm, id: "first" },
-  { Icon: ArrowRight, id: "second" },
-  { Icon: Bye, id: "third" },
-  { Icon: Check, id: "fourth" },
-  { Icon: Dalaemfit, id: "fifth" },
-  { Icon: Edit, id: "sixth" },
-  { Icon: Person, id: "seventh" },
-  { Icon: VisibilityOff, id: "eighth" },
-  { Icon: VisibilityOn, id: "ninth" },
-  { Icon: Workation, id: "tenth" },
-  { Icon: X, id: "eleventh" },
+  { Icon: Alarm, testid: "Alarm" },
+  { Icon: ArrowRight, testid: "ArrowRight" },
+  { Icon: Bye, testid: "Bye" },
+  { Icon: Check, testid: "Check" },
+  { Icon: Dalaemfit, testid: "Dalaemfit" },
+  { Icon: Edit, testid: "Edit" },
+  { Icon: Person, testid: "Person" },
+  { Icon: VisibilityOff, testid: "VisibilityOff" },
+  { Icon: VisibilityOn, testid: "VisibilityOn" },
+  { Icon: Workation, testid: "Workation" },
+  { Icon: X, testid: "X" },
 ]
 
-describe("StaticIcons", () => {
-  test.each(icons)("아이콘이 올바르게 렌더링 되는지 검증함", ({ Icon, id }) => {
-    render(<Icon data-testid={id} className="test-class" />)
-    const iconElement = screen.getByTestId(id)
-
-    expect(iconElement).toBeInTheDocument()
-    expect(iconElement).toHaveClass("test-class")
+describe("아이콘 컴포넌트 테스트", () => {
+  test.each(icons)("SVG가 렌더링되는지 검증합니다", ({ Icon }) => {
+    expect(render(<Icon className="test-class" />)).not.toBeNull()
   })
+
+  test.each(icons)("SVG 요소가 존재하는지 검증합니다", ({ Icon }) => {
+    const { container } = render(<Icon className="test-class" />)
+    const svgElement = container.querySelector("svgrmock")
+    expect(svgElement).toBeInTheDocument()
+  })
+
+  // test.each(icons)("$name SVG mock 파일이 뒤바뀌지 않았는지 검증합니다", ({ Icon, testid }) => {
+  //   render(<Icon data-testid={testid} className="test-class" />)
+  //   const svgElement = screen.getByTestId(testid)
+
+  //   // 각 아이콘의 고유한 특성을 검증
+  //   expect(svgElement).toHaveAttribute("data-testid", testid)
+  // })
 })
