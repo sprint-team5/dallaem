@@ -1,10 +1,30 @@
 import "@testing-library/jest-dom"
 import { render, screen } from "@testing-library/react"
 
-import Reivew from "../../../src/components/public/Review"
+import Reivew from "./Review"
+
+interface IReviewProps {
+  score: number
+  comment: string
+  createdAt: string
+  Gathering: {
+    teamId: number
+    id: number
+    name: string
+    dateTime: string
+    location: string
+  }
+  User?: {
+    teamId: number
+    id: number
+    email: string
+    name: string
+  }
+  image?: boolean
+}
 
 describe("리뷰 컴포넌트를 테스트 합니다.", () => {
-  const defaultProps = {
+  const defaultProps: IReviewProps = {
     score: 0,
     comment:
       "따듯하게 느껴지는 공간이에요 :) 평소에 달램 이용해보고 싶었는데 이렇게 같이 달램 생기니까 너무 좋아요! 프로그램이 더 많이 늘어났으면 좋겠어요.",
@@ -18,8 +38,18 @@ describe("리뷰 컴포넌트를 테스트 합니다.", () => {
     },
   }
 
-  const renderReview = (props) => {
-    render(<Reivew {...defaultProps} {...props} />)
+  const renderReview = (props: Partial<IReviewProps>) => {
+    const { score, comment, createdAt, Gathering, User, image } = { ...defaultProps, ...props }
+    render(
+      <Reivew
+        score={score}
+        comment={comment}
+        createdAt={createdAt}
+        Gathering={Gathering}
+        User={User}
+        image={image}
+      />,
+    )
   }
 
   test.each([1, 2, 3, 4, 5])("score가 %i개 일때 하트가 %i개", (score) => {

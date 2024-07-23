@@ -2,7 +2,7 @@ import "@testing-library/jest-dom"
 import { render } from "@testing-library/react"
 import dayjs from "dayjs"
 
-import Card from "../../../src/components/public/Card"
+import Card from "./Card"
 
 describe("Card 컴포넌트 테스트", () => {
   // 임의적으로 넣은 props
@@ -26,7 +26,19 @@ describe("Card 컴포넌트 테스트", () => {
         registrationEnd: dayjs().add(1, "days").toISOString(),
       }
 
-      const { getByText } = render(<Card {...props} />)
+      const { getByText } = render(
+        <Card
+          teamId={props.teamId}
+          id={props.id}
+          name={props.name}
+          dateTime={props.dateTime}
+          location={props.location}
+          participantCount={props.participantCount}
+          capacity={props.capacity}
+          image={props.image}
+          registrationEnd={props.registrationEnd}
+        />,
+      )
 
       // then - 이용 예정가 화면에 그려짐
       expect(getByText("이용 예정")).toBeInTheDocument()
@@ -39,7 +51,19 @@ describe("Card 컴포넌트 테스트", () => {
         registrationEnd: dayjs().subtract(1, "days").toISOString(),
       }
 
-      const { getByText } = render(<Card {...props} />)
+      const { getByText } = render(
+        <Card
+          teamId={props.teamId}
+          id={props.id}
+          name={props.name}
+          dateTime={props.dateTime}
+          location={props.location}
+          participantCount={props.participantCount}
+          capacity={props.capacity}
+          image={props.image}
+          registrationEnd={props.registrationEnd}
+        />,
+      )
 
       // then - 이용 완료가 화면에 그려짐
       expect(getByText("이용 완료")).toBeInTheDocument()
@@ -52,7 +76,19 @@ describe("Card 컴포넌트 테스트", () => {
         participantCount: 0,
       }
 
-      const { getByText } = render(<Card {...props} />)
+      const { getByText } = render(
+        <Card
+          teamId={props.teamId}
+          id={props.id}
+          name={props.name}
+          dateTime={props.dateTime}
+          location={props.location}
+          participantCount={props.participantCount}
+          capacity={props.capacity}
+          image={props.image}
+          registrationEnd={props.registrationEnd}
+        />,
+      )
 
       // then - 이용 완료가 화면에 그려짐
       expect(getByText("개설대기")).toBeInTheDocument()
@@ -65,7 +101,19 @@ describe("Card 컴포넌트 테스트", () => {
         participantCount: 6,
       }
 
-      const { getByText } = render(<Card {...props} />)
+      const { getByText } = render(
+        <Card
+          teamId={props.teamId}
+          id={props.id}
+          name={props.name}
+          dateTime={props.dateTime}
+          location={props.location}
+          participantCount={props.participantCount}
+          capacity={props.capacity}
+          image={props.image}
+          registrationEnd={props.registrationEnd}
+        />,
+      )
 
       // then - 이용 완료가 화면에 그려짐
       expect(getByText("(체크 아이콘) 개설확정")).toBeInTheDocument()
@@ -73,19 +121,6 @@ describe("Card 컴포넌트 테스트", () => {
   })
 
   describe("예약 취소 버튼 API 연결 X", () => {
-    // 임의적으로 넣은 props
-    const defaultProps = {
-      teamId: "1",
-      id: 4,
-      name: "string",
-      dateTime: "2024-07-22T07:34:00.350Z",
-      location: "string",
-      participantCount: 0,
-      capacity: 0,
-      image: "",
-      registrationEnd: "2024-07-25T09:06:16.184Z",
-    }
-
     test("예약 취소에 실패하였을경우", () => {
       // given - Card 컴포넌트를 화면에 그려줌
       const props = {
@@ -93,7 +128,19 @@ describe("Card 컴포넌트 테스트", () => {
         registrationEnd: dayjs().add(1, "days").toISOString(),
       }
 
-      const { getByRole } = render(<Card {...props} />)
+      const { getByRole } = render(
+        <Card
+          teamId={props.teamId}
+          id={props.id}
+          name={props.name}
+          dateTime={props.dateTime}
+          location={props.location}
+          participantCount={props.participantCount}
+          capacity={props.capacity}
+          image={props.image}
+          registrationEnd={props.registrationEnd}
+        />,
+      )
 
       // when - 모집 마감 날짜가 지나지 않았다면 예약 취소하기 버튼이 화면에 그려짐
       expect(getByRole("button", { name: /예약 취소하기/ })).toBeInTheDocument()
@@ -108,7 +155,19 @@ describe("Card 컴포넌트 테스트", () => {
         registrationEnd: dayjs().add(1, "days").toISOString(),
       }
 
-      const { getByRole } = render(<Card {...props} />)
+      const { getByRole } = render(
+        <Card
+          teamId={props.teamId}
+          id={props.id}
+          name={props.name}
+          dateTime={props.dateTime}
+          location={props.location}
+          participantCount={props.participantCount}
+          capacity={props.capacity}
+          image={props.image}
+          registrationEnd={props.registrationEnd}
+        />,
+      )
 
       // when - 모집 마감 날짜가 지나지 않았다면 예약 취소하기 버튼이 화면에 그려짐
       expect(getByRole("button", { name: /예약 취소하기/ })).toBeInTheDocument()
@@ -125,7 +184,19 @@ describe("Card 컴포넌트 테스트", () => {
         registrationEnd: dayjs().subtract(1, "days").toISOString(),
       }
 
-      const { getByRole } = render(<Card {...props} />)
+      const { getByRole } = render(
+        <Card
+          teamId={props.teamId}
+          id={props.id}
+          name={props.name}
+          dateTime={props.dateTime}
+          location={props.location}
+          participantCount={props.participantCount}
+          capacity={props.capacity}
+          image={props.image}
+          registrationEnd={props.registrationEnd}
+        />,
+      )
 
       // when - 모집 마감 날짜가 지났다면 리뷰 작성하기 버튼이 화면에 그려짐
       expect(getByRole("button", { name: /리뷰 작성하기/ })).toBeInTheDocument()
@@ -139,7 +210,19 @@ describe("Card 컴포넌트 테스트", () => {
         registrationEnd: dayjs().subtract(1, "days").toISOString(),
       }
 
-      const { getByRole } = render(<Card {...props} />)
+      const { getByRole } = render(
+        <Card
+          teamId={props.teamId}
+          id={props.id}
+          name={props.name}
+          dateTime={props.dateTime}
+          location={props.location}
+          participantCount={props.participantCount}
+          capacity={props.capacity}
+          image={props.image}
+          registrationEnd={props.registrationEnd}
+        />,
+      )
 
       // when - 모집 마감 날짜가 지났다면 리뷰 작성하기 버튼이 화면에 그려짐
       expect(getByRole("button", { name: /리뷰 작성하기/ })).toBeInTheDocument()
