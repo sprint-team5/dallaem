@@ -7,6 +7,7 @@ const ReviewModal = () => {
     // fixme : 제출 처리 수정 필요
 
     const review = formData.get("review")
+    // eslint-disable-next-line
     console.log(review)
   }
 
