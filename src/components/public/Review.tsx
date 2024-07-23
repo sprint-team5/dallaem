@@ -28,7 +28,7 @@ interface IReviewProps {
 
 const Review = ({ score, comment, createdAt, image, Gathering, User }: IReviewProps) => {
   return (
-    <div className="flex flex-col gap-6 border-b-2 border-dashed border-gray-200 py-6 sm:flex-row">
+    <div className="flex flex-col gap-6 border-b-2 border-dashed border-gray-200 pb-6 sm:flex-row">
       {image && (
         <div className="relative h-[156px] w-full flex-none rounded-3xl bg-gray-500 sm:w-[280px]">
           <Image

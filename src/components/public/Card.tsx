@@ -32,7 +32,7 @@ const Card = ({
   registrationEnd,
 }: ICardProps) => {
   return (
-    <div className="flex flex-col gap-4 border-b-2 border-dashed border-gray-200 py-6 sm:flex-row">
+    <div className="flex flex-col gap-4 border-b-2 border-dashed border-gray-200 pb-6 sm:flex-row">
       <div className="relative h-[156px] w-full flex-none rounded-3xl bg-gray-500 sm:w-[280px]">
         <Image
           className="object-cover object-center"
