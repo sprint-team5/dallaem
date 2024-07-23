@@ -1,13 +1,11 @@
-"use client"
-
 import Calendar from "react-calendar"
 import { LooseValue, Value } from "react-calendar/dist/cjs/shared/types"
 
 import "./Calendars.scss"
 
 interface ICalendars {
-  value: LooseValue
-  onChange: (value: Value, event: React.MouseEvent<HTMLButtonElement>) => void
+  value?: LooseValue
+  onChange?: (value: Value, event: React.MouseEvent<HTMLButtonElement>) => void
 }
 
 const Calendars = ({ onChange, value }: ICalendars) => {
