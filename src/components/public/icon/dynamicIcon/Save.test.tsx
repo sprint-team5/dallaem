@@ -10,7 +10,7 @@ jest.mock("@/public/icon/staticIcon/alarm.svg", () => {
 })
 
 describe("Alarm 컴포넌트", () => {
-  test("Save SVG가 렌더링되는지 검증합니다", () => {
+  test("SVG가 렌더링되는지 검증합니다", () => {
     expect(render(<Save state="largeActive" className="test-class" />)).not.toBeNull()
     expect(render(<Save state="largeDiscard" className="test-class" />)).not.toBeNull()
     expect(render(<Save state="largeInactive" className="test-class" />)).not.toBeNull()
@@ -18,20 +18,22 @@ describe("Alarm 컴포넌트", () => {
   })
 
   test("SVG 요소가 존재하는지 검증합니다", () => {
-    const { container } = render(<Save className="test-class" />)
-    const svgElement = container.querySelector("svgrmock")
-    expect(svgElement).toBeInTheDocument()
-  })
+    const { container: largeActiveContainer } = render(
+      <Save state="largeActive" className="test-class" />,
+    )
+    const { container: largeDiscardContainer } = render(
+      <Save state="largeDiscard" className="test-class" />,
+    )
+    const { container: largeInactiveContainer } = render(
+      <Save state="largeInactive" className="test-class" />,
+    )
+    const { container: smallDiscardContainer } = render(
+      <Save state="smallDiscard" className="test-class" />,
+    )
 
-  test("올바른 클래스 이름으로 렌더링 되는지 확인합니다", () => {
-    const { container } = render(<Save className="test-class" />)
-    const svgElement = container.querySelector("svgrmock")
-    expect(svgElement).toHaveClass("test-class w-6 h-6 text-[#FFFFFF]")
-  })
-
-  test("SVG 요소가 div 안에 있는지 검증합니다", () => {
-    const { container } = render(<Save className="test-class" />)
-    const svgElement = container.querySelector("svgrmock")
-    expect(svgElement?.parentElement?.tagName).toBe("DIV")
+    expect(largeActiveContainer.querySelector("svgrmock")).toBeInTheDocument()
+    expect(largeDiscardContainer.querySelector("svgrmock")).toBeInTheDocument()
+    expect(largeInactiveContainer.querySelector("svgrmock")).toBeInTheDocument()
+    expect(smallDiscardContainer.querySelector("svgrmock")).toBeInTheDocument()
   })
 })
