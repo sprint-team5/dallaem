@@ -23,7 +23,9 @@
     // process, require, module 등 node.js 전역 변수와 api 사용할 수 있도록
     "node": true,
     // es6 문법 사용할 수 있도록
-    "es6": true
+    "es6": true,
+    // jest test framework 사용
+    "jest": true
   },
   "globals": {
     "React": "readonly"
