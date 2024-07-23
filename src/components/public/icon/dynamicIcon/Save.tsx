@@ -1,7 +1,7 @@
-import LargeDiscardSVG from "@/public/icon/dynamicIcon/save_size=large, state=_discard.svg"
-import LargeActiveSVG from "@/public/icon/dynamicIcon/save_size=large, state=active.svg"
-import LargeInactiveSVG from "@/public/icon/dynamicIcon/save_size=large, state=inactive.svg"
-import SmallDiscardSVG from "@/public/icon/dynamicIcon/save_size=small, state=discard.svg"
+import LargeActiveSVG from "@/public/icon/dynamicIcon/save_size=large_state=active.svg"
+import LargeDiscardSVG from "@/public/icon/dynamicIcon/save_size=large_state=discard.svg"
+import LargeInactiveSVG from "@/public/icon/dynamicIcon/save_size=large_state=inactive.svg"
+import SmallDiscardSVG from "@/public/icon/dynamicIcon/save_size=small_state=discard.svg"
 
 interface ISaveProps {
   className?: string

@@ -1,12 +1,22 @@
 import React from "react"
 
+import SvgrMock from "@mocks/svgrMock.jsx"
 import "@testing-library/jest-dom"
 import { render } from "@testing-library/react"
 
 import Save from "./Save"
 
-jest.mock("@/public/icon/staticIcon/alarm.svg", () => {
-  return "SvgrMock"
+jest.mock("@/public/icon/dynamicIcon/save_size=large_state=active.svg", () => {
+  return SvgrMock
+})
+jest.mock("@/public/icon/dynamicIcon/save_size=large_state=discard.svg", () => {
+  return SvgrMock
+})
+jest.mock("@/public/icon/dynamicIcon/save_size=large_state=inactive.svg", () => {
+  return SvgrMock
+})
+jest.mock("@/public/icon/dynamicIcon/save_size=small_state=discard.svg", () => {
+  return SvgrMock
 })
 
 describe("Alarm 컴포넌트", () => {
@@ -31,9 +41,9 @@ describe("Alarm 컴포넌트", () => {
       <Save state="smallDiscard" className="test-class" />,
     )
 
-    expect(largeActiveContainer.querySelector("svgrmock")).toBeInTheDocument()
-    expect(largeDiscardContainer.querySelector("svgrmock")).toBeInTheDocument()
-    expect(largeInactiveContainer.querySelector("svgrmock")).toBeInTheDocument()
-    expect(smallDiscardContainer.querySelector("svgrmock")).toBeInTheDocument()
+    expect(largeActiveContainer.querySelector('[data-testid="mocked-svg"]')).toBeInTheDocument()
+    expect(largeDiscardContainer.querySelector('[data-testid="mocked-svg"]')).toBeInTheDocument()
+    expect(largeInactiveContainer.querySelector('[data-testid="mocked-svg"]')).toBeInTheDocument()
+    expect(smallDiscardContainer.querySelector('[data-testid="mocked-svg"]')).toBeInTheDocument()
   })
 })

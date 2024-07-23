@@ -1,21 +1,22 @@
 import React from "react"
 
+import SvgrMock from "@mocks/svgrMock.jsx"
 import "@testing-library/jest-dom"
 import { render } from "@testing-library/react"
 
 import Checkbox from "./Checkbox"
 
-jest.mock("@/public/icon/staticIcon/alarm.svg", () => {
-  return "SvgrMock"
+jest.mock("@/public/icon/dynamicIcon/checkbox.svg", () => {
+  return SvgrMock
 })
 
 describe("Alarm 컴포넌트", () => {
-  test("SVG가 렌더링되는지 검증합니다", () => {
+  it("SVG가 렌더링되는지 검증합니다", () => {
     expect(render(<Checkbox state="active" className="test-class" />)).not.toBeNull()
     expect(render(<Checkbox state="default" className="test-class" />)).not.toBeNull()
   })
 
-  test("SVG 요소가 존재하는지 검증합니다", () => {
+  it("SVG 요소가 존재하는지 검증합니다", () => {
     const { container: activeContainer } = render(
       <Checkbox state="active" className="test-class" />,
     )
@@ -23,7 +24,7 @@ describe("Alarm 컴포넌트", () => {
       <Checkbox state="default" className="test-class" />,
     )
 
-    expect(activeContainer.querySelector("svgrmock")).toBeInTheDocument()
-    expect(defaultContainer.querySelector("svgrmock")).toBeInTheDocument()
+    expect(activeContainer.querySelector('[data-testid="mocked-svg"]')).toBeInTheDocument()
+    expect(defaultContainer.querySelector('[data-testid="mocked-svg"]')).toBeInTheDocument()
   })
 })

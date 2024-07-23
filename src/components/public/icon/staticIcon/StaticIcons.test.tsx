@@ -1,3 +1,4 @@
+import SvgrMock from "@mocks/svgrMock.jsx"
 import "@testing-library/jest-dom"
 import { render } from "@testing-library/react"
 
@@ -14,34 +15,34 @@ import Workation from "./Workation"
 import X from "./X"
 
 jest.mock("@/public/icon/staticIcon/alarm.svg", () => {
-  return "SvgrMock"
+  return SvgrMock
 })
 jest.mock("@/public/icon/staticIcon/arrow_right.svg", () => {
-  return "SvgrMock"
+  return SvgrMock
 })
 jest.mock("@/public/icon/staticIcon/bye.svg", () => {
-  return "SvgrMock"
+  return SvgrMock
 })
 jest.mock("@/public/icon/staticIcon/check.svg", () => {
-  return "SvgrMock"
+  return SvgrMock
 })
 jest.mock("@/public/icon/staticIcon/dalaemfit.svg", () => {
-  return "SvgrMock"
+  return SvgrMock
 })
 jest.mock("@/public/icon/staticIcon/edit.svg", () => {
-  return "SvgrMock"
+  return SvgrMock
 })
 jest.mock("@/public/icon/staticIcon/person.svg", () => {
-  return "SvgrMock"
+  return SvgrMock
 })
 jest.mock("@/public/icon/staticIcon/visibility_off.svg", () => {
-  return "SvgrMock"
+  return SvgrMock
 })
 jest.mock("@/public/icon/staticIcon/visibility_on.svg", () => {
-  return "SvgrMock"
+  return SvgrMock
 })
 jest.mock("@/public/icon/staticIcon/workation.svg", () => {
-  return "SvgrMock"
+  return SvgrMock
 })
 
 const icons = [
@@ -65,15 +66,7 @@ describe("아이콘 컴포넌트 테스트", () => {
 
   test.each(icons)("SVG 요소가 존재하는지 검증합니다", ({ Icon }) => {
     const { container } = render(<Icon className="test-class" />)
-    const svgElement = container.querySelector("svgrmock")
+    const svgElement = container.querySelector('[data-testid="mocked-svg"]')
     expect(svgElement).toBeInTheDocument()
   })
-
-  // test.each(icons)("$name SVG mock 파일이 뒤바뀌지 않았는지 검증합니다", ({ Icon, testid }) => {
-  //   render(<Icon data-testid={testid} className="test-class" />)
-  //   const svgElement = screen.getByTestId(testid)
-
-  //   // 각 아이콘의 고유한 특성을 검증
-  //   expect(svgElement).toHaveAttribute("data-testid", testid)
-  // })
 })

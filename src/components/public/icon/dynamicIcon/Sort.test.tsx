@@ -1,12 +1,13 @@
 import React from "react"
 
+import SvgrMock from "@mocks/svgrMock.jsx"
 import "@testing-library/jest-dom"
 import { render } from "@testing-library/react"
 
 import Sort from "./Sort"
 
 jest.mock("@/public/icon/staticIcon/alarm.svg", () => {
-  return "SvgrMock"
+  return SvgrMock
 })
 
 describe("Alarm 컴포넌트", () => {
@@ -19,7 +20,7 @@ describe("Alarm 컴포넌트", () => {
     const { container: inverseContainer } = render(<Sort state="inverse" className="test-class" />)
     const { container: defaultContainer } = render(<Sort state="default" className="test-class" />)
 
-    expect(inverseContainer.querySelector("svgrmock")).toBeInTheDocument()
-    expect(defaultContainer.querySelector("svgrmock")).toBeInTheDocument()
+    expect(inverseContainer.querySelector('[data-testid="mocked-svg"]')).toBeInTheDocument()
+    expect(defaultContainer.querySelector('[data-testid="mocked-svg"]')).toBeInTheDocument()
   })
 })
