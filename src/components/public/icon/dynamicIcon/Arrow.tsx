@@ -1,4 +1,4 @@
-import ArrowSVG from "@/public/icon/dynamicIcon/arrow.svg"
+import ArrowSVG from "@public/icon/dynamicIcon/arrow.svg"
 
 interface IArrowProps {
   className?: string
