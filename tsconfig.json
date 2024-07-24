@@ -18,10 +18,20 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@public/*": ["./src/components/public/*"],
+      "@mocks/*": ["./__mocks__/*"]
     },
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/types/**/*.d.ts", "next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": [
+    "next.config.mjs",
+    "src/types/**/*.d.ts",
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "__mocks__/svgrMock.jsx"
+  ],
   "exclude": ["node_modules"]
 }
