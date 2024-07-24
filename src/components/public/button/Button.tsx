@@ -63,7 +63,7 @@ const Button = ({
         return onClick()
       }}
     >
-      <span>{children}</span>
+      {children}
     </button>
   )
 }
