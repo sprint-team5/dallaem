@@ -10,7 +10,7 @@ jest.mock("@/public/icon/dynamicIcon/heart.svg", () => {
   return SvgrMock
 })
 
-describe("Alarm 컴포넌트", () => {
+describe("Heart 컴포넌트", () => {
   test("SVG가 렌더링되는지 검증합니다", () => {
     expect(render(<Heart state="active" className="test-class" />)).not.toBeNull()
     expect(render(<Heart state="default" className="test-class" />)).not.toBeNull()

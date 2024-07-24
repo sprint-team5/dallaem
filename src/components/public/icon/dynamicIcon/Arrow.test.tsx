@@ -10,7 +10,7 @@ jest.mock("@/public/icon/dynamicIcon/arrow.svg", () => {
   return SvgrMock
 })
 
-describe("Alarm 컴포넌트", () => {
+describe("Arrow 컴포넌트", () => {
   it("SVG가 렌더링되는지 검증합니다", () => {
     expect(render(<Arrow state="defaultDown" className="test-class" />)).not.toBeNull()
     expect(render(<Arrow state="defaultLeft" className="test-class" />)).not.toBeNull()
