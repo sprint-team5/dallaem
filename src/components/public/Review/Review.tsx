@@ -56,7 +56,9 @@ const Review = ({ score, comment, createdAt, image, Gathering, User }: IReviewPr
             .fill(null)
             .map((_, index) => {
               return (
-                <Heart key={`score-${index + 1}`} state={index < score ? "active" : "default"} />
+                <div data-testid="scoreHeart" key={`score-${index + 1}`}>
+                  <Heart state={index < score ? "active" : "default"} />
+                </div>
               )
             })}
         </div>

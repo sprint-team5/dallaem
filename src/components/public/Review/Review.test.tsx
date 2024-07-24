@@ -1,7 +1,12 @@
+import SvgrMock from "@mocks/svgrMock.jsx"
 import "@testing-library/jest-dom"
-import { render, screen } from "@testing-library/react"
+import { render, screen, waitFor } from "@testing-library/react"
 
 import Reivew from "./Review"
+
+jest.mock("@/public/icon/dynamicIcon/heart.svg", () => {
+  return SvgrMock
+})
 
 interface IReviewProps {
   score: number
@@ -52,16 +57,21 @@ describe("리뷰 컴포넌트를 테스트 합니다.", () => {
     )
   }
 
-  test.each([1, 2, 3, 4, 5])("score가 %i개 일때 하트가 %i개", (score) => {
+  test.each([1, 2, 3, 4, 5])("score가 %i개 일때 하트가 n개", (score) => {
     renderReview({ score })
 
-    expect(screen.getAllByText("❤️")).toHaveLength(score)
+    const hearts = screen.getAllByTestId("scoreHeart")
 
-    if (score < 5) {
-      expect(screen.getAllByText("🧩")).toHaveLength(5 - score)
-    } else {
-      expect(screen.queryAllByText("🧩")).toHaveLength(0)
-    }
+    expect(hearts).toHaveLength(5)
+
+    hearts.forEach((heart, index) => {
+      const heartState = index < score ? "text-[#EA580C]" : "text-[#E5E7EB]"
+
+      waitFor(() => {
+        const svg = heart.querySelector("svg")
+        expect(svg).toHaveClass(heartState)
+      })
+    })
   })
 
   test("유저 props가 존재하면 UI가 변합니다.", () => {
