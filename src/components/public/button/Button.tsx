@@ -1,6 +1,7 @@
 "use client"
 
-const baseStyles = "whitespace-nowrap rounded-xl font-semibold"
+const baseStyles =
+  "flex flex-col items-center justify-center whitespace-nowrap rounded-xl font-semibold"
 
 const buttonStyles = {
   solid: {
@@ -18,8 +19,8 @@ const buttonStyles = {
 }
 
 const sizeStyles = {
-  small: "h-10 w-[120px] px-[35px] py-[6px]",
-  large: "h-12 w-[332px] px-[138px] py-[10px]",
+  small: "h-10 w-[120px] py-[6px]",
+  large: "h-12 w-[332px] py-[10px]",
 }
 
 interface IButtonProps {
