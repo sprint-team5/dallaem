@@ -43,7 +43,7 @@ const Review = ({ score, comment, createdAt, image, Gathering, User }: IReviewPr
         <div className="relative h-[156px] w-full flex-none rounded-3xl bg-gray-500 sm:w-[280px]">
           <Image
             className="object-cover object-center"
-            src="/img/profile/defaultProfile.png"
+            src="/img/profile_small_default.png"
             alt={`${Gathering.name} 모임 이미지`}
             fill
           />

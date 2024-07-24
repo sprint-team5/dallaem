@@ -48,7 +48,7 @@ const Card = ({
       <div className="relative h-[156px] w-full flex-none rounded-3xl bg-gray-500 sm:w-[280px]">
         <Image
           className="object-cover object-center"
-          src={image || "/img/profile/defaultProfile.png"}
+          src={image || "/img/profile_small_default.png"}
           fill
           alt={`이미지 이름 ${teamId} ${id}`}
         />
