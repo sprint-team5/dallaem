@@ -1,10 +1,15 @@
 import { useState } from "react"
 
 import { location } from "@/constants/meeting"
+import SvgrMock from "@mocks/svgrMock.jsx"
 import "@testing-library/jest-dom"
 import { fireEvent, render, screen } from "@testing-library/react"
 
 import Filter from "./Filter"
+
+jest.mock("@/public/icon/dynamicIcon/arrow.svg", () => {
+  return SvgrMock
+})
 
 const { getByText, getByRole } = screen
 
@@ -36,7 +41,7 @@ describe("Filter Component Rendering Test", () => {
   })
 })
 
-describe.only("Filter Component Function Test", () => {
+describe("Filter Component Function Test", () => {
   const MyComponent = () => {
     const [loc, setLoc] = useState("")
     const onSelectHandler = (
