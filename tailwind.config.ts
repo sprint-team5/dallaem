@@ -23,6 +23,9 @@ const config: Config = {
         signUp: "300px",
         cancel: "450px",
       },
+      boxShadow: {
+        expand: "0px 10px 10px -5px rgba(0,0,0,0.04), 0px -10px 10px -5px rgba(0,0,0,0.04)",
+      },
     },
   },
   plugins: [],
