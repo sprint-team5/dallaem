@@ -19,7 +19,7 @@ jest.mock("@/public/icon/dynamicIcon/save_size=small_state=discard.svg", () => {
   return SvgrMock
 })
 
-describe("Alarm 컴포넌트", () => {
+describe("Save 컴포넌트", () => {
   test("SVG가 렌더링되는지 검증합니다", () => {
     expect(render(<Save state="largeActive" className="test-class" />)).not.toBeNull()
     expect(render(<Save state="largeDiscard" className="test-class" />)).not.toBeNull()

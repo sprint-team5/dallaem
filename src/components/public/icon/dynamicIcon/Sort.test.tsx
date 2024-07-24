@@ -10,7 +10,7 @@ jest.mock("@/public/icon/staticIcon/alarm.svg", () => {
   return SvgrMock
 })
 
-describe("Alarm 컴포넌트", () => {
+describe("Sort 컴포넌트", () => {
   test("SVG가 렌더링되는지 검증합니다", () => {
     expect(render(<Sort state="default" className="test-class" />)).not.toBeNull()
     expect(render(<Sort state="inverse" className="test-class" />)).not.toBeNull()
