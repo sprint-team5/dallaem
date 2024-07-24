@@ -6,14 +6,14 @@ const baseStyles =
 const buttonStyles = {
   solid: {
     default: "bg-[#EA580C] text-white",
-    hover: "bg-[#C2410C] text-white",
-    click: "bg-[#9A3412] text-white",
+    hover: "hover:bg-[#C2410C]",
+    active: "active:bg-[#9A3412]",
     disabled: "bg-[#9CA3AF] text-white",
   },
   outlined: {
     default: "border-[#EA580C] border-[1px] text-[#EA580C]",
-    hover: "border-[#C2410C] border-[1px] text-[#C2410C]",
-    click: "border-[#9A3412] border-[1px] text-[#9A3412]",
+    hover: "hover:border-[#C2410C] hover:border-[1px] hover:text-[#C2410C]",
+    active: "active:border-[#9A3412] active:border-[1px] active:text-[#9A3412]",
     disabled: "border-[#9CA3AF] border-[1px] text-[#9CA3AF]",
   },
 }
@@ -27,7 +27,6 @@ interface IButtonProps {
   className?: string
   borderStyle: "solid" | "outlined"
   size: "small" | "large"
-  state: "default" | "hover" | "click"
   disabled?: boolean
   children: React.ReactNode
   onClick: () => void
@@ -36,24 +35,28 @@ interface IButtonProps {
 const getButtonClasses = ({
   borderStyle,
   size,
-  state,
   disabled,
 }: Omit<IButtonProps, "className" | "children" | "onClick">) => {
-  const style = disabled ? "disabled" : state
+  const {
+    default: defaultStyle,
+    hover,
+    active,
+    disabled: disabledStyle,
+  } = buttonStyles[borderStyle]
+  const styleClasses = disabled ? disabledStyle : `${defaultStyle} ${hover} ${active}`
 
-  return ` ${baseStyles} ${buttonStyles[borderStyle][style]} ${sizeStyles[size]}`
+  return `${baseStyles} ${styleClasses} ${sizeStyles[size]}`.trim()
 }
 
 const Button = ({
   className,
   borderStyle,
   size,
-  state,
   disabled = false,
   children,
   onClick,
 }: IButtonProps) => {
-  const buttonClasses = getButtonClasses({ borderStyle, size, state, disabled })
+  const buttonClasses = getButtonClasses({ borderStyle, size, disabled })
 
   return (
     <button
