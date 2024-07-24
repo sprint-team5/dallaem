@@ -73,7 +73,7 @@ const Review = ({ score, comment, createdAt, image, Gathering, User }: IReviewPr
           {User && (
             <div className="flex items-center gap-2">
               <Image
-                src="/img/profile/defaultProfile.png"
+                src="/img/profile_small_default.png"
                 width={24}
                 height={24}
                 alt="유저 이미지"
