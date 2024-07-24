@@ -1,5 +1,6 @@
 import Image from "next/image"
 
+import Heart from "@/components/public/icon/dynamicIcon/Heart"
 import dayjs from "dayjs"
 
 interface IGathering {
@@ -26,6 +27,15 @@ interface IReviewProps {
   User?: IUser
 }
 
+/**
+ * @interface IReviewProps
+ * @param {number} score - 리뷰 점수 0 ~ 5
+ * @param {boolean} image - true일 경우 상세정보 API에서 이미지를 추출해서 사용합니다.
+ * @param {string} comment - 댓글 문구
+ * @param {string} createdAt - 생성일 YYYY-MM-DDTHH:MM:SS
+ * @param {{teamId: number, id: number, name: string, dateTime: string, location: string}} IGathering 모임 객체
+ * @param {{teamId: number,id: number,email: string,name: string}} IUser 유저 객체
+ */
 const Review = ({ score, comment, createdAt, image, Gathering, User }: IReviewProps) => {
   return (
     <div className="flex flex-col gap-6 border-b-2 border-dashed border-gray-200 pb-6 sm:flex-row">
@@ -45,7 +55,9 @@ const Review = ({ score, comment, createdAt, image, Gathering, User }: IReviewPr
           {Array(5)
             .fill(null)
             .map((_, index) => {
-              return <span key={`score-${index + 1}`}>{index < score ? "❤️" : "🧩"}</span>
+              return (
+                <Heart key={`score-${index + 1}`} state={index < score ? "active" : "default"} />
+              )
             })}
         </div>
         <h3 className="mt-[10px] break-keep text-sm font-medium leading-5">{comment}</h3>

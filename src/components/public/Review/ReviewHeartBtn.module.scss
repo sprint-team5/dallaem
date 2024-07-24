@@ -1,0 +1,8 @@
+.heartBtn {
+  .heart {
+    clip-path: circle(0% at 50% 50%);
+    &.active {
+      clip-path: circle(100% at 50% 50%);
+    }
+  }
+}

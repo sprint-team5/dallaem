@@ -20,6 +20,18 @@ interface ICardProps extends IHandler {
 const ButtonStyle =
   "rounded-3xl h-8 px-3 flex items-center justify-center text-sm font-medium leading-5"
 
+/**
+ * @interface ICardProps
+ * @param {string} teamId - 팀 ID
+ * @param {number} id - 모임 ID
+ * @param {string} name - 모임 타이틀 문구
+ * @param {string} dateTime - 모임 날짜 및 시간
+ * @param {string} location - 모임 장소
+ * @param {number} participantCount - 참여 인원
+ * @param {number} capacity - 모집 정원 (최소 5인 이상)
+ * @param {string} image - 모임 이미지
+ * @param {string} registrationEnd - 모임 모집 마감 날짜 및 시간
+ */
 const Card = ({
   teamId,
   id,

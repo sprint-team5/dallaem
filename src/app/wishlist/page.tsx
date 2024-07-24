@@ -1,6 +1,8 @@
 import Calendars from "@/components/public/Calendars/Calendars"
 import Card from "@/components/public/Card"
-import Review from "@/components/public/Review"
+import Review from "@/components/public/Review/Review"
+
+// import ReviewHeartBtn from "@/components/public/Review/ReviewHeartBtn"
 
 const Page = () => {
   return (
@@ -122,6 +124,8 @@ const Page = () => {
         />
       </div>
       <Calendars />
+
+      {/* <ReviewHeartBtn /> */}
     </div>
   )
 }
