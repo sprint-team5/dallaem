@@ -19,7 +19,7 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
-      "@public/*": ["./src/components/public/*"],
+      "@public/*": ["./public/*"],
       "@mocks/*": ["./__mocks__/*"]
     },
     "forceConsistentCasingInFileNames": true
