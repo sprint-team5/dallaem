@@ -28,6 +28,31 @@ describe("Button 컴포넌트", () => {
     expect(mockOnClick).toHaveBeenCalledTimes(1)
   })
 
+  test("onClick 이벤트로 전달된 특정 동작 테스트", () => {
+    let testValue = 0
+    const specificAction = () => {
+      testValue += 1
+    }
+
+    render(
+      <Button borderStyle="solid" size="small" state="default" onClick={specificAction}>
+        특정 동작 테스트
+      </Button>,
+    )
+
+    const buttonElement = screen.getByText("특정 동작 테스트")
+
+    expect(testValue).toBe(0) // 클릭 전 초기값 확인
+
+    fireEvent.click(buttonElement)
+
+    expect(testValue).toBe(1) // 클릭 후 값 변경 확인
+
+    fireEvent.click(buttonElement)
+
+    expect(testValue).toBe(2) // 두 번째 클릭 후 값 변경 확인
+  })
+
   test("disabled 상태 테스트", () => {
     render(
       <Button borderStyle="solid" size="small" state="default" disabled onClick={() => {}}>
