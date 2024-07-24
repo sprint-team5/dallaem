@@ -10,7 +10,7 @@ jest.mock("@/public/icon/dynamicIcon/checkbox.svg", () => {
   return SvgrMock
 })
 
-describe("Alarm 컴포넌트", () => {
+describe("Checkbox 컴포넌트", () => {
   it("SVG가 렌더링되는지 검증합니다", () => {
     expect(render(<Checkbox state="active" className="test-class" />)).not.toBeNull()
     expect(render(<Checkbox state="default" className="test-class" />)).not.toBeNull()

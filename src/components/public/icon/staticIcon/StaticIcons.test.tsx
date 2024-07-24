@@ -59,7 +59,7 @@ const icons = [
   { Icon: X, testid: "X" },
 ]
 
-describe("아이콘 컴포넌트 테스트", () => {
+describe("정적 아이콘 컴포넌트 테스트", () => {
   test.each(icons)("SVG가 렌더링되는지 검증합니다", ({ Icon }) => {
     expect(render(<Icon className="test-class" />)).not.toBeNull()
   })
