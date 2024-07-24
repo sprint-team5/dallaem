@@ -19,7 +19,8 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
-      "@public/*": ["./src/components/public/*"]
+      "@public/*": ["./src/components/public/*"],
+      "@mocks/*": ["./__mocks__/*"]
     },
     "forceConsistentCasingInFileNames": true
   },
@@ -30,7 +31,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "__mocks__/svgrMock.js"
+    "__mocks__/svgrMock.jsx"
   ],
   "exclude": ["node_modules"]
 }
