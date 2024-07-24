@@ -1,10 +1,15 @@
-import Calendars from "@/components/public/Calendars/Calendars"
-import Card from "@/components/public/Card"
-import Review from "@/components/public/Review/Review"
+"use client"
 
-// import ReviewHeartBtn from "@/components/public/Review/ReviewHeartBtn"
+import { useState } from "react"
+
+import Calendars from "@/components/public/Calendars/Calendars"
+import Card from "@/components/public/Card/Card"
+import Review from "@/components/public/Review/Review"
+import ReviewHeartBtn from "@/components/public/Review/ReviewHeartBtn/ReviewHeartBtn"
 
 const Page = () => {
+  const [value, setValue] = useState(0)
+
   return (
     <div>
       <div className="flex flex-col gap-5">
@@ -125,7 +130,7 @@ const Page = () => {
       </div>
       <Calendars />
 
-      {/* <ReviewHeartBtn /> */}
+      <ReviewHeartBtn value={value} setter={setValue} />
     </div>
   )
 }

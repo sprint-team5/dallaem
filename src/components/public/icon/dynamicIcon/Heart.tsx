@@ -1,6 +1,6 @@
 import { CSSProperties } from "react"
 
-import HeartSVG from "@/public/icon/dynamicIcon/heart.svg"
+import HeartSVG from "@public/icon/dynamicIcon/heart.svg"
 
 interface IHeartProps {
   style?: CSSProperties
