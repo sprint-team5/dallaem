@@ -2,27 +2,8 @@
 
 import { ReactNode } from "react"
 
-import { QueryClient, QueryClientProvider, isServer } from "@tanstack/react-query"
-
-function makeQueryClient() {
-  return new QueryClient({
-    defaultOptions: {
-      queries: {
-        staleTime: 60 * 1000,
-      },
-    },
-  })
-}
-
-let browserQueryClient: QueryClient | undefined
-
-const getQueryClient = () => {
-  if (isServer) {
-    return makeQueryClient()
-  }
-  if (!browserQueryClient) browserQueryClient = makeQueryClient()
-  return browserQueryClient
-}
+import getQueryClient from "@/components/app/queryClient"
+import { QueryClientProvider } from "@tanstack/react-query"
 
 const Providers = ({ children }: { children: ReactNode }) => {
   const queryClient = getQueryClient()
