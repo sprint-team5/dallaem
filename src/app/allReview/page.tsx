@@ -1,8 +1,15 @@
-import Calendars from "@/components/public/Calendars/Calendars"
-import Card from "@/components/public/Card"
-import Review from "@/components/public/Review"
+"use client"
 
-const Page = () => {
+import { useState } from "react"
+
+import Calendars from "@/components/public/Calendars/Calendars"
+import Card from "@/components/public/Card/Card"
+import Review from "@/components/public/Review/Review"
+import ReviewHeartBtn from "@/components/public/Review/ReviewHeartBtn/ReviewHeartBtn"
+
+const AllReviewsPage = () => {
+  const [value, setValue] = useState(0)
+
   return (
     <div>
       <div className="flex flex-col gap-5">
@@ -58,14 +65,14 @@ const Page = () => {
           score={5}
           comment="따듯하게 느껴지는 공간이에요 :) 평소에 달램 이용해보고 싶었는데 이렇게 같이 달램 생기니까 너무 좋아요! 프로그램이 더 많이 늘어났으면 좋겠어요."
           createdAt="2024-07-23T01:49:11.413Z"
-          Gathering={{
+          gathering={{
             teamId: 0,
             id: 0,
             name: "달램핏 오피스 스트레칭 이용",
             dateTime: "2024-07-23T01:49:11.413Z",
             location: "을지로 3가",
           }}
-          User={{
+          user={{
             teamId: 0,
             id: 0,
             email: "string",
@@ -76,14 +83,14 @@ const Page = () => {
           score={3}
           comment="따듯하게 느껴지는 공간이에요 :) 평소에 달램 이용해보고 싶었는데 이렇게 같이 달램 생기니까 너무 좋아요! 프로그램이 더 많이 늘어났으면 좋겠어요."
           createdAt="2024-07-23T01:49:11.413Z"
-          Gathering={{
+          gathering={{
             teamId: 0,
             id: 0,
             name: "달램핏 오피스 스트레칭 이용",
             dateTime: "2024-07-23T01:49:11.413Z",
             location: "을지로 3가",
           }}
-          User={{
+          user={{
             teamId: 0,
             id: 0,
             email: "string",
@@ -98,9 +105,9 @@ const Page = () => {
           score={5}
           comment="따듯하게 느껴지는 공간이에요 :) 평소에 달램 이용해보고 싶었는데 이렇게 같이 달램 생기니까 너무 좋아요! 프로그램이 더 많이 늘어났으면 좋겠어요."
           createdAt="2024-07-23T01:49:11.413Z"
-          Gathering={{
-            teamId: 0,
-            id: 0,
+          gathering={{
+            teamId: 1,
+            id: 807,
             name: "달램핏 오피스 스트레칭 이용",
             dateTime: "2024-07-23T01:49:11.413Z",
             location: "을지로 3가",
@@ -111,9 +118,9 @@ const Page = () => {
           score={3}
           comment="따듯하게 느껴지는 공간이에요 :) 평소에 달램 이용해보고 싶었는데 이렇게 같이 달램 생기니까 너무 좋아요! 프로그램이 더 많이 늘어났으면 좋겠어요."
           createdAt="2024-07-23T01:49:11.413Z"
-          Gathering={{
-            teamId: 0,
-            id: 0,
+          gathering={{
+            teamId: 1,
+            id: 807,
             name: "달램핏 오피스 스트레칭 이용",
             dateTime: "2024-07-23T01:49:11.413Z",
             location: "을지로 3가",
@@ -122,8 +129,10 @@ const Page = () => {
         />
       </div>
       <Calendars />
+
+      <ReviewHeartBtn value={value} setter={setValue} />
     </div>
   )
 }
 
-export default Page
+export default AllReviewsPage
