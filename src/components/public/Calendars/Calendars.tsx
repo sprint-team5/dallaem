@@ -1,6 +1,8 @@
 import Calendar from "react-calendar"
 import { LooseValue, Value } from "react-calendar/dist/cjs/shared/types"
 
+import Arrow from "@/components/public/icon/dynamicIcon/Arrow"
+
 import "./Calendars.scss"
 
 interface ICalendars {
@@ -23,6 +25,8 @@ const Calendars = ({ onChange, value }: ICalendars) => {
         prev2Label={null}
         locale="en"
         calendarType="gregory"
+        prevLabel={<Arrow state="defaultLeft" className="w-[15.7px]" />}
+        nextLabel={<Arrow state="defaultRight" className="w-[15.7px]" />}
       />
     </div>
   )
