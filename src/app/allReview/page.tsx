@@ -1,7 +1,15 @@
+import List from "@/app/allReview/List"
+import getQueryClient from "@/components/app/queryClient"
 import Heart from "@/components/public/icon/dynamicIcon/Heart"
 import Head from "@/components/public/img/Head"
+import { allReviewOptions } from "@/hooks/useAllReview"
+import { HydrationBoundary, dehydrate } from "@tanstack/react-query"
 
 const AllReviewsPage = () => {
+  const queryClient = getQueryClient()
+
+  queryClient.prefetchQuery(allReviewOptions)
+
   return (
     <main className="bg-slate-400">
       <div className="mx-auto flex min-h-screen max-w-[1200px] flex-col bg-white px-4 pb-[51px] pt-6 sm:px-6 sm:pt-[40px] md:px-[102px]">
@@ -56,9 +64,9 @@ const AllReviewsPage = () => {
 
         <div className="flex flex-1 flex-col border-t-2 border-gray-900 px-4 py-6 sm:px-6">
           <div>필터</div>
-          <div className="mt-6 flex flex-1 flex-col items-center justify-center gap-6 text-sm font-medium leading-5 text-gray-500">
-            아직 리뷰가 없습니다.
-          </div>
+          <HydrationBoundary state={dehydrate(queryClient)}>
+            <List />
+          </HydrationBoundary>
         </div>
       </div>
     </main>
