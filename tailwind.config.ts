@@ -9,9 +9,9 @@ const config: Config = {
   theme: {
     extend: {
       backgroundImage: {
-        "profile-sm": "url('/img/profile/profileHeader-sm.jpg')",
-        "profile-md": "url('/img/profile/profileHeader-md.jpg')",
-        "profile-lg": "url('/img/profile/profileHeader-lg.jpg')",
+        "profile-sm": "url('/img/profile_bg/profile-bg-sm.png')",
+        "profile-md": "url('/img/profile_bg/profile-bg-md.png')",
+        "profile-lg": "url('/img/profile_bg/profile-bg-lg.png')",
         editBtn: "url('/img/profile/editBtn.jpg')",
       },
       width: {

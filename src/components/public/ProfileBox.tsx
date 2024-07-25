@@ -1,31 +1,27 @@
-import Image from "next/image"
-
 import LogoutBtn from "./LogoutBtn"
 import ProfileEditBtn from "./ProfileEditBtn"
+import Profile from "./img/Profile"
 
 interface IProfileBoxProps {
   company: string
   email: string
   id: string
-  imgSrc: string
 }
 
 const ProfileBox = ({
   company = "코드잇",
   email = "codeit@codeit.com",
   id = "럽윈즈올",
-  imgSrc,
 }: IProfileBoxProps) => {
-  const profileImgSrc = imgSrc || "/img/profile/defaultProfile.jpg"
   return (
-    <div className="w-profile-sm md:w-profile-md lg:w-profile-lg mx-auto h-44 rounded-3xl border-2 border-gray-200">
-      <div className="bg-profile-sm md:bg-profile-md lg:bg-profile-lg flex items-center justify-between bg-no-repeat px-6 pb-5 pt-3.5">
+    <div className="mx-auto h-44 w-profile-sm rounded-3xl border-2 border-gray-200 md:w-profile-md lg:w-profile-lg">
+      <div className="flex items-center justify-between bg-profile-sm bg-no-repeat px-6 pb-5 pt-3.5 md:bg-profile-md lg:bg-profile-lg">
         <h3 className="text-lg font-semibold">내 프로필</h3>
         <ProfileEditBtn />
       </div>
       <div className="relative">
         <div className="absolute -top-3 left-3 size-14 rounded-full">
-          <Image fill src={profileImgSrc} alt="default profile" className="block rounded-full" />
+          <Profile state="largeDefault" />
         </div>
         <div className="absolute left-16 top-0 px-2 py-3">
           <div className="mb-1 flex items-center gap-3">
