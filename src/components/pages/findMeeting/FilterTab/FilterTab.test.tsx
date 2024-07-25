@@ -29,7 +29,7 @@ describe("FilterTab Component Rendering Test", () => {
   })
 })
 
-describe.only("FilterTab Component Function Test", () => {
+describe("FilterTab Component Function Test", () => {
   const MyComponent = () => {
     const [tab, setTab] = useState("DALLAEMFIT")
     const onSelectHandler = (
