@@ -24,12 +24,22 @@ const Filter = (props: IFilterProps) => {
   const [isOpen, setIsOpen] = useState(false)
   const { data, placeholder, selVal, onSelect } = props
 
-  const onClickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const onLabelClickHandler = () => {
+    setIsOpen(!isOpen)
+  }
+
+  const onLabelKeyDownHandler = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === "Enter") {
+      setIsOpen(!isOpen)
+    }
+  }
+
+  const onListClickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     onSelect(e)
     setIsOpen(false)
   }
 
-  const onKeyHandler = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+  const onListKeyDownHandler = (e: React.KeyboardEvent<HTMLButtonElement>) => {
     if (e.key === "Enter") {
       onSelect(e)
       setIsOpen(false)
@@ -41,23 +51,17 @@ const Filter = (props: IFilterProps) => {
       <div
         role="button"
         tabIndex={0}
-        className={`flex cursor-pointer gap-[3px] rounded-xl px-3 py-[6px] ${selVal !== "" ? "bg-gray-900 text-gray-50" : "border-2 border-gray-100 bg-white text-gray-800"}`}
-        onClick={() => {
-          setIsOpen(!isOpen)
-        }}
-        onKeyDown={(e) => {
-          if (e.key === "Enter") {
-            setIsOpen(!isOpen)
-          }
-        }}
+        className={`flex cursor-pointer gap-[3px] rounded-xl px-3 py-[6px] text-sm ${selVal !== "" ? "bg-gray-900 text-gray-50" : "border-2 border-gray-100 bg-white text-gray-800"}`}
+        onClick={onLabelClickHandler}
+        onKeyDown={onLabelKeyDownHandler}
       >
-        {selVal !== "" ? selVal : placeholder}
+        <span className="flex items-center">{selVal !== "" ? selVal : placeholder}</span>
         <Arrow className="w-[15px]" state={selVal !== "" ? "inverseDown" : "defaultDown"} />
       </div>
       <div
         role="listbox"
         aria-expanded={isOpen}
-        className={`mt-2 box-border flex flex-col rounded-xl shadow-expand transition delay-100 ease-in-out ${isOpen ? "opacity-1 max-h-none" : "max-h-0 overflow-hidden opacity-0"}`}
+        className={`mt-2 box-border flex flex-col overflow-hidden rounded-xl bg-white p-1 text-sm shadow-expand transition delay-100 ease-in-out ${isOpen ? "opacity-1 max-h-none" : "max-h-0 overflow-hidden opacity-0"}`}
       >
         {data.map((item, idx) => {
           return (
@@ -66,8 +70,8 @@ const Filter = (props: IFilterProps) => {
               className="border border-white px-3 py-[4px] text-left hover:rounded-xl hover:bg-orange-100"
               type="button"
               tabIndex={isOpen ? 0 : -1}
-              onClick={onClickHandler}
-              onKeyDown={onKeyHandler}
+              onClick={onListClickHandler}
+              onKeyDown={onListKeyDownHandler}
               value={item}
             >
               {item}
