@@ -40,6 +40,8 @@ jobs:
           CI: true
 
       - name: Run build
+        env:
+          BASE_URL: ${{ secrets.BASE_URL }} # 환경 변수 설정
         run: npm run build
 
       - name: Run Jest test
