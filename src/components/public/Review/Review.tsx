@@ -1,6 +1,7 @@
 import Image from "next/image"
 
 import Heart from "@/components/public/icon/dynamicIcon/Heart"
+import getGenerateMeetImage from "@/lib/getGenerateMeetImage"
 import dayjs from "dayjs"
 
 interface IGathering {
@@ -27,14 +28,6 @@ export interface IReviewProps {
   user?: IUser
 }
 
-const fetchImage = async (gathering: IGathering): Promise<string> => {
-  const response = await fetch(
-    `${process.env.BASE_URL}/${gathering.teamId}/gatherings/${gathering.id}`,
-  )
-  const json = await response.json()
-  return json.image
-}
-
 /**
  * @interface IReviewProps
  * @param {number} score - 리뷰 점수 0 ~ 5
@@ -54,7 +47,7 @@ const Review = async ({
 }: IReviewProps) => {
   let imgSrc = ""
   if (image) {
-    imgSrc = await fetchImage(gathering)
+    imgSrc = await getGenerateMeetImage(gathering)
   }
 
   return (

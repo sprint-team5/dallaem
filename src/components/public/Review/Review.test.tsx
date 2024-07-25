@@ -96,7 +96,7 @@ describe("리뷰 컴포넌트를 테스트 합니다.", () => {
     expect(screen.getByAltText(/유저 이미지/)).toBeInTheDocument()
   })
 
-  test.skip("image props가 존재하면 상세정보를 통해 image 주소를 가져와서 그려줍니다.", async () => {
+  test("image props가 존재하면 상세정보를 통해 image 주소를 가져와서 그려줍니다.", async () => {
     const props = {
       score: 0,
       comment: "커맨드",
