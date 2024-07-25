@@ -9,38 +9,6 @@ jest.mock("@/public/icon/dynamicIcon/heart.svg", () => {
 })
 
 describe("리뷰 컴포넌트를 테스트 합니다.", () => {
-  /* const server = setupServer(
-    rest.get(`${process.env.BASE_URL}/:teamId/gatherings/:teamId`, (req, res, ctx) => {
-      return res(
-        ctx.json({
-          teamId: "1",
-          id: 807,
-          type: "OFFICE_STRETCHING",
-          name: "모임1",
-          dateTime: "2024-07-31T09:06:16.184Z",
-          registrationEnd: "2024-07-25T09:06:16.184Z",
-          location: "건대입구",
-          participantCount: 0,
-          capacity: 20,
-          image:
-            "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/together-dallaem/1721639349302_test.jpg",
-          createdBy: 482,
-          canceledAt: null,
-        }),
-      )
-    }),
-  )
-
-  beforeAll(() => {
-    server.listen()
-  })
-  afterEach(() => {
-    server.resetHandlers()
-  })
-  afterAll(() => {
-    server.close()
-  }) */
-
   test.each([1, 2, 3, 4, 5])("score가 %i개 일때 하트가 n개", async (score) => {
     const props = {
       score: 0,
