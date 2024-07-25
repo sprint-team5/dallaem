@@ -1,6 +1,6 @@
 import Image from "next/image"
 
-import ImgLoginIMG from "@/public/img/img_login.png"
+import ImgLoginIMG from "@public/img/img_login.png"
 
 interface ImgLoginProps {
   className?: string

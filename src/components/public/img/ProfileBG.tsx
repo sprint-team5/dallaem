@@ -1,6 +1,6 @@
 import Image from "next/image"
 
-import ProfileBGIMG from "@/public/img/profile_bg.png"
+import ProfileBGIMG from "@public/img/profile_bg.png"
 
 interface IProfileBG {
   className?: string

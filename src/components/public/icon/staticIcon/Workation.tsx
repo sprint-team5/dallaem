@@ -1,4 +1,4 @@
-import WorkationSVG from "@/public/icon/staticICon/workation.svg"
+import WorkationSVG from "@public/icon/staticICon/workation.svg"
 
 interface IWorkationProps {
   className?: string

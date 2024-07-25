@@ -1,7 +1,7 @@
 import Image from "next/image"
 
-import EditLargeIMG from "@/public/img/edit_large.png"
-import EditSmallIMG from "@/public/img/edit_small.png"
+import EditLargeIMG from "@public/img/edit_large.png"
+import EditSmallIMG from "@public/img/edit_small.png"
 
 interface IEditProps {
   className?: string

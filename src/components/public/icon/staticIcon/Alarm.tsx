@@ -1,4 +1,4 @@
-import AlarmSVG from "@/public/icon/staticIcon/alarm.svg"
+import AlarmSVG from "@public/icon/staticIcon/alarm.svg"
 
 interface IAlarmProps {
   className?: string

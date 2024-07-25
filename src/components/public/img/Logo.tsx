@@ -1,5 +1,5 @@
-import LogoLargeSvg from "@/public/img/logo_large.svg"
-import LogoSmallSVG from "@/public/img/logo_small.svg"
+import LogoLargeSvg from "@public/img/logo_large.svg"
+import LogoSmallSVG from "@public/img/logo_small.svg"
 
 interface ILogoProps {
   className?: string
