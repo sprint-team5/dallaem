@@ -6,7 +6,7 @@ import Arrow from "@/components/public/icon/dynamicIcon/Arrow"
 import useOutsideClick from "@/utill/useOutsideClick"
 
 // 테일윈드 클래스 선언
-const dropdownBaseStyles = "text-[#9CA3AF] font-medium text-left"
+const dropdownBaseStyles = "font-medium text-left"
 
 const optionMenuStyles = "absolute z-10 mt-1 w-full rounded-xl bg-white shadow-lg"
 
@@ -24,6 +24,9 @@ interface IDropdownProps {
 const Dropdown = ({ baseStyles, iconBaseStyles, options, onSelect }: IDropdownProps) => {
   const [isOpen, setIsOpen] = useState(false)
   const [selectedOption, setSelectedOption] = useState(options[0])
+  const [isOptionSelected, setIsOptionSelected] = useState(false)
+
+  const buttonTextColor = isOptionSelected ? "text-[#1F2937]" : "text-[#9CA3AF]"
 
   // outsideClick hook 사용
   const dropdownRef = useRef<HTMLDivElement>(null)
@@ -38,6 +41,7 @@ const Dropdown = ({ baseStyles, iconBaseStyles, options, onSelect }: IDropdownPr
   const optionClickHandler = (index: number) => {
     setSelectedOption(options[index])
     setIsOpen(false)
+    setIsOptionSelected(true)
     onSelect(index)
   }
 
@@ -51,7 +55,7 @@ const Dropdown = ({ baseStyles, iconBaseStyles, options, onSelect }: IDropdownPr
     <div className="relative" ref={dropdownRef}>
       <button
         type="button"
-        className={`${baseStyles} ${dropdownBaseStyles}`.trim()}
+        className={`${baseStyles} ${dropdownBaseStyles} ${buttonTextColor}`.trim()}
         onClick={toggleDropdown}
         onKeyDown={keyDownHandler}
         aria-haspopup="listbox"
