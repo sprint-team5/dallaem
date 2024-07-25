@@ -1,6 +1,6 @@
 "use client"
 
-import Input from "@/components/public/input/Input"
+import InputField from "@/components/public/input/InputField"
 
 const Home = () => {
   const onChange = () => {}
@@ -10,26 +10,26 @@ const Home = () => {
   return (
     <main className="bg-slate-400">
       메인 페이지 초기화
-      <Input
+      <InputField
         className=""
-        state="error"
+        inputType="input"
         size="large"
         onChange={onChange}
         placeholder="테스트 메시지222222"
         errorMessage="error message"
       />
-      <Input
+      <InputField
         className=""
-        state="error"
+        inputType="input"
         size="large"
         isPassword
         onChange={onChange}
         placeholder="테스트 메시지222222"
         errorMessage="error message"
       />
-      <Input
+      <InputField
         className=""
-        state="toggle"
+        inputType="dropdown"
         size="large"
         onChange={onChange}
         placeholder="테스트 메시지222222"

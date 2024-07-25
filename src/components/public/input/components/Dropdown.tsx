@@ -48,7 +48,7 @@ const Dropdown = ({ baseStyles, iconBaseStyles, options, onSelect }: IDropdownPr
   }
 
   return (
-    <div className="relative h-fit w-fit" ref={dropdownRef}>
+    <div className="relative" ref={dropdownRef}>
       <button
         type="button"
         className={`${baseStyles} ${dropdownBaseStyles}`.trim()}
