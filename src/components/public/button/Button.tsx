@@ -41,15 +41,8 @@ const getButtonClasses = ({
   return `${baseStyles} ${styleClasses}`.trim()
 }
 
-const Button = ({
-  className,
-  borderStyle,
-  size,
-  disabled = false,
-  children,
-  onClick,
-}: IButtonProps) => {
-  const buttonClasses = getButtonClasses({ borderStyle, size, disabled })
+const Button = ({ className, borderStyle, disabled = false, children, onClick }: IButtonProps) => {
+  const buttonClasses = getButtonClasses({ borderStyle, disabled })
 
   return (
     <button
