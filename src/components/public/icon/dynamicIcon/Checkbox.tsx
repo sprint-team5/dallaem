@@ -1,4 +1,4 @@
-import CheckboxSVG from "@/public/icon/dynamicIcon/checkbox.svg"
+import CheckboxSVG from "@public/icon/dynamicIcon/checkbox.svg"
 
 interface ICheckboxProps {
   className?: string

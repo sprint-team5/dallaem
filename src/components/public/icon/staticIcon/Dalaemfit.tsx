@@ -1,4 +1,4 @@
-import DalaemfitSVG from "@/public/icon/staticIcon/dalaemfit.svg"
+import DalaemfitSVG from "@public/icon/staticIcon/dalaemfit.svg"
 
 interface IDalaemfitProps {
   className?: string

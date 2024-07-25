@@ -1,4 +1,4 @@
-import XSVG from "@/public/icon/staticIcon/X.svg"
+import XSVG from "@public/icon/staticIcon/X.svg"
 
 interface IXProps {
   className?: string

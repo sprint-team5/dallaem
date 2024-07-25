@@ -1,8 +1,8 @@
 import Image from "next/image"
 
-import HeadClassIMG from "@/public/img/head_class.png"
-import HeadReviewIMG from "@/public/img/head_review.png"
-import HeadSavedIMG from "@/public/img/head_saved.png"
+import HeadClassIMG from "@public/img/head_class.png"
+import HeadReviewIMG from "@public/img/head_review.png"
+import HeadSavedIMG from "@public/img/head_saved.png"
 
 interface IHeadProps {
   className?: string
