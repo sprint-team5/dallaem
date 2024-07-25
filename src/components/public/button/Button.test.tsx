@@ -1,5 +1,3 @@
-import React from "react"
-
 import "@testing-library/jest-dom"
 import { fireEvent, render, screen } from "@testing-library/react"
 
@@ -8,7 +6,7 @@ import Button from "./Button"
 describe("Button 컴포넌트", () => {
   test("기본 렌더링 테스트", () => {
     render(
-      <Button borderStyle="solid" size="small" state="default" onClick={() => {}}>
+      <Button borderStyle="solid" state="default" onClick={() => {}}>
         테스트 버튼
       </Button>,
     )
@@ -19,7 +17,7 @@ describe("Button 컴포넌트", () => {
   test("클릭 이벤트 테스트", () => {
     const mockOnClick = jest.fn()
     render(
-      <Button borderStyle="solid" size="small" state="default" onClick={mockOnClick}>
+      <Button borderStyle="solid" state="default" onClick={mockOnClick}>
         클릭 테스트
       </Button>,
     )
@@ -35,7 +33,7 @@ describe("Button 컴포넌트", () => {
     }
 
     render(
-      <Button borderStyle="solid" size="small" state="default" onClick={specificAction}>
+      <Button borderStyle="solid" state="default" onClick={specificAction}>
         특정 동작 테스트
       </Button>,
     )
@@ -55,7 +53,7 @@ describe("Button 컴포넌트", () => {
 
   test("disabled 상태 테스트", () => {
     render(
-      <Button borderStyle="solid" size="small" state="default" disabled onClick={() => {}}>
+      <Button borderStyle="solid" state="default" disabled onClick={() => {}}>
         비활성화 버튼
       </Button>,
     )
