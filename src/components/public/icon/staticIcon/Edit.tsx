@@ -1,4 +1,4 @@
-import EditSVG from "@/public/icon/staticIcon/edit.svg"
+import EditSVG from "@public/icon/staticIcon/edit.svg"
 
 interface IEditProps {
   className?: string

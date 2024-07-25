@@ -1,4 +1,4 @@
-import VisibilityOnSVG from "@/public/icon/staticIcon/visibility_on.svg"
+import VisibilityOnSVG from "@public/icon/staticIcon/visibility_on.svg"
 
 interface IVisibilityOnProps {
   className?: string

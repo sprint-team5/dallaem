@@ -1,4 +1,4 @@
-import ArrowRightSVG from "@/public/icon/staticIcon/arrow_right.svg"
+import ArrowRightSVG from "@public/icon/staticIcon/arrow_right.svg"
 
 interface IArrowRightProps {
   className?: string

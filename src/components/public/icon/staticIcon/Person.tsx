@@ -1,4 +1,4 @@
-import PersonSVG from "@/public/icon/staticIcon/person.svg"
+import PersonSVG from "@public/icon/staticIcon/person.svg"
 
 interface IPersonProps {
   className?: string

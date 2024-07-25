@@ -1,4 +1,4 @@
-import SortSVG from "@/public/icon/dynamicIcon/sort.svg"
+import SortSVG from "@public/icon/dynamicIcon/sort.svg"
 
 interface ISortProps {
   className?: string

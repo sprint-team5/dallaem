@@ -1,4 +1,4 @@
-import HeartSVG from "@/public/icon/dynamicIcon/heart.svg"
+import HeartSVG from "@public/icon/dynamicIcon/heart.svg"
 
 interface IHeartProps {
   className?: string
