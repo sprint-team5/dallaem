@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react"
+import React, { useState } from "react"
 
 interface ICard {
   teamId: string
@@ -18,11 +18,7 @@ interface ICard {
 }
 
 const List = () => {
-  let wishlist: ICard[] = []
-
-  if (localStorage.getItem("wishlist")) {
-    wishlist = JSON.parse(localStorage.getItem("wishlist") as string)
-  }
+  const [wishlist] = useState<ICard[]>([])
 
   return (
     <div
