@@ -13,11 +13,11 @@ interface IFilterTabProps {
 }
 
 /**
+ * 모임 찾기에서 달램핏, 워케이션 구분 부분
  * @interface IFilterTabProps
  * @param {string} selVal - 현재 선택된 탭 데이터(optional)
  * @param {Function} onSelect - 필터링 데이터 선택 시 실행할 함수(setState 함수 전달)
  */
-/** 모임 찾기에서 달램핏, 워케이션 구분 부분 */
 const FilterTab = (props: IFilterTabProps) => {
   const { selVal, onSelect } = props
   const upperTabWrapperRef = useRef<HTMLDivElement>(null)
