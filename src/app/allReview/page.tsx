@@ -7,7 +7,7 @@ import Card from "@/components/public/Card/Card"
 import Review from "@/components/public/Review/Review"
 import ReviewHeartBtn from "@/components/public/Review/ReviewHeartBtn/ReviewHeartBtn"
 
-const Page = () => {
+const AllReviewsPage = () => {
   const [value, setValue] = useState(0)
 
   return (
@@ -135,4 +135,4 @@ const Page = () => {
   )
 }
 
-export default Page
+export default AllReviewsPage
