@@ -1,7 +1,7 @@
 "use client"
 
 const baseStyles =
-  "flex flex-col items-center justify-center whitespace-nowrap rounded-xl font-semibold"
+  "flex flex-col items-center justify-center whitespace-nowrap rounded-xl font-semibold py-[10px] px-[16px]"
 
 const buttonStyles = {
   solid: {
@@ -18,15 +18,9 @@ const buttonStyles = {
   },
 }
 
-const sizeStyles = {
-  small: "h-10 w-[120px] py-[6px]",
-  large: "h-12 w-[332px] py-[10px]",
-}
-
 interface IButtonProps {
   className?: string
   borderStyle: "solid" | "outlined"
-  size: "small" | "large"
   disabled?: boolean
   children: React.ReactNode
   onClick: () => void
@@ -34,7 +28,6 @@ interface IButtonProps {
 
 const getButtonClasses = ({
   borderStyle,
-  size,
   disabled,
 }: Omit<IButtonProps, "className" | "children" | "onClick">) => {
   const {
@@ -45,7 +38,7 @@ const getButtonClasses = ({
   } = buttonStyles[borderStyle]
   const styleClasses = disabled ? disabledStyle : `${defaultStyle} ${hover} ${active}`
 
-  return `${baseStyles} ${styleClasses} ${sizeStyles[size]}`.trim()
+  return `${baseStyles} ${styleClasses}`.trim()
 }
 
 const Button = ({
