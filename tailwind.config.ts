@@ -12,7 +12,6 @@ const config: Config = {
         "profile-sm": "url('/img/profile_bg/profile-bg-sm.png')",
         "profile-md": "url('/img/profile_bg/profile-bg-md.png')",
         "profile-lg": "url('/img/profile_bg/profile-bg-lg.png')",
-        editBtn: "url('/img/profile/editBtn.jpg')",
       },
       width: {
         "profile-sm": "343px",
