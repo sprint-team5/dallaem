@@ -8,7 +8,7 @@ import { HydrationBoundary, dehydrate } from "@tanstack/react-query"
 const AllReviewsPage = async () => {
   const queryClient = getQueryClient()
 
-  await queryClient.prefetchQuery(allReviewOptions({}))
+  await queryClient.prefetchQuery(allReviewOptions())
 
   return (
     <main className="bg-slate-400">

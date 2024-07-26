@@ -1,33 +1,36 @@
 "use server"
 
-import { IReviewProps } from "@/components/public/Review/Review"
-
-export interface IAllReviewProps {
-  gatheringId?: string
-  userId?: string
-  location?: string
-  date?: string
-  registrationEnd?: string
-  sortBy?: string
-  sortOrder?: string
-  limit?: number
-  offset?: number
-}
-
-interface IgetReviewProps extends IReviewProps {
+export interface Root2 {
   teamId: number
   id: number
+  score: number
+  comment: string
+  createdAt: string
+  Gathering: Gathering
+  User: User
 }
 
-const getAllReview = async ({ queryKey }: any): Promise<IgetReviewProps[]> => {
-  const [, gatheringId, userId, location, date, registrationEnd, sortBy, sortOrder, limit, offset] =
-    queryKey
+export interface Gathering {
+  teamId: number
+  id: number
+  name: string
+  dateTime: string
+  location: string
+}
+
+export interface User {
+  teamId: number
+  id: number
+  email: string
+  name: string
+}
+
+const getAllReview = async (): Promise<Root2[]> => {
   try {
-    const response = await fetch(
-      `${process.env.BASE_URL}/reviews?gatheringId=${gatheringId}&userId=${userId}&location=${location}&date=${date}&registrationEnd=${registrationEnd}&sortBy=${sortBy}&sortOrder=${sortOrder}&limit=${limit}&offset=${offset}`,
-    )
+    const response = await fetch(`${process.env.BASE_URL}/reviews`)
     if (!response.ok) {
-      throw new Error("서버 에러")
+      const { message } = await response.json()
+      throw new Error(message)
     }
     const data = await response.json()
     return data
