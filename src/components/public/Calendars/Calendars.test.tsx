@@ -1,7 +1,12 @@
+import SvgrMock from "@mocks/svgrMock"
 import "@testing-library/jest-dom"
 import { fireEvent, render, screen } from "@testing-library/react"
 
-import Calendars from "../../../src/components/public/Calendars/Calendars"
+import Calendars from "./Calendars"
+
+jest.mock("@/public/icon/dynamicIcon/arrow.svg", () => {
+  return SvgrMock
+})
 
 describe("캘린더 컴포넌트 테스트", () => {
   test("캘린더 원하는 날짜 클릭시 값 잘 가져오는지", () => {

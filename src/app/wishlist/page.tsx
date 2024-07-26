@@ -1,129 +1,32 @@
-import Calendars from "@/components/public/Calendars/Calendars"
-import Card from "@/components/public/Card"
-import Review from "@/components/public/Review"
+import List from "@/app/wishlist/List"
+import Head from "@/components/public/img/Head"
 
-const Page = () => {
+const WishListPage = () => {
   return (
-    <div>
-      <div className="flex flex-col gap-5">
-        <Card
-          teamId="1"
-          id={4}
-          name="모임 2"
-          dateTime="2024-07-22T07:34:00.350Z"
-          location="서울"
-          participantCount={0}
-          capacity={20}
-          image=""
-          registrationEnd="2024-07-25T09:06:16.184Z"
-        />
-        <Card
-          teamId="1"
-          id={4}
-          name="모임 2"
-          dateTime="2024-07-22T07:34:00.350Z"
-          location="서울"
-          participantCount={5}
-          capacity={20}
-          image=""
-          registrationEnd="2024-07-25T09:06:16.184Z"
-        />
-        <Card
-          teamId="1"
-          id={4}
-          name="모임 1"
-          dateTime="2024-07-22T07:34:00.350Z"
-          location="인천"
-          participantCount={5}
-          capacity={20}
-          image=""
-          registrationEnd="2024-07-21T09:06:16.184Z"
-        />
-        <Card
-          teamId="1"
-          id={4}
-          name="모임 1"
-          dateTime="2024-07-22T07:34:00.350Z"
-          location="인천"
-          participantCount={0}
-          capacity={20}
-          image=""
-          registrationEnd="2024-07-21T09:06:16.184Z"
-        />
-      </div>
+    <main className="bg-slate-400">
+      <div className="mx-auto flex min-h-screen max-w-[1200px] flex-col bg-white px-4 pb-[51px] pt-6 sm:px-6 sm:pt-[40px] md:px-[102px]">
+        <div className="flex-none">
+          <div className="flex items-center gap-4 sm:gap-[13px]">
+            <div className="size-[72px] flex-none">
+              <Head state="saved" />
+            </div>
+            <div>
+              <h4 className="text-lg font-semibold leading-8 text-gray-900 sm:text-2xl">
+                찜한 모임
+              </h4>
+              <p className="left-5 mt-2 text-sm font-medium text-gray-700">
+                마감되기 전에 지금 바로 참여해보세요 👀
+              </p>
+            </div>
+          </div>
 
-      <p className="mt-5">상세페이지 리뷰</p>
-      <div className="flex flex-col gap-6">
-        <Review
-          score={5}
-          comment="따듯하게 느껴지는 공간이에요 :) 평소에 달램 이용해보고 싶었는데 이렇게 같이 달램 생기니까 너무 좋아요! 프로그램이 더 많이 늘어났으면 좋겠어요."
-          createdAt="2024-07-23T01:49:11.413Z"
-          Gathering={{
-            teamId: 0,
-            id: 0,
-            name: "달램핏 오피스 스트레칭 이용",
-            dateTime: "2024-07-23T01:49:11.413Z",
-            location: "을지로 3가",
-          }}
-          User={{
-            teamId: 0,
-            id: 0,
-            email: "string",
-            name: "string",
-          }}
-        />
-        <Review
-          score={3}
-          comment="따듯하게 느껴지는 공간이에요 :) 평소에 달램 이용해보고 싶었는데 이렇게 같이 달램 생기니까 너무 좋아요! 프로그램이 더 많이 늘어났으면 좋겠어요."
-          createdAt="2024-07-23T01:49:11.413Z"
-          Gathering={{
-            teamId: 0,
-            id: 0,
-            name: "달램핏 오피스 스트레칭 이용",
-            dateTime: "2024-07-23T01:49:11.413Z",
-            location: "을지로 3가",
-          }}
-          User={{
-            teamId: 0,
-            id: 0,
-            email: "string",
-            name: "string",
-          }}
-        />
-      </div>
+          <div className="mt-8">필터 부분</div>
+        </div>
 
-      <p className="mt-5">나의 리뷰</p>
-      <div className="flex flex-col gap-6">
-        <Review
-          score={5}
-          comment="따듯하게 느껴지는 공간이에요 :) 평소에 달램 이용해보고 싶었는데 이렇게 같이 달램 생기니까 너무 좋아요! 프로그램이 더 많이 늘어났으면 좋겠어요."
-          createdAt="2024-07-23T01:49:11.413Z"
-          Gathering={{
-            teamId: 0,
-            id: 0,
-            name: "달램핏 오피스 스트레칭 이용",
-            dateTime: "2024-07-23T01:49:11.413Z",
-            location: "을지로 3가",
-          }}
-          image
-        />
-        <Review
-          score={3}
-          comment="따듯하게 느껴지는 공간이에요 :) 평소에 달램 이용해보고 싶었는데 이렇게 같이 달램 생기니까 너무 좋아요! 프로그램이 더 많이 늘어났으면 좋겠어요."
-          createdAt="2024-07-23T01:49:11.413Z"
-          Gathering={{
-            teamId: 0,
-            id: 0,
-            name: "달램핏 오피스 스트레칭 이용",
-            dateTime: "2024-07-23T01:49:11.413Z",
-            location: "을지로 3가",
-          }}
-          image
-        />
+        <List />
       </div>
-      <Calendars />
-    </div>
+    </main>
   )
 }
 
-export default Page
+export default WishListPage
