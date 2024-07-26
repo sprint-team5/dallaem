@@ -55,7 +55,9 @@ const Filter = (props: IFilterProps) => {
         onClick={onLabelClickHandler}
         onKeyDown={onLabelKeyDownHandler}
       >
-        <span className="flex items-center">{selVal !== "" ? selVal : placeholder}</span>
+        <span className="flex items-center whitespace-nowrap">
+          {selVal !== "" ? selVal : placeholder}
+        </span>
         <Arrow className="w-[15px]" state={selVal !== "" ? "inverseDown" : "defaultDown"} />
       </div>
       <div
