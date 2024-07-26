@@ -25,6 +25,7 @@
     "forceConsistentCasingInFileNames": true
   },
   "include": [
+    "postcss.config.mjs",
     "next.config.mjs",
     "src/types/**/*.d.ts",
     "next-env.d.ts",

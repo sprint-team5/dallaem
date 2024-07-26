@@ -7,8 +7,11 @@ interface ImgLoginProps {
 }
 
 const ImgLogin = ({ className }: ImgLoginProps) => {
-  const newClassName = `${className} w-[620px] h-[513px]`
-  return <Image src={ImgLoginIMG} alt="ImgLoginIMG" className={newClassName} />
+  return (
+    <div className={className}>
+      <Image width={620} height={513} src={ImgLoginIMG} alt="ImgLoginIMG" layout="cover" />
+    </div>
+  )
 }
 
 export default ImgLogin

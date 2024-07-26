@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import localFont from "next/font/local"
 
 import Providers from "@/components/app/provider"
+import LootLayout from "@/components/pages/layout/LootLayout"
 
 import "./globals.css"
 
@@ -54,7 +55,9 @@ const RootLayout = ({
   return (
     <html lang="ko" className={pretendard.className}>
       <body>
-        <Providers>{children}</Providers>
+        <Providers>
+          <LootLayout>{children}</LootLayout>
+        </Providers>
       </body>
     </html>
   )

@@ -7,25 +7,57 @@ import ProfileSmallDefaultIMG from "@public/img/profile_small_default.png"
 interface IProfileProps {
   className?: string
   state: "smallDefault" | "largeDefault" | "largeEdit"
+  profileImg?: string | undefined
 }
 
-const Profile = ({ className, state }: IProfileProps) => {
+const Profile = ({ className, state, profileImg }: IProfileProps) => {
+  if (profileImg !== undefined && profileImg !== "") {
+    const newClassName = `${className} w-[40px] h-[40px] relative`
+    return (
+      <div className={newClassName}>
+        <Image src={profileImg} alt="ProfileImg" fill className="rounded-full" />
+      </div>
+    )
+  }
   switch (state) {
     case "smallDefault": {
-      const newClassName = `${className} w-6 h-6`
       return (
-        <Image src={ProfileSmallDefaultIMG} alt="ProfileSmallDefaultIMG" className={newClassName} />
+        <div className={className}>
+          <Image
+            width={24}
+            height={24}
+            src={ProfileSmallDefaultIMG}
+            alt="ProfileSmallDefaultIMG"
+            layout="cover"
+          />
+        </div>
       )
     }
     case "largeDefault": {
-      const newClassName = `${className} w-[56px] h-[56px]`
       return (
-        <Image src={ProfiLargeDefaultIMG} alt="ProfiLargeDefaultIMG" className={newClassName} />
+        <div className={className}>
+          <Image
+            src={ProfiLargeDefaultIMG}
+            width={56}
+            height={56}
+            alt="ProfiLargeDefaultIMG"
+            layout="cover"
+          />
+        </div>
       )
     }
     case "largeEdit": {
-      const newClassName = `${className} w-[56px] h-[56px]`
-      return <Image src={ProfileLargeEditIMG} alt="ProfileLargeEditIMG" className={newClassName} />
+      return (
+        <div className={className}>
+          <Image
+            src={ProfileLargeEditIMG}
+            width={56}
+            height={56}
+            alt="ProfileLargeEditIMG"
+            layout="cover"
+          />
+        </div>
+      )
     }
 
     default:
