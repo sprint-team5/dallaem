@@ -1,58 +1,69 @@
 import { useState } from "react"
 
-import { location } from "@/constants/meeting"
 import SvgrMock from "@mocks/svgrMock.jsx"
 import "@testing-library/jest-dom"
 import { fireEvent, render, screen } from "@testing-library/react"
 
-import Filter from "./Filter"
+import FilterSort from "./FilterSort"
 
-jest.mock("@/public/icon/dynamicIcon/arrow.svg", () => {
+jest.mock("@/public/icon/dynamicIcon/sort.svg", () => {
   return SvgrMock
 })
 
-const { getByText, getByRole } = screen
+const { getByRole } = screen
 
 describe("Filter Component Rendering Test", () => {
   beforeEach(() => {
-    render(<Filter data={location} placeholder="지역 선택" onSelect={() => {}} selVal="" />)
+    render(<FilterSort onSelect={() => {}} selVal="registrationEnd" />)
   })
 
   test("렌더링이 잘 되는지 테스트", () => {
-    expect(getByText("지역 선택")).toBeInTheDocument()
+    const buttonRoles = screen.getAllByRole("button")
+    const labelBtn = buttonRoles.find((button) => {
+      return button.tagName.toLowerCase() === "div"
+    }) as HTMLDivElement
+    expect(labelBtn).toBeInTheDocument()
   })
 
   test("클릭으로 옵션창이 열리고 닫히는지 테스트", () => {
+    const buttonRoles = screen.getAllByRole("button")
+    const labelBtn = buttonRoles.find((button) => {
+      return button.tagName.toLowerCase() === "div"
+    }) as HTMLDivElement
+
     const listbox = getByRole("listbox")
     expect(listbox).toHaveClass("max-h-0")
-    fireEvent.click(getByText("지역 선택"))
+    fireEvent.click(labelBtn)
     expect(listbox).not.toHaveClass("max-h-0")
-    fireEvent.click(getByText("지역 선택"))
+    fireEvent.click(labelBtn)
     expect(listbox).toHaveClass("max-h-0")
   })
 
   test("키보드로 옵션창이 열리고 닫히는지 테스트", () => {
+    const buttonRoles = screen.getAllByRole("button")
+    const labelBtn = buttonRoles.find((button) => {
+      return button.tagName.toLowerCase() === "div"
+    }) as HTMLDivElement
+
     const listbox = getByRole("listbox")
     expect(listbox).toHaveClass("max-h-0")
-    fireEvent.keyDown(getByText("지역 선택"), { key: "Enter", code: "Enter" })
+    fireEvent.keyDown(labelBtn, { key: "Enter", code: "Enter" })
     expect(listbox).not.toHaveClass("max-h-0")
-    fireEvent.keyDown(getByText("지역 선택"), { key: "Enter", code: "Enter" })
+    fireEvent.keyDown(labelBtn, { key: "Enter", code: "Enter" })
     expect(listbox).toHaveClass("max-h-0")
   })
 })
 
 describe("Filter Component Function Test", () => {
   const MyComponent = () => {
-    const [loc, setLoc] = useState("")
+    const [sort, setSort] = useState("registrationEnd")
     const onSelectHandler = (
       e: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLButtonElement>,
     ) => {
       const target = e.target as HTMLButtonElement
-      setLoc(target.value)
+      setSort(target.value)
     }
-    return (
-      <Filter data={location} placeholder="지역 선택" onSelect={onSelectHandler} selVal={loc} />
-    )
+    return <FilterSort onSelect={onSelectHandler} selVal={sort} />
   }
 
   beforeEach(() => {
@@ -65,14 +76,14 @@ describe("Filter Component Function Test", () => {
       return button.tagName.toLowerCase() === "div"
     })
     if (!label) throw new Error("label is not found")
-    expect(label.textContent).toBe("지역 선택")
-    fireEvent.click(getByText("지역 선택"))
+    expect(label.textContent).toBe("마감 임박 순")
+    fireEvent.click(label)
 
-    const option = buttonRoles.find((button) => {
+    const options = buttonRoles.filter((button) => {
       return button.tagName.toLowerCase() === "button"
-    }) as HTMLButtonElement
-    if (!option) throw new Error("option not found")
-    fireEvent.click(option)
-    expect(label.textContent).not.toBe("지역 선택")
+    })
+    if (options.length === 0) throw new Error("options are not found")
+    fireEvent.click(options[2])
+    expect(label.textContent).not.toBe("마감 임박 순")
   })
 })

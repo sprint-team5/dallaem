@@ -50,8 +50,16 @@
     // import 확장자 포함 규칙 해제
     "import/extensions": "off",
     // optional한 props에 대해 defaultProps를 선언하지 않아도 되도록
-    "react/require-default-props": "off"
+    "react/require-default-props": "off",
     // // 한 라인에 여러 표현식 사용 불가능(문자열 리터럴만 허용)
     // "react/jsx-one-expression-per-line": ["error", { "allow": "literal" }],
+    // label 내부의 input을 더 깊은 수준까지 찾게 함(label 내부에 input을 사용하면 id를 선언하지 않아도 됨)
+    "jsx-a11y/label-has-associated-control": [
+      "error",
+      {
+        "assert": "either",
+        "depth": 25
+      }
+    ]
   }
 }
