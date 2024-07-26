@@ -68,11 +68,11 @@ describe("Filter Component Function Test", () => {
     expect(label.textContent).toBe("지역 선택")
     fireEvent.click(getByText("지역 선택"))
 
-    const options = buttonRoles.filter((button) => {
+    const option = buttonRoles.find((button) => {
       return button.tagName.toLowerCase() === "button"
-    })
-    if (options.length === 0) throw new Error("options are not found")
-    fireEvent.click(options[0])
+    }) as HTMLButtonElement
+    if (!option) throw new Error("option not found")
+    fireEvent.click(option)
     expect(label.textContent).not.toBe("지역 선택")
   })
 })
