@@ -5,10 +5,10 @@ import Head from "@/components/public/img/Head"
 import { allReviewOptions } from "@/hooks/useAllReview"
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query"
 
-const AllReviewsPage = () => {
+const AllReviewsPage = async () => {
   const queryClient = getQueryClient()
 
-  queryClient.prefetchQuery(allReviewOptions)
+  await queryClient.prefetchQuery(allReviewOptions({}))
 
   return (
     <main className="bg-slate-400">
@@ -31,17 +31,15 @@ const AllReviewsPage = () => {
           <div className="mt-8">필터 부분</div>
         </div>
 
-        <div className="mt-6 flex h-[180px] items-center justify-center gap-[188px] border-b border-t">
+        <div className="mt-6 flex h-[180px] items-center justify-center gap-5 border-b border-t sm:gap-[120px] md:gap-[188px]">
           <div>
-            <p className="text-center text-2xl font-semibold leading-8 text-gray-900">
+            <p className="text-center text-xl font-semibold leading-8 text-gray-900 sm:text-2xl">
               0 <span className="text-gray-400">/5</span>
             </p>
             <div className="mt-2 flex gap-[2px]">
-              <Heart state="default" />
-              <Heart state="default" />
-              <Heart state="default" />
-              <Heart state="default" />
-              <Heart state="default" />
+              {Array.from({ length: 5 }, (_, index) => {
+                return <Heart key={index + 1} state="default" />
+              })}
             </div>
           </div>
           <div>
@@ -52,7 +50,7 @@ const AllReviewsPage = () => {
                   className="mt-1 flex items-center gap-3 text-sm font-medium leading-5 first:mt-0"
                 >
                   <p className="w-[21px] flex-none">{5 - index}점</p>
-                  <div className="relative h-1 w-[240px] rounded-full bg-gray-200">
+                  <div className="relative h-1 w-[84px] rounded-full bg-gray-200 sm:w-[240px]">
                     <div className="absolute left-0 top-0" />
                   </div>
                   <p className="flex-none">0</p>
