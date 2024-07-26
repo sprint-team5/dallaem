@@ -5,11 +5,11 @@ import { usePathname } from "next/navigation"
 import GNB from "@/components/public/gnb/GNB"
 import { ROUTE } from "@/constants/route"
 
-interface LootLayoutProps {
+interface ILootLayoutProps {
   children: React.ReactNode
 }
 
-const LootLayout = ({ children }: LootLayoutProps) => {
+const LootLayout = ({ children }: ILootLayoutProps) => {
   const pathname = usePathname()
 
   // 현재 경로가 showGNBPaths에 포함되어 있는지 확인
