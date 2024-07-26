@@ -9,7 +9,7 @@ import Filter from "@/components/public/Filter/Filter"
 import Button from "@/components/public/button/Button"
 import { location } from "@/constants/meeting"
 
-export const FindMeeting = () => {
+const FindMeeting = () => {
   const [filterOption, setFilterOption] = useState({
     type: "DALLAEMFIT",
     location: "",
