@@ -22,7 +22,7 @@ const LootLayout = ({ children }: ILootLayoutProps) => {
   return (
     <div>
       {shouldShowGNB && <GNB />}
-      <main>{children}</main>
+      <main className="min-h-[200vh] pt-[56px] md:pt-[60px]">{children}</main>
     </div>
   )
 }

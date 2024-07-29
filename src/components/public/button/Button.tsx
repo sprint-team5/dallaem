@@ -1,7 +1,7 @@
 "use client"
 
 const baseStyles =
-  "flex flex-col items-center justify-center whitespace-nowrap rounded-xl font-semibold py-[10px] px-[16px]"
+  "flex flex-col items-center justify-center whitespace-nowrap rounded-xl font-semibold py-[10px] px-[16px] w-full"
 
 const buttonStyles = {
   solid: {
