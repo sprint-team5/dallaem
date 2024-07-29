@@ -2,6 +2,7 @@ import Image from "next/image"
 import Link from "next/link"
 
 import Spinner from "@/components/public/Spinner/Spinner"
+import ArrowRight from "@/components/public/icon/staticIcon/ArrowRight"
 import { IMeetingData } from "@/types/meeting/meeting"
 import dayjs from "dayjs"
 
@@ -78,8 +79,12 @@ const MeetingCard = ({ data }: { data: IMeetingData }) => {
               </>
             )}
           </div>
-          <div className="mt-2 flex">
+          <div className="mt-2 flex items-end gap-6">
             <ParticipantGage now={data.participantCount} max={data.capacity} />
+            <div className="flex">
+              <span className="whitespace-nowrap font-semibold text-orange-600">join now</span>
+              <ArrowRight />
+            </div>
           </div>
         </div>
       </div>
