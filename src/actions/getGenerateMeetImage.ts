@@ -1,10 +1,6 @@
-interface IGathering {
-  teamId: number
-  id: number
-  name: string
-  dateTime: string
-  location: string
-}
+"use server"
+
+import { IGathering } from "@/types/review/filter"
 
 interface IGatheringResponseError {
   code: string
@@ -29,7 +25,9 @@ interface IGatheringResponse {
 
 const getGenerateMeetImage = async (gathering: IGathering) => {
   try {
-    const response = await fetch(`${process.env.BASE_URL}/gatherings/${gathering.id}`)
+    const response = await fetch(
+      `${process.env.BASE_URL}/${process.env.TEAM_ID}/gatherings/${gathering.id}`,
+    )
 
     if (!response.ok) {
       const json: IGatheringResponseError = await response.json()

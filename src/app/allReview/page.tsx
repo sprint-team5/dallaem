@@ -1,14 +1,19 @@
-import List from "@/app/allReview/List"
+import getAllReview from "@/actions/allReviewActions"
 import getQueryClient from "@/components/app/queryClient"
+import List from "@/components/pages/allReview/List"
 import Heart from "@/components/public/icon/dynamicIcon/Heart"
 import Head from "@/components/public/img/Head"
-import { allReviewOptions } from "@/hooks/useAllReview"
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query"
 
 const AllReviewsPage = async () => {
   const queryClient = getQueryClient()
 
-  await queryClient.prefetchQuery(allReviewOptions())
+  queryClient.prefetchQuery({
+    queryKey: ["allReview", {}],
+    queryFn: () => {
+      return getAllReview({})
+    },
+  })
 
   return (
     <main className="bg-slate-400">
@@ -27,8 +32,6 @@ const AllReviewsPage = async () => {
               </p>
             </div>
           </div>
-
-          <div className="mt-8">필터 부분</div>
         </div>
 
         <div className="mt-6 flex h-[180px] items-center justify-center gap-5 border-b border-t sm:gap-[120px] md:gap-[188px]">
@@ -61,7 +64,6 @@ const AllReviewsPage = async () => {
         </div>
 
         <div className="flex flex-1 flex-col border-t-2 border-gray-900 px-4 py-6 sm:px-6">
-          <div>필터</div>
           <HydrationBoundary state={dehydrate(queryClient)}>
             <List />
           </HydrationBoundary>
