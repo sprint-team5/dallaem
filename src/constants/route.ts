@@ -1,5 +1,5 @@
 // 페이지 라우트 상수
-export const ROUTE = {
+const ROUTE = {
   HOME: "/", // 랜딩 페이지
   SIGNIN: "/signin", // 로그인 페이지
   SIGNUP: "/signup", // 회원가입 페이지
@@ -9,4 +9,4 @@ export const ROUTE = {
   ALL_REVIEW: "/allReview", // 모든 리뷰 페이지
 } as const
 
-export const ENDPOINT = {} as const
+export default ROUTE
