@@ -5,18 +5,24 @@ import { useState } from "react"
 import FilterCalendar from "@/components/pages/findMeeting/FilterCalendar/FilterCalendar"
 import FilterSort from "@/components/pages/findMeeting/FilterSort/FilterSort"
 import FilterTab from "@/components/pages/findMeeting/FilterTab/FilterTab"
+import MeetingList from "@/components/pages/findMeeting/MeetingCard/MeetingList/MeetingList"
 import Filter from "@/components/public/Filter/Filter"
 import Button from "@/components/public/button/Button"
 import { location } from "@/constants/meeting"
+import getMeetingList from "@/lib/getMeetingList"
+import { IFilterOption } from "@/types/meeting/meeting"
+import { useQuery } from "@tanstack/react-query"
 
 const FindMeeting = () => {
-  const [filterOption, setFilterOption] = useState({
+  const [filterOption, setFilterOption] = useState<IFilterOption>({
     type: "DALLAEMFIT",
-    location: "",
-    date: "",
-    createdBy: "",
     sortBy: "registrationEnd",
-    sortOrder: "",
+  })
+  const { data, status, error } = useQuery({
+    queryKey: ["meetingList", filterOption],
+    queryFn: () => {
+      return getMeetingList(filterOption)
+    },
   })
 
   // TODO: 이벤트를 넘기지 않고 수정할 값만 파싱해서 넘기도록 수정 필요(역할, 책임 등의 문제)
@@ -81,6 +87,7 @@ const FindMeeting = () => {
           selVal={filterOption.sortBy}
         />
       </div>
+      <MeetingList data={data} status={status} error={error} />
     </div>
   )
 }
