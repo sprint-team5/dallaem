@@ -96,15 +96,18 @@ const MeetingList = ({ data, status, error }: IMeetingListProps) => {
   return (
     <>
       {status === "pending" && (
-        <div className="h-full w-full items-center justify-center">
+        <div className="h-full w-full items-center justify-center p-80">
           <Spinner />
         </div>
       )}
       {status === "success" && (
         <>
           {data?.length === 0 && (
-            <div className="flex h-full w-full items-center justify-center">
-              모임 정보가 없습니다.
+            <div className="flex h-full w-full flex-col items-center justify-center p-80">
+              <span className="whitespace-nowrap text-sm text-gray-500">아직 모임이 없어요,</span>
+              <span className="whitespace-nowrap text-sm text-gray-500">
+                지금 바로 모임을 만들어보세요
+              </span>
             </div>
           )}
           <div className="flex flex-col gap-6">
@@ -119,7 +122,7 @@ const MeetingList = ({ data, status, error }: IMeetingListProps) => {
         </>
       )}
       {error && (
-        <div className="flex h-full w-full flex-col items-center justify-center">
+        <div className="flex h-full w-full flex-col items-center justify-center p-80">
           <Image src="/icon/staticIcon/X.svg" alt="Error" width={48} height={48} />
           에러가 발생했습니다.
         </div>
