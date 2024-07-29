@@ -91,20 +91,27 @@ const MeetingList = ({ data, status, error }: IMeetingListProps) => {
   return (
     <>
       {status === "pending" && (
-        <div className="h-full w-full">
+        <div className="h-full w-full items-center justify-center">
           <Spinner />
         </div>
       )}
       {status === "success" && (
-        <div className="flex flex-col gap-6">
-          {data?.map((meeting) => {
-            return (
-              <Link href={`/findMeeting/${meeting.id}`} key={meeting.id}>
-                <MeetingCard key={meeting.id} data={meeting} />
-              </Link>
-            )
-          })}
-        </div>
+        <>
+          {data?.length === 0 && (
+            <div className="flex h-full w-full items-center justify-center">
+              모임 정보가 없습니다.
+            </div>
+          )}
+          <div className="flex flex-col gap-6">
+            {data?.map((meeting) => {
+              return (
+                <Link href={`/findMeeting/${meeting.id}`} key={meeting.id}>
+                  <MeetingCard key={meeting.id} data={meeting} />
+                </Link>
+              )
+            })}
+          </div>
+        </>
       )}
       {error && (
         <div className="flex h-full w-full flex-col items-center justify-center">
