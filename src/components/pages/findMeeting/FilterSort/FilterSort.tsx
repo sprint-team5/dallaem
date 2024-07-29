@@ -51,7 +51,7 @@ const FilterSort = (props: IFilterProps) => {
   }
 
   return (
-    <div className="inline-flex flex-col max-sm:items-end">
+    <div className="relative inline-flex flex-col max-sm:items-end">
       <div
         role="button"
         tabIndex={0}
@@ -67,13 +67,13 @@ const FilterSort = (props: IFilterProps) => {
       <div
         role="listbox"
         aria-expanded={isOpen}
-        className={`mt-2 box-border flex flex-col overflow-hidden rounded-xl bg-white p-1 text-sm shadow-expand transition delay-100 ease-in-out ${isOpen ? "opacity-1 max-h-none" : "max-h-0 overflow-hidden opacity-0"}`}
+        className={`absolute top-full z-[1] mt-[2px] box-border flex flex-col overflow-hidden rounded-xl bg-white p-1 text-sm shadow-expand transition delay-100 ease-in-out ${isOpen ? "opacity-1 max-h-none" : "max-h-0 overflow-hidden opacity-0"}`}
       >
         {sortType.map((item) => {
           return (
             <button
               key={item.value}
-              className="border border-white px-3 py-[4px] text-left text-gray-800 hover:rounded-xl hover:bg-orange-100"
+              className="whitespace-nowrap border border-white px-3 py-[4px] text-left text-gray-800 hover:rounded-xl hover:bg-orange-100"
               type="button"
               tabIndex={isOpen ? 0 : -1}
               onClick={onListClickHandler}

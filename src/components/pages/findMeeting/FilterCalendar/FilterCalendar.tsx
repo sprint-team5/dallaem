@@ -35,7 +35,8 @@ const FilterCalendar = (props: IFilterProps) => {
 
   const onChangeHandler = (e: Value) => {
     const formatDate = dayjs(String(e)).format("YYYY-MM-DD")
-    onChange(formatDate)
+    if (dayjs(selVal).format("YYYY-MM-DD") === formatDate) onChange("")
+    else onChange(formatDate)
     setIsOpen(false)
   }
 
@@ -56,7 +57,7 @@ const FilterCalendar = (props: IFilterProps) => {
       <div
         role="listbox"
         aria-expanded={isOpen}
-        className={`mt-2 box-border overflow-hidden rounded-xl shadow-expand transition delay-100 ease-in-out ${isOpen ? "opacity-1 max-h-none" : "max-h-0 overflow-hidden opacity-0"}`}
+        className={`absolute top-full z-[1] mt-[2px] box-border overflow-hidden rounded-xl bg-white shadow-expand transition delay-100 ease-in-out ${isOpen ? "opacity-1 max-h-none" : "max-h-0 overflow-hidden opacity-0"}`}
       >
         <Calendars value={selVal} onChange={onChangeHandler} />
       </div>

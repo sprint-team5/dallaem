@@ -32,7 +32,19 @@ const FindMeeting = () => {
   ) => {
     if (key) {
       // 1. date 등 문자열 값을 넘기는 경우
-      if (typeof e === "string") setFilterOption({ ...filterOption, [key]: e })
+      if (typeof e === "string") {
+        // 1-1. 빈 문자열을 받는 경우 초기화
+        if (e === "") {
+          if (key in filterOption) {
+            const newFilterOption = { ...filterOption }
+            // @ts-ignore
+            delete newFilterOption[key]
+            setFilterOption(newFilterOption)
+          }
+        } else {
+          setFilterOption({ ...filterOption, [key]: e })
+        }
+      }
       // 2. 이벤트 객체를 넘기는 경우
       else {
         const target = e.target as HTMLButtonElement
@@ -62,7 +74,7 @@ const FindMeeting = () => {
         </div>
       </div>
       <hr className="my-4" />
-      <div className="flex justify-between">
+      <div className="mb-6 flex justify-between">
         <div className="flex gap-2">
           <Filter
             data={location}
