@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 
+import getMeetingList from "@/actions/apis/getMeetingList"
 import FilterCalendar from "@/components/pages/findMeeting/FilterCalendar/FilterCalendar"
 import FilterSort from "@/components/pages/findMeeting/FilterSort/FilterSort"
 import FilterTab from "@/components/pages/findMeeting/FilterTab/FilterTab"
@@ -9,7 +10,6 @@ import MeetingList from "@/components/pages/findMeeting/MeetingCard/MeetingList/
 import Filter from "@/components/public/Filter/Filter"
 import Button from "@/components/public/button/Button"
 import { location } from "@/constants/meeting"
-import getMeetingList from "@/lib/getMeetingList"
 import { IFilterOption } from "@/types/meeting/meeting"
 import { useQuery } from "@tanstack/react-query"
 
