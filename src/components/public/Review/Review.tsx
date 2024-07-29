@@ -1,7 +1,6 @@
 import Image from "next/image"
 
 import Heart from "@/components/public/icon/dynamicIcon/Heart"
-import getGenerateMeetImage from "@/lib/getGenerateMeetImage"
 import dayjs from "dayjs"
 
 interface IGathering {
@@ -21,7 +20,6 @@ interface IUser {
 
 export interface IReviewProps {
   score: number
-  image?: boolean
   comment: string
   createdAt: string
   gathering: IGathering
@@ -37,27 +35,20 @@ export interface IReviewProps {
  * @param {{teamId: number, id: number, name: string, dateTime: string, location: string}} gathering 모임 객체
  * @param {{teamId: number,id: number,email: string,name: string}} IUser 유저 객체
  */
-const Review = async ({
-  score,
-  comment,
-  createdAt,
-  image = false,
-  gathering,
-  user,
-}: IReviewProps) => {
-  let imgSrc = ""
+const Review = ({ score, comment, createdAt, gathering, user }: IReviewProps) => {
+  /* let imgSrc = ""
   if (image) {
     imgSrc = await getGenerateMeetImage(gathering)
-  }
+  } */
 
   return (
     <div className="flex flex-col gap-6 border-b-2 border-dashed border-gray-200 pb-6 sm:flex-row">
-      {image && (
+      {/* {image && (
         <div className="relative h-[156px] w-full flex-none overflow-hidden rounded-3xl sm:w-[280px]">
           {imgSrc ? (
             <Image
               className="object-cover object-center"
-              src={imgSrc}
+              src={imgSrc || ""}
               alt={`${gathering.name} 모임 이미지`}
               fill
             />
@@ -65,7 +56,7 @@ const Review = async ({
             <div className="absolute bottom-0 left-0 right-0 top-0 bg-gray-500" />
           )}
         </div>
-      )}
+      )} */}
 
       <div>
         <div className="flex gap-1">

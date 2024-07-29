@@ -29,9 +29,7 @@ interface IGatheringResponse {
 
 const getGenerateMeetImage = async (gathering: IGathering) => {
   try {
-    const response = await fetch(
-      `${process.env.BASE_URL}/${gathering.teamId}/gatherings/${gathering.id}`,
-    )
+    const response = await fetch(`${process.env.BASE_URL}/gatherings/${gathering.id}`)
 
     if (!response.ok) {
       const json: IGatheringResponseError = await response.json()
