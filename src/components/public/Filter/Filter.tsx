@@ -47,23 +47,21 @@ const Filter = (props: IFilterProps) => {
   }
 
   return (
-    <div className="inline-flex flex-col">
+    <div className="relative inline-flex flex-col">
       <div
         role="button"
         tabIndex={0}
-        className={`flex cursor-pointer gap-[3px] rounded-xl px-3 py-[6px] text-sm ${selVal !== "" ? "bg-gray-900 text-gray-50" : "border-2 border-gray-100 bg-white text-gray-800"}`}
+        className={`flex cursor-pointer gap-[3px] rounded-xl px-3 py-[6px] text-sm ${selVal ? "bg-gray-900 text-gray-50" : "border-2 border-gray-100 bg-white text-gray-800"}`}
         onClick={onLabelClickHandler}
         onKeyDown={onLabelKeyDownHandler}
       >
-        <span className="flex items-center whitespace-nowrap">
-          {selVal !== "" ? selVal : placeholder}
-        </span>
-        <Arrow className="w-[15px]" state={selVal !== "" ? "inverseDown" : "defaultDown"} />
+        <span className="flex items-center whitespace-nowrap">{selVal || placeholder}</span>
+        <Arrow className="w-[15px]" state={selVal ? "inverseDown" : "defaultDown"} />
       </div>
       <div
         role="listbox"
         aria-expanded={isOpen}
-        className={`mt-2 box-border flex flex-col overflow-hidden rounded-xl bg-white p-1 text-sm shadow-expand transition delay-100 ease-in-out ${isOpen ? "opacity-1 max-h-none" : "max-h-0 overflow-hidden opacity-0"}`}
+        className={`absolute top-full z-[1] mt-[2px] box-border flex w-full flex-col overflow-hidden rounded-xl bg-white p-1 text-sm shadow-expand transition delay-100 ease-in-out ${isOpen ? "opacity-1 max-h-none" : "max-h-0 overflow-hidden opacity-0"}`}
       >
         {data.map((item, idx) => {
           return (

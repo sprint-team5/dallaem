@@ -5,18 +5,24 @@ import { useState } from "react"
 import FilterCalendar from "@/components/pages/findMeeting/FilterCalendar/FilterCalendar"
 import FilterSort from "@/components/pages/findMeeting/FilterSort/FilterSort"
 import FilterTab from "@/components/pages/findMeeting/FilterTab/FilterTab"
+import MeetingList from "@/components/pages/findMeeting/MeetingCard/MeetingList/MeetingList"
 import Filter from "@/components/public/Filter/Filter"
 import Button from "@/components/public/button/Button"
 import { location } from "@/constants/meeting"
+import getMeetingList from "@/lib/getMeetingList"
+import { IFilterOption } from "@/types/meeting/meeting"
+import { useQuery } from "@tanstack/react-query"
 
 const FindMeeting = () => {
-  const [filterOption, setFilterOption] = useState({
+  const [filterOption, setFilterOption] = useState<IFilterOption>({
     type: "DALLAEMFIT",
-    location: "",
-    date: "",
-    createdBy: "",
     sortBy: "registrationEnd",
-    sortOrder: "",
+  })
+  const { data, status, error } = useQuery({
+    queryKey: ["meetingList", filterOption],
+    queryFn: () => {
+      return getMeetingList(filterOption)
+    },
   })
 
   // TODO: 이벤트를 넘기지 않고 수정할 값만 파싱해서 넘기도록 수정 필요(역할, 책임 등의 문제)
@@ -26,7 +32,19 @@ const FindMeeting = () => {
   ) => {
     if (key) {
       // 1. date 등 문자열 값을 넘기는 경우
-      if (typeof e === "string") setFilterOption({ ...filterOption, [key]: e })
+      if (typeof e === "string") {
+        // 1-1. 빈 문자열을 받는 경우 초기화
+        if (e === "") {
+          if (key in filterOption) {
+            const newFilterOption = { ...filterOption }
+            // @ts-ignore
+            delete newFilterOption[key]
+            setFilterOption(newFilterOption)
+          }
+        } else {
+          setFilterOption({ ...filterOption, [key]: e })
+        }
+      }
       // 2. 이벤트 객체를 넘기는 경우
       else {
         const target = e.target as HTMLButtonElement
@@ -56,7 +74,7 @@ const FindMeeting = () => {
         </div>
       </div>
       <hr className="my-4" />
-      <div className="flex justify-between">
+      <div className="mb-6 flex justify-between">
         <div className="flex gap-2">
           <Filter
             data={location}
@@ -81,6 +99,7 @@ const FindMeeting = () => {
           selVal={filterOption.sortBy}
         />
       </div>
+      <MeetingList data={data} status={status} error={error} />
     </div>
   )
 }
