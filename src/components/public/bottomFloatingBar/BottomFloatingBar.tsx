@@ -1,10 +1,13 @@
+"use client"
+
 import Button from "@/components/public/button/Button"
 
 const floatingBarStyles = {
   container: {
-    default: "flex items-center justify-center w-full bg-white",
-    mobile: "h-[134px] px-4 py-5",
-    tablet: "md:h-[84px] md:px-6",
+    default:
+      "fixed bottom-0 flex items-center justify-center w-full border-t-2 border-[#111827] bg-white",
+    mobile: "h-[136px] px-4 py-5",
+    tablet: "md:h-[86px] md:px-6",
     desktop: "2xl:px-[380px]",
   },
   wrapper: {
@@ -44,18 +47,14 @@ const containerStyles = `${floatingBarStyles.container.default} ${floatingBarSty
 
 interface IButtonFloatingBarProps {
   isHost: boolean
-  onClickCancel: () => void
-  onClickShare: () => void
-  onClickParticipate: () => void
 }
 
-const BottomFloatingBar = ({
-  isHost,
-  onClickCancel,
-  onClickShare,
-  onClickParticipate,
-}: IButtonFloatingBarProps) => {
+const BottomFloatingBar = ({ isHost }: IButtonFloatingBarProps) => {
   const wrapperStyles = `${isHost ? floatingBarStyles.wrapper.default.true : floatingBarStyles.wrapper.default.false} ${floatingBarStyles.wrapper.mobile} ${floatingBarStyles.wrapper.tablet} ${floatingBarStyles.wrapper.desktop}`
+
+  const onClickCancel = () => {}
+  const onClickShare = () => {}
+  const onClickParticipate = () => {}
 
   return (
     <>
