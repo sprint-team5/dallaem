@@ -6,7 +6,7 @@ import Button from "./Button"
 describe("Button 컴포넌트", () => {
   test("기본 렌더링 테스트", () => {
     render(
-      <Button borderStyle="solid" state="default" onClick={() => {}}>
+      <Button borderStyle="solid" onClick={() => {}}>
         테스트 버튼
       </Button>,
     )
@@ -17,7 +17,7 @@ describe("Button 컴포넌트", () => {
   test("클릭 이벤트 테스트", () => {
     const mockOnClick = jest.fn()
     render(
-      <Button borderStyle="solid" state="default" onClick={mockOnClick}>
+      <Button borderStyle="solid" onClick={mockOnClick}>
         클릭 테스트
       </Button>,
     )
@@ -33,7 +33,7 @@ describe("Button 컴포넌트", () => {
     }
 
     render(
-      <Button borderStyle="solid" state="default" onClick={specificAction}>
+      <Button borderStyle="solid" onClick={specificAction}>
         특정 동작 테스트
       </Button>,
     )
@@ -53,7 +53,7 @@ describe("Button 컴포넌트", () => {
 
   test("disabled 상태 테스트", () => {
     render(
-      <Button borderStyle="solid" state="default" disabled onClick={() => {}}>
+      <Button borderStyle="solid" disabled onClick={() => {}}>
         비활성화 버튼
       </Button>,
     )
@@ -63,13 +63,7 @@ describe("Button 컴포넌트", () => {
 
   test("커스텀 클래스 적용 테스트", () => {
     render(
-      <Button
-        borderStyle="solid"
-        size="small"
-        state="default"
-        onClick={() => {}}
-        className="custom-class"
-      >
+      <Button borderStyle="solid" onClick={() => {}} className="custom-class">
         커스텀 클래스
       </Button>,
     )
