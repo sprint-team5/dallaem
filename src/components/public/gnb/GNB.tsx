@@ -11,14 +11,14 @@ import ProfileComponent from "./components/ProfileComponent"
 const gnbStyles = {
   container: "fixed top-0 flex w-full items-center justify-center whitespace-nowrap bg-[#EA580C]",
   wrapper: {
-    default: "flex h-[56px] w-[375px] items-center justify-between relative",
-    mobile: "sm:h-[56px] sm:w-[375px]",
+    default: "flex items-center justify-between relative",
+    mobile: "h-[56px] w-[375px]",
     tablet: "md:h-[60px] md:w-[744px]",
-    desktop: "xl:h-[60px] xl:w-[1198px]",
+    desktop: "xl:w-[1198px]",
   },
   navbar: {
-    default: "flex items-center justify-between gap-3",
-    mobile: "sm:gap-3",
+    default: "flex items-center justify-between",
+    mobile: "gap-3",
     tablet: "md:gap-5",
     desktop: "xl:gap-6",
   },
@@ -27,8 +27,8 @@ const gnbStyles = {
 const wrapperStyles = `${gnbStyles.wrapper.default} ${gnbStyles.wrapper.mobile} ${gnbStyles.wrapper.tablet} ${gnbStyles.wrapper.desktop}`
 const navbarStyles = `${gnbStyles.navbar.default} ${gnbStyles.navbar.mobile} ${gnbStyles.navbar.tablet} ${gnbStyles.navbar.desktop}`
 
-const navBaseStyles = "font-semibold  text-[#FFF7ED]"
-const currentNavStyles = "font-semibold text-[#111827 ]"
+const navBaseStyles = "font-semibold text-[#FFF7ED]"
+const currentNavStyles = "font-semibold text-[#111827]"
 
 const GNB = () => {
   const currentPath = usePathname()
