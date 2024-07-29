@@ -18,7 +18,7 @@ const MeetingCard = ({ data }: { data: IMeetingData }) => {
   return (
     <div className="flex w-full overflow-hidden rounded-3xl border-2 border-gray-100 bg-white max-sm:flex-col">
       {data.image && (
-        <div className="h-[156px]">
+        <div className="relative h-[156px]">
           <Image
             src={data.image}
             alt={data.name}
@@ -26,9 +26,14 @@ const MeetingCard = ({ data }: { data: IMeetingData }) => {
             height={156}
             className="!h-full object-cover max-sm:w-full"
           />
-          <div className="absolute inline-block">
-            오늘 {dayjs(data.dateTime).format("H")}시 마감
-          </div>
+          {dayjs(data.registrationEnd).format("YYYY-MM-DD") === dayjs().format("YYYY-MM-DD") && (
+            <div className="absolute right-0 top-0 inline-flex items-center rounded-bl-xl bg-orange-600 px-[10px] py-[4px]">
+              <Image src="/icon/staticIcon/clock.svg" alt="마감 임박" width={24} height={24} />
+              <span className="text-xs text-white">
+                오늘 {dayjs(data.registrationEnd).format("H")}시 마감
+              </span>
+            </div>
+          )}
         </div>
       )}
       <div className="flex grow flex-col justify-between px-6 py-4">
