@@ -7,11 +7,11 @@ import ProfileSmallDefaultIMG from "@public/img/profile_small_default.png"
 interface IProfileProps {
   className?: string
   state: "smallDefault" | "largeDefault" | "largeEdit"
-  profileImg?: string | undefined
+  profileImg?: string | undefined | null
 }
 
 const Profile = ({ className, state, profileImg }: IProfileProps) => {
-  if (profileImg !== undefined && profileImg !== "") {
+  if (profileImg !== undefined && profileImg !== "" && profileImg !== null) {
     const newClassName = `${className} w-[40px] h-[40px] relative`
     return (
       <div className={newClassName}>
