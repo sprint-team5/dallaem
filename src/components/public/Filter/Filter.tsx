@@ -51,14 +51,12 @@ const Filter = (props: IFilterProps) => {
       <div
         role="button"
         tabIndex={0}
-        className={`flex cursor-pointer gap-[3px] rounded-xl px-3 py-[6px] text-sm ${selVal !== "" ? "bg-gray-900 text-gray-50" : "border-2 border-gray-100 bg-white text-gray-800"}`}
+        className={`flex cursor-pointer gap-[3px] rounded-xl px-3 py-[6px] text-sm ${selVal ? "bg-gray-900 text-gray-50" : "border-2 border-gray-100 bg-white text-gray-800"}`}
         onClick={onLabelClickHandler}
         onKeyDown={onLabelKeyDownHandler}
       >
-        <span className="flex items-center whitespace-nowrap">
-          {selVal !== "" ? selVal : placeholder}
-        </span>
-        <Arrow className="w-[15px]" state={selVal !== "" ? "inverseDown" : "defaultDown"} />
+        <span className="flex items-center whitespace-nowrap">{selVal || placeholder}</span>
+        <Arrow className="w-[15px]" state={selVal ? "inverseDown" : "defaultDown"} />
       </div>
       <div
         role="listbox"
