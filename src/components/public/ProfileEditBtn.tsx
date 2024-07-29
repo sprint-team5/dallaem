@@ -8,8 +8,7 @@ const ProfileEditBtn = () => {
   const router = useRouter()
 
   const handleClick = () => {
-    // fixme: 경로 수정 필요
-    router.push("/")
+    router.push("/mypage/edit")
   }
   return (
     <button

@@ -1,33 +1,37 @@
+"use client"
+
 import Image from "next/image"
 
+import CancelButton from "@/components/app/mypage/CancelButton"
+import editProfileInfo from "@/lib/editProfileInfo"
+
 import CloseBtn from "../CloseBtn"
+import Profile from "../img/Profile"
 
 interface IProfileEditModalProps {
   company: string
-  src: string
+  src?: string
 }
 
 const ProfileEditModal = ({ company = "코드잇", src }: IProfileEditModalProps) => {
-  const profileImgSrc = src || "/img/profile/defaultProfile.jpg"
+  const imgSrc = src ?? "/img/profile_large_default.png"
   return (
-    <form className="w-modal-md lg:w-modal-lg mx-auto flex flex-col gap-4 rounded-xl border p-6 shadow-md">
+    <form
+      action={editProfileInfo}
+      className="mt-1/2 mx-auto flex w-modal-md flex-col gap-4 rounded-xl border bg-white p-6 shadow-md lg:w-modal-lg"
+    >
       <div className="flex items-center justify-between">
         <h3 className="text-lg font-semibold">프로필 수정하기</h3>
         <CloseBtn />
       </div>
-      <div>
-        <label htmlFor="profileImg" className="relative">
-          <Image src={profileImgSrc} alt="profile image" width={56} height={56} />
-          <Image
-            className="absolute bottom-1 left-9 rounded-full border-2 border-white"
-            src="/img/profile/editBtn.jpg"
-            alt="edit icon"
-            width={18}
-            height={18}
-          />
-          <input hidden id="profileImg" name="profileImg" type="file" />
-        </label>
-      </div>
+      <label htmlFor="userImg">
+        {src ? (
+          <Image src={imgSrc} alt="profile image" width={56} height={56} />
+        ) : (
+          <Profile state="largeEdit" />
+        )}
+        <input hidden id="userImg" name="userImg" type="file" />
+      </label>
       <div>
         <label htmlFor="company" className="font-semibold">
           회사
@@ -41,13 +45,11 @@ const ProfileEditModal = ({ company = "코드잇", src }: IProfileEditModalProps
         </label>
       </div>
       <div className="flex gap-3">
+        <CancelButton />
         <button
-          type="button"
-          className="w-1/2 rounded-lg border border-orange-600 py-2.5 text-orange-600"
+          type="submit"
+          className="w-1/2 rounded-lg bg-gray-400 py-2.5 text-white hover:bg-gray-500 active:bg-gray-700"
         >
-          취소
-        </button>
-        <button type="submit" className="w-1/2 rounded-lg bg-gray-400 py-2.5 text-white">
           수정하기
         </button>
       </div>

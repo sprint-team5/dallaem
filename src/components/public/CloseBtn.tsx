@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation"
 
-import CloseIcon from "@/public/icon/closeIcon.svg"
+import X from "./icon/staticIcon/X"
 
 const CloseBtn = () => {
   const route = useRouter()
@@ -13,7 +13,7 @@ const CloseBtn = () => {
   return (
     <button type="button" onClick={handleClick} className="block">
       {" "}
-      <CloseIcon fill="true" className="self-end" />
+      <X />
     </button>
   )
 }
