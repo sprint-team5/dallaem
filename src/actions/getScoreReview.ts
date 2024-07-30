@@ -19,15 +19,21 @@ const getScoreReview = async (params: any): Promise<IScoreReview[]> => {
   try {
     const response = await fetch(
       `${process.env.BASE_URL}/${process.env.TEAM_ID}/reviews/scores?${query}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
     )
     if (!response.ok) {
-      throw new Error("서버 에러가 발생했습니다.")
+      const { message } = await response.json()
+      throw new Error(message)
     }
     const data = await response.json()
 
     return data
-  } catch (err) {
-    throw new Error(err as string)
+  } catch (err: any) {
+    throw new Error(err.message)
   }
 }
 

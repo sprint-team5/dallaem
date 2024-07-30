@@ -103,7 +103,7 @@ const List = () => {
                 gathering={review.Gathering}
                 createdAt={review.createdAt}
                 user={review.User}
-                image
+                isImage
               />
             )
           })

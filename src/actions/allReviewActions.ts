@@ -24,15 +24,22 @@ export interface IUser {
 const getAllReview = async (params: any): Promise<IAllReview[]> => {
   const query = convertParamsToQueryString(params)
   try {
-    const response = await fetch(`${process.env.BASE_URL}/${process.env.TEAM_ID}/reviews?${query}`)
+    const response = await fetch(
+      `${process.env.BASE_URL}/${process.env.TEAM_ID}/reviews1q23?${query}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    )
     if (!response.ok) {
       const { message } = await response.json()
       throw new Error(message)
     }
     const json = await response.json()
     return json
-  } catch (err) {
-    throw new Error(err as string)
+  } catch (err: any) {
+    throw new Error(err.message)
   }
 }
 
