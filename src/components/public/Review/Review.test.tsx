@@ -11,15 +11,27 @@ jest.mock("@/public/icon/dynamicIcon/heart.svg", () => {
 describe("리뷰 컴포넌트를 테스트 합니다.", () => {
   test.each([1, 2, 3, 4, 5])("score가 %i개 일때 하트가 n개", async (score) => {
     const props = {
-      score: 0,
-      comment: "커맨드",
-      createdAt: "2024-07-31T09:06:16.184Z",
+      teamId: "team555",
+      id: 304,
+      userId: 488,
+      gatheringId: 814,
+      score: 5,
+      comment: "재밌네요",
+      createdAt: "2024-07-30T00:42:12.233Z",
       gathering: {
-        teamId: 0,
-        id: 0,
-        name: "모입1",
-        dateTime: "2024-07-31T09:06:16.184Z",
-        location: "서울",
+        teamId: "team555",
+        id: 814,
+        type: "OFFICE_STRETCHING",
+        name: "모임2",
+        dateTime: "2024-07-30T00:39:32.296Z",
+        registrationEnd: "2024-07-30T00:37:23.034Z",
+        location: "건대입구",
+        participantCount: 1,
+        capacity: 5,
+        image:
+          "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/together-dallaem/1722299746603_company.jpg",
+        createdBy: 488,
+        canceledAt: null,
       },
     }
     render(await Review(props))
@@ -40,21 +52,39 @@ describe("리뷰 컴포넌트를 테스트 합니다.", () => {
 
   test("유저 props가 존재하면 UI가 변합니다.", async () => {
     const props = {
-      score: 0,
-      comment: "커맨드",
-      createdAt: "2024-07-31T09:06:16.184Z",
+      teamId: "team555",
+      id: 304,
+      userId: 488,
+      gatheringId: 814,
+      score: 5,
+      comment: "재밌네요",
+      createdAt: "2024-07-30T00:42:12.233Z",
       gathering: {
-        teamId: 0,
-        id: 0,
-        name: "모입1",
-        dateTime: "2024-07-31T09:06:16.184Z",
-        location: "서울",
+        teamId: "team555",
+        id: 814,
+        type: "OFFICE_STRETCHING",
+        name: "모임2",
+        dateTime: "2024-07-30T00:39:32.296Z",
+        registrationEnd: "2024-07-30T00:37:23.034Z",
+        location: "건대입구",
+        participantCount: 1,
+        capacity: 5,
+        image:
+          "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/together-dallaem/1722299746603_company.jpg",
+        createdBy: 488,
+        canceledAt: null,
       },
       user: {
-        teamId: 0,
-        id: 0,
-        email: "string",
-        name: "string",
+        teamId: "team555",
+        id: 488,
+        email: "test2@test.com",
+        password: "$2a$10$oS77Ad4qyJdt.TRGtEBVmebXvt0J7z7VcL/KEfOcWPYtbQn/kbAZi",
+        name: "테스트",
+        companyName: "테스트회사",
+        image: null,
+        createdAt: "2024-07-30T00:25:43.947Z",
+        updatedAt: "2024-07-30T00:25:43.947Z",
+        deletedAt: null,
       },
     }
     render(await Review(props))
@@ -62,22 +92,46 @@ describe("리뷰 컴포넌트를 테스트 합니다.", () => {
     expect(screen.getByAltText(/유저 이미지/)).toBeInTheDocument()
   })
 
-  test.skip("image props가 존재하면 상세정보를 통해 image 주소를 가져와서 그려줍니다. MSW 오류", async () => {
+  test("isImage가 true면 UI가 변합니다.", async () => {
     const props = {
-      score: 0,
-      comment: "커맨드",
-      createdAt: "2024-07-31T09:06:16.184Z",
+      teamId: "team555",
+      id: 304,
+      userId: 488,
+      gatheringId: 814,
+      score: 5,
+      comment: "재밌네요",
+      createdAt: "2024-07-30T00:42:12.233Z",
       gathering: {
-        teamId: 0,
-        id: 0,
-        name: "모입1",
-        dateTime: "2024-07-31T09:06:16.184Z",
-        location: "서울",
+        teamId: "team555",
+        id: 814,
+        type: "OFFICE_STRETCHING",
+        name: "모임2",
+        dateTime: "2024-07-30T00:39:32.296Z",
+        registrationEnd: "2024-07-30T00:37:23.034Z",
+        location: "건대입구",
+        participantCount: 1,
+        capacity: 5,
+        image:
+          "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/together-dallaem/1722299746603_company.jpg",
+        createdBy: 488,
+        canceledAt: null,
       },
-      image: true,
+      user: {
+        teamId: "team555",
+        id: 488,
+        email: "test2@test.com",
+        password: "$2a$10$oS77Ad4qyJdt.TRGtEBVmebXvt0J7z7VcL/KEfOcWPYtbQn/kbAZi",
+        name: "테스트",
+        companyName: "테스트회사",
+        image: null,
+        createdAt: "2024-07-30T00:25:43.947Z",
+        updatedAt: "2024-07-30T00:25:43.947Z",
+        deletedAt: null,
+      },
+      isImage: true,
     }
     render(await Review(props))
 
-    expect(await screen.findByAltText(/모임 이미지/)).toBeInTheDocument()
+    expect(screen.getByAltText(/모임 이미지/)).toBeInTheDocument()
   })
 })

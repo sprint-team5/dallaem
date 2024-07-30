@@ -1,18 +1,11 @@
 import Image from "next/image"
 
 import Heart from "@/components/public/icon/dynamicIcon/Heart"
+import { IGathering } from "@/types/review/filter"
 import dayjs from "dayjs"
 
-interface IGathering {
-  teamId: number
-  id: number
-  name: string
-  dateTime: string
-  location: string
-}
-
 interface IUser {
-  teamId: number
+  teamId: string
   id: number
   email: string
   name: string
@@ -24,40 +17,31 @@ export interface IReviewProps {
   createdAt: string
   gathering: IGathering
   user?: IUser
+  isImage?: boolean
 }
 
 /**
  * @interface IReviewProps
  * @param {number} score - 리뷰 점수 0 ~ 5
- * @param {boolean} image - true일 경우 상세정보 API에서 이미지를 추출해서 사용합니다.
+ * @param {boolean} isImage - true일 경우 상세정보 API에서 이미지를 추출해서 사용합니다.
  * @param {string} comment - 댓글 문구
  * @param {string} createdAt - 생성일 YYYY-MM-DDTHH:MM:SS
  * @param {{teamId: number, id: number, name: string, dateTime: string, location: string}} gathering 모임 객체
  * @param {{teamId: number,id: number,email: string,name: string}} IUser 유저 객체
  */
-const Review = ({ score, comment, createdAt, gathering, user }: IReviewProps) => {
-  /* let imgSrc = ""
-  if (image) {
-    imgSrc = await getGenerateMeetImage(gathering)
-  } */
-
+const Review = ({ score, comment, createdAt, gathering, user, isImage }: IReviewProps) => {
   return (
     <div className="flex flex-col gap-6 border-b-2 border-dashed border-gray-200 pb-6 sm:flex-row">
-      {/* {image && (
+      {isImage && (
         <div className="relative h-[156px] w-full flex-none overflow-hidden rounded-3xl sm:w-[280px]">
-          {imgSrc ? (
-            <Image
-              className="object-cover object-center"
-              src={imgSrc || ""}
-              alt={`${gathering.name} 모임 이미지`}
-              fill
-            />
-          ) : (
-            <div className="absolute bottom-0 left-0 right-0 top-0 bg-gray-500" />
-          )}
+          <Image
+            className="object-cover object-center"
+            src={gathering.image}
+            alt={`${gathering.name} 모임 이미지`}
+            fill
+          />
         </div>
-      )} */}
-
+      )}
       <div>
         <div className="flex gap-1">
           {Array(5)

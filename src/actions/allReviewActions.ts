@@ -1,41 +1,45 @@
 "use server"
 
-export interface Root2 {
-  teamId: number
+import { IGathering } from "@/types/review/filter"
+import { convertParamsToQueryString } from "@/utill/fetchParameterParser"
+
+export interface IAllReview {
+  teamId: string
   id: number
   score: number
   comment: string
   createdAt: string
-  Gathering: Gathering
-  User: User
+  Gathering: IGathering
+  User: IUser
+  image: string
 }
 
-export interface Gathering {
-  teamId: number
-  id: number
-  name: string
-  dateTime: string
-  location: string
-}
-
-export interface User {
-  teamId: number
+export interface IUser {
+  teamId: string
   id: number
   email: string
   name: string
 }
 
-const getAllReview = async (): Promise<Root2[]> => {
+const getAllReview = async (params: any): Promise<IAllReview[]> => {
+  const query = convertParamsToQueryString(params)
   try {
-    const response = await fetch(`${process.env.BASE_URL}/reviews`)
+    const response = await fetch(
+      `${process.env.BASE_URL}/${process.env.TEAM_ID}/reviews?${query}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    )
     if (!response.ok) {
       const { message } = await response.json()
       throw new Error(message)
     }
-    const data = await response.json()
-    return data
-  } catch (err) {
-    return []
+    const json = await response.json()
+    return json
+  } catch (err: any) {
+    throw new Error(err.message)
   }
 }
 

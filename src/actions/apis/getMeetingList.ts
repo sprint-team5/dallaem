@@ -3,8 +3,6 @@
 import { IFilterOption } from "@/types/meeting/meeting"
 import { convertParamsToQueryString } from "@/utill/fetchParameterParser"
 
-// import { redirect } from "next/navigation"
-
 const getMeetingList = async (params: IFilterOption) => {
   try {
     const query = convertParamsToQueryString(params)
