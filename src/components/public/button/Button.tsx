@@ -21,6 +21,7 @@ const buttonStyles = {
 interface IButtonProps {
   className?: string
   borderStyle: "solid" | "outlined"
+  type?: "submit" | "reset" | "button" | undefined
   disabled?: boolean
   children: React.ReactNode
   onClick: () => void
@@ -29,7 +30,7 @@ interface IButtonProps {
 const getButtonClasses = ({
   borderStyle,
   disabled,
-}: Omit<IButtonProps, "className" | "children" | "onClick">) => {
+}: Omit<IButtonProps, "className" | "type" | "children" | "onClick">) => {
   const {
     default: defaultStyle,
     hover,
@@ -41,12 +42,20 @@ const getButtonClasses = ({
   return `${baseStyles} ${styleClasses}`.trim()
 }
 
-const Button = ({ className, borderStyle, disabled = false, children, onClick }: IButtonProps) => {
+const Button = ({
+  className,
+  borderStyle,
+  type = "button",
+  disabled = false,
+  children,
+  onClick,
+}: IButtonProps) => {
   const buttonClasses = getButtonClasses({ borderStyle, disabled })
 
   return (
     <button
-      type="button"
+      // eslint-disable-next-line react/button-has-type
+      type={type}
       className={`${buttonClasses} ${className}`.trim()}
       disabled={disabled}
       onClick={() => {
