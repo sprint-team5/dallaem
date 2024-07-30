@@ -15,13 +15,14 @@ const optionStyles = "cursor-pointer px-4 py-2 hover:bg-[#FFEDD5] hover:rounded-
 const selectedOptionStyles = "bg-[#FFEDD5] rounded-xl"
 
 interface IDropdownProps {
+  name: string | undefined
   baseStyles?: string
   iconBaseStyles: string
   options: string[]
   onSelect: (index: number) => void
 }
 
-const Dropdown = ({ baseStyles, iconBaseStyles, options, onSelect }: IDropdownProps) => {
+const Dropdown = ({ name, baseStyles, iconBaseStyles, options, onSelect }: IDropdownProps) => {
   const [isOpen, setIsOpen] = useState(false)
   const [selectedOption, setSelectedOption] = useState(options[0])
   const [isOptionSelected, setIsOptionSelected] = useState(false)
@@ -54,6 +55,7 @@ const Dropdown = ({ baseStyles, iconBaseStyles, options, onSelect }: IDropdownPr
   return (
     <div className="relative" ref={dropdownRef}>
       <button
+        name={name}
         type="button"
         className={`${baseStyles} ${dropdownBaseStyles} ${buttonTextColor}`.trim()}
         onClick={toggleDropdown}

@@ -40,6 +40,7 @@ const iconBaseStyles = "absolute right-4 top-1/2 -translate-y-1/2"
 interface IInputFieldProps {
   className?: string
   size: "small" | "large"
+  name?: string
   errorMessage?: string
   inputType: "input" | "dropdown"
 
@@ -55,6 +56,7 @@ interface IInputFieldProps {
  * @interface IInputFieldProps
  * @param className - 추가적인 스타일을 작성할 때 사용합니다.
  * @param size - InputFIeld 컴포넌트의 height 크기를 정합니다.
+ * @param name - form에서 전달될 name을 정합니다.
  * @param errorMessage - InputField에 표시될 에러 메시지입니다.
  * @param inputType - InputField를 Input으로 사용할지 Dropdown으로 사용할지를 정합니다.
  *
@@ -72,6 +74,7 @@ interface IInputFieldProps {
 const InputField = ({
   className,
   size,
+  name,
   errorMessage,
   inputType,
   placeholder,
@@ -103,6 +106,7 @@ const InputField = ({
 
   return inputType === "dropdown" && options && onSelect ? (
     <Dropdown
+      name={name}
       baseStyles={inputClasses}
       iconBaseStyles={iconBaseStyles}
       options={options}
@@ -112,6 +116,7 @@ const InputField = ({
     <div>
       <div className="relative">
         <input
+          name={name}
           type={isPasswordVisible}
           className={inputClasses}
           onChange={onChangeHandler}
