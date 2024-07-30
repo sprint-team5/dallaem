@@ -1,6 +1,6 @@
 import Image from "next/image"
 
-import ProfiLargeDefaultIMG from "@public/img/profile_large_default.png"
+import ProfileLargeDefaultIMG from "@public/img/profile_large_default.png"
 import ProfileLargeEditIMG from "@public/img/profile_large_edit.png"
 import ProfileSmallDefaultIMG from "@public/img/profile_small_default.png"
 
@@ -37,10 +37,10 @@ const Profile = ({ className, state, profileImg }: IProfileProps) => {
       return (
         <div className={className}>
           <Image
-            src={ProfiLargeDefaultIMG}
+            src={ProfileLargeDefaultIMG}
             width={56}
             height={56}
-            alt="ProfiLargeDefaultIMG"
+            alt="ProfileLargeDefaultIMG"
             layout="cover"
           />
         </div>

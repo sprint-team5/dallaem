@@ -11,11 +11,11 @@ import ProfileComponent from "./components/ProfileComponent"
 
 const gnbStyles = {
   container:
-    "fixed top-0 flex w-full items-center justify-center whitespace-nowrap bg-[#EA580C] z-50",
+    "z-50 border-b-2 fixed top-0 left-0 border-black flex w-full items-center justify-center whitespace-nowrap bg-[#EA580C]",
   wrapper: {
     default: "flex items-center justify-between relative",
-    mobile: "h-[56px] w-[375px]",
-    tablet: "md:h-[60px] md:w-[744px]",
+    mobile: "h-[54px] w-[375px]",
+    tablet: "md:h-[58px] md:w-[744px]",
     desktop: "xl:w-[1198px]",
   },
   navbar: {
@@ -46,7 +46,9 @@ const GNB = ({ userToken }: IGNBProps) => {
 
   // 현재 경로가 showGNBPaths에 포함되어 있는지 확인
   function isValidRoute(path: string): path is keyof typeof ROUTE {
-    return Object.values(ROUTE).includes(path as any)
+    return Object.values(ROUTE).some((route) => {
+      return path === route || (route !== "/" && path.startsWith(route))
+    })
   }
 
   const shouldShowGNB = isValidRoute(currentPath as keyof typeof ROUTE)
