@@ -3,7 +3,7 @@
 import ProfileBox from "@/components/public/ProfileBox"
 
 const MyPage = async () => {
-  // fixme: userToken 생성 후 활성화
+  // fixme: userToken 생성 후 middleware로 이동 예정
   // if (!cookies().get("userToken")) {
   //   redirect("/")
   // }
