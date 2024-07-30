@@ -1,8 +1,8 @@
-import logOut from "@/lib/logout"
+import onLogout from "@/actions/onLogout"
 
 const LogoutBtn = () => {
   return (
-    <form action={logOut}>
+    <form action={onLogout}>
       <button type="submit" className="rounded-full bg-gray-100 px-3 py-1 text-gray-400">
         로그아웃
       </button>

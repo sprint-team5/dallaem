@@ -1,7 +1,7 @@
 "use server"
 
 import { IFilterOption } from "@/types/meeting/meeting"
-import { convertParamsToQueryString } from "@/utill/fetchParameterParser"
+import { convertParamsToQueryString } from "@/util/fetchParameterParser"
 
 const getMeetingList = async (params: IFilterOption) => {
   try {

@@ -1,7 +1,7 @@
 "use server"
 
 import { IGathering } from "@/types/review/filter"
-import { convertParamsToQueryString } from "@/utill/fetchParameterParser"
+import { convertParamsToQueryString } from "@/util/fetchParameterParser"
 
 export interface IAllReview {
   teamId: string
