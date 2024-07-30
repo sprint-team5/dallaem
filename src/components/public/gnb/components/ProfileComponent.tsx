@@ -8,7 +8,7 @@ import { useRef, useState } from "react"
 import onLogout from "@/actions/onLogout"
 import Profile from "@/components/public/img/Profile"
 import ROUTE from "@/constants/route"
-import useOutsideClick from "@/utill/useOutsideClick"
+import useOutsideClick from "@/util/useOutsideClick"
 
 const navBaseStyles = "font-semibold  text-[#FFF7ED]"
 const profileStyles = "w-[40px] h-[40px]"

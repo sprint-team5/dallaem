@@ -17,6 +17,14 @@ const nextConfig = {
       },
     ],
   },
+  async rewrites() {
+    return [
+      {
+        source: "/mypage/edit",
+        destination: "/mypage",
+      },
+    ]
+  },
 }
 
 export default nextConfig

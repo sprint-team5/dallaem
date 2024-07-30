@@ -3,7 +3,7 @@
 import { useRef, useState } from "react"
 
 import Arrow from "@/components/public/icon/dynamicIcon/Arrow"
-import useOutsideClick from "@/utill/useOutsideClick"
+import useOutsideClick from "@/util/useOutsideClick"
 
 // 테일윈드 클래스 선언
 const dropdownBaseStyles = "font-medium text-left"
