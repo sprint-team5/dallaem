@@ -2,12 +2,12 @@ import ImgLogin from "@/components/public/img/ImgLogin"
 
 import FormComponent from "./FormComponent"
 
-const signupPageStyles = {
+const signinPageStyles = {
   constainer: {
     default: "w-full bg-slate-100",
-    mobile: "min-h-[1168px] pt-[33px] pb-[58px]",
-    tablet: "md:min-h-[1343px] md:pt-10 md:pb-[84px]",
-    desktop: "2xl:min-h-[1080px] 2xl:py-[185px]",
+    mobile: "min-h-[906px] pt-[33px] pb-[72px]",
+    tablet: "md:min-h-[1133px] md:pt-10 md:pb-[162px]",
+    desktop: "2xl:min-h-[1080px] 2xl:py-[329px]",
   },
   wrapper: {
     default: "flex flex-col items-center justify-center",
@@ -23,11 +23,11 @@ const signupPageStyles = {
   },
 }
 
-const containerStyles = `${signupPageStyles.constainer.default} ${signupPageStyles.constainer.mobile} ${signupPageStyles.constainer.tablet} ${signupPageStyles.constainer.desktop}`
-const wrapperStyles = `${signupPageStyles.wrapper.default} ${signupPageStyles.wrapper.mobile} ${signupPageStyles.wrapper.tablet} ${signupPageStyles.wrapper.desktop}`
-const imgStyles = `${signupPageStyles.img.default} ${signupPageStyles.img.mobile} ${signupPageStyles.img.tablet} ${signupPageStyles.img.desktop}`
+const containerStyles = `${signinPageStyles.constainer.default} ${signinPageStyles.constainer.mobile} ${signinPageStyles.constainer.tablet} ${signinPageStyles.constainer.desktop}`
+const wrapperStyles = `${signinPageStyles.wrapper.default} ${signinPageStyles.wrapper.mobile} ${signinPageStyles.wrapper.tablet} ${signinPageStyles.wrapper.desktop}`
+const imgStyles = `${signinPageStyles.img.default} ${signinPageStyles.img.mobile} ${signinPageStyles.img.tablet} ${signinPageStyles.img.desktop}`
 
-const SignupPage = () => {
+const SigninPage = () => {
   return (
     <div className={containerStyles}>
       <div className={wrapperStyles}>
@@ -43,4 +43,4 @@ const SignupPage = () => {
   )
 }
 
-export default SignupPage
+export default SigninPage
