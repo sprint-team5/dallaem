@@ -15,7 +15,7 @@ const optionStyles = "cursor-pointer px-4 py-2 hover:bg-[#FFEDD5] hover:rounded-
 const selectedOptionStyles = "bg-[#FFEDD5] rounded-xl"
 
 interface IDropdownProps {
-  name: string | undefined
+  name: string
   baseStyles?: string
   iconBaseStyles: string
   options: string[]

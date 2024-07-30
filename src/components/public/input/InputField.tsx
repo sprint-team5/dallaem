@@ -40,7 +40,7 @@ const iconBaseStyles = "absolute right-4 top-1/2 -translate-y-1/2"
 interface IInputFieldProps {
   className?: string
   size: "small" | "large"
-  name?: string
+  name: string
   errorMessage?: string
   inputType: "input" | "dropdown"
 
