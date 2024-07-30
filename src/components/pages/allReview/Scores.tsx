@@ -16,13 +16,19 @@ const RatingBar = ({
   count: number
   maxScore: number
 }) => {
+  const [width, setWidth] = useState("0%")
+
+  useEffect(() => {
+    setWidth(`${(count / maxScore) * 100}%`)
+  }, [count, maxScore])
+
   return (
     <div className="mt-1 flex items-center gap-3 text-sm font-medium leading-5 first:mt-0">
       <p className="w-[21px] flex-none">{rating}점</p>
       <div className="relative h-1 w-[84px] overflow-hidden rounded-full bg-gray-200 sm:w-[240px]">
         <div
-          className="absolute left-0 top-0 h-full rounded-full bg-[#111827] transition-all delay-100"
-          style={{ width: `${(count / maxScore) * 100}%` }}
+          style={{ width }}
+          className="absolute left-0 top-0 h-full rounded-full bg-[#111827] transition-all delay-100 duration-500"
         />
       </div>
       <p className="flex-none text-gray-400">{count}</p>
@@ -33,6 +39,7 @@ const RatingBar = ({
 const Scores = () => {
   const [allScore, setAllScore] = useState(0)
   const [maxScore, setMaxScore] = useState(0)
+  const [clipPath, setClipPath] = useState(`inset(0 100% 0 0)`)
 
   const [filter, setFilter] = useState({
     type: "DALLAEMFIT",
@@ -53,6 +60,12 @@ const Scores = () => {
     setAllScore(totalScore / allReviewLength)
     setMaxScore(Math.max(oneStar, twoStars, threeStars, fourStars, fiveStars) + 5)
   }, [score])
+
+  useEffect(() => {
+    setTimeout(() => {
+      setClipPath(`inset(0 ${100 - (allScore / 5) * 100}% 0 0)`)
+    }, 100)
+  }, [allScore])
 
   // TODO: 이벤트를 넘기지 않고 수정할 값만 파싱해서 넘기도록 수정 필요(역할, 책임 등의 문제)
   const onFilterChanged = (
@@ -97,7 +110,7 @@ const Scores = () => {
           }}
         />
       </div>
-      <div className="mt-6 flex h-[180px] items-center justify-center gap-5 border-b border-t sm:gap-[120px] md:gap-[188px]">
+      <div className="mt-6 flex h-[180px] items-center justify-center gap-5 border-b border-t sm:gap-[120px] md:gap-[138px] lg:gap-[188px]">
         {score && score.length > 0 ? (
           <>
             <div>
@@ -109,8 +122,8 @@ const Scores = () => {
                   return <Heart key={index + 1} state="default" />
                 })}
                 <div
-                  style={{ clipPath: `inset(0 ${100 - (allScore / 5) * 100}% 0 0)` }}
-                  className="absolute left-0 top-0 z-10 flex gap-[2px]"
+                  style={{ clipPath }}
+                  className="absolute left-0 top-0 z-10 flex gap-[2px] transition-all delay-100 duration-500"
                 >
                   {Array.from({ length: 5 }, (_, index) => {
                     return <Heart key={index + 1} state="active" />

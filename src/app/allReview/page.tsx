@@ -16,7 +16,7 @@ const AllReviewsPage = async () => {
   })
 
   return (
-    <main className="bg-slate-400">
+    <main>
       <div className="mx-auto flex min-h-screen max-w-[1200px] flex-col bg-white px-4 pb-[51px] pt-6 sm:px-6 sm:pt-[40px] md:px-[102px]">
         <div className="flex-none">
           <div className="flex items-center gap-4 sm:gap-[13px]">
