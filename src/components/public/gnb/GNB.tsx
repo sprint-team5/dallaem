@@ -11,11 +11,11 @@ import ProfileComponent from "./components/ProfileComponent"
 
 const gnbStyles = {
   container:
-    "fixed top-0 flex w-full items-center justify-center whitespace-nowrap bg-[#EA580C] z-50",
+    "border-b-2 border-black fixed top-0 flex w-full items-center justify-center whitespace-nowrap bg-[#EA580C]",
   wrapper: {
     default: "flex items-center justify-between relative",
-    mobile: "h-[56px] w-[375px]",
-    tablet: "md:h-[60px] md:w-[744px]",
+    mobile: "h-[54px] w-[375px]",
+    tablet: "md:h-[58px] md:w-[744px]",
     desktop: "xl:w-[1198px]",
   },
   navbar: {

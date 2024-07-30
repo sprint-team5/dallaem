@@ -37,10 +37,10 @@ const Profile = ({ className, state, profileImg }: IProfileProps) => {
       return (
         <div className={className}>
           <Image
-            src={ProfiLargeDefaultIMG}
+            src={ProfileLargeDefaultIMG}
             width={56}
             height={56}
-            alt="ProfiLargeDefaultIMG"
+            alt="ProfileLargeDefaultIMG"
             layout="cover"
           />
         </div>
