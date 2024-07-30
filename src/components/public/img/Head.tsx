@@ -12,16 +12,25 @@ interface IHeadProps {
 const Head = ({ className, state }: IHeadProps) => {
   switch (state) {
     case "class": {
-      const newClassName = `${className} w-[72px] h-[72px]`
-      return <Image src={HeadClassIMG} alt="HeadClassIMG" className={newClassName} />
+      return (
+        <div className={className}>
+          <Image width={72} height={72} src={HeadClassIMG} alt="HeadClassIMG" layout="cover" />
+        </div>
+      )
     }
     case "review": {
-      const newClassName = `${className} w-[72px] h-[72px]`
-      return <Image src={HeadReviewIMG} alt="HeadReviewIMG" className={newClassName} />
+      return (
+        <div className={className}>
+          <Image width={72} height={72} src={HeadReviewIMG} alt="HeadReviewIMG" layout="cover" />
+        </div>
+      )
     }
     case "saved": {
-      const newClassName = `${className} w-[72px] h-[72px]`
-      return <Image src={HeadSavedIMG} alt="HeadSavedIMG" className={newClassName} />
+      return (
+        <div className={className}>
+          <Image width={72} height={72} src={HeadSavedIMG} alt="HeadSavedIMG" layout="cover" />
+        </div>
+      )
     }
     default:
       return null

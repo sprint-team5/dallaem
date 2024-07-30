@@ -11,12 +11,18 @@ interface IEditProps {
 const Edit = ({ className, state }: IEditProps) => {
   switch (state) {
     case "small": {
-      const newClassName = `${className} w-[18px] h-[18px]`
-      return <Image src={EditSmallIMG} alt="EditSmallIMG" className={newClassName} />
+      return (
+        <div className={className}>
+          <Image width={18} height={18} src={EditSmallIMG} alt="EditSmallIMG" layout="cover" />
+        </div>
+      )
     }
     case "large": {
-      const newClassName = `${className} w-8 h-8`
-      return <Image src={EditLargeIMG} alt="EditLargeIMG" className={newClassName} />
+      return (
+        <div className={className}>
+          <Image width={32} height={32} src={EditLargeIMG} alt="EditLargeIMG" layout="cover" />
+        </div>
+      )
     }
     default:
       return null
