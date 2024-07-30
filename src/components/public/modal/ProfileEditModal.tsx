@@ -18,7 +18,7 @@ const ProfileEditModal = ({ company = "코드잇", src }: IProfileEditModalProps
   return (
     <form
       action={editProfileInfo}
-      className="mt-1/2 mx-auto flex w-modal-md flex-col gap-4 rounded-xl border bg-white p-6 shadow-md lg:w-modal-lg"
+      className="mt-1/2 absolute left-0 right-0 top-1/4 mx-auto flex w-modal-md flex-col gap-4 rounded-xl border bg-white p-6 shadow-md lg:w-modal-lg"
     >
       <div className="flex items-center justify-between">
         <h3 className="text-lg font-semibold">프로필 수정하기</h3>
