@@ -11,7 +11,7 @@ import ProfileComponent from "./components/ProfileComponent"
 
 const gnbStyles = {
   container:
-    "z-10 border-b-2 fixed top-0 left-0 border-black flex w-full items-center justify-center whitespace-nowrap bg-[#EA580C]",
+    "z-50 border-b-2 fixed top-0 left-0 border-black flex w-full items-center justify-center whitespace-nowrap bg-[#EA580C]",
   wrapper: {
     default: "flex items-center justify-between relative",
     mobile: "h-[54px] w-[375px]",
