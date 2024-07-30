@@ -19,15 +19,15 @@ const formStyles = {
 
 const containerStyles = `${formStyles.container.default} ${formStyles.container.mobile} ${formStyles.container.tablet} ${formStyles.container.desktop}`
 
-const FormComponent = () => {
+const SignupForm = () => {
   const onButtonClick = () => {}
 
   const inputFieldValue = [
-    { name: "이름", isPassword: false },
-    { name: "아이디", isPassword: false },
-    { name: "회사명", isPassword: false },
-    { name: "비밀번호", isPassword: true },
-    { name: "비밀번호 확인", isPassword: true },
+    { label: "이름", name: "name", isPassword: false },
+    { label: "아이디", name: "email", isPassword: false },
+    { label: "회사명", name: "companyName", isPassword: false },
+    { label: "비밀번호", name: "password", isPassword: true },
+    { label: "비밀번호 확인", name: "password_correct", isPassword: true },
   ]
 
   return (
@@ -36,9 +36,10 @@ const FormComponent = () => {
         <span className="text-center text-gray-800">회원가입</span>
         {inputFieldValue.map((value) => {
           return (
-            <div key={value.name}>
-              <span>{value.name}</span>
+            <div key={value.label}>
+              <span>{value.label}</span>
               <InputField
+                name={value.name}
                 inputType="input"
                 size="small"
                 errorMessage=""
@@ -67,4 +68,4 @@ const FormComponent = () => {
   )
 }
 
-export default FormComponent
+export default SignupForm
