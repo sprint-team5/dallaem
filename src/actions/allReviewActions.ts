@@ -25,7 +25,7 @@ const getAllReview = async (params: any): Promise<IAllReview[]> => {
   const query = convertParamsToQueryString(params)
   try {
     const response = await fetch(
-      `${process.env.BASE_URL}/${process.env.TEAM_ID}/reviews1q23?${query}`,
+      `${process.env.BASE_URL}/${process.env.TEAM_ID}/reviews?${query}`,
       {
         headers: {
           "Content-Type": "application/json",
