@@ -1,6 +1,5 @@
 import Image from "next/image"
 
-import ReviewImage from "@/components/public/Review/ReviewImage"
 import Heart from "@/components/public/icon/dynamicIcon/Heart"
 import { IGathering } from "@/types/review/filter"
 import dayjs from "dayjs"
@@ -33,7 +32,16 @@ export interface IReviewProps {
 const Review = ({ score, comment, createdAt, gathering, user, image }: IReviewProps) => {
   return (
     <div className="flex flex-col gap-6 border-b-2 border-dashed border-gray-200 pb-6 sm:flex-row">
-      {image && <ReviewImage gathering={gathering} />}
+      {image && (
+        <div className="relative h-[156px] w-full flex-none overflow-hidden rounded-3xl sm:w-[280px]">
+          <Image
+            className="object-cover object-center"
+            src={gathering.image}
+            alt={`${gathering.name} 모임 이미지`}
+            fill
+          />
+        </div>
+      )}
       <div>
         <div className="flex gap-1">
           {Array(5)

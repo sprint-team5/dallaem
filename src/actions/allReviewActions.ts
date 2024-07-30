@@ -1,33 +1,27 @@
 "use server"
 
+import { IGathering } from "@/types/review/filter"
 import { convertParamsToQueryString } from "@/utill/fetchParameterParser"
 
-export interface Root2 {
+export interface IAllReview {
   teamId: string
   id: number
   score: number
   comment: string
   createdAt: string
-  Gathering: Gathering
-  User: User
+  Gathering: IGathering
+  User: IUser
+  image: string
 }
 
-export interface Gathering {
-  teamId: string
-  id: number
-  name: string
-  dateTime: string
-  location: string
-}
-
-export interface User {
+export interface IUser {
   teamId: string
   id: number
   email: string
   name: string
 }
 
-const getAllReview = async (params: any): Promise<Root2[]> => {
+const getAllReview = async (params: any): Promise<IAllReview[]> => {
   const query = convertParamsToQueryString(params)
   try {
     const response = await fetch(`${process.env.BASE_URL}/${process.env.TEAM_ID}/reviews?${query}`)
@@ -35,52 +29,10 @@ const getAllReview = async (params: any): Promise<Root2[]> => {
       const { message } = await response.json()
       throw new Error(message)
     }
-    // const data = await response.json()
-    return [
-      {
-        teamId: "team555",
-        id: 0,
-        score: 3,
-        comment: "string",
-        createdAt: "2024-07-29T00:40:01.313Z",
-        Gathering: {
-          teamId: "team555",
-          id: 812,
-          name: "string",
-          dateTime: "2024-07-29T00:40:01.313Z",
-          location: "string",
-        },
-        User: {
-          teamId: "1",
-          id: 482,
-          email: "string",
-          name: "string",
-        },
-      },
-      {
-        teamId: "team555",
-        id: 1,
-        score: 5,
-        comment: "string",
-        createdAt: "2024-07-29T00:40:01.313Z",
-        Gathering: {
-          teamId: "team555",
-          id: 810,
-          name: "string",
-          dateTime: "2024-07-29T00:40:01.313Z",
-          location: "string",
-        },
-        User: {
-          teamId: "1",
-          id: 482,
-          email: "string",
-          name: "string",
-        },
-      },
-    ]
+    const json = await response.json()
+    return json
   } catch (err) {
-    console.log(err)
-    return []
+    throw new Error(err as string)
   }
 }
 
