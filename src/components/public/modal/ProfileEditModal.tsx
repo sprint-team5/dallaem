@@ -2,8 +2,8 @@
 
 import Image from "next/image"
 
+import editProfileInfo from "@/actions/editProfileInfo"
 import CancelButton from "@/components/app/mypage/CancelButton"
-import editProfileInfo from "@/lib/editProfileInfo"
 
 import CloseBtn from "../CloseBtn"
 import Profile from "../img/Profile"
