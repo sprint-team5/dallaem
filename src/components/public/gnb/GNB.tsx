@@ -10,7 +10,8 @@ import ROUTE from "@/constants/route"
 import ProfileComponent from "./components/ProfileComponent"
 
 const gnbStyles = {
-  container: "fixed top-0 flex w-full items-center justify-center whitespace-nowrap bg-[#EA580C]",
+  container:
+    "fixed top-0 flex w-full items-center justify-center whitespace-nowrap bg-[#EA580C] z-50",
   wrapper: {
     default: "flex items-center justify-between relative",
     mobile: "h-[56px] w-[375px]",
