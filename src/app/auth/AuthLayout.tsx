@@ -1,9 +1,7 @@
 import ImgLogin from "@/components/public/img/ImgLogin"
 
-import FormComponent from "./FormComponent"
-
-const signinPageStyles = {
-  constainer: {
+const authLayoutStyles = {
+  container: {
     default: "w-full bg-slate-100",
     mobile: "min-h-[906px] pt-[33px] pb-[72px]",
     tablet: "md:min-h-[1133px] md:pt-10 md:pb-[162px]",
@@ -23,11 +21,15 @@ const signinPageStyles = {
   },
 }
 
-const containerStyles = `${signinPageStyles.constainer.default} ${signinPageStyles.constainer.mobile} ${signinPageStyles.constainer.tablet} ${signinPageStyles.constainer.desktop}`
-const wrapperStyles = `${signinPageStyles.wrapper.default} ${signinPageStyles.wrapper.mobile} ${signinPageStyles.wrapper.tablet} ${signinPageStyles.wrapper.desktop}`
-const imgStyles = `${signinPageStyles.img.default} ${signinPageStyles.img.mobile} ${signinPageStyles.img.tablet} ${signinPageStyles.img.desktop}`
+const containerStyles = `${authLayoutStyles.container.default} ${authLayoutStyles.container.mobile} ${authLayoutStyles.container.tablet} ${authLayoutStyles.container.desktop}`
+const wrapperStyles = `${authLayoutStyles.wrapper.default} ${authLayoutStyles.wrapper.mobile} ${authLayoutStyles.wrapper.tablet} ${authLayoutStyles.wrapper.desktop}`
+const imgStyles = `${authLayoutStyles.img.default} ${authLayoutStyles.img.mobile} ${authLayoutStyles.img.tablet} ${authLayoutStyles.img.desktop}`
 
-const SigninPage = () => {
+interface AuthLayoutProps {
+  children: React.ReactNode
+}
+
+const AuthLayout = ({ children }: AuthLayoutProps) => {
   return (
     <div className={containerStyles}>
       <div className={wrapperStyles}>
@@ -37,10 +39,10 @@ const SigninPage = () => {
           <span className="font-medium"> 이제는 같이 달램과 함께 해보세요</span>
           <ImgLogin className={imgStyles} />
         </div>
-        <FormComponent />
+        {children}
       </div>
     </div>
   )
 }
 
-export default SigninPage
+export default AuthLayout
