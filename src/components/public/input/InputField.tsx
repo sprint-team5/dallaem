@@ -117,7 +117,7 @@ const InputField = ({
       <div className="relative">
         <input
           name={name}
-          type={isPasswordVisible}
+          type={isPassword ? isPasswordVisible : "text"}
           className={inputClasses}
           onChange={onChangeHandler}
           placeholder={placeholder}
