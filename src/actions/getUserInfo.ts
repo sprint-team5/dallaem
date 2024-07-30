@@ -16,7 +16,7 @@ const getUserInfo = async () => {
         "Content-type": "application/json",
         // fixme: 회원가입 및 로그인 기능 생성후 삭제할 것.
         Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFtSWQiOiJ0ZWFtNTU1IiwidXNlcklkIjo0ODUsImlhdCI6MTcyMTk3NjUzNCwiZXhwIjoxNzIxOTgwMTM0fQ.NLGl87lD-8KGVOqC72nNCvO6GLg5C27eA33OTNQLKHk",
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFtSWQiOiJ0ZWFtNTU1IiwidXNlcklkIjo0ODUsImlhdCI6MTcyMjMyMDQyNywiZXhwIjoxNzIyMzI0MDI3fQ.8rk4CdIs7jCUxmNq69bcIPJiaeUxQmKlP0l9ZxMrsNc",
       },
     })
     if (!response.ok) {

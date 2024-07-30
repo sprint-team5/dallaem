@@ -1,4 +1,4 @@
-import getUserInfo from "@/app/(MyPage)/mypage/getUserInfo"
+import getUserInfo from "@/actions/getUserInfo"
 
 import LogoutBtn from "./LogoutBtn"
 import ProfileEditBtn from "./ProfileEditBtn"
