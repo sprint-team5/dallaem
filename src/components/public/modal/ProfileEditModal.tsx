@@ -2,19 +2,48 @@
 
 import Image from "next/image"
 
+import { ChangeEvent, useEffect, useState } from "react"
+
 import editProfileInfo from "@/actions/editProfileInfo"
 import CancelButton from "@/components/app/mypage/CancelButton"
 
 import CloseBtn from "../CloseBtn"
 import Profile from "../img/Profile"
+import InputField from "../input/InputField"
 
 interface IProfileEditModalProps {
   company: string
   src?: string
 }
 
-const ProfileEditModal = ({ company = "코드잇", src }: IProfileEditModalProps) => {
-  const imgSrc = src ?? "/img/profile_large_default.png"
+const errorMessage: string = "회사명을 입력해주세요"
+
+const ProfileEditModal = ({ company, src = "" }: IProfileEditModalProps) => {
+  const [imgSrc, setImgSrc] = useState(src)
+  const [hasError, setHasError] = useState(false)
+
+  const changeFileHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const userImgInput = e.target.files[0]
+      const preview = URL.createObjectURL(userImgInput)
+      setImgSrc(preview)
+    }
+  }
+
+  const changeTextHandler = (value: string) => {
+    if (!value) {
+      setHasError(true)
+      return
+    }
+    setHasError(false)
+  }
+
+  useEffect(() => {
+    return () => {
+      URL.revokeObjectURL(imgSrc)
+      setImgSrc("")
+    }
+  })
   return (
     <form
       action={editProfileInfo}
@@ -24,23 +53,23 @@ const ProfileEditModal = ({ company = "코드잇", src }: IProfileEditModalProps
         <h3 className="text-lg font-semibold">프로필 수정하기</h3>
         <CloseBtn />
       </div>
-      <label htmlFor="userImg">
-        {src ? (
-          <Image src={imgSrc} alt="profile image" width={56} height={56} />
+      <label htmlFor="userImg" className="relative block h-[56px] w-[56px]">
+        {imgSrc ? (
+          <Image src={imgSrc} alt="profile image" className="rounded-full" fill />
         ) : (
           <Profile state="largeEdit" />
         )}
-        <input hidden id="userImg" name="userImg" type="file" />
+        <input hidden id="userImg" name="userImg" type="file" onChange={changeFileHandler} />
       </label>
       <div>
         <label htmlFor="company" className="font-semibold">
           회사
-          <input
-            id="company"
-            name="company"
-            type="text"
-            className="my-3 block w-full rounded-xl bg-gray-100 px-2.5 py-3.5 font-medium placeholder:text-black"
+          <InputField
+            size="large"
+            inputType="input"
             placeholder={company}
+            onChange={changeTextHandler}
+            errorMessage={hasError ? errorMessage : undefined}
           />
         </label>
       </div>
