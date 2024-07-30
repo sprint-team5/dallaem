@@ -14,9 +14,7 @@ const getUserInfo = async () => {
       method: "GET",
       headers: {
         "Content-type": "application/json",
-        // fixme: 회원가입 및 로그인 기능 생성후 삭제할 것.
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFtSWQiOiJ0ZWFtNTU1IiwidXNlcklkIjo0ODUsImlhdCI6MTcyMjMyMDQyNywiZXhwIjoxNzIyMzI0MDI3fQ.8rk4CdIs7jCUxmNq69bcIPJiaeUxQmKlP0l9ZxMrsNc",
+        // fixme: 회원가입 및 로그인 기능 생성 쿠키에서 추가
       },
     })
     if (!response.ok) {

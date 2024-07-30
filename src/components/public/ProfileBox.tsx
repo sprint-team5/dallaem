@@ -14,7 +14,7 @@ const ProfileBox = async () => {
       </div>
       <div className="relative">
         <div className="absolute -top-3 left-3 size-14 rounded-full">
-          <Profile state="largeDefault" />
+          <Profile profileImg={userInfo.image} state="largeDefault" />
         </div>
         <div className="absolute left-16 top-0 px-2 py-3">
           <div className="mb-1 flex items-center gap-3">

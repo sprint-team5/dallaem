@@ -1,15 +1,23 @@
 "use server"
 
 import { revalidatePath } from "next/cache"
-import { redirect } from "next/navigation"
 
 const editProfileInfo = async (formData: FormData) => {
+  const img = formData.get("image")
+
+  if (img instanceof File && img.size === 0) {
+    formData.set("image", "")
+  }
+
   await fetch(`${process.env.BASE_URL}/auths/user`, {
     method: "PUT",
     body: formData,
+    headers: {
+      "content-header": "multipart/form-data",
+    },
   })
+
   revalidatePath("/mypage")
-  redirect("/mypage")
 }
 
 export default editProfileInfo
