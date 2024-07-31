@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 
+import { usePostSignin } from "@/actions/api-hooks/Auths"
 import Button from "@/components/public/button/Button"
 import InputField from "@/components/public/input/InputField"
 import ROUTE from "@/constants/route"
@@ -19,17 +20,35 @@ const formStyles = {
 
 const containerStyles = `${formStyles.container.default} ${formStyles.container.mobile} ${formStyles.container.tablet} ${formStyles.container.desktop}`
 
+interface SigninData {
+  email: string
+  password: string
+}
+
 const SigninForm = () => {
-  const onButtonClick = () => {}
+  const { mutate: signin } = usePostSignin()
 
   const inputFieldValue = [
     { label: "아이디", name: "email", isPassword: false },
     { label: "비밀번호", name: "password", isPassword: true },
   ]
 
+  const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    const formData = new FormData(event.currentTarget)
+    const userData = Object.fromEntries(formData.entries()) as Record<string, string>
+
+    const signinData: SigninData = {
+      email: userData.email,
+      password: userData.password,
+    }
+
+    signin(signinData)
+  }
+
   return (
     <div className={containerStyles}>
-      <form className={formStyles.form}>
+      <form className={formStyles.form} onSubmit={submitHandler}>
         <span className="text-center text-gray-800">로그인</span>
         {inputFieldValue.map((value) => {
           return (
@@ -45,13 +64,7 @@ const SigninForm = () => {
             </div>
           )
         })}
-        <Button
-          type="submit"
-          className="mt-4"
-          borderStyle="solid"
-          disabled={false}
-          onClick={onButtonClick}
-        >
+        <Button type="submit" className="mt-4" borderStyle="solid" disabled={false}>
           확인
         </Button>
       </form>

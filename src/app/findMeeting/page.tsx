@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 
-import getMeetingList from "@/actions/apis/getMeetingList"
+import getMeetingList from "@/actions/api-hooks/getMeetingList"
 import FilterCalendar from "@/components/pages/findMeeting/FilterCalendar/FilterCalendar"
 import FilterSort from "@/components/pages/findMeeting/FilterSort/FilterSort"
 import FilterTab from "@/components/pages/findMeeting/FilterTab/FilterTab"
