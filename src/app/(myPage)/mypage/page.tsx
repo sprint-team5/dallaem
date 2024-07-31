@@ -1,5 +1,6 @@
 // import { cookies } from "next/headers"
 // import { redirect } from "next/navigation"
+import MyPageInfoTap from "@/components/pages/mypage/MyPageInfoTap"
 import ProfileBox from "@/components/public/ProfileBox"
 
 const MyPage = async () => {
@@ -11,6 +12,7 @@ const MyPage = async () => {
   return (
     <main>
       <ProfileBox />
+      <MyPageInfoTap />
     </main>
   )
 }
