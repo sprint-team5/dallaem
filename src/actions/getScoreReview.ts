@@ -1,6 +1,6 @@
 "use server"
 
-import { convertParamsToQueryString } from "@/utill/fetchParameterParser"
+import { convertParamsToQueryString } from "@/util/fetchParameterParser"
 
 interface IScoreReview {
   teamId: string

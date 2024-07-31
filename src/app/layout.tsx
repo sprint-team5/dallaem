@@ -1,8 +1,9 @@
 import type { Metadata } from "next"
 import localFont from "next/font/local"
+import { cookies } from "next/headers"
 
 import Providers from "@/components/app/provider"
-import LootLayout from "@/components/pages/layout/LootLayout"
+import GNB from "@/components/public/gnb/GNB"
 
 import "./globals.css"
 
@@ -52,11 +53,14 @@ const RootLayout = ({
 }: Readonly<{
   children: React.ReactNode
 }>) => {
+  const cookieStore = cookies()
+  const userToken = cookieStore.get("userToken")?.value
   return (
     <html lang="ko" className={pretendard.className}>
-      <body>
+      <body className="pt-[58px]">
         <Providers>
-          <LootLayout>{children}</LootLayout>
+          <GNB userToken={userToken} />
+          {children}
         </Providers>
       </body>
     </html>

@@ -6,6 +6,12 @@ import { redirect } from "next/navigation"
 import ROUTE from "@/constants/route"
 
 const onLogout = async () => {
+  await fetch(`${process.env.BASE_URL}/auths/signout`, {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+    },
+  })
   const cookieStore = cookies()
   cookieStore.delete("userToken")
 

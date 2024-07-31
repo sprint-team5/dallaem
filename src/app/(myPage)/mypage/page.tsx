@@ -1,5 +1,18 @@
-const myPage = () => {
-  return <div>마이페이지 입니다.</div>
+// import { cookies } from "next/headers"
+// import { redirect } from "next/navigation"
+import ProfileBox from "@/components/public/ProfileBox"
+
+const MyPage = async () => {
+  // fixme: userToken 생성 후 middleware로 이동 예정
+  // if (!cookies().get("userToken")) {
+  //   redirect("/")
+  // }
+
+  return (
+    <main>
+      <ProfileBox />
+    </main>
+  )
 }
 
-export default myPage
+export default MyPage

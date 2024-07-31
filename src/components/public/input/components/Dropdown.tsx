@@ -3,7 +3,7 @@
 import { useRef, useState } from "react"
 
 import Arrow from "@/components/public/icon/dynamicIcon/Arrow"
-import useOutsideClick from "@/utill/useOutsideClick"
+import useOutsideClick from "@/util/useOutsideClick"
 
 // 테일윈드 클래스 선언
 const dropdownBaseStyles = "font-medium text-left"
@@ -15,13 +15,14 @@ const optionStyles = "cursor-pointer px-4 py-2 hover:bg-[#FFEDD5] hover:rounded-
 const selectedOptionStyles = "bg-[#FFEDD5] rounded-xl"
 
 interface IDropdownProps {
+  name: string
   baseStyles?: string
   iconBaseStyles: string
   options: string[]
   onSelect: (index: number) => void
 }
 
-const Dropdown = ({ baseStyles, iconBaseStyles, options, onSelect }: IDropdownProps) => {
+const Dropdown = ({ name, baseStyles, iconBaseStyles, options, onSelect }: IDropdownProps) => {
   const [isOpen, setIsOpen] = useState(false)
   const [selectedOption, setSelectedOption] = useState(options[0])
   const [isOptionSelected, setIsOptionSelected] = useState(false)
@@ -54,6 +55,7 @@ const Dropdown = ({ baseStyles, iconBaseStyles, options, onSelect }: IDropdownPr
   return (
     <div className="relative" ref={dropdownRef}>
       <button
+        name={name}
         type="button"
         className={`${baseStyles} ${dropdownBaseStyles} ${buttonTextColor}`.trim()}
         onClick={toggleDropdown}

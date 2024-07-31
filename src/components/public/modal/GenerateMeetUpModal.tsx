@@ -1,12 +1,12 @@
 "use client"
 
-import generateMeetUp from "@/lib/generateMeetUp"
+import generateMeetUp from "@/actions/generateMeetUp"
 
 import CloseBtn from "../CloseBtn"
 
 const GenerateMeetUpModal = () => {
   return (
-    <form action={generateMeetUp} className="w-modal-lg mx-auto rounded-xl p-6 shadow-md">
+    <form action={generateMeetUp} className="mx-auto w-modal-lg rounded-xl p-6 shadow-md">
       <div className="flex justify-between">
         <h3 className="text-lg font-semibold">모임만들기</h3>
         <CloseBtn />
