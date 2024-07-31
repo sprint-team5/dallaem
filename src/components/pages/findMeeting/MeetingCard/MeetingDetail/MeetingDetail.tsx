@@ -2,8 +2,11 @@
 
 import Image from "next/image"
 
+import getAllReview, { IAllReview } from "@/actions/allReviewActions"
+import Review from "@/components/public/Review/Review"
 import { useMeetingDetail } from "@/hooks/useMeetingDetail"
 import { IMeetingData } from "@/types/meeting/meeting"
+import { useQuery } from "@tanstack/react-query"
 import dayjs from "dayjs"
 
 import DateTag from "../Atoms/DateTag"
@@ -77,20 +80,58 @@ const MeetingDetailCard = ({ data }: { data: IMeetingData }) => {
   )
 }
 
-const MeetingDetail = ({ id }: { id: string }) => {
-  const { data, status, error } = useMeetingDetail(id)
+const MeetingDetailReview = ({ reviews }: { reviews: Array<IAllReview> | undefined }) => {
   return (
-    <>
+    <div className="border-t-2 border-gray-200 p-6">
+      {reviews && reviews.length > 0 ? (
+        reviews.map((review) => {
+          return (
+            <Review
+              key={review.id}
+              score={review.score}
+              comment={review.comment}
+              gathering={review.Gathering}
+              createdAt={review.createdAt}
+              user={review.User}
+            />
+          )
+        })
+      ) : (
+        <div className="flex items-center justify-center whitespace-nowrap py-80 max-sm:p-40">
+          아직 리뷰가 없어요
+        </div>
+      )}
+    </div>
+  )
+}
+
+const MeetingDetail = ({ id }: { id: string }) => {
+  const { data: reviews } = useQuery({
+    queryKey: ["reviews", id],
+    queryFn: () => {
+      return getAllReview({ gatheringId: id })
+    },
+  })
+
+  const { data, status, error } = useMeetingDetail(id)
+
+  return (
+    <main className="flex max-w-[1200px] justify-center px-[102px] py-[40px] max-md:px-[24px] max-md:py-[24px] max-sm:flex-col max-sm:px-[16px]">
       {status === "success" && (
-        <div className="flex gap-6 px-[102px] py-[40px] max-md:px-[24px] max-md:py-[24px] max-sm:flex-col max-sm:px-[16px]">
-          <MeetingDetailImage data={data} />
-          <MeetingDetailCard data={data} />
+        <div className="flex flex-col gap-6 max-sm:gap-4">
+          <div className="flex gap-6 max-sm:flex-col">
+            <MeetingDetailImage data={data} />
+            <MeetingDetailCard data={data} />
+          </div>
+          <MeetingDetailReview reviews={reviews} />
         </div>
       )}
       {error && (
-        <div className="flex items-center justify-center p-80">모임을 찾을 수 없습니다.</div>
+        <div className="flex items-center justify-center py-80 max-sm:py-40">
+          모임을 찾을 수 없습니다.
+        </div>
       )}
-    </>
+    </main>
   )
 }
 export default MeetingDetail
