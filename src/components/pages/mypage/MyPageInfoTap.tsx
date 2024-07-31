@@ -3,6 +3,7 @@
 import { useReducer } from "react"
 
 import MyPageInfoTapButton from "./MyPageInfoTapButton"
+import MyPageInfoWrapper from "./MyPageInfoWrapper"
 
 interface IInitialState {
   myMeeting: boolean
@@ -50,9 +51,11 @@ const reducer = (state: IInitialState, action: IAction) => {
 
 const MyPageInfoTap = () => {
   const [tapState, dispatch] = useReducer(reducer, initialState)
-
+  const [[dataFetchingKey]] = Object.entries(tapState).filter((state) => {
+    return state[1]
+  })
   return (
-    <div className="mx-auto mt-[29px] w-profile-sm border-t-2 border-gray-900 bg-white p-6 md:w-profile-md lg:w-profile-lg">
+    <section className="mx-auto mt-[29px] w-profile-sm border-t-2 border-gray-900 bg-white p-6 md:w-profile-md lg:w-profile-lg">
       <div className="flex gap-3">
         <MyPageInfoTapButton onClick={dispatch} state="myMeeting" isActive={tapState.myMeeting} />
         <MyPageInfoTapButton onClick={dispatch} state="myReview" isActive={tapState.myReview} />
@@ -62,7 +65,8 @@ const MyPageInfoTap = () => {
           isActive={tapState.myOwnMeeting}
         />
       </div>
-    </div>
+      <MyPageInfoWrapper dataFetchingKey={dataFetchingKey} />
+    </section>
   )
 }
 
