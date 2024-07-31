@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 
+import { usePostSignup } from "@/actions/api-hooks/Auths"
 import Button from "@/components/public/button/Button"
 import InputField from "@/components/public/input/InputField"
 import ROUTE from "@/constants/route"
@@ -19,20 +20,43 @@ const formStyles = {
 
 const containerStyles = `${formStyles.container.default} ${formStyles.container.mobile} ${formStyles.container.tablet} ${formStyles.container.desktop}`
 
+interface SignupData {
+  name: string
+  email: string
+  companyName: string
+  password: string
+}
+
 const SignupForm = () => {
-  const onButtonClick = () => {}
+  const { mutate: signup } = usePostSignup()
 
   const inputFieldValue = [
     { label: "이름", name: "name", isPassword: false },
     { label: "아이디", name: "email", isPassword: false },
     { label: "회사명", name: "companyName", isPassword: false },
     { label: "비밀번호", name: "password", isPassword: true },
-    { label: "비밀번호 확인", name: "password_correct", isPassword: true },
+    { label: "비밀번호 확인", name: "passwordConfirm", isPassword: true },
   ]
+
+  const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    const formData = new FormData(event.currentTarget)
+    const userData = Object.fromEntries(formData.entries()) as Record<string, string>
+
+    // password_confirm 필드 제거 및 SignupData 타입으로 변환
+    const signupData: SignupData = {
+      name: userData.name,
+      email: userData.email,
+      companyName: userData.companyName,
+      password: userData.password,
+    }
+
+    signup(signupData)
+  }
 
   return (
     <div className={containerStyles}>
-      <form className={formStyles.form}>
+      <form className={formStyles.form} onSubmit={submitHandler}>
         <span className="text-center text-gray-800">회원가입</span>
         {inputFieldValue.map((value) => {
           return (
@@ -48,13 +72,7 @@ const SignupForm = () => {
             </div>
           )
         })}
-        <Button
-          type="submit"
-          className="mt-4"
-          borderStyle="solid"
-          disabled={false}
-          onClick={onButtonClick}
-        >
+        <Button type="submit" className="mt-4" borderStyle="solid" disabled={false}>
           확인
         </Button>
       </form>

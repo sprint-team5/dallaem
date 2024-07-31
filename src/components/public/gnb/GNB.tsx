@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { usePathname, useSearchParams } from "next/navigation"
 
-import { useGetUserData } from "@/apis/Auths"
+import { useGetUserData } from "@/actions/api-hooks/Auths"
 import Logo from "@/components/public/img/Logo"
 import ROUTE from "@/constants/route"
 

@@ -24,7 +24,7 @@ interface IButtonProps {
   type?: "submit" | "reset" | "button" | undefined
   disabled?: boolean
   children: React.ReactNode
-  onClick: () => void
+  onClick?: () => void
 }
 
 const getButtonClasses = ({
@@ -59,7 +59,10 @@ const Button = ({
       className={`${buttonClasses} ${className}`.trim()}
       disabled={disabled}
       onClick={() => {
-        return onClick()
+        if (onClick) {
+          return onClick()
+        }
+        return null
       }}
     >
       {children}

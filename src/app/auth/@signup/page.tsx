@@ -1,7 +1,13 @@
+import { HydrationBoundary } from "@tanstack/react-query"
+
 import SignupForm from "./SignupForm"
 
 const SignupPage = () => {
-  return <SignupForm />
+  return (
+    <HydrationBoundary>
+      <SignupForm />
+    </HydrationBoundary>
+  )
 }
 
 export default SignupPage
