@@ -3,7 +3,7 @@ import { queryOptions, useQuery } from "@tanstack/react-query"
 
 export const meetingDetailOptions = (id: string) => {
   return queryOptions({
-    queryKey: ["allReview", id],
+    queryKey: ["meetingDetail", id],
     queryFn: () => {
       return getMeetingDetail(id)
     },
