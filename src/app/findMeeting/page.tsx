@@ -59,47 +59,49 @@ const FindMeeting = () => {
   }
 
   return (
-    <div className="flex flex-col bg-gray-50 px-[102px] py-[40px]">
-      <div className="flex justify-between">
-        <FilterTab
-          selVal={filterOption.type}
-          onSelect={(e) => {
-            onFilterChanged(e, "type")
-          }}
-        />
-        <div>
-          <Button borderStyle="solid" onClick={() => {}}>
-            모임 만들기
-          </Button>
-        </div>
-      </div>
-      <hr className="my-4" />
-      <div className="mb-6 flex justify-between">
-        <div className="flex gap-2">
-          <Filter
-            data={location}
-            placeholder="지역 선택"
+    <div className="flex flex-col items-center bg-gray-50 px-[102px] py-[40px] max-md:px-[24px] max-md:py-[24px] max-sm:px-[16px]">
+      <div className="w-full max-w-[1200px]">
+        <div className="flex justify-between">
+          <FilterTab
+            selVal={filterOption.type}
             onSelect={(e) => {
-              onFilterChanged(e, "location")
+              onFilterChanged(e, "type")
             }}
-            selVal={filterOption.location}
           />
-          <FilterCalendar
-            placeholder="날짜 선택"
-            selVal={filterOption.date}
-            onChange={(e) => {
-              onFilterChanged(e, "date")
+          <div>
+            <Button borderStyle="solid" onClick={() => {}}>
+              모임 만들기
+            </Button>
+          </div>
+        </div>
+        <hr className="my-4" />
+        <div className="mb-6 flex justify-between">
+          <div className="flex gap-2">
+            <Filter
+              data={location}
+              placeholder="지역 선택"
+              onSelect={(e) => {
+                onFilterChanged(e, "location")
+              }}
+              selVal={filterOption.location}
+            />
+            <FilterCalendar
+              placeholder="날짜 선택"
+              selVal={filterOption.date}
+              onChange={(e) => {
+                onFilterChanged(e, "date")
+              }}
+            />
+          </div>
+          <FilterSort
+            onSelect={(e) => {
+              onFilterChanged(e, "sortBy")
             }}
+            selVal={filterOption.sortBy}
           />
         </div>
-        <FilterSort
-          onSelect={(e) => {
-            onFilterChanged(e, "sortBy")
-          }}
-          selVal={filterOption.sortBy}
-        />
+        <MeetingList data={data} status={status} error={error} />
       </div>
-      <MeetingList data={data} status={status} error={error} />
     </div>
   )
 }

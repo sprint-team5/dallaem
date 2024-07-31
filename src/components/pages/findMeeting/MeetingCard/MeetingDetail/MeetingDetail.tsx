@@ -17,7 +17,7 @@ const MeetingDetailImage = ({ data }: { data: IMeetingData }) => {
         alt={data.name}
         width={486}
         height={270}
-        className="!h-full object-cover max-sm:w-full"
+        className="!h-full w-full object-cover"
       />
       {dayjs(data.registrationEnd).format("YYYY-MM-DD") === dayjs().format("YYYY-MM-DD") && (
         <div className="absolute right-0 top-0 inline-flex items-center rounded-bl-xl bg-orange-600 px-[10px] py-[4px]">
@@ -82,7 +82,7 @@ const MeetingDetail = ({ id }: { id: string }) => {
   return (
     <>
       {status === "success" && (
-        <div className="flex gap-6 max-sm:flex-col">
+        <div className="flex gap-6 px-[102px] py-[40px] max-md:px-[24px] max-md:py-[24px] max-sm:flex-col max-sm:px-[16px]">
           <MeetingDetailImage data={data} />
           <MeetingDetailCard data={data} />
         </div>
