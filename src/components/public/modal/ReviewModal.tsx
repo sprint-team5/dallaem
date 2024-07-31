@@ -14,7 +14,7 @@ const ReviewModal = () => {
   return (
     <form
       action={handleSubmit}
-      className="w-modal-md lg:w-modal-lg mx-auto rounded-md p-6 shadow-xl"
+      className="mx-auto w-modal-md rounded-md p-6 shadow-xl lg:w-modal-lg"
     >
       <div className="flex justify-between">
         <h3 className="text-lg font-semibold">리뷰쓰기</h3>
