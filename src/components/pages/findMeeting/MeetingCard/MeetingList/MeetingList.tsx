@@ -15,7 +15,7 @@ interface IMeetingListProps {
   error: Error | null
 }
 
-const MeetingCard = ({ data }: { data: IMeetingData }) => {
+export const MeetingCard = ({ data }: { data: IMeetingData }) => {
   return (
     <div className="flex w-full overflow-hidden rounded-3xl border-2 border-gray-100 bg-white max-sm:flex-col">
       {data.image && (
@@ -96,14 +96,14 @@ const MeetingList = ({ data, status, error }: IMeetingListProps) => {
   return (
     <>
       {status === "pending" && (
-        <div className="h-full w-full items-center justify-center p-80">
+        <div className="h-full w-full items-center justify-center py-80">
           <Spinner />
         </div>
       )}
       {status === "success" && (
         <>
           {data?.length === 0 && (
-            <div className="flex h-full w-full flex-col items-center justify-center p-80">
+            <div className="flex h-full w-full flex-col items-center justify-center py-80">
               <span className="whitespace-nowrap text-sm text-gray-500">아직 모임이 없어요,</span>
               <span className="whitespace-nowrap text-sm text-gray-500">
                 지금 바로 모임을 만들어보세요
