@@ -92,7 +92,7 @@ export const MeetingCard = ({ data }: { data: IMeetingData }) => {
   )
 }
 
-export const MeetingList = ({ data, status, error }: IMeetingListProps) => {
+const MeetingList = ({ data, status, error }: IMeetingListProps) => {
   return (
     <>
       {status === "pending" && (
