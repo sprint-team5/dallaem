@@ -12,7 +12,7 @@ import dayjs from "dayjs"
 import DateTag from "../Atoms/DateTag"
 import ParticipantGage from "../Atoms/ParticipantGage"
 
-const MeetingDetailImage = ({ data }: { data: IMeetingData }) => {
+export const MeetingDetailImage = ({ data }: { data: IMeetingData }) => {
   return (
     <div className="relative aspect-[19/10] h-[270px] w-1/2 overflow-hidden rounded-3xl border-2 border-gray-200 max-sm:h-auto max-sm:w-full">
       <Image
@@ -34,7 +34,7 @@ const MeetingDetailImage = ({ data }: { data: IMeetingData }) => {
   )
 }
 
-const MeetingDetailCard = ({ data }: { data: IMeetingData }) => {
+export const MeetingDetailCard = ({ data }: { data: IMeetingData }) => {
   return (
     <div className="flex w-1/2 overflow-hidden rounded-3xl border-2 border-gray-100 bg-white max-sm:w-full max-sm:flex-col">
       <div className="flex grow flex-col justify-between px-6 py-4">
@@ -80,7 +80,7 @@ const MeetingDetailCard = ({ data }: { data: IMeetingData }) => {
   )
 }
 
-const MeetingDetailReview = ({ reviews }: { reviews: Array<IAllReview> | undefined }) => {
+export const MeetingDetailReview = ({ reviews }: { reviews: Array<IAllReview> | undefined }) => {
   return (
     <div className="border-t-2 border-gray-200 p-6">
       {reviews && reviews.length > 0 ? (

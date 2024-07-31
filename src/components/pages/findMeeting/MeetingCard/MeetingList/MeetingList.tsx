@@ -15,7 +15,7 @@ interface IMeetingListProps {
   error: Error | null
 }
 
-const MeetingCard = ({ data }: { data: IMeetingData }) => {
+export const MeetingCard = ({ data }: { data: IMeetingData }) => {
   return (
     <div className="flex w-full overflow-hidden rounded-3xl border-2 border-gray-100 bg-white max-sm:flex-col">
       {data.image && (
@@ -92,7 +92,7 @@ const MeetingCard = ({ data }: { data: IMeetingData }) => {
   )
 }
 
-const MeetingList = ({ data, status, error }: IMeetingListProps) => {
+export const MeetingList = ({ data, status, error }: IMeetingListProps) => {
   return (
     <>
       {status === "pending" && (
