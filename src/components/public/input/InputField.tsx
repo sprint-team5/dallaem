@@ -110,6 +110,7 @@ const InputField = ({
           baseStyles={inputClasses}
           iconBaseStyles={iconBaseStyles}
           options={options}
+          register={register}
         />
       </div>
     )
