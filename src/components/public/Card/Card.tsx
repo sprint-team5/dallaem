@@ -38,8 +38,8 @@ const ButtonStyle =
  * @param {number} capacity - 모집 정원 (최소 5인 이상)
  * @param {string} image - 모임 이미지
  * @param {string} registrationEnd - 모임 모집 마감 날짜 및 시간
- * @param {fucntion} handlerCancel - 예약취소 onClcik
- * @param {fucntion} handlerReview - 리뷰등록 onClick
+ * @param {function} handlerCancel - 예약취소 onClick
+ * @param {function} handlerReview - 리뷰등록 onClick
  */
 const Card = ({
   teamId,
