@@ -19,10 +19,9 @@ interface IDropdownProps {
   baseStyles?: string
   iconBaseStyles: string
   options: string[]
-  onSelect: (index: number) => void
 }
 
-const Dropdown = ({ name, baseStyles, iconBaseStyles, options, onSelect }: IDropdownProps) => {
+const Dropdown = ({ name, baseStyles, iconBaseStyles, options }: IDropdownProps) => {
   const [isOpen, setIsOpen] = useState(false)
   const [selectedOption, setSelectedOption] = useState(options[0])
   const [isOptionSelected, setIsOptionSelected] = useState(false)
@@ -43,7 +42,6 @@ const Dropdown = ({ name, baseStyles, iconBaseStyles, options, onSelect }: IDrop
     setSelectedOption(options[index])
     setIsOpen(false)
     setIsOptionSelected(true)
-    onSelect(index)
   }
 
   const keyDownHandler = (event: React.KeyboardEvent) => {
