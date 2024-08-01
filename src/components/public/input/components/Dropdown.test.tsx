@@ -17,14 +17,13 @@ jest.mock("@public/icon/dynamicIcon/arrow.svg", () => {
 
 describe("Dropdown 컴포넌트", () => {
   const mockOptions = ["옵션1", "옵션2", "옵션3"]
-  const mockOnSelect = jest.fn()
 
   beforeEach(() => {
     jest.clearAllMocks()
   })
 
   it("기본 렌더링 테스트", () => {
-    render(<Dropdown options={mockOptions} onSelect={mockOnSelect} iconBaseStyles="" />)
+    render(<Dropdown options={mockOptions} name="test" iconBaseStyles="" />)
     expect(screen.getByRole("button")).toBeInTheDocument()
     expect(screen.getByTestId("arrow-icon")).toBeInTheDocument()
     expect(screen.getByText("옵션1")).toBeInTheDocument()
@@ -32,27 +31,18 @@ describe("Dropdown 컴포넌트", () => {
 
   it("baseStyle 적용 테스트", () => {
     const baseStyles = "test-base-style"
-    render(
-      <Dropdown
-        options={mockOptions}
-        onSelect={mockOnSelect}
-        iconBaseStyles=""
-        baseStyles={baseStyles}
-      />,
-    )
+    render(<Dropdown options={mockOptions} name="test" iconBaseStyles="" baseStyles={baseStyles} />)
     expect(screen.getByRole("button")).toHaveClass(baseStyles)
   })
 
   it("iconBaseStyles 적용 테스트", () => {
     const iconBaseStyles = "test-icon-style"
-    render(
-      <Dropdown options={mockOptions} onSelect={mockOnSelect} iconBaseStyles={iconBaseStyles} />,
-    )
+    render(<Dropdown options={mockOptions} name="test" iconBaseStyles={iconBaseStyles} />)
     expect(screen.getByTestId("arrow-icon")).toHaveClass(iconBaseStyles)
   })
 
   it("options 적용 테스트", () => {
-    render(<Dropdown options={mockOptions} onSelect={mockOnSelect} iconBaseStyles="" />)
+    render(<Dropdown options={mockOptions} name="test" iconBaseStyles="" />)
     fireEvent.click(screen.getByRole("button"))
     const listbox = screen.getByRole("listbox")
     mockOptions.forEach((option) => {
@@ -61,22 +51,15 @@ describe("Dropdown 컴포넌트", () => {
   })
 
   it("드롭다운 메뉴 option 클릭 테스트", () => {
-    render(<Dropdown options={mockOptions} onSelect={mockOnSelect} iconBaseStyles="" />)
+    render(<Dropdown options={mockOptions} name="test" iconBaseStyles="" />)
     fireEvent.click(screen.getByRole("button"))
     fireEvent.click(screen.getByText("옵션3"))
     expect(screen.getByRole("button")).toHaveTextContent("옵션3")
     expect(screen.queryByRole("listbox")).not.toBeInTheDocument()
   })
 
-  it("onSelect 동작 테스트", () => {
-    render(<Dropdown options={mockOptions} onSelect={mockOnSelect} iconBaseStyles="" />)
-    fireEvent.click(screen.getByRole("button"))
-    fireEvent.click(screen.getByText("옵션2"))
-    expect(mockOnSelect).toHaveBeenCalledWith(1)
-  })
-
   it("useOutsideClick 동작 테스트", () => {
-    render(<Dropdown options={mockOptions} onSelect={mockOnSelect} iconBaseStyles="" />)
+    render(<Dropdown options={mockOptions} name="test" iconBaseStyles="" />)
     fireEvent.click(screen.getByRole("button"))
     expect(screen.getByRole("listbox")).toBeInTheDocument()
     fireEvent.mouseDown(document.body)
