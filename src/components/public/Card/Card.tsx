@@ -85,7 +85,7 @@ const Card = ({
         </div>
         <h3 className="mt-3 flex items-center text-lg font-semibold leading-7 text-gray-900">
           {name}
-          <span className="fonst-medium ml-2 border-l-2 border-gray-900 pl-2 text-sm leading-5 text-gray-700">
+          <span className="ml-2 border-l-2 border-gray-900 pl-2 text-sm font-medium leading-5 text-gray-700">
             {location}
           </span>
         </h3>
