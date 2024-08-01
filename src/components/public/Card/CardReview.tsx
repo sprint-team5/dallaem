@@ -1,17 +1,20 @@
 "use client"
 
+import { ReactNode } from "react"
+
 interface ICardReviewProps {
-  handlerReview?: () => void
+  onClick?: () => void
+  children: ReactNode
 }
 
-const CardReview = ({ handlerReview }: ICardReviewProps) => {
+const CardReview = ({ onClick, children }: ICardReviewProps) => {
   return (
     <button
-      className="mt-[18px] h-10 w-[120px] rounded-xl border border-orange-600 bg-orange-600 text-sm font-semibold leading-5 text-white transition-colors hover:bg-white hover:text-orange-600"
+      className="h-10 w-[120px] rounded-xl border border-orange-600 bg-orange-600 text-sm font-semibold leading-5 text-white transition-colors hover:bg-white hover:text-orange-600"
       type="button"
-      onClick={handlerReview}
+      onClick={onClick}
     >
-      리뷰 작성하기
+      {children}
     </button>
   )
 }
