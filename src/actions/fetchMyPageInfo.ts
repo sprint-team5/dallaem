@@ -38,7 +38,7 @@ export const getMyMeetings = async (
   const { limit = 5, offset } = options
   try {
     const response = await fetch(
-      `${process.env.BASE_URL}/gatherings/joined?limit=${limit}&offset=${offset}`,
+      `${process.env.BASE_URL}/gatherings/joined?completed=false&reviewed=false&limit=${limit}&offset=${offset}`,
       {
         method: "GET",
         headers: {
