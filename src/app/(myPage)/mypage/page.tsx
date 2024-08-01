@@ -15,7 +15,7 @@ const MyPage = async () => {
   await queryClient.prefetchQuery({
     queryKey: ["mypage", {}],
     queryFn: () => {
-      return fetchMyPageInfo({ offset: 5, limit: 5 })
+      return fetchMyPageInfo({ offset: 0, limit: 5 })
     },
   })
   return (

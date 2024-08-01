@@ -11,27 +11,27 @@ const MyPageInfoWrapper = ({ dataFetchingKey }: IMyPageInfoWrapperProps) => {
     queryKey: ["mypage", dataFetchingKey],
     queryFn: ({ queryKey }) => {
       const fetchingKey = queryKey[1]
-      const offset = 5
+      const offset = 0
       const limit = 5
       return fetchMyPageInfo({ fetchingKey, offset, limit })
     },
   })
   return (
-    <div>
+    <div className="flex flex-col gap-6">
       {Array.isArray(data) &&
         data.map((meeting: IGetMyMeetingsRes) => {
           return (
             <Card
-              registrationEnd={meeting.registrationEnd}
-              image={meeting.image}
-              capacity={meeting.capacity}
-              id={meeting.id}
               teamId={meeting.teamId}
-              key={meeting.name}
+              id={meeting.id}
               name={meeting.name}
               dateTime={meeting.dateTime}
+              registrationEnd={meeting.registrationEnd}
               location={meeting.location}
               participantCount={meeting.participantCount}
+              image={meeting.image}
+              capacity={meeting.capacity}
+              key={meeting.name}
             />
           )
         })}
