@@ -85,12 +85,7 @@ export const getMyOwnMeeting = async (
   limit: number,
 ): Promise<IGetMyMeetingsRes[] | string> => {
   try {
-    const userRes = await fetch(`${process.env.BASE_URL}/auths/user`, {
-      headers: {
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFtSWQiOiJ0ZWFtNTU1IiwidXNlcklkIjo0ODUsImlhdCI6MTcyMjQ4ODUxMiwiZXhwIjoxNzIyNDkyMTEyfQ.BTF8ZH0CenRJOUsoMDaD1fo-1Ie3YKh9YMpOCFYWUuQ",
-      },
-    })
+    const userRes = await fetch(`${process.env.BASE_URL}/auths/user`)
 
     const { id } = await userRes.json()
     const response = await fetch(
