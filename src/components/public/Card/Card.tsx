@@ -38,8 +38,8 @@ const ButtonStyle =
  * @param {number} capacity - 모집 정원 (최소 5인 이상)
  * @param {string} image - 모임 이미지
  * @param {string} registrationEnd - 모임 모집 마감 날짜 및 시간
- * @param {fucntion} handlerCancel - 예약취소 onClcik
- * @param {fucntion} handlerReview - 리뷰등록 onClick
+ * @param {function} handlerCancel - 예약취소 onClick
+ * @param {function} handlerReview - 리뷰등록 onClick
  */
 const Card = ({
   teamId,
@@ -85,7 +85,7 @@ const Card = ({
         </div>
         <h3 className="mt-3 flex items-center text-lg font-semibold leading-7 text-gray-900">
           {name}
-          <span className="fonst-medium ml-2 border-l-2 border-gray-900 pl-2 text-sm leading-5 text-gray-700">
+          <span className="ml-2 border-l-2 border-gray-900 pl-2 text-sm font-medium leading-5 text-gray-700">
             {location}
           </span>
         </h3>
