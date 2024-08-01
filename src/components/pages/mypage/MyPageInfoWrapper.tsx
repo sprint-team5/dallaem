@@ -1,13 +1,13 @@
 import { IGetMyMeetingsRes, fetchMyPageInfo } from "@/actions/fetchMyPageInfo"
 import Card from "@/components/public/Card/Card"
-import { useQuery } from "@tanstack/react-query"
+import { useSuspenseQuery } from "@tanstack/react-query"
 
 interface IMyPageInfoWrapperProps {
   dataFetchingKey: string
 }
 
 const MyPageInfoWrapper = ({ dataFetchingKey }: IMyPageInfoWrapperProps) => {
-  const { data } = useQuery({
+  const { data } = useSuspenseQuery({
     queryKey: ["mypage", dataFetchingKey],
     queryFn: ({ queryKey }) => {
       const fetchingKey = queryKey[1]

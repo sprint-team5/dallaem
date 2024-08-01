@@ -1,6 +1,8 @@
 "use client"
 
-import { useReducer } from "react"
+import { Suspense, useReducer } from "react"
+
+import Spinner from "@/components/public/Spinner/Spinner"
 
 import MyPageInfoTapButton from "./MyPageInfoTapButton"
 import MyPageInfoWrapper from "./MyPageInfoWrapper"
@@ -65,7 +67,9 @@ const MyPageInfoTap = () => {
           isActive={tapState.myOwnMeeting}
         />
       </div>
-      <MyPageInfoWrapper dataFetchingKey={dataFetchingKey} />
+      <Suspense fallback={<Spinner />}>
+        <MyPageInfoWrapper dataFetchingKey={dataFetchingKey} />
+      </Suspense>
     </section>
   )
 }
