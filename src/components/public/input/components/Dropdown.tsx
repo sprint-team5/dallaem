@@ -1,6 +1,7 @@
 "use client"
 
 import { useRef, useState } from "react"
+import { UseFormRegister } from "react-hook-form"
 
 import Arrow from "@/components/public/icon/dynamicIcon/Arrow"
 import useOutsideClick from "@/util/useOutsideClick"
@@ -19,9 +20,10 @@ interface IDropdownProps {
   baseStyles?: string
   iconBaseStyles: string
   options: string[]
+  register?: UseFormRegister<any>
 }
 
-const Dropdown = ({ name, baseStyles, iconBaseStyles, options }: IDropdownProps) => {
+const Dropdown = ({ name, baseStyles, iconBaseStyles, options, register }: IDropdownProps) => {
   const [isOpen, setIsOpen] = useState(false)
   const [selectedOption, setSelectedOption] = useState(options[0])
   const [isOptionSelected, setIsOptionSelected] = useState(false)
@@ -42,6 +44,13 @@ const Dropdown = ({ name, baseStyles, iconBaseStyles, options }: IDropdownProps)
     setSelectedOption(options[index])
     setIsOpen(false)
     setIsOptionSelected(true)
+
+    if (register) {
+      const event = {
+        target: { name, value: options[index] },
+      }
+      register(name).onChange(event)
+    }
   }
 
   const keyDownHandler = (event: React.KeyboardEvent) => {
@@ -90,6 +99,16 @@ const Dropdown = ({ name, baseStyles, iconBaseStyles, options }: IDropdownProps)
           })}
         </ul>
       )}
+      <input
+        type="hidden"
+        value={selectedOption}
+        // eslint-disable-next-line react/jsx-props-no-spreading
+        {...(register ? register(name) : { name })}
+        onChange={(e) => {
+          setSelectedOption(e.target.value)
+          setIsOptionSelected(true)
+        }}
+      />
     </div>
   )
 }
