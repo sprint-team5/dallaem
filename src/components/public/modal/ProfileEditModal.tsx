@@ -65,6 +65,7 @@ const ProfileEditModal = ({ company, src = "" }: IProfileEditModalProps) => {
 
     formData.append("companyName", data.companyName)
     if (src !== "") {
+      // src 수정 필요함 - fixme
       formData.append("image", src)
     }
     await editProfileInfo(formData)
