@@ -3,7 +3,6 @@
 interface IGetMyMeetings {
   limit: number
   offset: number
-  completed?: boolean
   reviewed?: boolean
   sortBy?: "dateTime" | "registrationEnd" | "joinedAt"
   sortOrder?: "asc" | "desc"
@@ -44,7 +43,7 @@ export const getMyMeetings = async (
         method: "GET",
         headers: {
           Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFtSWQiOiJ0ZWFtNTU1IiwidXNlcklkIjo0ODUsImlhdCI6MTcyMjQxNzQwNSwiZXhwIjoxNzIyNDIxMDA1fQ.Ik0w6OYCQ4SSXCkCewy0wpUog5358S1kBLPaZfW5oNI",
+            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFtSWQiOiJ0ZWFtNTU1IiwidXNlcklkIjo0ODUsImlhdCI6MTcyMjQ4ODUxMiwiZXhwIjoxNzIyNDkyMTEyfQ.BTF8ZH0CenRJOUsoMDaD1fo-1Ie3YKh9YMpOCFYWUuQ",
         },
       },
     )
@@ -59,22 +58,14 @@ export const getMyMeetings = async (
   }
 }
 
-export const getMyReview = async (offset: number, limit: number) => {
+export const getMyReview = async (offset: number, limit: number, reviewed = false) => {
   try {
-    const userRes = await fetch(`${process.env.BASE_URL}/auths/user`, {
-      headers: {
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFtSWQiOiJ0ZWFtNTU1IiwidXNlcklkIjo0ODUsImlhdCI6MTcyMjQxNzQwNSwiZXhwIjoxNzIyNDIxMDA1fQ.Ik0w6OYCQ4SSXCkCewy0wpUog5358S1kBLPaZfW5oNI",
-      },
-    })
-
-    const { id } = await userRes.json()
     const response = await fetch(
-      `${process.env.BASE_URL}/reviews?userId=${id}&limit=${limit}&offset=${offset}`,
+      `${process.env.BASE_URL}/gatherings/joined?limit=${limit}&offset=${offset}&completed=true&reviewed=${reviewed}`,
       {
         headers: {
           Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFtSWQiOiJ0ZWFtNTU1IiwidXNlcklkIjo0ODUsImlhdCI6MTcyMjQxNzQwNSwiZXhwIjoxNzIyNDIxMDA1fQ.Ik0w6OYCQ4SSXCkCewy0wpUog5358S1kBLPaZfW5oNI",
+            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFtSWQiOiJ0ZWFtNTU1IiwidXNlcklkIjo0ODUsImlhdCI6MTcyMjQ4ODUxMiwiZXhwIjoxNzIyNDkyMTEyfQ.BTF8ZH0CenRJOUsoMDaD1fo-1Ie3YKh9YMpOCFYWUuQ",
         },
       },
     )
@@ -97,7 +88,7 @@ export const getMyOwnMeeting = async (
     const userRes = await fetch(`${process.env.BASE_URL}/auths/user`, {
       headers: {
         Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFtSWQiOiJ0ZWFtNTU1IiwidXNlcklkIjo0ODUsImlhdCI6MTcyMjQxNzQwNSwiZXhwIjoxNzIyNDIxMDA1fQ.Ik0w6OYCQ4SSXCkCewy0wpUog5358S1kBLPaZfW5oNI",
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFtSWQiOiJ0ZWFtNTU1IiwidXNlcklkIjo0ODUsImlhdCI6MTcyMjQ4ODUxMiwiZXhwIjoxNzIyNDkyMTEyfQ.BTF8ZH0CenRJOUsoMDaD1fo-1Ie3YKh9YMpOCFYWUuQ",
       },
     })
 
@@ -107,7 +98,7 @@ export const getMyOwnMeeting = async (
       {
         headers: {
           Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFtSWQiOiJ0ZWFtNTU1IiwidXNlcklkIjo0ODUsImlhdCI6MTcyMjQxNzQwNSwiZXhwIjoxNzIyNDIxMDA1fQ.Ik0w6OYCQ4SSXCkCewy0wpUog5358S1kBLPaZfW5oNI",
+            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFtSWQiOiJ0ZWFtNTU1IiwidXNlcklkIjo0ODUsImlhdCI6MTcyMjQ4ODUxMiwiZXhwIjoxNzIyNDkyMTEyfQ.BTF8ZH0CenRJOUsoMDaD1fo-1Ie3YKh9YMpOCFYWUuQ",
         },
       },
     )
@@ -123,12 +114,12 @@ export const getMyOwnMeeting = async (
 }
 
 export const fetchMyPageInfo = async (options: IFetchMyPageInfo) => {
-  const { fetchingKey = "myMeeting", offset, limit, ...args } = options
+  const { fetchingKey = "myMeeting", offset, limit, reviewed, ...args } = options
   switch (fetchingKey) {
     case "myMeeting":
       return getMyMeetings({ offset, limit, ...args })
     case "myReview":
-      return getMyReview(offset, limit)
+      return getMyReview(offset, limit, reviewed)
     case "myOwnMeeting":
       return getMyOwnMeeting(offset, limit)
     default:
