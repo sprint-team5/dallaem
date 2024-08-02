@@ -59,6 +59,8 @@ const SigninForm = () => {
     formState: { errors },
     trigger,
     watch,
+    setError,
+    clearErrors,
   } = useForm<SigninData>({
     mode: "onBlur",
     criteriaMode: "all",
@@ -77,9 +79,31 @@ const SigninForm = () => {
   const onSubmit: SubmitHandler<SigninData> = (data) => {
     signin(data, {
       onSuccess: () => {
-        router.replace(ROUTE.HOME)
+        setTimeout(() => {
+          router.replace(ROUTE.HOME)
+        }, 100)
       },
     })
+  }
+
+  const handleBlur = (name: keyof SigninData) => {
+    clearErrors(name)
+    trigger(name)
+  }
+
+  const handleFocus = (name: keyof SigninData) => {
+    const timer = setTimeout(() => {
+      if (!watchFields[name]) {
+        setError(name, {
+          type: "required",
+          message: validations[name].required,
+        })
+      }
+    }, 1000)
+
+    return () => {
+      return clearTimeout(timer)
+    }
   }
 
   return (
@@ -98,7 +122,10 @@ const SigninForm = () => {
                 validation={value.validation}
                 error={errors[value.name as keyof SigninData]}
                 onBlur={() => {
-                  return trigger(value.name as keyof SigninData)
+                  return handleBlur(value.name as keyof SigninData)
+                }}
+                onFocus={() => {
+                  return handleFocus(value.name as keyof SigninData)
                 }}
                 inputType="input"
                 size="large"
@@ -107,7 +134,7 @@ const SigninForm = () => {
           )
         })}
         {signinError && <span>※ {signinError.message}</span>}
-        <Button type="submit" className="mt-4" borderStyle="solid" disabled={buttonDisabled}>
+        <Button type="submit" className="mt-4" borderStyle="outlined" disabled={buttonDisabled}>
           확인
         </Button>
       </form>

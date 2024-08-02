@@ -57,7 +57,7 @@ describe("Button 컴포넌트", () => {
         비활성화 버튼
       </Button>,
     )
-    const buttonElement = screen.getByText("비활성화 버튼")
+    const buttonElement = screen.getByRole("button", { name: "비활성화 버튼" })
     expect(buttonElement).toBeDisabled()
   })
 
@@ -67,7 +67,7 @@ describe("Button 컴포넌트", () => {
         커스텀 클래스
       </Button>,
     )
-    const buttonElement = screen.getByText("커스텀 클래스")
+    const buttonElement = screen.getByRole("button", { name: "커스텀 클래스" })
     expect(buttonElement).toHaveClass("custom-class")
   })
 })
