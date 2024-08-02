@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 
-import { useEffect, useState } from "react"
+import { Fragment, useEffect, useState } from "react"
 import { SubmitHandler, useForm } from "react-hook-form"
 
 import { usePostSignin } from "@/actions/api-hooks/Auths"
@@ -88,7 +88,7 @@ const SigninForm = () => {
         <span className="text-center text-gray-800">로그인</span>
         {signinFormValue.map((value) => {
           return (
-            <div key={value.label}>
+            <Fragment key={value.label}>
               <InputField
                 label={value.label}
                 name={value.name}
@@ -103,7 +103,7 @@ const SigninForm = () => {
                 inputType="input"
                 size="large"
               />
-            </div>
+            </Fragment>
           )
         })}
         {signinError && <span>※ {signinError.message}</span>}
