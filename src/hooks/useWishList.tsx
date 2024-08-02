@@ -21,7 +21,14 @@ const useWishList = () => {
     const parse: IWishListData[] = JSON.parse(wish)
 
     const filteredList = parse.filter((item) => {
-      const matchesType = filter.type === "DALLAEMFIT" || item.type === filter.type
+      const filterTypeMappings: { [key: string]: boolean } = {
+        DALLAEMFIT: item.type !== "WORKATION",
+        OFFICE_STRETCHING: item.type === "OFFICE_STRETCHING",
+        MINDFULNESS: item.type === "MINDFULNESS",
+        WORKATION: item.type === "WORKATION",
+      }
+
+      const matchesType = filterTypeMappings[filter.type]
       const matchesLocation = !filter.location || item.location === filter.location
       const matchesDateTime =
         !filter.date || dayjs(item.dateTime).format("YYYY-MM-DD") === filter.date
@@ -40,6 +47,7 @@ const useWishList = () => {
       }
       return 0
     })
+
     setWishlist(sortedList)
   }, [filter])
 
