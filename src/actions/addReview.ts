@@ -1,8 +1,8 @@
 "use server"
 
 interface IAddReviews {
-  gatheringId: number
-  score: number
+  gatheringId: string
+  score: string
   comment: string
 }
 
@@ -19,7 +19,7 @@ const addReview = async (data: IAddReviews) => {
       headers: {
         "content-type": "application/json",
         Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFtSWQiOiJ0ZWFtNTU1IiwidXNlcklkIjo0ODUsImlhdCI6MTcyMjU3MTQxMiwiZXhwIjoxNzIyNTc1MDEyfQ.ty2kuW_hQRLbh5PiCpNYC860SerI1EzRGOJxXyQCWME",
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFtSWQiOiJ0ZWFtNTU1IiwidXNlcklkIjo0ODUsImlhdCI6MTcyMjU4MjkxMiwiZXhwIjoxNzIyNTg2NTEyfQ.nrjqFzBazLwy9zHR2XkI3U8BPYm3gys2yNJ2lE_UrJ8",
       },
     })
 

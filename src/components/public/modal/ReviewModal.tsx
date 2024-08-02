@@ -3,9 +3,9 @@
 import { useRouter } from "next/navigation"
 
 import { ChangeEvent, useState } from "react"
+import { SubmitHandler, useForm } from "react-hook-form"
 
 import addReview from "@/actions/addReview"
-import Scores from "@/components/pages/allReview/Scores"
 
 import CloseBtn from "../CloseBtn"
 import ReviewHeartBtn from "../Review/ReviewHeartBtn/ReviewHeartBtn"
@@ -14,20 +14,38 @@ interface IReviewModalProp {
   gatheringId: string
 }
 
+interface IUserData extends IReviewModalProp {
+  score: number
+  comment: string
+}
+
 const initialValue = {
   score: 0,
   comment: "남겨주신 리뷰는 프로그램 운영 및 다른 회원 분들께 큰 도움이 됩니다.",
 }
 
 const ReviewModal = ({ gatheringId }: IReviewModalProp) => {
+  const { register, handleSubmit } = useForm<IUserData>()
   const [userInput, setUserInput] = useState(initialValue)
+  const [errorMsg, setErrorMsg] = useState("")
   const router = useRouter()
-  const handleSubmit = async (data) => {
-    console.log(data)
-    // const res = await addReview()
-    // if (res === 200) {
-    //   router.back()
-    // }
+
+  const submitHandler: SubmitHandler<IUserData> = async (data) => {
+    const userReview = {
+      gatheringId,
+      score: userInput.score.toString(),
+      comment: data.comment,
+    }
+
+    const res = await addReview(userReview)
+
+    if (res === 201) {
+      router.back()
+    }
+  }
+
+  const errorHandler = (data: any) => {
+    setErrorMsg(data.comment.message)
   }
 
   const heartChangeHandler = (userClick: number) => {
@@ -52,7 +70,7 @@ const ReviewModal = ({ gatheringId }: IReviewModalProp) => {
   return (
     <div className="absolute left-0 top-0 h-screen w-screen bg-gray-950/50">
       <form
-        action={handleSubmit}
+        onSubmit={handleSubmit(submitHandler, errorHandler)}
         className="absolute left-0 right-0 top-36 z-50 mx-auto w-modal-md rounded-md bg-white p-6 shadow-xl lg:w-modal-lg"
       >
         <div className="flex justify-between">
@@ -60,20 +78,35 @@ const ReviewModal = ({ gatheringId }: IReviewModalProp) => {
           <CloseBtn />
         </div>
         <ReviewHeartBtn value={userInput.score} setter={heartChangeHandler} />
-        <div>
+        <div className="relative pb-6">
           <p className="mb-3 font-semibold">경험에 대해 남겨주세요.</p>
           <textarea
-            name="review"
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            {...register("comment", {
+              required: true,
+              minLength: {
+                value: 10,
+                message: "10자 이상 입력하셔야 합니다.",
+              },
+              maxLength: {
+                value: 200,
+                message: "200자까지 입력하실 수 있습니다.",
+              },
+              onChange: inputChangeHandler,
+            })}
             rows={5}
             className="w-full resize-none rounded-xl bg-gray-50 px-4 py-2.5"
             placeholder={userInput.comment}
-            onChange={inputChangeHandler}
           />
+          {errorMsg && <p className="absolute bottom-1 text-red-500">{errorMsg}</p>}
         </div>
-        <div className="mt-6 flex justify-center gap-3">
+        <div className="flex justify-center gap-3">
           <button
             type="button"
             className="active: w-1/2 rounded-xl border border-orange-600 py-2.5 text-orange-600 hover:border-orange-500 hover:text-orange-500 active:border-orange-700 active:text-orange-700"
+            onClick={() => {
+              return router.back()
+            }}
           >
             취소
           </button>
