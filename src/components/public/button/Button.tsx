@@ -12,10 +12,12 @@ const buttonStyles = {
   },
   outlined: {
     default: "border-[#EA580C] border-[1px] text-[#EA580C]",
-    hover: "hover:border-[#C2410C] hover:border-[1px] hover:text-[#C2410C]",
-    active: "active:border-[#9A3412] active:border-[1px] active:text-[#9A3412]",
+    hover: "hover:border-[#C2410C] hover:text-[#C2410C]",
+    active: "active:border-[#9A3412] active:text-[#9A3412]",
     disabled: "border-[#9CA3AF] border-[1px] text-[#9CA3AF]",
   },
+  hoveredText:
+    "transition-all ease-in-out transform group-hover:scale-125 delay-[10ms] duration-150",
 }
 
 interface IButtonProps {
@@ -56,7 +58,7 @@ const Button = ({
     <button
       // eslint-disable-next-line react/button-has-type
       type={type}
-      className={`${buttonClasses} ${className}`.trim()}
+      className={`group ${buttonClasses} ${className}`.trim()}
       disabled={disabled}
       onClick={() => {
         if (onClick) {
@@ -65,7 +67,7 @@ const Button = ({
         return null
       }}
     >
-      {children}
+      <span className={disabled ? "" : `${buttonStyles.hoveredText}`}>{children}</span>
     </button>
   )
 }

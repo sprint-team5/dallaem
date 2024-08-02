@@ -80,6 +80,8 @@ const SignupForm = () => {
     handleSubmit,
     formState: { errors },
     trigger,
+    setError,
+    clearErrors,
     watch,
   } = useForm<SignupData>({
     mode: "onBlur",
@@ -111,6 +113,26 @@ const SignupForm = () => {
     })
   }
 
+  const handleBlur = (name: keyof SignupData) => {
+    clearErrors(name)
+    trigger(name)
+  }
+
+  const handleFocus = (name: keyof SignupData) => {
+    const timer = setTimeout(() => {
+      if (!watchFields[name]) {
+        setError(name, {
+          type: "required",
+          message: validations[name].required,
+        })
+      }
+    }, 1000)
+
+    return () => {
+      return clearTimeout(timer)
+    }
+  }
+
   return (
     <div className={containerStyles}>
       <form className={formStyles.form} onSubmit={handleSubmit(onSubmit)}>
@@ -127,10 +149,13 @@ const SignupForm = () => {
                 validation={value.validation}
                 error={errors[value.name as keyof SignupData]}
                 onBlur={() => {
-                  return trigger(value.name as keyof SignupData)
+                  return handleBlur(value.name as keyof SignupData)
                 }}
                 inputType="input"
                 size="large"
+                onFocus={() => {
+                  return handleFocus(value.name as keyof SignupData)
+                }}
               />
             </Fragment>
           )
