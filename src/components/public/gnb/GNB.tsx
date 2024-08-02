@@ -9,6 +9,7 @@ import ROUTE from "@/constants/route"
 
 import ProfileComponent from "./components/ProfileComponent"
 
+// 테일윈드 스타일
 const gnbStyles = {
   container:
     "z-50 border-b-2 fixed top-0 left-0 border-black flex w-full items-center justify-center whitespace-nowrap bg-[#EA580C]",
@@ -24,14 +25,16 @@ const gnbStyles = {
     tablet: "md:gap-5",
     desktop: "xl:gap-6",
   },
+  navItem: "font-semibold text-[#FFF7ED]",
+  currentNavItem: "font-semibold text-[#111827]",
+  hoveredNavItem: "transition-all ease-in-out transform hover:scale-125 delay-[10ms] duration-150",
 }
 
 const wrapperStyles = `${gnbStyles.wrapper.default} ${gnbStyles.wrapper.mobile} ${gnbStyles.wrapper.tablet} ${gnbStyles.wrapper.desktop}`
 const navbarStyles = `${gnbStyles.navbar.default} ${gnbStyles.navbar.mobile} ${gnbStyles.navbar.tablet} ${gnbStyles.navbar.desktop}`
 
-const navBaseStyles = "font-semibold text-[#FFF7ED]"
-const currentNavStyles = "font-semibold text-[#111827]"
-
+const navBaseStyles = `${gnbStyles.navItem} ${gnbStyles.hoveredNavItem}`
+const currentNavStyles = `${gnbStyles.currentNavItem} ${gnbStyles.hoveredNavItem}`
 interface IGNBProps {
   userToken: string | undefined
 }
@@ -74,7 +77,7 @@ const GNB = ({ userToken }: IGNBProps) => {
           <div className={wrapperStyles}>
             <div className={navbarStyles}>
               <Link href={ROUTE.HOME}>
-                <Logo state="large" />
+                <Logo state="large" className={gnbStyles.hoveredNavItem} />
               </Link>
               {navItems.map((item) => {
                 return (
@@ -88,7 +91,11 @@ const GNB = ({ userToken }: IGNBProps) => {
                 )
               })}
             </div>
-            <ProfileComponent isLoggedIn={isLoggedIn} profileImg={profileImg} />
+            <ProfileComponent
+              isLoggedIn={isLoggedIn}
+              profileImg={profileImg}
+              hoveredNavItem={gnbStyles.hoveredNavItem}
+            />
           </div>
         </div>
       )}

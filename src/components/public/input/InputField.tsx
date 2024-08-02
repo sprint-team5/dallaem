@@ -49,6 +49,7 @@ interface IInputFieldProps {
   validation?: RegisterOptions
   error?: FieldError
   onBlur?: () => void
+  onFocus?: () => void
 
   inputType: "input" | "dropdown"
   options?: string[]
@@ -66,6 +67,7 @@ interface IInputFieldProps {
  * @param validation - react-hook-form-validation
  * @param error - error 상태와 에러 메시지를 전달합니다
  * @param onBlur - onBlur 이벤트 객체입니다.
+ * @param onFocus - onFocus 이벤트 객체입니다.
  *
  * @param inputType - Input | Dropdown
  * @param options - Dropdown으로 사용될 때 표시될 배열입니다.
@@ -82,6 +84,7 @@ const InputField = ({
   validation,
   error,
   onBlur,
+  onFocus,
   inputType,
   options,
 }: IInputFieldProps) => {
@@ -132,6 +135,7 @@ const InputField = ({
           placeholder={placeholder}
           className={inputClasses}
           onBlur={handleBlur}
+          onFocus={onFocus}
         />
         {type === "password" && (
           <button
