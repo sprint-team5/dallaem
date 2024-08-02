@@ -11,8 +11,7 @@ const CloseBtn = () => {
     route.back()
   }
   return (
-    <button type="button" onClick={handleClick} className="block">
-      {" "}
+    <button type="button" onClick={handleClick} className="block" aria-label="Close">
       <X />
     </button>
   )
