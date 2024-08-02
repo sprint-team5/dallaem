@@ -1,3 +1,4 @@
+import { cookies } from "next/headers"
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
 
@@ -10,7 +11,9 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL(path, request.url))
   }
 
-  if (request.cookies.has("userToken")) {
+  const userToken = cookies().get("userToken")?.value
+
+  if (request.cookies.has("userToken") && userToken) {
     if (startsWith("/auth")) {
       return toRedirect("/")
     }
