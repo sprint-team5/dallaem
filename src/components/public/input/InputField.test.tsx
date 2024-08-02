@@ -42,7 +42,16 @@ jest.mock(
 
 describe("InputField 컴포넌트", () => {
   test("기본 렌더링 테스트", () => {
-    render(<InputField name="test" size="small" inputType="input" placeholder="테스트 입력" />)
+    render(
+      <InputField
+        label="test"
+        name="test"
+        type="text"
+        size="small"
+        inputType="input"
+        placeholder="테스트 입력"
+      />,
+    )
 
     const inputElement = screen.getByPlaceholderText("테스트 입력")
     expect(inputElement).toBeInTheDocument()
@@ -50,26 +59,41 @@ describe("InputField 컴포넌트", () => {
 
   test("size 적용 테스트", () => {
     const { rerender } = render(
-      <InputField name="test" size="small" inputType="input" placeholder="" />,
+      <InputField
+        label="test"
+        name="test"
+        type="text"
+        size="small"
+        inputType="input"
+        placeholder=""
+      />,
     )
     const smallInput = screen.getByPlaceholderText("")
     expect(smallInput).toHaveClass("h-10")
 
-    rerender(<InputField name="test" size="large" inputType="input" placeholder="" />)
+    rerender(
+      <InputField
+        label="test"
+        name="test"
+        type="text"
+        size="large"
+        inputType="input"
+        placeholder=""
+      />,
+    )
     const largeInput = screen.getByPlaceholderText("")
     expect(largeInput).toHaveClass("h-11")
   })
 
   it("password visibility 테스트", () => {
-    const mockOnChange = jest.fn()
     render(
       <InputField
+        label="test"
         name="test"
+        type="password"
         size="small"
         inputType="input"
-        onChange={mockOnChange}
         placeholder=""
-        isPassword
       />,
     )
 
@@ -78,12 +102,8 @@ describe("InputField 컴포넌트", () => {
     // 초기 type이 password인지 확인
     expect(inputElement.type).toBe("password")
 
-    // 입력값 변경
-    fireEvent.change(inputElement, { target: { value: "testPassword" } })
-    expect(mockOnChange).toHaveBeenCalledWith("testPassword")
-
     // visibility 토글 버튼 찾기
-    const visibilityToggleButton = screen.getByRole("button")
+    const visibilityToggleButton = screen.getByText("VisibilityOn")
     expect(visibilityToggleButton).toBeInTheDocument()
 
     // visibility 토글 (password -> text)
@@ -91,23 +111,28 @@ describe("InputField 컴포넌트", () => {
     expect(inputElement.type).toBe("text")
 
     // visibility 토글 (text -> password)
-    const visibilityToggleButton2 = screen.getByRole("button")
+    const visibilityToggleButton2 = screen.getByText("VisibilityOn")
     fireEvent.click(visibilityToggleButton2)
     expect(inputElement.type).toBe("password")
   })
 
   test("errorMessage 테스트", () => {
-    const errorMessage = "This field is required"
-    render(<InputField name="test" size="small" inputType="input" errorMessage={errorMessage} />)
-    expect(screen.getByText(errorMessage)).toBeInTheDocument()
-  })
+    const errorSample = {
+      type: "error",
+      message: "This field is required",
+    }
 
-  test("onBlur 발생 시 done 상태가 추가되는지 테스트", () => {
-    render(<InputField name="test" size="small" inputType="input" placeholder="" />)
-
-    const inputElement = screen.getByPlaceholderText("") as HTMLInputElement
-    fireEvent.change(inputElement, { target: { value: "test" } })
-    fireEvent.blur(inputElement)
-    expect(inputElement).toHaveClass("border-[#1F2937]")
+    render(
+      <InputField
+        label="test"
+        name="test"
+        type="text"
+        size="small"
+        inputType="input"
+        error={errorSample}
+        placeholder=""
+      />,
+    )
+    expect(screen.getByText("This field is required")).toBeInTheDocument()
   })
 })

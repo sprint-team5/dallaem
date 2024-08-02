@@ -110,6 +110,7 @@ describe("Card 컴포넌트 테스트", () => {
       const props = {
         ...defaultProps,
         participantCount: 0,
+        registrationEnd: dayjs().add(1, "days").toISOString(),
       }
 
       const { getByText } = render(
@@ -135,6 +136,7 @@ describe("Card 컴포넌트 테스트", () => {
       const props = {
         ...defaultProps,
         participantCount: 6,
+        registrationEnd: dayjs().add(1, "days").toISOString(),
       }
 
       const { getByText } = render(

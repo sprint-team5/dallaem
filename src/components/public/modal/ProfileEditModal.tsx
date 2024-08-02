@@ -4,6 +4,7 @@ import Image from "next/image"
 import { useRouter } from "next/navigation"
 
 import { ChangeEvent, useState } from "react"
+import { SubmitHandler, useForm } from "react-hook-form"
 
 import editProfileInfo from "@/actions/editProfileInfo"
 import CancelButton from "@/components/pages/mypage/CancelButton"
@@ -12,16 +13,43 @@ import CloseBtn from "../CloseBtn"
 import Profile from "../img/Profile"
 import InputField from "../input/InputField"
 
+const validations = {
+  companyName: {
+    required: "회사명을 입력해주세요.",
+  },
+}
+
+const ProfileEditModalFormValue = {
+  label: "회사명",
+  name: "companyName",
+  type: "text",
+  placeholder: "이메일을 입력해주세요",
+  validation: validations.companyName,
+}
+
 interface IProfileEditModalProps {
   company: string
   src?: string
 }
 
-const errorMessage: string = "회사명을 입력해주세요"
+interface EditProfileData {
+  companyName: string
+  image: string
+}
 
 const ProfileEditModal = ({ company, src = "" }: IProfileEditModalProps) => {
   const [imgSrc, setImgSrc] = useState(src)
-  const [hasError, setHasError] = useState(false)
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    trigger,
+  } = useForm<EditProfileData>({
+    mode: "onBlur",
+    criteriaMode: "all",
+    shouldUseNativeValidation: false,
+  })
+
   const router = useRouter()
 
   const changeFileHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -32,23 +60,21 @@ const ProfileEditModal = ({ company, src = "" }: IProfileEditModalProps) => {
     }
   }
 
-  const changeTextHandler = (value: string) => {
-    if (!value) {
-      setHasError(true)
-      return
-    }
-    setHasError(false)
-  }
+  const onSubmit: SubmitHandler<EditProfileData> = async (data) => {
+    const formData = new FormData()
 
-  const submitHandler = async (formData: FormData) => {
-    if (hasError) return
+    formData.append("companyName", data.companyName)
+    if (src !== "") {
+      // src 수정 필요함 - fixme
+      formData.append("image", src)
+    }
     await editProfileInfo(formData)
     router.back()
   }
 
   return (
     <form
-      action={submitHandler}
+      onSubmit={handleSubmit(onSubmit)}
       className="mt-1/2 absolute left-0 right-0 top-1/4 mx-auto flex w-modal-md flex-col gap-4 rounded-xl border bg-white p-6 shadow-md lg:w-modal-lg"
     >
       <div className="flex items-center justify-between">
@@ -64,17 +90,19 @@ const ProfileEditModal = ({ company, src = "" }: IProfileEditModalProps) => {
         <input hidden id="image" name="image" type="file" onChange={changeFileHandler} />
       </label>
       <div>
-        <label htmlFor="companyName" className="font-semibold">
-          회사
-          <InputField
-            name="companyName"
-            size="large"
-            inputType="input"
-            placeholder={company}
-            onChange={changeTextHandler}
-            errorMessage={hasError ? errorMessage : undefined}
-          />
-        </label>
+        <InputField
+          label={ProfileEditModalFormValue.label}
+          type={ProfileEditModalFormValue.type}
+          name={ProfileEditModalFormValue.name}
+          placeholder={company}
+          register={register}
+          error={errors[ProfileEditModalFormValue.name as keyof EditProfileData]}
+          onBlur={() => {
+            return trigger(ProfileEditModalFormValue.name as keyof EditProfileData)
+          }}
+          inputType="input"
+          size="large"
+        />
       </div>
       <div className="flex gap-3">
         <CancelButton />

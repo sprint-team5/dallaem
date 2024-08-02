@@ -1,37 +1,37 @@
 import { IGetMyMeetingsRes, fetchMyPageInfo } from "@/actions/fetchMyPageInfo"
 import Card from "@/components/public/Card/Card"
-import { useQuery } from "@tanstack/react-query"
+import { useSuspenseQuery } from "@tanstack/react-query"
 
 interface IMyPageInfoWrapperProps {
   dataFetchingKey: string
 }
 
 const MyPageInfoWrapper = ({ dataFetchingKey }: IMyPageInfoWrapperProps) => {
-  const { data } = useQuery({
+  const { data } = useSuspenseQuery({
     queryKey: ["mypage", dataFetchingKey],
     queryFn: ({ queryKey }) => {
       const fetchingKey = queryKey[1]
-      const offset = 5
+      const offset = 0
       const limit = 5
       return fetchMyPageInfo({ fetchingKey, offset, limit })
     },
   })
   return (
-    <div>
+    <div className="flex flex-col gap-6">
       {Array.isArray(data) &&
         data.map((meeting: IGetMyMeetingsRes) => {
           return (
             <Card
-              registrationEnd={meeting.registrationEnd}
-              image={meeting.image}
-              capacity={meeting.capacity}
-              id={meeting.id}
               teamId={meeting.teamId}
-              key={meeting.name}
+              id={meeting.id}
               name={meeting.name}
               dateTime={meeting.dateTime}
+              registrationEnd={meeting.registrationEnd}
               location={meeting.location}
               participantCount={meeting.participantCount}
+              image={meeting.image}
+              capacity={meeting.capacity}
+              key={meeting.name}
             />
           )
         })}
