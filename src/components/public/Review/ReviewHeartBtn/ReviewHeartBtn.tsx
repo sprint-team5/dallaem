@@ -1,14 +1,12 @@
 "use client"
 
-import { Dispatch, SetStateAction } from "react"
-
 import Heart from "@/components/public/icon/dynamicIcon/Heart"
 
 import styles from "./ReviewHeartBtn.module.scss"
 
 interface IReviewHeartBtnProps {
   value: number
-  setter: Dispatch<SetStateAction<number>>
+  setter: (userScore: number) => void
 }
 
 /**

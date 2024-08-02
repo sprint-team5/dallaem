@@ -23,6 +23,10 @@ const nextConfig = {
         source: "/mypage/edit",
         destination: "/mypage",
       },
+      {
+        source: "/mypage/addReview",
+        destination: "/mypage",
+      },
     ]
   },
 }

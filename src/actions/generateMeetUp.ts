@@ -10,7 +10,7 @@ interface ICustomResponse {
 
 const generateMeetUp = async (formData: FormData) => {
   try {
-    const response = await fetch(`${process.env.BASE_URL}/gatherings`, {
+    const response = await fetch(`${process.env.BASE_URL}/${process.env.TEAM_ID}/gatherings`, {
       method: "POST",
       body: formData,
       headers: {
