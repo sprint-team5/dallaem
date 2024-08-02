@@ -43,7 +43,7 @@ export const getMyMeetings = async (
         method: "GET",
         headers: {
           Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFtSWQiOiJ0ZWFtNTU1IiwidXNlcklkIjo0ODUsImlhdCI6MTcyMjU2NTEzMywiZXhwIjoxNzIyNTY4NzMzfQ.biIMNyiE2sHhxtEgZbmP8ahwtbl-1DCNmIxF4mpu1CY",
+            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFtSWQiOiJ0ZWFtNTU1IiwidXNlcklkIjo0ODUsImlhdCI6MTcyMjU3MTQxMiwiZXhwIjoxNzIyNTc1MDEyfQ.ty2kuW_hQRLbh5PiCpNYC860SerI1EzRGOJxXyQCWME",
         },
       },
     )
@@ -65,7 +65,7 @@ export const getMyReview = async (offset: number, limit: number, reviewed = fals
       {
         headers: {
           Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFtSWQiOiJ0ZWFtNTU1IiwidXNlcklkIjo0ODUsImlhdCI6MTcyMjU2NTEzMywiZXhwIjoxNzIyNTY4NzMzfQ.biIMNyiE2sHhxtEgZbmP8ahwtbl-1DCNmIxF4mpu1CY",
+            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFtSWQiOiJ0ZWFtNTU1IiwidXNlcklkIjo0ODUsImlhdCI6MTcyMjU3MTQxMiwiZXhwIjoxNzIyNTc1MDEyfQ.ty2kuW_hQRLbh5PiCpNYC860SerI1EzRGOJxXyQCWME",
         },
       },
     )
@@ -93,7 +93,7 @@ export const getMyOwnMeeting = async (
       {
         headers: {
           Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFtSWQiOiJ0ZWFtNTU1IiwidXNlcklkIjo0ODUsImlhdCI6MTcyMjU2NTEzMywiZXhwIjoxNzIyNTY4NzMzfQ.biIMNyiE2sHhxtEgZbmP8ahwtbl-1DCNmIxF4mpu1CY",
+            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFtSWQiOiJ0ZWFtNTU1IiwidXNlcklkIjo0ODUsImlhdCI6MTcyMjU3MTQxMiwiZXhwIjoxNzIyNTc1MDEyfQ.ty2kuW_hQRLbh5PiCpNYC860SerI1EzRGOJxXyQCWME",
         },
       },
     )

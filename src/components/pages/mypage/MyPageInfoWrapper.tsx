@@ -4,7 +4,8 @@ import { useRouter } from "next/navigation"
 
 import { IGetMyMeetingsRes, fetchMyPageInfo } from "@/actions/fetchMyPageInfo"
 import Card from "@/components/public/Card/Card"
-import { useSuspenseQuery } from "@tanstack/react-query"
+import Spinner from "@/components/public/Spinner/Spinner"
+import { useQuery } from "@tanstack/react-query"
 
 interface IMyPageInfoWrapperProps {
   dataFetchingKey: string
@@ -12,7 +13,7 @@ interface IMyPageInfoWrapperProps {
 
 const MyPageInfoWrapper = ({ dataFetchingKey }: IMyPageInfoWrapperProps) => {
   const router = useRouter()
-  const { data } = useSuspenseQuery({
+  const { data, isPending } = useQuery({
     queryKey: ["mypage", dataFetchingKey],
     queryFn: ({ queryKey }) => {
       const fetchingKey = queryKey[1]
@@ -25,6 +26,8 @@ const MyPageInfoWrapper = ({ dataFetchingKey }: IMyPageInfoWrapperProps) => {
   const clickHandler = (pathId: number) => {
     router.push(`/mypage/addReview?gatheringId=${pathId}`)
   }
+
+  if (isPending) return <Spinner />
 
   return (
     <div className="flex flex-col gap-6">
