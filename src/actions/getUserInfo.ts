@@ -10,7 +10,7 @@ export interface IUserInfo {
 const getUserInfo = async () => {
   let userInfo: IUserInfo
   try {
-    const response = await fetch(`${process.env.BASE_URL}/auths/user`, {
+    const response = await fetch(`${process.env.BASE_URL}/${process.env.TEAM_ID}/auths/user`, {
       method: "GET",
       headers: {
         "Content-type": "application/json",

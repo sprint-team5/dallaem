@@ -38,7 +38,7 @@ export const getMyMeetings = async (
   const { limit = 5, offset } = options
   try {
     const response = await fetch(
-      `${process.env.BASE_URL}/gatherings/joined?completed=false&reviewed=false&limit=${limit}&offset=${offset}`,
+      `${process.env.BASE_URL}/${process.env.TEAM_ID}/gatherings/joined?completed=false&reviewed=false&limit=${limit}&offset=${offset}`,
       {
         method: "GET",
         headers: {
@@ -61,7 +61,7 @@ export const getMyMeetings = async (
 export const getMyReview = async (offset: number, limit: number, reviewed = false) => {
   try {
     const response = await fetch(
-      `${process.env.BASE_URL}/gatherings/joined?limit=${limit}&offset=${offset}&completed=true&reviewed=${reviewed}`,
+      `${process.env.BASE_URL}/${process.env.TEAM_ID}/gatherings/joined?limit=${limit}&offset=${offset}&completed=true&reviewed=${reviewed}`,
       {
         headers: {
           Authorization:
@@ -85,11 +85,11 @@ export const getMyOwnMeeting = async (
   limit: number,
 ): Promise<IGetMyMeetingsRes[] | string> => {
   try {
-    const userRes = await fetch(`${process.env.BASE_URL}/auths/user`)
+    const userRes = await fetch(`${process.env.BASE_URL}/${process.env.TEAM_ID}/auths/user`)
 
     const { id } = await userRes.json()
     const response = await fetch(
-      `${process.env.BASE_URL}/gatherings?createdBy=${id}&offset=${offset}&limit=${limit}`,
+      `${process.env.BASE_URL}/${process.env.TEAM_ID}/gatherings?createdBy=${id}&offset=${offset}&limit=${limit}`,
       {
         headers: {
           Authorization:

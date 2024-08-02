@@ -13,7 +13,7 @@ interface IErrorResponse {
 
 const addReview = async (data: IAddReviews) => {
   try {
-    const response = await fetch(`${process.env.BASE_URL}/reviews`, {
+    const response = await fetch(`${process.env.BASE_URL}/${process.env.TEAM_ID}/reviews`, {
       method: "POST",
       body: JSON.stringify(data),
       headers: {
