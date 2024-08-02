@@ -3,6 +3,7 @@
 import { useState } from "react"
 
 import getMeetingList from "@/actions/apis/getMeetingList"
+import CreateMeetingModal from "@/components/pages/findMeeting/CreateMeeting/CreateMeetingModal"
 import FilterCalendar from "@/components/pages/findMeeting/FilterCalendar/FilterCalendar"
 import FilterSort from "@/components/pages/findMeeting/FilterSort/FilterSort"
 import FilterTab from "@/components/pages/findMeeting/FilterTab/FilterTab"
@@ -18,6 +19,8 @@ const FindMeeting = () => {
     type: "DALLAEMFIT",
     sortBy: "registrationEnd",
   })
+  const [isLoginModal, setIsLoginModal] = useState(false)
+  const [isMeetingModal, setIsMeetingModal] = useState(false)
   const { data, status, error } = useQuery({
     queryKey: ["meetingList", filterOption],
     queryFn: () => {
@@ -61,15 +64,20 @@ const FindMeeting = () => {
   return (
     <div className="flex flex-col items-center bg-gray-50 px-[102px] py-[40px] max-md:px-[24px] max-md:py-[24px] max-sm:px-[16px]">
       <div className="w-full max-w-[1200px]">
-        <div className="flex justify-between">
+        <div className="relative flex justify-between">
           <FilterTab
             selVal={filterOption.type}
             onSelect={(e) => {
               onFilterChanged(e, "type")
             }}
           />
-          <div>
-            <Button borderStyle="solid" onClick={() => {}}>
+          <div className="absolute right-0 top-0 w-[115px] max-sm:w-[100px]">
+            <Button
+              borderStyle="solid"
+              onClick={() => {
+                setIsMeetingModal(!isMeetingModal)
+              }}
+            >
               모임 만들기
             </Button>
           </div>
@@ -102,6 +110,17 @@ const FindMeeting = () => {
         </div>
         <MeetingList data={data} status={status} error={error} />
       </div>
+      {isMeetingModal && (
+        <CreateMeetingModal
+          changeState={() => {
+            setIsMeetingModal(!isMeetingModal)
+          }}
+          // 스크린 리더에서 해당 요소가 하위메뉴를 포함하고 있음을 알려주기 위한 속성
+          aria-haspopup="true"
+          // 스크린 리더에서 모달이 열려있는지 상태를 알려주기 위한 속성
+          aria-pressed={isMeetingModal}
+        />
+      )}
     </div>
   )
 }
