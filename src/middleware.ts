@@ -13,18 +13,14 @@ export function middleware(request: NextRequest) {
 
   const userToken = cookies().get("userToken")?.value
 
-  if (request.cookies.has("userToken") && userToken) {
-    if (startsWith("/auth")) {
-      return toRedirect("/")
-    }
-  } else {
-    if (startsWith("/wishlist")) {
+  if (!request.cookies.has("userToken") || !userToken) {
+    if (startsWith("/wishlist") || startsWith("/mypage")) {
       return toRedirect("/auth?mode=signin")
     }
+  }
 
-    if (startsWith("/mypage")) {
-      return toRedirect("/auth?mode=signin")
-    }
+  if (startsWith("/auth")) {
+    return toRedirect("/")
   }
 
   return null
