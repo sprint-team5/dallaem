@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 
-import { useEffect, useState } from "react"
+import { Fragment, useEffect, useState } from "react"
 import { SubmitHandler, useForm } from "react-hook-form"
 
 import { usePostSignup } from "@/actions/api-hooks/Auths"
@@ -117,7 +117,7 @@ const SignupForm = () => {
         <span className="text-center text-gray-800">회원가입</span>
         {signupFormValue.map((value) => {
           return (
-            <div key={value.label}>
+            <Fragment key={value.label}>
               <InputField
                 label={value.label}
                 name={value.name}
@@ -132,7 +132,7 @@ const SignupForm = () => {
                 inputType="input"
                 size="large"
               />
-            </div>
+            </Fragment>
           )
         })}
         {signupError && <span>※ {signupError.message}</span>}

@@ -9,7 +9,7 @@ interface SignupData {
 
 // 사용자 회원가입
 const PostSignupFn = async (signupData: SignupData) => {
-  const response = await fetch(`${process.env.BASE_URL}/auths/signup`, {
+  const response = await fetch(`${process.env.BASE_URL}/${process.env.TEAM_ID}/auths/signup`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -32,7 +32,7 @@ interface SigninData {
 
 // 사용자 로그인
 const PostSigninFn = async (signinData: SigninData) => {
-  const response = await fetch(`${process.env.BASE_URL}/auths/signin`, {
+  const response = await fetch(`${process.env.BASE_URL}/${process.env.TEAM_ID}/auths/signin`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -50,7 +50,7 @@ const PostSigninFn = async (signinData: SigninData) => {
 
 // 회원 정보 확인
 const GetUserDataFn = async (userToken?: string) => {
-  const response = await fetch(`${process.env.BASE_URL}/auths/user`, {
+  const response = await fetch(`${process.env.BASE_URL}/${process.env.TEAM_ID}/auths/user`, {
     headers: {
       Authorization: `Bearer ${userToken}`,
     },
@@ -66,7 +66,7 @@ const GetUserDataFn = async (userToken?: string) => {
 
 // 사용자 로그아웃
 const PostLogoutFn = async () => {
-  const response = await fetch(`${process.env.BASE_URL}/auths/user`)
+  const response = await fetch(`${process.env.BASE_URL}/${process.env.TEAM_ID}/auths/user`)
 
   const data = await response.json()
 
