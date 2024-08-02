@@ -2,15 +2,25 @@
 
 import { useRouter } from "next/navigation"
 
+import { ChangeEvent, useState } from "react"
+
 import addReview from "@/actions/addReview"
+import Scores from "@/components/pages/allReview/Scores"
 
 import CloseBtn from "../CloseBtn"
+import ReviewHeartBtn from "../Review/ReviewHeartBtn/ReviewHeartBtn"
 
 interface IReviewModalProp {
   gatheringId: string
 }
 
+const initialValue = {
+  score: 0,
+  comment: "남겨주신 리뷰는 프로그램 운영 및 다른 회원 분들께 큰 도움이 됩니다.",
+}
+
 const ReviewModal = ({ gatheringId }: IReviewModalProp) => {
+  const [userInput, setUserInput] = useState(initialValue)
   const router = useRouter()
   const handleSubmit = async (data) => {
     console.log(data)
@@ -18,6 +28,25 @@ const ReviewModal = ({ gatheringId }: IReviewModalProp) => {
     // if (res === 200) {
     //   router.back()
     // }
+  }
+
+  const heartChangeHandler = (userClick: number) => {
+    setUserInput((prev) => {
+      return {
+        ...prev,
+        score: userClick,
+      }
+    })
+  }
+
+  const inputChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    const userComment = e.target.value
+    setUserInput((prev) => {
+      return {
+        ...prev,
+        comment: userComment,
+      }
+    })
   }
 
   return (
@@ -30,17 +59,15 @@ const ReviewModal = ({ gatheringId }: IReviewModalProp) => {
           <h3 className="text-lg font-semibold">리뷰쓰기</h3>
           <CloseBtn />
         </div>
-        <div className="my-6">
-          <p className="font-semibold">만족스러운 경험이었나요?</p>
-          <div>♥︎ ♥︎ ♥︎ ♥︎ ♥︎</div>
-        </div>
+        <ReviewHeartBtn value={userInput.score} setter={heartChangeHandler} />
         <div>
           <p className="mb-3 font-semibold">경험에 대해 남겨주세요.</p>
           <textarea
             name="review"
             rows={5}
             className="w-full resize-none rounded-xl bg-gray-50 px-4 py-2.5"
-            placeholder="남겨주신 리뷰는 프로그램 운영 및 다른 회원 분들께 큰 도움이 됩니다."
+            placeholder={userInput.comment}
+            onChange={inputChangeHandler}
           />
         </div>
         <div className="mt-6 flex justify-center gap-3">
