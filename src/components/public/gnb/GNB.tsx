@@ -1,9 +1,9 @@
 "use client"
 
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useSearchParams } from "next/navigation"
 
-import { useGetUserData } from "@/apis/Auths"
+import { useGetUserData } from "@/actions/api-hooks/Auths"
 import Logo from "@/components/public/img/Logo"
 import ROUTE from "@/constants/route"
 
@@ -43,15 +43,23 @@ const GNB = ({ userToken }: IGNBProps) => {
   const profileImg = data?.image
 
   const currentPath = usePathname()
+  const searchParams = useSearchParams()
 
   // 현재 경로가 showGNBPaths에 포함되어 있는지 확인
-  function isValidRoute(path: string): path is keyof typeof ROUTE {
+  function isValidRoute(path: string): boolean {
     return Object.values(ROUTE).some((route) => {
-      return path === route || (route !== "/" && path.startsWith(route))
+      // 쿼리 스트링이 있는 경우
+      if (route.includes("?")) {
+        const [basePath, query] = route.split("?")
+        const [paramKey, paramValue] = query.split("=")
+        return path === basePath && searchParams.get(paramKey) === paramValue
+      }
+      // 쿼리 스트링이 없는 경우
+      return path === route || path.startsWith(`${route}/`)
     })
   }
 
-  const shouldShowGNB = isValidRoute(currentPath as keyof typeof ROUTE)
+  const shouldShowGNB = isValidRoute(currentPath)
 
   const navItems = [
     { href: ROUTE.GATHERINGS, label: "모임 찾기" },
