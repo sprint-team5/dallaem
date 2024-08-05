@@ -69,7 +69,7 @@ const HeadContent = () => {
       <div ref={ref} className={wrapperStyles}>
         <animated.h1 style={fadeIn} className={h1TextStyles}>
           당신의 관심사,
-          <br className="" />
+          <br />
           5분만에 모임으로 만들어보세요!
         </animated.h1>
         <animated.h2 style={fadeInDelayed} className={h2TextStyles}>
