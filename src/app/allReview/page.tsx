@@ -1,23 +1,18 @@
-import getAllReview from "@/actions/allReviewActions"
 import getQueryClient from "@/components/app/queryClient"
 import List from "@/components/pages/allReview/List"
 import Scores from "@/components/pages/allReview/Scores"
 import Head from "@/components/public/img/Head"
+import { allReviewOptions } from "@/hooks/useAllReview"
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query"
 
 const AllReviewsPage = async () => {
   const queryClient = getQueryClient()
 
-  queryClient.prefetchQuery({
-    queryKey: ["allReview", {}],
-    queryFn: () => {
-      return getAllReview({})
-    },
-  })
+  queryClient.prefetchQuery(allReviewOptions({}))
 
   return (
     <main>
-      <div className="mx-auto flex min-h-screen max-w-[1200px] flex-col bg-white px-4 pb-[51px] pt-6 sm:px-6 sm:pt-[40px] md:px-[102px]">
+      <div className="mx-auto flex min-h-screen max-w-[1200px] flex-col bg-gray-50 px-4 pb-[51px] pt-6 sm:px-6 sm:pt-[40px] md:px-[102px]">
         <div className="flex-none">
           <div className="flex items-center gap-4 sm:gap-[13px]">
             <div className="size-[72px] flex-none">

@@ -1,19 +1,17 @@
 import getAllReview from "@/actions/allReviewActions"
-import { queryOptions, useSuspenseQuery } from "@tanstack/react-query"
+import { IFilter } from "@/types/review/filter"
+import { queryOptions, useQuery } from "@tanstack/react-query"
 
-export const allReviewOptions = (location: any) => {
+export const allReviewOptions = (filter: IFilter | {}) => {
   return queryOptions({
-    queryKey: ["allReview", location],
-    queryFn: getAllReview,
+    queryKey: ["allReview", filter],
+    queryFn: () => {
+      return getAllReview(filter)
+    },
   })
 }
 
-export const useAllReview = (location: any) => {
-  const {
-    data: reviews,
-    isLoading,
-    isSuccess,
-    refetch,
-  } = useSuspenseQuery(allReviewOptions(location))
-  return { reviews, isLoading, isSuccess, refetch }
+export const useAllReview = () => {
+  const { data: reviews, isLoading } = useQuery(allReviewOptions({}))
+  return { reviews, isLoading }
 }

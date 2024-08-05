@@ -2,13 +2,13 @@
 
 import { useState } from "react"
 
-import getAllReview from "@/actions/allReviewActions"
 import FilterSort from "@/components/pages/allReview/FilterSort"
 import FilterCalendar from "@/components/pages/findMeeting/FilterCalendar/FilterCalendar"
 import Filter from "@/components/public/Filter/Filter"
 import Review from "@/components/public/Review/Review"
 import Spinner from "@/components/public/Spinner/Spinner"
 import { location } from "@/constants/meeting"
+import { allReviewOptions } from "@/hooks/useAllReview"
 import { IFilter } from "@/types/review/filter"
 import { useQuery } from "@tanstack/react-query"
 
@@ -16,12 +16,8 @@ const List = () => {
   const [filter, setFilter] = useState<IFilter>({
     sortOrder: "asc",
   })
-  const { data: reviews, isLoading } = useQuery({
-    queryKey: ["allReview", filter],
-    queryFn: () => {
-      return getAllReview(filter)
-    },
-  })
+
+  const { data: reviews, isLoading } = useQuery(allReviewOptions(filter))
 
   // TODO: 이벤트를 넘기지 않고 수정할 값만 파싱해서 넘기도록 수정 필요(역할, 책임 등의 문제)
   const onFilterChanged = (
@@ -88,7 +84,7 @@ const List = () => {
         className={`mt-6 flex flex-1 flex-col gap-6 text-sm font-medium leading-5 text-gray-500 ${reviews?.length === 0 && "items-center justify-center"}`}
       >
         {isLoading && (
-          <div className="h-full w-full items-center justify-center p-80">
+          <div className="h-full w-full items-center justify-center py-52">
             <Spinner />
           </div>
         )}

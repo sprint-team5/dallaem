@@ -4,9 +4,8 @@ import { useSearchParams } from "next/navigation"
 
 import { useEffect, useState } from "react"
 
+import XSVG from "@public/icon/staticIcon/X.svg"
 import ErrorSVG from "@public/icon/staticIcon/error.svg"
-
-import X from "./icon/staticIcon/X"
 
 const MODAL_DELAY_TIME = {
   open: 100,
@@ -53,7 +52,7 @@ const Toast = () => {
         <ErrorSVG className="text-red-4 size-5" />
       </div>
       {errorMsg}
-      <X className="absolute right-2 top-0 w-3" />
+      <XSVG className="absolute right-2 top-1 w-3" />
     </button>
   )
 }
