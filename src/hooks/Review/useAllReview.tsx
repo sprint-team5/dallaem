@@ -19,6 +19,7 @@ export const useAllReview = (filter: IFilter | {}) => {
     },
     initialPageParam: 0,
     getNextPageParam: (lastPage, pages) => {
+      // api에서 cursor 혹은 total을 지원안해줘서 일단 간단하게 작업해둔 상태
       if (lastPage.length < 10) return undefined
       return pages.length * 10
     },
