@@ -47,7 +47,7 @@ const Toast = () => {
     <button
       type="button"
       onClick={clickHanlder}
-      className={`fixed top-20 z-50 flex cursor-pointer items-center gap-2 border-2 border-orange-500 bg-red-100 py-3 pl-4 pr-6 text-xs font-bold text-red-400 transition-all duration-500 sm:text-sm ${active ? "right-6 translate-x-0" : "right-0 max-w-60 translate-x-full break-keep opacity-0"}`}
+      className={`fixed top-20 z-50 flex cursor-pointer items-center gap-2 rounded border border-red-400 bg-red-100 py-3 pl-4 pr-6 text-xs font-bold text-red-400 transition-all duration-500 sm:text-sm ${active ? "right-6 translate-x-0" : "right-0 max-w-60 translate-x-full break-keep opacity-0"}`}
     >
       <div>
         <ErrorSVG className="text-red-4 size-5" />
