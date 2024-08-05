@@ -35,11 +35,10 @@ export interface IGetMyMeetingsRes {
   isReviewed: boolean
 }
 
-const userToken = cookies().get("userToken")?.value
-
 export const getMyMeetings = async (
   options: IGetMyMeetings,
 ): Promise<IGetMyMeetingsRes[] | string> => {
+  const userToken = cookies().get("userToken")?.value
   const { limit = 5, offset } = options
   try {
     const response = await fetch(
@@ -63,6 +62,7 @@ export const getMyMeetings = async (
 }
 
 export const getMyReview = async (offset: number, limit: number, reviewed = false) => {
+  const userToken = cookies().get("userToken")?.value
   try {
     const response = await fetch(
       `${process.env.BASE_URL}/${process.env.TEAM_ID}/gatherings/joined?limit=${limit}&offset=${offset}&completed=true&reviewed=${reviewed}`,
@@ -87,6 +87,7 @@ export const getMyOwnMeeting = async (
   offset: number,
   limit: number,
 ): Promise<IGetMyMeetingsRes[] | string> => {
+  const userToken = cookies().get("userToken")?.value
   try {
     const userRes = await fetch(`${process.env.BASE_URL}/${process.env.TEAM_ID}/auths/user`, {
       method: "GET",

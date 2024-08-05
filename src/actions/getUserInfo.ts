@@ -9,9 +9,8 @@ export interface IUserInfo {
   image?: string
 }
 
-const userToken = cookies().get("userToken")?.value
-
 const getUserInfo = async () => {
+  const userToken = cookies().get("userToken")?.value
   const response = await fetch(`${process.env.BASE_URL}/${process.env.TEAM_ID}/auths/user`, {
     method: "GET",
     headers: {

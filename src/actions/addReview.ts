@@ -13,9 +13,8 @@ interface IErrorResponse {
   message: string
 }
 
-const userToken = cookies().get("userToken")?.value
-
 const addReview = async (data: IAddReviews) => {
+  const userToken = cookies().get("userToken")?.value
   try {
     const response = await fetch(`${process.env.BASE_URL}/${process.env.TEAM_ID}/reviews`, {
       method: "POST",
