@@ -3,63 +3,27 @@
 import { useEffect, useState } from "react"
 
 import getScoreReview from "@/actions/getScoreReview"
+import RatingBar from "@/components/pages/allReview/Scores/Atoms/RatingBar"
 import FilterTab from "@/components/pages/findMeeting/FilterTab/FilterTab"
 import Heart from "@/components/public/icon/dynamicIcon/Heart"
+import useScoreCalculation from "@/hooks/Review/useScoreCalculation"
 import { useQuery } from "@tanstack/react-query"
 
-const RatingBar = ({
-  rating,
-  count,
-  maxScore,
-}: {
-  rating: number
-  count: number
-  maxScore: number
-}) => {
-  const [width, setWidth] = useState("0%")
-
-  useEffect(() => {
-    setWidth(`${(count / maxScore) * 100}%`)
-  }, [count, maxScore])
-
-  return (
-    <div className="mt-1 flex items-center gap-3 text-sm font-medium leading-5 first:mt-0">
-      <p className="w-[21px] flex-none">{rating}점</p>
-      <div className="relative h-1 w-[84px] overflow-hidden rounded-full bg-gray-200 sm:w-[240px]">
-        <div
-          style={{ width }}
-          className="absolute left-0 top-0 h-full rounded-full bg-[#111827] transition-all delay-100 duration-500"
-        />
-      </div>
-      <p className="flex-none text-gray-400">{count}</p>
-    </div>
-  )
-}
-
 const Scores = () => {
-  const [allScore, setAllScore] = useState(0)
-  const [maxScore, setMaxScore] = useState(0)
-  const [clipPath, setClipPath] = useState(`inset(0 100% 0 0)`)
-
   const [filter, setFilter] = useState({
     type: "DALLAEMFIT",
   })
 
-  const { data: score } = useQuery({
+  const [clipPath, setClipPath] = useState(`inset(0 100% 0 0)`)
+
+  const { data: scoreData } = useQuery({
     queryKey: ["scores", filter],
     queryFn: () => {
       return getScoreReview(filter)
     },
   })
 
-  useEffect(() => {
-    if (!score || score.length < 1) return
-    const { oneStar, twoStars, threeStars, fourStars, fiveStars } = score[0]
-    const allReviewLength = oneStar + twoStars + threeStars + fourStars + fiveStars
-    const totalScore = 5 * fiveStars + 4 * fourStars + 3 * threeStars + 2 * twoStars + 1 * oneStar
-    setAllScore(totalScore / allReviewLength)
-    setMaxScore(Math.max(oneStar, twoStars, threeStars, fourStars, fiveStars) + 5)
-  }, [score])
+  const { allScore, maxScore, ratings } = useScoreCalculation(scoreData)
 
   useEffect(() => {
     setTimeout(() => {
@@ -111,7 +75,7 @@ const Scores = () => {
         />
       </div>
       <div className="mt-6 flex h-[180px] items-center justify-center gap-5 border-b border-t sm:gap-[120px] md:gap-[138px] lg:gap-[188px]">
-        {score && score.length > 0 ? (
+        {allScore > 0 ? (
           <>
             <div>
               <p className="text-center text-xl font-semibold leading-8 text-gray-900 sm:text-2xl">
@@ -132,13 +96,7 @@ const Scores = () => {
               </div>
             </div>
             <div>
-              {[
-                { rating: 5, count: score[0].fiveStars },
-                { rating: 4, count: score[0].fourStars },
-                { rating: 3, count: score[0].threeStars },
-                { rating: 2, count: score[0].twoStars },
-                { rating: 1, count: score[0].oneStar },
-              ].map((rating) => {
+              {ratings.map((rating) => {
                 return (
                   <RatingBar
                     key={rating.count}

@@ -2,7 +2,7 @@
 
 import { convertParamsToQueryString } from "@/util/fetchParameterParser"
 
-interface IScoreReview {
+export interface IScoreReview {
   teamId: string
   gatheringId: number
   type: string

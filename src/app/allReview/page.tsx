@@ -1,6 +1,6 @@
 import getQueryClient from "@/components/app/queryClient"
 import List from "@/components/pages/allReview/List"
-import Scores from "@/components/pages/allReview/Scores"
+import Scores from "@/components/pages/allReview/Scores/Scores"
 import Head from "@/components/public/img/Head"
 import { allReviewOptions } from "@/hooks/useAllReview"
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query"
