@@ -10,6 +10,7 @@ import Checkbox from "@/components/public/icon/dynamicIcon/Checkbox"
 import X from "@/components/public/icon/staticIcon/X"
 import { location } from "@/constants/meeting"
 import { allowScroll, preventScroll } from "@/util/modal"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import dayjs from "dayjs"
 
 import "./styles.scss"
@@ -174,6 +175,17 @@ const CreateMeetingModal = ({ changeState }: { changeState: () => void }) => {
     registrationEnd: "",
   })
 
+  const queryClient = useQueryClient()
+
+  const mutation = useMutation({
+    mutationFn: (params: any) => {
+      return generateMeetUp(params)
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["meetingList"] })
+    },
+  })
+
   const modalSelectRef = useRef<HTMLSelectElement>(null)
   const fileLabelRef = useRef<HTMLInputElement>(null)
 
@@ -263,7 +275,7 @@ const CreateMeetingModal = ({ changeState }: { changeState: () => void }) => {
         .format("YYYY-MM-DDTHH:mm:ss"),
     )
 
-    await generateMeetUp(params)
+    mutation.mutateAsync(params)
     changeState()
   }
 
