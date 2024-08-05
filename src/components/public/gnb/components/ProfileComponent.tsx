@@ -60,12 +60,19 @@ const ProfileComponent = ({ isLoggedIn, profileImg, hoveredNavItem }: IProfileCo
               type="button"
               className={`${modalStyles.navItems} ${hoveredNavItem}`}
               onClick={() => {
+                setIsOpen(false)
                 return router.push(ROUTE.MY_PAGE)
               }}
             >
               마이 페이지
             </button>
-            <form action={onLogout} className={`${modalStyles.navItems} ${hoveredNavItem}`}>
+            <form
+              action={() => {
+                setIsOpen(false)
+                return onLogout()
+              }}
+              className={`${modalStyles.navItems} ${hoveredNavItem}`}
+            >
               <button type="submit" className="h-full w-full">
                 로그아웃
               </button>
