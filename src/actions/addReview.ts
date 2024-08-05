@@ -1,5 +1,7 @@
 "use server"
 
+import { cookies } from "next/headers"
+
 interface IAddReviews {
   gatheringId: string
   score: string
@@ -12,14 +14,14 @@ interface IErrorResponse {
 }
 
 const addReview = async (data: IAddReviews) => {
+  const userToken = cookies().get("userToken")?.value
   try {
     const response = await fetch(`${process.env.BASE_URL}/${process.env.TEAM_ID}/reviews`, {
       method: "POST",
       body: JSON.stringify(data),
       headers: {
         "content-type": "application/json",
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFtSWQiOiJ0ZWFtNTU1IiwidXNlcklkIjo0ODUsImlhdCI6MTcyMjU4MjkxMiwiZXhwIjoxNzIyNTg2NTEyfQ.nrjqFzBazLwy9zHR2XkI3U8BPYm3gys2yNJ2lE_UrJ8",
+        Authorization: `Bearer ${userToken}`,
       },
     })
 
