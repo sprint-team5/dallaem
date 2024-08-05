@@ -66,7 +66,7 @@ export const MeetingCard = ({ data }: { data: IMeetingData }) => {
               className="mr-[2px]"
             />
             <span className="text-sm">{`${data.participantCount}/${data.capacity}`}</span>
-            {Number(data.participantCount) <= 5 && (
+            {Number(data.participantCount) >= 5 && (
               <>
                 <Image
                   src="/icon/staticIcon/confirmed.svg"
