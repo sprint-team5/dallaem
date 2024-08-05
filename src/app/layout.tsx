@@ -58,7 +58,7 @@ const RootLayout = ({
   const userToken = cookieStore.get("userToken")?.value
   return (
     <html lang="ko" className={pretendard.className}>
-      <body className="pt-[55px]">
+      <body className="bg-gray-100 pt-[55px]">
         <ToastProvider>
           <Providers>
             <GNB userToken={userToken} />

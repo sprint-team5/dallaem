@@ -10,7 +10,7 @@ import { animated, useSpring } from "@react-spring/web"
 
 // 테일윈스 스타일
 const mainPageStyles = {
-  container: "flex flex-col items-center justify-center",
+  container: "flex flex-col items-center justify-center bg-white",
   wrapper: {
     default: "flex flex-col items-center justify-between pb-16 pt-[108px] text-center",
     mobile: "h-[503px] w-[344px] px-5",
