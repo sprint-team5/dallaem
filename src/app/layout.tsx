@@ -4,6 +4,7 @@ import { cookies } from "next/headers"
 
 import Providers from "@/components/app/provider"
 import GNB from "@/components/public/gnb/GNB"
+import ToastProvider from "@/provider/ToastProvider"
 
 import "./globals.css"
 
@@ -58,10 +59,12 @@ const RootLayout = ({
   return (
     <html lang="ko" className={pretendard.className}>
       <body className="pt-[58px]">
-        <Providers>
-          <GNB userToken={userToken} />
-          {children}
-        </Providers>
+        <ToastProvider>
+          <Providers>
+            <GNB userToken={userToken} />
+            {children}
+          </Providers>
+        </ToastProvider>
       </body>
     </html>
   )
