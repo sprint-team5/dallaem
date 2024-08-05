@@ -12,7 +12,7 @@ import ProfileComponent from "./components/ProfileComponent"
 // 테일윈드 스타일
 const gnbStyles = {
   container:
-    "z-50 border-b-[1px] fixed top-0 left-0 border-gray-400 flex w-full items-center justify-center whitespace-nowrap bg-white",
+    "z-50 border-b fixed top-0 left-0 border-gray-400 flex w-full items-center justify-center whitespace-nowrap bg-white",
   wrapper: {
     default: "flex items-center justify-between relative",
     mobile: "h-[54px] w-[375px]",
@@ -72,7 +72,7 @@ const GNB = ({ userToken }: IGNBProps) => {
   ]
 
   return (
-    <div>
+    <div className="">
       {shouldShowGNB && (
         <div className={gnbStyles.container}>
           <div className={wrapperStyles}>
