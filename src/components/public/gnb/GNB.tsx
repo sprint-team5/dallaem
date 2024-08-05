@@ -12,7 +12,7 @@ import ProfileComponent from "./components/ProfileComponent"
 // 테일윈드 스타일
 const gnbStyles = {
   container:
-    "z-50 border-b-2 fixed top-0 left-0 border-black flex w-full items-center justify-center whitespace-nowrap bg-[#EA580C]",
+    "z-50 border-b fixed top-0 left-0 border-gray-400 flex w-full items-center justify-center whitespace-nowrap bg-white",
   wrapper: {
     default: "flex items-center justify-between relative",
     mobile: "h-[54px] w-[375px]",
@@ -27,7 +27,8 @@ const gnbStyles = {
   },
   navItem: "font-semibold text-[#FFF7ED]",
   currentNavItem: "font-semibold text-[#111827]",
-  hoveredNavItem: "transition-all ease-in-out transform hover:scale-125 delay-[10ms] duration-150",
+  hoveredNavItem:
+    "transition-all ease-in-out transform hover:scale-125 delay-[10ms] duration-150 text-orange-600",
 }
 
 const wrapperStyles = `${gnbStyles.wrapper.default} ${gnbStyles.wrapper.mobile} ${gnbStyles.wrapper.tablet} ${gnbStyles.wrapper.desktop}`
@@ -71,7 +72,7 @@ const GNB = ({ userToken }: IGNBProps) => {
   ]
 
   return (
-    <div>
+    <div className="">
       {shouldShowGNB && (
         <div className={gnbStyles.container}>
           <div className={wrapperStyles}>
