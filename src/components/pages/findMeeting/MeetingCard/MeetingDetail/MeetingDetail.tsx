@@ -3,6 +3,7 @@
 import Image from "next/image"
 
 import getAllReview, { IAllReview } from "@/actions/allReviewActions"
+import WishBtn from "@/components/pages/wishlist/WishBtn"
 import Review from "@/components/public/Review/Review"
 import { useMeetingDetail } from "@/hooks/useMeetingDetail"
 import { IMeetingData } from "@/types/meeting/meeting"
@@ -44,19 +45,12 @@ export const MeetingDetailCard = ({ data }: { data: IMeetingData }) => {
             <div className="mb-3 text-sm font-medium text-gray-700">{data.location}</div>
             <DateTag date={data.dateTime} />
           </div>
-          {/* TODO: 찜하기 버튼 추가 필요 */}
-          <Image
-            src="/icon/dynamicIcon/heart.svg"
-            alt="찜하기"
-            width={24}
-            height={24}
-            className="cursor-pointer"
-          />
+          <WishBtn list={data} />
         </div>
         <div className="flex flex-col gap-3">
           <div className="flex items-center justify-between">
             <span className="text-sm font-semibold text-gray-900">{`모집정원 ${data.participantCount}명`}</span>
-            {Number(data.participantCount) <= 5 && (
+            {Number(data.participantCount) >= 5 && (
               <div className="flex">
                 <Image
                   src="/icon/staticIcon/confirmed.svg"

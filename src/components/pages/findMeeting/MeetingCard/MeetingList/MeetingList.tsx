@@ -1,6 +1,7 @@
 import Image from "next/image"
 import Link from "next/link"
 
+import WishBtn from "@/components/pages/wishlist/WishBtn"
 import Spinner from "@/components/public/Spinner/Spinner"
 import ArrowRight from "@/components/public/icon/staticIcon/ArrowRight"
 import { IMeetingData } from "@/types/meeting/meeting"
@@ -47,14 +48,7 @@ export const MeetingCard = ({ data }: { data: IMeetingData }) => {
             </div>
             <DateTag date={data.dateTime} />
           </div>
-          {/* TODO: 찜하기 버튼 추가 필요 */}
-          <Image
-            src="/icon/dynamicIcon/heart.svg"
-            alt="찜하기"
-            width={24}
-            height={24}
-            className="cursor-pointer"
-          />
+          <WishBtn list={data} />
         </div>
         <div className="flex flex-col">
           <div className="flex items-center">
