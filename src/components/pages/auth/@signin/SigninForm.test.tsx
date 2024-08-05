@@ -8,27 +8,15 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react"
 
 import SigninForm from "./SigninForm"
 
-// useRouter와 usePostSignin 훅 모킹
+// 모킹
 jest.mock("next/navigation", () => {
   return {
     useRouter: jest.fn(),
   }
 })
 
-jest.mock("@/actions/api-hooks/Auths", () => {
-  return {
-    usePostSignin: jest.fn(() => {
-      jest.fn((data, options) => {
-        if (options && options.onSuccess) {
-          options.onSuccess()
-        }
-      })
-    }),
-    error: null,
-  }
-})
+jest.mock("@/hooks/usePostSignin")
 
-// svg 모킹
 jest.mock("@/components/public/icon/staticIcon/VisibilityOff", () => {
   return {
     __esModule: true,
@@ -47,7 +35,6 @@ jest.mock("@/components/public/icon/staticIcon/VisibilityOn", () => {
   }
 })
 
-// InputField 모킹
 jest.mock("@/components/public/input/InputField", () => {
   return jest.fn(({ label, name, type, placeholder, register }) => {
     return (
@@ -66,7 +53,6 @@ jest.mock("@/components/public/input/InputField", () => {
   })
 })
 
-// Button 모킹
 jest.mock("@/components/public/button/Button", () => {
   return jest.fn(({ children, disabled }) => {
     return (
@@ -82,13 +68,15 @@ describe("SigninForm", () => {
     replace: jest.fn(),
   }
   const mockSignin = jest.fn()
+  const mockUsePostSignin = usePostSignin as jest.MockedFunction<typeof usePostSignin>
 
   beforeEach(() => {
+    jest.clearAllMocks()
     ;(useRouter as jest.Mock).mockReturnValue(mockRouter)
-    ;(usePostSignin as jest.Mock).mockReturnValue({
+    mockUsePostSignin.mockReturnValue({
       mutate: mockSignin,
       error: null,
-    })
+    } as any)
   })
 
   it("기본 렌더링 테스트", () => {
@@ -142,12 +130,12 @@ describe("SigninForm", () => {
     })
   })
 
-  it("실패 에러 메시지 표시 유무 테스트", async () => {
+  it("실패 에러 메시지 표시 유무 테스트", () => {
     const errorMessage = "로그인에 실패했습니다."
-    ;(usePostSignin as jest.Mock).mockReturnValue({
+    mockUsePostSignin.mockReturnValue({
       mutate: mockSignin,
       error: { message: errorMessage },
-    })
+    } as any)
 
     render(<SigninForm />)
 

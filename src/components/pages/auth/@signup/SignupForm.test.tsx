@@ -8,27 +8,15 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react"
 
 import SignupForm from "./SignupForm"
 
-// useRouter와 usePostSignup 훅 모킹
+// 모킹
 jest.mock("next/navigation", () => {
   return {
     useRouter: jest.fn(),
   }
 })
 
-jest.mock("@/actions/api-hooks/Auths", () => {
-  return {
-    usePostSignup: jest.fn(() => {
-      jest.fn((data, options) => {
-        if (options && options.onSuccess) {
-          options.onSuccess()
-        }
-      })
-    }),
-    error: null,
-  }
-})
+jest.mock("@/hooks/usePostSignup")
 
-// svg 모킹
 jest.mock("@/components/public/icon/staticIcon/VisibilityOff", () => {
   return {
     __esModule: true,
@@ -47,7 +35,6 @@ jest.mock("@/components/public/icon/staticIcon/VisibilityOn", () => {
   }
 })
 
-// InputField 모킹
 jest.mock("@/components/public/input/InputField", () => {
   return jest.fn(({ label, name, type, placeholder, register }) => {
     return (
@@ -66,7 +53,6 @@ jest.mock("@/components/public/input/InputField", () => {
   })
 })
 
-// Button 모킹
 jest.mock("@/components/public/button/Button", () => {
   return jest.fn(({ children, disabled }) => {
     return (
@@ -82,13 +68,15 @@ describe("SignupForm", () => {
     replace: jest.fn(),
   }
   const mockSignup = jest.fn()
+  const mockUsePostSignup = usePostSignup as jest.MockedFunction<typeof usePostSignup>
 
   beforeEach(() => {
+    jest.clearAllMocks()
     ;(useRouter as jest.Mock).mockReturnValue(mockRouter)
-    ;(usePostSignup as jest.Mock).mockReturnValue({
+    mockUsePostSignup.mockReturnValue({
       mutate: mockSignup,
       error: null,
-    })
+    } as any)
   })
 
   it("기본 렌더링 테스트", () => {
@@ -132,7 +120,7 @@ describe("SignupForm", () => {
     })
   })
 
-  it("signin 함수 호출 및 응답 성공 테스트", async () => {
+  it("signup 함수 호출 및 응답 성공 테스트", async () => {
     render(<SignupForm />)
 
     const nameInput = screen.getByTestId("mocked-input-name")
@@ -162,12 +150,12 @@ describe("SignupForm", () => {
     })
   })
 
-  it("실패 에러 메시지 표시 유무 테스트", async () => {
-    const errorMessage = "로그인에 실패했습니다."
-    ;(usePostSignup as jest.Mock).mockReturnValue({
+  it("실패 에러 메시지 표시 유무 테스트", () => {
+    const errorMessage = "회원가입에 실패했습니다."
+    mockUsePostSignup.mockReturnValue({
       mutate: mockSignup,
       error: { message: errorMessage },
-    })
+    } as any)
 
     render(<SignupForm />)
 
