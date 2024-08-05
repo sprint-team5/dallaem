@@ -6,8 +6,12 @@ function startsWith(request: NextRequest, path: string) {
   return request.nextUrl.pathname.startsWith(path)
 }
 
-function toRedirect(request: NextRequest, path: string) {
-  return NextResponse.redirect(new URL(path, request.url))
+function toPrivateRedirect(request: NextRequest, path: string) {
+  return NextResponse.redirect(new URL(`${path}&alert=로그인 후 이용이 가능합니다.`, request.url))
+}
+
+function toPublicRedirect(request: NextRequest, path: string) {
+  return NextResponse.redirect(new URL(`${path}?alert=잘못된 접속 입니다.`, request.url))
 }
 
 export function middleware(request: NextRequest) {
@@ -17,13 +21,13 @@ export function middleware(request: NextRequest) {
 
   if (!checkUserToken) {
     if (startsWith(request, "/wishlist") || startsWith(request, "/mypage")) {
-      return toRedirect(request, "/auth?mode=signin")
+      return toPrivateRedirect(request, "/auth?mode=signin")
     }
   }
 
   if (checkUserToken) {
     if (startsWith(request, "/auth")) {
-      return toRedirect(request, "/")
+      return toPublicRedirect(request, "/")
     }
   }
 
