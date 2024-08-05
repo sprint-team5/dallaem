@@ -223,6 +223,27 @@ const CreateMeetingModal = ({ changeState }: { changeState: () => void }) => {
     setMeetingData({ ...meetingData, date: formatDate, time: "" })
   }
 
+  const isValidated = !Array.from(Object.keys(meetingData)).some((key) => {
+    switch (key) {
+      case "location":
+        return meetingData.location === ""
+      case "type":
+        return meetingData.type === ""
+      case "name":
+        return meetingData.name === ""
+      case "date":
+        return meetingData.date === ""
+      case "time":
+        return meetingData.time === ""
+      case "capacity":
+        return meetingData.capacity < 5
+      case "image":
+        return !meetingData.image.file
+      default:
+        return false
+    }
+  })
+
   const onSubmitHandler = async () => {
     const params = new FormData()
     params.append("location", meetingData.location)
@@ -387,9 +408,10 @@ const CreateMeetingModal = ({ changeState }: { changeState: () => void }) => {
 
         <div className="mt-10">
           <button
-            className="w-full rounded-xl bg-gray-400 py-2.5 text-white hover:bg-gray-600 active:bg-gray-800"
+            className={`w-full rounded-xl bg-gray-400 py-2.5 text-white ${isValidated ? "cursor-pointer bg-orange-500" : "cursor-not-allowed bg-gray-400"}`}
             type="submit"
             onClick={onSubmitHandler}
+            disabled={!isValidated}
           >
             확인
           </button>
