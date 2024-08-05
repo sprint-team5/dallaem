@@ -2,7 +2,7 @@ import { useRouter } from "next/navigation"
 
 import React from "react"
 
-import { usePostSignin } from "@/actions/api-hooks/Auths"
+import usePostSignin from "@/hooks/usePostSignin"
 import "@testing-library/jest-dom"
 import { fireEvent, render, screen, waitFor } from "@testing-library/react"
 

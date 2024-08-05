@@ -27,7 +27,7 @@ const headTextStyles = {
     desktop: "xl:text-6xl xl:leading-loose",
   },
   h2: {
-    default: "w-full font-mono text-gray-500",
+    default: "w-full font-semibold text-gray-500",
     mobile: "text-xl",
     tablet: "md:text-2xl",
     desktop: "",
@@ -70,7 +70,7 @@ const HeadContent = () => {
         <animated.h1 style={fadeIn} className={h1TextStyles}>
           당신의 관심사,
           <br />
-          5분만에 모임으로 만들어보세요!
+          5분 만에 모임으로 만들어보세요!
         </animated.h1>
         <animated.h2 style={fadeInDelayed} className={h2TextStyles}>
           취미부터 스터디까지, 원하는 모든 모임을 손쉽게 만들 수 있는 곳

@@ -6,10 +6,10 @@ import { useRouter } from "next/navigation"
 import { Fragment, useEffect, useState } from "react"
 import { SubmitHandler, useForm } from "react-hook-form"
 
-import { usePostSignup } from "@/actions/api-hooks/Auths"
 import Button from "@/components/public/button/Button"
 import InputField from "@/components/public/input/InputField"
 import ROUTE from "@/constants/route"
+import usePostSignin from "@/hooks/usePostSignin"
 
 import validations from "./Validations"
 
@@ -17,8 +17,8 @@ import validations from "./Validations"
 const formStyles = {
   container: {
     default: "rounded-3xl bg-white",
-    mobile: "min-h-[682px] w-[343px] px-4 py-8",
-    tablet: "md:min-h-[710px] md:w-[608px] md:px-16 md:py-8",
+    mobile: "min-h-[406px] w-[343px] px-4 py-8",
+    tablet: "md:min-h-[422px] md:w-[608px] md:px-16 md:py-8",
     desktop: "2xl:w-[510px] 2xl:px-[54px]",
   },
   form: "flex w-full flex-col items-stretch justify-between gap-6 font-semibold text-gray-900",
@@ -26,27 +26,13 @@ const formStyles = {
 
 const containerStyles = `${formStyles.container.default} ${formStyles.container.mobile} ${formStyles.container.tablet} ${formStyles.container.desktop}`
 
-const signupFormValue = [
-  {
-    label: "이름",
-    name: "name",
-    type: "text",
-    placeholder: "이름을 입력해주세요",
-    validation: validations.name,
-  },
+const signinFormValue = [
   {
     label: "아이디",
     name: "email",
     type: "text",
-    placeholder: "아이디를 입력해주세요",
+    placeholder: "이메일을 입력해주세요",
     validation: validations.email,
-  },
-  {
-    label: "회사명",
-    name: "companyName",
-    type: "text",
-    placeholder: "회사명을 입력해주세요",
-    validation: validations.companyName,
   },
   {
     label: "비밀번호",
@@ -55,35 +41,27 @@ const signupFormValue = [
     placeholder: "비밀번호를 입력해주세요",
     validation: validations.password,
   },
-  {
-    label: "비밀번호 확인",
-    name: "passwordConfirm",
-    type: "password",
-    placeholder: "비밀번호를 다시 한번 입력해주세요",
-    validation: validations.passwordConfirm,
-  },
 ]
-interface SignupData {
+
+interface ISigninData {
   email: string
   password: string
-  name: string
-  companyName: string
 }
 
-const SignupForm = () => {
+const SigninForm = () => {
   const router = useRouter()
 
   const [buttonDisabled, setButtonDisabled] = useState(true)
-  const { mutate: signup, error: signupError } = usePostSignup()
+  const { mutate: signin, error: signinError } = usePostSignin()
   const {
     register,
     handleSubmit,
     formState: { errors },
     trigger,
+    watch,
     setError,
     clearErrors,
-    watch,
-  } = useForm<SignupData>({
+  } = useForm<ISigninData>({
     mode: "onBlur",
     criteriaMode: "all",
     shouldUseNativeValidation: false,
@@ -92,33 +70,28 @@ const SignupForm = () => {
   const watchFields = watch()
 
   useEffect(() => {
-    const isFormFilled = signupFormValue.every((field) => {
-      return watchFields[field.name as keyof SignupData]
+    const isFormFilled = signinFormValue.every((field) => {
+      return watchFields[field.name as keyof ISigninData]
     })
     setButtonDisabled(!isFormFilled)
   }, [watchFields])
 
-  const onSubmit: SubmitHandler<SignupData> = (formData) => {
-    const signupData: SignupData = {
-      email: formData.email,
-      password: formData.password,
-      name: formData.name,
-      companyName: formData.companyName,
-    }
-
-    signup(signupData, {
+  const onSubmit: SubmitHandler<ISigninData> = (data) => {
+    signin(data, {
       onSuccess: () => {
-        router.replace(ROUTE.SIGNIN)
+        setTimeout(() => {
+          router.replace(ROUTE.HOME)
+        }, 100)
       },
     })
   }
 
-  const handleBlur = (name: keyof SignupData) => {
+  const handleBlur = (name: keyof ISigninData) => {
     clearErrors(name)
     trigger(name)
   }
 
-  const handleFocus = (name: keyof SignupData) => {
+  const handleFocus = (name: keyof ISigninData) => {
     const timer = setTimeout(() => {
       if (!watchFields[name]) {
         setError(name, {
@@ -136,8 +109,8 @@ const SignupForm = () => {
   return (
     <div className={containerStyles}>
       <form className={formStyles.form} onSubmit={handleSubmit(onSubmit)}>
-        <span className="text-center text-gray-800">회원가입</span>
-        {signupFormValue.map((value) => {
+        <span className="text-center text-gray-800">로그인</span>
+        {signinFormValue.map((value) => {
           return (
             <Fragment key={value.label}>
               <InputField
@@ -147,32 +120,32 @@ const SignupForm = () => {
                 placeholder={value.placeholder}
                 register={register}
                 validation={value.validation}
-                error={errors[value.name as keyof SignupData]}
+                error={errors[value.name as keyof ISigninData]}
                 onBlur={() => {
-                  return handleBlur(value.name as keyof SignupData)
+                  return handleBlur(value.name as keyof ISigninData)
+                }}
+                onFocus={() => {
+                  return handleFocus(value.name as keyof ISigninData)
                 }}
                 inputType="input"
                 size="large"
-                onFocus={() => {
-                  return handleFocus(value.name as keyof SignupData)
-                }}
               />
             </Fragment>
           )
         })}
-        {signupError && <span>※ {signupError.message}</span>}
-        <Button type="submit" className="mt-4" borderStyle="solid" disabled={buttonDisabled}>
+        {signinError && <span>※ {signinError.message}</span>}
+        <Button type="submit" className="mt-4" borderStyle="outlined" disabled={buttonDisabled}>
           확인
         </Button>
       </form>
       <div className="mt-6 text-center font-medium text-gray-800">
-        이미 회원이신가요?{" "}
-        <Link className="text-orange-600 underline" href={ROUTE.SIGNIN}>
-          로그인
+        같이 달램이 처음이신가요?{" "}
+        <Link className="text-orange-600 underline" href={ROUTE.SIGNUP}>
+          회원가입
         </Link>
       </div>
     </div>
   )
 }
 
-export default SignupForm
+export default SigninForm
