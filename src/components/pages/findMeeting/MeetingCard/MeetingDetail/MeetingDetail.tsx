@@ -116,21 +116,23 @@ const MeetingDetail = ({ id }: { id: string }) => {
   const { data, status, error } = useMeetingDetail(id)
 
   return (
-    <main className="flex max-w-[1200px] justify-center px-[102px] py-[40px] max-md:px-[24px] max-md:py-[24px] max-sm:flex-col max-sm:px-[16px]">
-      {status === "success" && (
-        <div className="flex flex-col gap-6 max-sm:gap-4">
-          <div className="flex gap-6 max-sm:flex-col">
-            <MeetingDetailImage data={data} />
-            <MeetingDetailCard data={data} />
+    <main className="flex w-full justify-center">
+      <div className="flex max-w-[1200px] justify-center px-[102px] py-[40px] max-md:px-[24px] max-md:py-[24px] max-sm:flex-col max-sm:px-[16px]">
+        {status === "success" && (
+          <div className="flex flex-col gap-6 max-sm:gap-4">
+            <div className="flex gap-6 max-sm:flex-col">
+              <MeetingDetailImage data={data} />
+              <MeetingDetailCard data={data} />
+            </div>
+            <MeetingDetailReview reviews={reviews} />
           </div>
-          <MeetingDetailReview reviews={reviews} />
-        </div>
-      )}
-      {error && (
-        <div className="flex items-center justify-center py-80 max-sm:py-40">
-          모임을 찾을 수 없습니다.
-        </div>
-      )}
+        )}
+        {error && (
+          <div className="flex items-center justify-center py-80 max-sm:py-40">
+            모임을 찾을 수 없습니다.
+          </div>
+        )}
+      </div>
     </main>
   )
 }
