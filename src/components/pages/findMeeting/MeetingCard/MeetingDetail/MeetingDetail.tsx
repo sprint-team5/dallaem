@@ -3,15 +3,14 @@
 import Image from "next/image"
 
 import getAllReview, { IAllReview } from "@/actions/allReviewActions"
+import DateTag from "@/components/pages/findMeeting/MeetingCard/Atoms/DateTag"
+import ParticipantGage from "@/components/pages/findMeeting/MeetingCard/Atoms/ParticipantGage"
 import WishBtn from "@/components/pages/wishlist/WishBtn"
 import Review from "@/components/public/Review/Review"
 import { useMeetingDetail } from "@/hooks/useMeetingDetail"
 import { IMeetingData } from "@/types/meeting/meeting"
 import { useQuery } from "@tanstack/react-query"
 import dayjs from "dayjs"
-
-import DateTag from "../Atoms/DateTag"
-import ParticipantGage from "../Atoms/ParticipantGage"
 
 export const MeetingDetailImage = ({ data }: { data: IMeetingData }) => {
   return (

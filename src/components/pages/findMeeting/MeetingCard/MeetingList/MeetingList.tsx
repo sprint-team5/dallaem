@@ -1,14 +1,17 @@
 import Image from "next/image"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 
+import { MouseEvent } from "react"
+
+import joinMeeting from "@/actions/joinMeeting"
+import DateTag from "@/components/pages/findMeeting/MeetingCard/Atoms/DateTag"
+import ParticipantGage from "@/components/pages/findMeeting/MeetingCard/Atoms/ParticipantGage"
 import WishBtn from "@/components/pages/wishlist/WishBtn"
 import Spinner from "@/components/public/Spinner/Spinner"
 import ArrowRight from "@/components/public/icon/staticIcon/ArrowRight"
 import { IMeetingData } from "@/types/meeting/meeting"
 import dayjs from "dayjs"
-
-import DateTag from "../Atoms/DateTag"
-import ParticipantGage from "../Atoms/ParticipantGage"
 
 interface IMeetingListProps {
   data: Array<IMeetingData> | null
@@ -17,6 +20,13 @@ interface IMeetingListProps {
 }
 
 export const MeetingCard = ({ data }: { data: IMeetingData }) => {
+  const router = useRouter()
+  const joinNow = async (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+    const res = await joinMeeting(String(data.id))
+    router.push(`/findMeeting?alert=${res}`)
+  }
+
   return (
     <div className="flex w-full overflow-hidden rounded-3xl border-2 border-gray-100 bg-white max-sm:flex-col">
       {data.image && (
@@ -75,10 +85,10 @@ export const MeetingCard = ({ data }: { data: IMeetingData }) => {
           </div>
           <div className="mt-2 flex items-end gap-6">
             <ParticipantGage now={data.participantCount} max={data.capacity} />
-            <div className="flex">
+            <button type="button" onClick={joinNow} className="flex">
               <span className="whitespace-nowrap font-semibold text-orange-600">join now</span>
               <ArrowRight />
-            </div>
+            </button>
           </div>
         </div>
       </div>
