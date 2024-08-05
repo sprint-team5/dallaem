@@ -8,7 +8,7 @@ import ErrorSVG from "@public/icon/staticIcon/error.svg"
 
 import X from "./icon/staticIcon/X"
 
-const SHOW = {
+const MODAL_DELAY_TIME = {
   open: 100,
   close: 4000,
 }
@@ -27,11 +27,11 @@ const Toast = () => {
 
     const firstTime = setTimeout(() => {
       setActive(true)
-    }, SHOW.open)
+    }, MODAL_DELAY_TIME.open)
 
     const secondTime = setTimeout(() => {
       setActive(false)
-    }, SHOW.open + SHOW.close)
+    }, MODAL_DELAY_TIME.open + MODAL_DELAY_TIME.close)
 
     return () => {
       clearTimeout(firstTime)
