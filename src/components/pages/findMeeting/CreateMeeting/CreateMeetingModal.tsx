@@ -3,11 +3,11 @@
 import { Dispatch, KeyboardEvent, SetStateAction, useEffect, useRef, useState } from "react"
 import { Value } from "react-calendar/dist/cjs/shared/types"
 
+import generateMeetUp from "@/actions/generateMeetUp"
 import Calendars from "@/components/public/Calendars/Calendars"
 import Arrow from "@/components/public/icon/dynamicIcon/Arrow"
 import Checkbox from "@/components/public/icon/dynamicIcon/Checkbox"
 import X from "@/components/public/icon/staticIcon/X"
-// import generateMeetUp from "@/actions/generateMeetUp"
 import { location } from "@/constants/meeting"
 import { allowScroll, preventScroll } from "@/util/modal"
 import dayjs from "dayjs"
@@ -21,7 +21,10 @@ interface IMeetingData {
   date: string
   time: string
   capacity: number
-  image: string
+  image: {
+    file: File | null
+    name: string
+  }
   registrationEnd: string
 }
 
@@ -167,7 +170,7 @@ const CreateMeetingModal = ({ changeState }: { changeState: () => void }) => {
     date: "",
     time: "",
     capacity: 0,
-    image: "",
+    image: { file: null, name: "" },
     registrationEnd: "",
   })
 
@@ -191,8 +194,9 @@ const CreateMeetingModal = ({ changeState }: { changeState: () => void }) => {
         break
     }
   }
+
   const closeBtnKeyboardHandler = (e: KeyboardEvent<HTMLButtonElement>) => {
-    if (e.key === "Enter") {
+    if (e.code === "Enter" || e.code === "Space") {
       changeState()
     }
   }
@@ -201,19 +205,16 @@ const CreateMeetingModal = ({ changeState }: { changeState: () => void }) => {
     if (e.code === "Enter" || e.code === "Space") document.getElementById("thumbnail")?.click()
   }
 
-  const setFileLabel = (e: React.ChangeEvent<HTMLInputElement>) => {
+  /** 이미지 등록, 라벨 상태 변경 */
+  const onChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return
     const file = e.target.files[0]
     if (!file) {
       if (fileLabelRef.current) fileLabelRef.current.textContent = "이미지를 첨부해주세요."
     } else {
       if (fileLabelRef.current) fileLabelRef.current.textContent = file.name
-      const reader = new FileReader()
-      reader.readAsDataURL(file)
-      reader.onload = async () => {
-        const image = reader.result as string
-        setMeetingData({ ...meetingData, image })
-      }
+      const image = e.target.files[0]
+      setMeetingData({ ...meetingData, image: { file: image, name: file.name } })
     }
   }
 
@@ -222,8 +223,7 @@ const CreateMeetingModal = ({ changeState }: { changeState: () => void }) => {
     setMeetingData({ ...meetingData, date: formatDate, time: "" })
   }
 
-  const onSubmitHandler = () => {
-    // generateMeetUp()
+  const onSubmitHandler = async () => {
     const params = new FormData()
     params.append("location", meetingData.location)
     params.append("type", meetingData.type)
@@ -233,21 +233,23 @@ const CreateMeetingModal = ({ changeState }: { changeState: () => void }) => {
       dayjs(meetingData.date + meetingData.time).format("YYYY-MM-DDTHH:mm:ss"),
     )
     params.append("capacity", String(meetingData.capacity))
-    params.append("image", meetingData.image)
-    params.append("registrationEnd", meetingData.registrationEnd)
-    // params.keys().forEach((key) => {
-    //   const pair = params.get(key)
-    //   console.log(key, pair)
-    // })
-    // changeState()
+    if (meetingData.image.file)
+      params.append("image", meetingData.image.file, meetingData.image.name)
+    params.append(
+      "registrationEnd",
+      dayjs(meetingData.date + meetingData.time)
+        .subtract(1, "second")
+        .format("YYYY-MM-DDTHH:mm:ss"),
+    )
+
+    await generateMeetUp(params)
+    changeState()
   }
 
   useEffect(() => {
     const prevScrollY = preventScroll()
     modalSelectRef.current?.focus()
 
-    // document.getElementById("contentWrapper").style.setProperty("scrollbarWidth", "0px")
-    // console.log(document.getElementById("contentWrapper").style)
     return () => {
       allowScroll(prevScrollY)
     }
@@ -272,6 +274,16 @@ const CreateMeetingModal = ({ changeState }: { changeState: () => void }) => {
             <X />
           </button>
         </div>
+
+        <Label label="모임명" htmlFor="name">
+          <input
+            id="name"
+            type="text"
+            onChange={onChangeData}
+            placeholder="모임명을 입력해주세요."
+            className="box-border rounded-xl bg-gray-50 px-[16px] py-[10px]"
+          />
+        </Label>
 
         <Label label="장소" htmlFor="location">
           <div className="relative box-border rounded-xl bg-gray-50 px-[16px] py-[10px] focus-within:border-[2px] focus-within:border-blue-700">
@@ -325,10 +337,11 @@ const CreateMeetingModal = ({ changeState }: { changeState: () => void }) => {
               </label>
               <input
                 type="file"
+                accept="image/*"
                 name="upload image"
                 id="thumbnail"
                 className="hidden"
-                onChange={setFileLabel}
+                onChange={onChangeImage}
               />
             </button>
           </div>
@@ -365,9 +378,10 @@ const CreateMeetingModal = ({ changeState }: { changeState: () => void }) => {
         <Label label="모집정원" htmlFor="capacity">
           <input
             type="number"
+            id="capacity"
             onChange={onChangeData}
             placeholder="최소 5인 이상 입력해주세요."
-            className="box-border rounded-xl bg-gray-50 px-[16px] py-[10px] focus-within:border-[2px] focus-within:border-blue-700"
+            className="box-border rounded-xl bg-gray-50 px-[16px] py-[10px]"
           />
         </Label>
 

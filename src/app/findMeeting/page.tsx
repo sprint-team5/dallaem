@@ -3,6 +3,7 @@
 import { useState } from "react"
 
 import getMeetingList from "@/actions/api-hooks/getMeetingList"
+import CreateMeetingModal from "@/components/pages/findMeeting/CreateMeeting/CreateMeetingModal"
 import FilterCalendar from "@/components/pages/findMeeting/FilterCalendar/FilterCalendar"
 import FilterSort from "@/components/pages/findMeeting/FilterSort/FilterSort"
 import FilterTab from "@/components/pages/findMeeting/FilterTab/FilterTab"
@@ -18,7 +19,7 @@ const FindMeeting = () => {
     type: "DALLAEMFIT",
     sortBy: "registrationEnd",
   })
-  const [isLoginModal, setIsLoginModal] = useState(false)
+  // const [isLoginModal, setIsLoginModal] = useState(false)
   const [isMeetingModal, setIsMeetingModal] = useState(false)
   const { data, status, error } = useQuery({
     queryKey: ["meetingList", filterOption],
