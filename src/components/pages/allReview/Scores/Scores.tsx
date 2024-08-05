@@ -99,7 +99,7 @@ const Scores = () => {
               {ratings.map((rating) => {
                 return (
                   <RatingBar
-                    key={rating.count}
+                    key={rating.rating}
                     rating={rating.rating}
                     count={rating.count}
                     maxScore={maxScore}

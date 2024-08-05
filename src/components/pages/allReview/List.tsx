@@ -1,6 +1,7 @@
 "use client"
 
-import { useState } from "react"
+import React, { useEffect, useState } from "react"
+import { useInView } from "react-intersection-observer"
 
 import FilterSort from "@/components/pages/allReview/FilterSort"
 import FilterCalendar from "@/components/pages/findMeeting/FilterCalendar/FilterCalendar"
@@ -8,16 +9,16 @@ import Filter from "@/components/public/Filter/Filter"
 import Review from "@/components/public/Review/Review"
 import Spinner from "@/components/public/Spinner/Spinner"
 import { location } from "@/constants/meeting"
-import { allReviewOptions } from "@/hooks/useAllReview"
+import { useAllReview } from "@/hooks/Review/useAllReview"
 import { IFilter } from "@/types/review/filter"
-import { useQuery } from "@tanstack/react-query"
 
 const List = () => {
   const [filter, setFilter] = useState<IFilter>({
     sortOrder: "asc",
   })
+  const { ref, inView } = useInView()
 
-  const { data: reviews, isLoading } = useQuery(allReviewOptions(filter))
+  const { data, isLoading, hasNextPage, isFetchingNextPage, fetchNextPage } = useAllReview(filter)
 
   // TODO: 이벤트를 넘기지 않고 수정할 값만 파싱해서 넘기도록 수정 필요(역할, 책임 등의 문제)
   const onFilterChanged = (
@@ -52,6 +53,12 @@ const List = () => {
     }
   }
 
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage()
+    }
+  }, [inView, fetchNextPage, hasNextPage])
+
   return (
     <>
       <div className="flex justify-between">
@@ -81,7 +88,8 @@ const List = () => {
       </div>
 
       <div
-        className={`mt-6 flex flex-1 flex-col gap-6 text-sm font-medium leading-5 text-gray-500 ${reviews?.length === 0 && "items-center justify-center"}`}
+        className={`mt-6 flex flex-1 flex-col gap-6 text-sm font-medium leading-5 text-gray-500 ${data?.pages.length === 0 && "items-center justify-center"}`}
+        ref={ref}
       >
         {isLoading && (
           <div className="h-full w-full items-center justify-center py-52">
@@ -89,22 +97,31 @@ const List = () => {
           </div>
         )}
 
-        {reviews && reviews.length > 0 ? (
-          reviews.map((review) => {
-            return (
-              <Review
-                key={review.id}
-                score={review.score}
-                comment={review.comment}
-                gathering={review.Gathering}
-                createdAt={review.createdAt}
-                user={review.User}
-                isImage
-              />
-            )
-          })
-        ) : (
-          <p>아직 리뷰가 없어요</p>
+        {!isLoading &&
+          data &&
+          data.pages.length > 0 &&
+          data.pages.map((reviews) => {
+            return reviews.map((review) => {
+              return (
+                <Review
+                  key={review.id}
+                  score={review.score}
+                  comment={review.comment}
+                  gathering={review.Gathering}
+                  createdAt={review.createdAt}
+                  user={review.User}
+                  isImage
+                />
+              )
+            })
+          })}
+
+        {!isLoading && (!data || data.pages.length === 0) && <p>아직 리뷰가 없어요</p>}
+
+        {isFetchingNextPage && (
+          <div className="h-full w-full items-center justify-center py-52">
+            <Spinner />
+          </div>
         )}
       </div>
     </>

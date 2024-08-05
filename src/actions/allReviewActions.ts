@@ -21,11 +21,11 @@ export interface IUser {
   name: string
 }
 
-const getAllReview = async (params: any): Promise<IAllReview[]> => {
+const getAllReview = async (params: any, pageParam: number = 0): Promise<IAllReview[]> => {
   const query = convertParamsToQueryString(params)
   try {
     const response = await fetch(
-      `${process.env.BASE_URL}/${process.env.TEAM_ID}/reviews?${query}`,
+      `${process.env.BASE_URL}/${process.env.TEAM_ID}/reviews?${query}&limit=5&offset=${pageParam * 10}`,
       {
         headers: {
           "Content-Type": "application/json",
