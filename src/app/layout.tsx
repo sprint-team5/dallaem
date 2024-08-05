@@ -4,6 +4,7 @@ import { cookies } from "next/headers"
 
 import Providers from "@/components/app/provider"
 import GNB from "@/components/public/gnb/GNB"
+import ToastProvider from "@/provider/ToastProvider"
 
 import "./globals.css"
 
@@ -57,11 +58,13 @@ const RootLayout = ({
   const userToken = cookieStore.get("userToken")?.value
   return (
     <html lang="ko" className={pretendard.className}>
-      <body className="pt-[58px]">
-        <Providers>
-          <GNB userToken={userToken} />
-          {children}
-        </Providers>
+      <body className="bg-gray-100 pt-[55px]">
+        <ToastProvider>
+          <Providers>
+            <GNB userToken={userToken} />
+            {children}
+          </Providers>
+        </ToastProvider>
       </body>
     </html>
   )

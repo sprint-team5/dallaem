@@ -1,5 +1,7 @@
+import HeadContent from "@/components/pages/mainpage/HeadContent"
+
 const Home = () => {
-  return <main>메인 페이지 초기화</main>
+  return <HeadContent />
 }
 
 export default Home
