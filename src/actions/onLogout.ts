@@ -5,11 +5,14 @@ import { redirect } from "next/navigation"
 
 import ROUTE from "@/constants/route"
 
+const userToken = cookies().get("userToken")?.value
+
 const onLogout = async () => {
   await fetch(`${process.env.BASE_URL}/${process.env.TEAM_ID}/auths/signout`, {
     method: "POST",
     headers: {
       "content-type": "application/json",
+      Authorization: `Bearer ${userToken}`,
     },
   })
   const cookieStore = cookies()

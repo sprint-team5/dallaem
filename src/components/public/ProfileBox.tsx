@@ -6,6 +6,7 @@ import Profile from "./img/Profile"
 
 const ProfileBox = async () => {
   const userInfo = await getUserInfo()
+
   return (
     <div className="mx-auto h-44 w-profile-sm rounded-3xl border-2 border-gray-200 md:w-profile-md lg:w-profile-lg">
       <div className="flex items-center justify-between bg-profile-sm bg-no-repeat px-6 pb-5 pt-3.5 md:bg-profile-md lg:bg-profile-lg">
