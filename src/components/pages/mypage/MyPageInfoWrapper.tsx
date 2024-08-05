@@ -9,12 +9,13 @@ import { useQuery } from "@tanstack/react-query"
 
 interface IMyPageInfoWrapperProps {
   dataFetchingKey: string
+  onClick: ({ type }: { type: string }) => void
 }
 
-const MyPageInfoWrapper = ({ dataFetchingKey }: IMyPageInfoWrapperProps) => {
+const MyPageInfoWrapper = ({ dataFetchingKey, onClick }: IMyPageInfoWrapperProps) => {
   const isMyOwnMeeting = dataFetchingKey === "myOwnMeeting"
-  console.log(isMyOwnMeeting)
   const router = useRouter()
+
   const { data, isPending } = useQuery({
     queryKey: ["mypage", dataFetchingKey],
     queryFn: ({ queryKey }) => {
@@ -24,8 +25,9 @@ const MyPageInfoWrapper = ({ dataFetchingKey }: IMyPageInfoWrapperProps) => {
       return fetchMyPageInfo({ fetchingKey, offset, limit })
     },
   })
-  const clickViewReviewHandler = (pathId: number) => {
-    router.push(`/findMeeting/${pathId}`)
+
+  const clickViewReviewHandler = () => {
+    onClick({ type: "myReview" })
   }
   const clickCreateReviewHandler = (pathId: number) => {
     if (data.isReviewed) router.push(`/mypage/addReview?gatheringId=${pathId}`)
@@ -40,9 +42,7 @@ const MyPageInfoWrapper = ({ dataFetchingKey }: IMyPageInfoWrapperProps) => {
               handlerReview={() => {
                 clickCreateReviewHandler(meeting.id)
               }}
-              handlerView={() => {
-                clickViewReviewHandler(meeting.id)
-              }}
+              handlerView={clickViewReviewHandler}
               teamId={meeting.teamId}
               id={meeting.id}
               name={meeting.name}
