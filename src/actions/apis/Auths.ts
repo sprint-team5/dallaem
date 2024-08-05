@@ -1,7 +1,7 @@
 "use server"
 
 const GetUserDataFn = async (userToken: string | undefined) => {
-  const response = await fetch(`${process.env.BASE_URL}/auths/user`, {
+  const response = await fetch(`${process.env.BASE_URL}/${process.env.TEAM_ID}/auths/user`, {
     headers: {
       Authorization: `Bearer ${userToken}`,
     },
@@ -10,7 +10,7 @@ const GetUserDataFn = async (userToken: string | undefined) => {
 }
 
 const PostLogoutFn = async () => {
-  const response = await fetch(`${process.env.BASE_URL}/auths/user`)
+  const response = await fetch(`${process.env.BASE_URL}/${process.env.TEAM_ID}/auths/user`)
 
   return response.json()
 }

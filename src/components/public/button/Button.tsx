@@ -12,24 +12,27 @@ const buttonStyles = {
   },
   outlined: {
     default: "border-[#EA580C] border-[1px] text-[#EA580C]",
-    hover: "hover:border-[#C2410C] hover:border-[1px] hover:text-[#C2410C]",
-    active: "active:border-[#9A3412] active:border-[1px] active:text-[#9A3412]",
+    hover: "hover:border-[#C2410C] hover:text-[#C2410C]",
+    active: "active:border-[#9A3412] active:text-[#9A3412]",
     disabled: "border-[#9CA3AF] border-[1px] text-[#9CA3AF]",
   },
+  hoveredText:
+    "transition-all ease-in-out transform group-hover:scale-125 delay-[10ms] duration-150",
 }
 
 interface IButtonProps {
   className?: string
   borderStyle: "solid" | "outlined"
+  type?: "submit" | "reset" | "button" | undefined
   disabled?: boolean
   children: React.ReactNode
-  onClick: () => void
+  onClick?: () => void
 }
 
 const getButtonClasses = ({
   borderStyle,
   disabled,
-}: Omit<IButtonProps, "className" | "children" | "onClick">) => {
+}: Omit<IButtonProps, "className" | "type" | "children" | "onClick">) => {
   const {
     default: defaultStyle,
     hover,
@@ -41,19 +44,30 @@ const getButtonClasses = ({
   return `${baseStyles} ${styleClasses}`.trim()
 }
 
-const Button = ({ className, borderStyle, disabled = false, children, onClick }: IButtonProps) => {
+const Button = ({
+  className,
+  borderStyle,
+  type = "button",
+  disabled = false,
+  children,
+  onClick,
+}: IButtonProps) => {
   const buttonClasses = getButtonClasses({ borderStyle, disabled })
 
   return (
     <button
-      type="button"
-      className={`${buttonClasses} ${className}`.trim()}
+      // eslint-disable-next-line react/button-has-type
+      type={type}
+      className={`group ${buttonClasses} ${className}`.trim()}
       disabled={disabled}
       onClick={() => {
-        return onClick()
+        if (onClick) {
+          return onClick()
+        }
+        return null
       }}
     >
-      {children}
+      <span className={disabled ? "" : `${buttonStyles.hoveredText}`}>{children}</span>
     </button>
   )
 }

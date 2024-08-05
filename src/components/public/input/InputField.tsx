@@ -1,6 +1,7 @@
 "use client"
 
-import { useState } from "react"
+import { useCallback, useState } from "react"
+import { FieldError, RegisterOptions, UseFormRegister } from "react-hook-form"
 
 import VisibilityOff from "@/components/public/icon/staticIcon/VisibilityOff"
 import VisibilityOn from "@/components/public/icon/staticIcon/VisibilityOn"
@@ -12,23 +13,23 @@ const baseStyles =
   "w-full rounded-xl bg-[#F9FAFB] px-4 py-[10px] font-medium placeholder-[#9CA3AF] appearance-none focus:outline-none"
 
 const inputStyles = {
+  label: "mb-3 block",
   input: {
     default: "border-2",
     hover: "hover:border-[#FDBA74]",
     focus: "focus:border-[#EA580C] focus:placeholder-[#1F2937]",
-    done: "border-[#1F2937] placeholder-[#1F2937]",
+    valid: "border-[#1F2937] placeholder-[#1F2937]",
     error: "border-[#DC2626]",
   },
   dropdown: {
     default: "border-2",
     hover: "hover:border-[#FDBA74]",
     focus: "",
-    done: "border-[#1F2937] placeholder-[#1F2937]",
+    valid: "border-[#1F2937] placeholder-[#1F2937]",
     error: "",
   },
+  errorMessage: "font-semibold text-[#DC2626] mt-2 block",
 }
-
-const errorMessageStyles = "font-semibold text-[#DC2626]"
 
 const sizeStyles = {
   small: "h-10",
@@ -39,107 +40,118 @@ const iconBaseStyles = "absolute right-4 top-1/2 -translate-y-1/2"
 
 interface IInputFieldProps {
   className?: string
-  size: "small" | "large"
+  label: string
   name: string
-  errorMessage?: string
+  type: string
+  size: "small" | "large"
+  placeholder: string
+  register?: UseFormRegister<any>
+  validation?: RegisterOptions
+  error?: FieldError
+  onBlur?: () => void
+  onFocus?: () => void
+
   inputType: "input" | "dropdown"
-
-  placeholder?: string
-  isPassword?: boolean
-  onChange?: (value: string) => void
-
   options?: string[]
-  onSelect?: (index: number) => void
 }
 
 /**
  * @interface IInputFieldProps
- * @param className - 추가적인 스타일을 작성할 때 사용합니다.
- * @param size - InputFIeld 컴포넌트의 height 크기를 정합니다.
+ * @param className - 추가적인 테일윈드 스타일을 작성할 때 사용합니다.
+ * @param label - input 위에 나타날 라벨에 표시될 문자열
  * @param name - form에서 전달될 name을 정합니다.
- * @param errorMessage - InputField에 표시될 에러 메시지입니다.
- * @param inputType - InputField를 Input으로 사용할지 Dropdown으로 사용할지를 정합니다.
- *
- * Input일 때 사용되는 props
+ * @param type - "text" | "password"; input의 type 속성
+ * @param size - InputFIeld 컴포넌트의 height 크기를 정합니다.
  * @param placeholder - InputField 안에 표시될 글씨입니다.
- * @param isPassword - 패스워드 input인지를 정합니다.
- * @param onChange - input의 onChange 이벤트가 발생할 때 실행됩니다.
+ * @param register - react-hook-form-register
+ * @param validation - react-hook-form-validation
+ * @param error - error 상태와 에러 메시지를 전달합니다
+ * @param onBlur - onBlur 이벤트 객체입니다.
+ * @param onFocus - onFocus 이벤트 객체입니다.
  *
- * Dropdown일 때 사용되는 props
+ * @param inputType - Input | Dropdown
  * @param options - Dropdown으로 사용될 때 표시될 배열입니다.
- * @param onSelect - Dropdown의 onSelect 이벤트가 발생할 때 실행됩니다.
- *
  */
 
 const InputField = ({
   className,
-  size,
+  label,
   name,
-  errorMessage,
-  inputType,
+  type,
+  size,
   placeholder,
-  isPassword,
-  onChange,
+  register,
+  validation,
+  error,
+  onBlur,
+  onFocus,
+  inputType,
   options,
-  onSelect,
 }: IInputFieldProps) => {
-  const [isDone, setIsDone] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
+  const [isTouched, setIsTouched] = useState(false)
 
   const inputClasses =
-    `${baseStyles} ${inputStyles[inputType].default} ${inputStyles[inputType].hover} ${inputStyles[inputType].focus} ${isDone ? inputStyles[inputType].done : ""} ${sizeStyles[size]} ${className} ${errorMessage !== "" && inputStyles[inputType].error}`.trim()
+    `${baseStyles} ${inputStyles[inputType].default} ${inputStyles[inputType].hover} ${inputStyles[inputType].focus} ${isTouched && !error ? inputStyles[inputType].valid : ""} ${sizeStyles[size]} ${className} ${error && inputStyles[inputType].error}`.trim()
 
-  const [isPasswordVisible, setIsPasswordVisible] = useState<"text" | "password">("password")
+  const handleBlur = useCallback(async () => {
+    setIsTouched(true)
 
-  const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (onChange) {
-      onChange(e.target.value)
+    if (onBlur) {
+      onBlur()
     }
-  }
+  }, [onBlur])
 
-  const blurHandler = (e: React.FocusEvent<HTMLInputElement>) => {
-    if (e.target.value !== "") {
-      setIsDone(true)
-    } else {
-      setIsDone(false)
-    }
-  }
+  if (inputType === "dropdown" && options)
+    return (
+      <div>
+        <label htmlFor={name} className={inputStyles.label}>
+          {label}
+        </label>
+        <Dropdown
+          name={name}
+          baseStyles={inputClasses}
+          iconBaseStyles={iconBaseStyles}
+          options={options}
+          register={register}
+        />
+      </div>
+    )
 
-  return inputType === "dropdown" && options && onSelect ? (
-    <Dropdown
-      name={name}
-      baseStyles={inputClasses}
-      iconBaseStyles={iconBaseStyles}
-      options={options}
-      onSelect={onSelect}
-    />
-  ) : (
+  const passwordShown = showPassword ? "text" : "password"
+
+  return (
     <div>
+      <label htmlFor={name} className={inputStyles.label}>
+        {label}
+      </label>
       <div className="relative">
         <input
+          // eslint-disable-next-line react/jsx-props-no-spreading
+          {...(register ? register(name, validation) : { name })}
           name={name}
-          type={isPassword ? isPasswordVisible : "text"}
-          className={inputClasses}
-          onChange={onChangeHandler}
+          type={type === "password" ? passwordShown : "text"}
+          id={name}
           placeholder={placeholder}
-          onBlur={blurHandler}
+          className={inputClasses}
+          onBlur={handleBlur}
+          onFocus={onFocus}
         />
-        {isPasswordVisible === "password" ? (
-          <VisibilityOff
-            className={`${iconBaseStyles} ${isPassword || "hidden"}`.trim()}
+        {type === "password" && (
+          <button
+            type="button"
             onClick={() => {
-              return setIsPasswordVisible("text")
+              return setShowPassword((prev) => {
+                return !prev
+              })
             }}
-          />
-        ) : (
-          <VisibilityOn
-            className={`${iconBaseStyles} ${isPassword || "hidden"}`.trim()}
-            onClick={() => {
-              return setIsPasswordVisible("password")
-            }}
-          />
+            className={iconBaseStyles}
+          >
+            {showPassword ? <VisibilityOff /> : <VisibilityOn />}
+          </button>
         )}
       </div>
-      <span className={errorMessageStyles}>{errorMessage}</span>
+      {error && <span className={inputStyles.errorMessage}>{error.message}</span>}
     </div>
   )
 }

@@ -9,7 +9,7 @@ const editProfileInfo = async (formData: FormData) => {
     formData.set("image", "")
   }
 
-  await fetch(`${process.env.BASE_URL}/auths/user`, {
+  await fetch(`${process.env.BASE_URL}/${process.env.TEAM_ID}/auths/user`, {
     method: "PUT",
     body: formData,
     headers: {

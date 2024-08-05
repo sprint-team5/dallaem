@@ -1,14 +1,15 @@
 "use client"
 
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useSearchParams } from "next/navigation"
 
-import { useGetUserData } from "@/apis/Auths"
+import { useGetUserData } from "@/actions/api-hooks/Auths"
 import Logo from "@/components/public/img/Logo"
 import ROUTE from "@/constants/route"
 
 import ProfileComponent from "./components/ProfileComponent"
 
+// 테일윈드 스타일
 const gnbStyles = {
   container:
     "z-50 border-b-2 fixed top-0 left-0 border-black flex w-full items-center justify-center whitespace-nowrap bg-[#EA580C]",
@@ -24,14 +25,16 @@ const gnbStyles = {
     tablet: "md:gap-5",
     desktop: "xl:gap-6",
   },
+  navItem: "font-semibold text-[#FFF7ED]",
+  currentNavItem: "font-semibold text-[#111827]",
+  hoveredNavItem: "transition-all ease-in-out transform hover:scale-125 delay-[10ms] duration-150",
 }
 
 const wrapperStyles = `${gnbStyles.wrapper.default} ${gnbStyles.wrapper.mobile} ${gnbStyles.wrapper.tablet} ${gnbStyles.wrapper.desktop}`
 const navbarStyles = `${gnbStyles.navbar.default} ${gnbStyles.navbar.mobile} ${gnbStyles.navbar.tablet} ${gnbStyles.navbar.desktop}`
 
-const navBaseStyles = "font-semibold text-[#FFF7ED]"
-const currentNavStyles = "font-semibold text-[#111827]"
-
+const navBaseStyles = `${gnbStyles.navItem} ${gnbStyles.hoveredNavItem}`
+const currentNavStyles = `${gnbStyles.currentNavItem} ${gnbStyles.hoveredNavItem}`
 interface IGNBProps {
   userToken: string | undefined
 }
@@ -43,15 +46,23 @@ const GNB = ({ userToken }: IGNBProps) => {
   const profileImg = data?.image
 
   const currentPath = usePathname()
+  const searchParams = useSearchParams()
 
   // 현재 경로가 showGNBPaths에 포함되어 있는지 확인
-  function isValidRoute(path: string): path is keyof typeof ROUTE {
+  function isValidRoute(path: string): boolean {
     return Object.values(ROUTE).some((route) => {
-      return path === route || (route !== "/" && path.startsWith(route))
+      // 쿼리 스트링이 있는 경우
+      if (route.includes("?")) {
+        const [basePath, query] = route.split("?")
+        const [paramKey, paramValue] = query.split("=")
+        return path === basePath && searchParams.get(paramKey) === paramValue
+      }
+      // 쿼리 스트링이 없는 경우
+      return path === route || path.startsWith(`${route}/`)
     })
   }
 
-  const shouldShowGNB = isValidRoute(currentPath as keyof typeof ROUTE)
+  const shouldShowGNB = isValidRoute(currentPath)
 
   const navItems = [
     { href: ROUTE.GATHERINGS, label: "모임 찾기" },
@@ -66,7 +77,7 @@ const GNB = ({ userToken }: IGNBProps) => {
           <div className={wrapperStyles}>
             <div className={navbarStyles}>
               <Link href={ROUTE.HOME}>
-                <Logo state="large" />
+                <Logo state="large" className={gnbStyles.hoveredNavItem} />
               </Link>
               {navItems.map((item) => {
                 return (
@@ -80,7 +91,11 @@ const GNB = ({ userToken }: IGNBProps) => {
                 )
               })}
             </div>
-            <ProfileComponent isLoggedIn={isLoggedIn} profileImg={profileImg} />
+            <ProfileComponent
+              isLoggedIn={isLoggedIn}
+              profileImg={profileImg}
+              hoveredNavItem={gnbStyles.hoveredNavItem}
+            />
           </div>
         </div>
       )}
