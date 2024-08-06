@@ -1,6 +1,5 @@
+import SigninForm from "@/components/pages/auth/@signin/SigninForm"
 import { HydrationBoundary } from "@tanstack/react-query"
-
-import SigninForm from "./SigninForm"
 
 const SigninPage = () => {
   return (
