@@ -1,9 +1,9 @@
 "use client"
 
-import { ReactNode } from "react"
+import { MouseEvent, ReactNode } from "react"
 
 interface ICardReviewProps {
-  onClick?: () => void
+  onClick?: (e: MouseEvent) => void
   children: ReactNode
 }
 
