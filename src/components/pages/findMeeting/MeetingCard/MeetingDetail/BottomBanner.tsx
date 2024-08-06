@@ -84,7 +84,7 @@ const BottomBanner = ({ id, isHost, isJoined, limit, participant }: IBannerProps
     if (participant < 5) return `모임 개설확정까지 ${5 - participant}명 남았어요!`
     if (participant >= 5 && participant < limit)
       return `모집 정원 마감까지 ${limit - participant}명 남았어요!`
-    if (participant === limit) return "모집 정완 마감!"
+    if (participant === limit) return "모집 정원 마감!"
     return ""
   }
 
