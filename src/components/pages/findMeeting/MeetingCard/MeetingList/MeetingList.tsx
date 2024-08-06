@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation"
 
 import { MouseEvent } from "react"
 
+import checkLogin from "@/actions/checkLogin"
 import joinMeeting from "@/actions/joinMeeting"
 import DateTag from "@/components/pages/findMeeting/MeetingCard/Atoms/DateTag"
 import ParticipantGage from "@/components/pages/findMeeting/MeetingCard/Atoms/ParticipantGage"
@@ -23,8 +24,12 @@ export const MeetingCard = ({ data }: { data: IMeetingData }) => {
   const router = useRouter()
   const joinNow = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
-    const res = await joinMeeting(String(data.id))
-    router.push(`/findMeeting?alert=${res}`)
+    if (await checkLogin()) {
+      const res = await joinMeeting(String(data.id))
+      router.push(`/findMeeting?alert=${res}`)
+    } else {
+      router.push(`/findMeeting?alert=${"로그인이 필요합니다."}`)
+    }
   }
 
   return (
@@ -100,7 +105,7 @@ const MeetingList = ({ data, status, error }: IMeetingListProps) => {
   return (
     <>
       {status === "pending" && (
-        <div className="h-full w-full items-center justify-center py-80">
+        <div className="h-full w-full py-80">
           <Spinner />
         </div>
       )}
