@@ -58,7 +58,8 @@ const MyPageInfoWrapper = ({ dataFetchingKey, onClick, reviewed }: IMyPageInfoWr
     onClick({ type: "myReview", reviewed: true })
     setHasReview(true)
   }
-  const clickCreateReviewHandler = (pathId: number) => {
+  const clickCreateReviewHandler = (e: MouseEvent, pathId: number) => {
+    e.preventDefault()
     router.push(`/mypage/addReview?gatheringId=${pathId}`)
   }
 
@@ -85,8 +86,8 @@ const MyPageInfoWrapper = ({ dataFetchingKey, onClick, reviewed }: IMyPageInfoWr
             return (
               <Link key={item.name} href={`/findMeeting/${item.id}`}>
                 <Card
-                  handlerReview={() => {
-                    clickCreateReviewHandler(item.id)
+                  handlerReview={(e: MouseEvent) => {
+                    clickCreateReviewHandler(e, item.id)
                   }}
                   handlerView={clickViewReviewHandler}
                   teamId={item.teamId}

@@ -71,7 +71,7 @@ const ReviewModal = ({ gatheringId }: IReviewModalProp) => {
     <div className="absolute left-0 top-0 h-screen w-screen bg-gray-950/50">
       <form
         onSubmit={handleSubmit(submitHandler, errorHandler)}
-        className="absolute left-0 right-0 top-36 z-50 mx-auto w-modal-md rounded-md bg-white p-6 shadow-xl lg:w-modal-lg"
+        className="absolute left-0 right-0 top-48 z-50 mx-auto w-modal-md rounded-md bg-white p-6 shadow-xl lg:w-modal-lg"
       >
         <div className="flex justify-between">
           <h3 className="text-lg font-semibold">리뷰쓰기</h3>
