@@ -110,7 +110,7 @@ const MeetingDetail = ({ id }: { id: string }) => {
 
   return (
     <main className="flex w-full justify-center">
-      <div className="flex max-w-[1200px] justify-center px-[102px] py-[40px] max-md:px-[24px] max-md:py-[24px] max-sm:flex-col max-sm:px-[16px]">
+      <div className="flex max-w-[1200px] justify-center bg-gray-50 px-[102px] py-[40px] max-md:px-[24px] max-md:py-[24px] max-sm:flex-col max-sm:px-[16px]">
         {status === "success" && (
           <div className="flex flex-col gap-6 max-sm:gap-4">
             <div className="flex gap-6 max-sm:flex-col">
