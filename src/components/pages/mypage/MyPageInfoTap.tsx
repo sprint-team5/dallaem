@@ -9,10 +9,12 @@ interface IInitialState {
   myMeeting: boolean
   myReview: boolean
   myOwnMeeting: boolean
+  reviewed?: boolean
 }
 
 interface IAction {
   type: string
+  reviewed?: boolean
 }
 
 const initialState = {
@@ -31,6 +33,15 @@ const reducer = (state: IInitialState, action: IAction) => {
         myOwnMeeting: false,
       }
     case "myReview":
+      if (action.reviewed) {
+        return {
+          ...state,
+          myMeeting: false,
+          myReview: true,
+          myOwnMeeting: false,
+          reviewed: action.reviewed,
+        }
+      }
       return {
         ...state,
         myMeeting: false,
@@ -52,7 +63,7 @@ const reducer = (state: IInitialState, action: IAction) => {
 const MyPageInfoTap = () => {
   const [tapState, dispatch] = useReducer(reducer, initialState)
   const [[dataFetchingKey]] = Object.entries(tapState).filter((state) => {
-    return state[1]
+    return state[1] && state[0] !== "reviewed"
   })
 
   return (
@@ -66,7 +77,11 @@ const MyPageInfoTap = () => {
           isActive={tapState.myOwnMeeting}
         />
       </div>
-      <MyPageInfoWrapper onClick={dispatch} dataFetchingKey={dataFetchingKey} />
+      <MyPageInfoWrapper
+        onClick={dispatch}
+        dataFetchingKey={dataFetchingKey}
+        reviewed={tapState.reviewed ?? undefined}
+      />
     </section>
   )
 }
