@@ -12,6 +12,7 @@ import WishBtn from "@/components/pages/wishlist/WishBtn"
 import Spinner from "@/components/public/Spinner/Spinner"
 import ArrowRight from "@/components/public/icon/staticIcon/ArrowRight"
 import { IMeetingData } from "@/types/meeting/meeting"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import dayjs from "dayjs"
 
 interface IMeetingListProps {
@@ -22,10 +23,20 @@ interface IMeetingListProps {
 
 export const MeetingCard = ({ data }: { data: IMeetingData }) => {
   const router = useRouter()
+  const queryClient = useQueryClient()
+
+  const mutation = useMutation({
+    mutationFn: () => {
+      return joinMeeting(String(data.id))
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["meetingList"] })
+    },
+  })
   const joinNow = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     if (await checkLogin()) {
-      const res = await joinMeeting(String(data.id))
+      const res = await mutation.mutateAsync()
       router.push(`/findMeeting?alert=${res}`)
     } else {
       router.push(`/findMeeting?alert=${"로그인이 필요합니다."}`)
