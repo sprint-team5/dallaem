@@ -1,5 +1,7 @@
 import Image from "next/image"
 
+import { MouseEvent } from "react"
+
 import Checkbox from "@/components/public/icon/dynamicIcon/Checkbox"
 import Person from "@/components/public/icon/staticIcon/Person"
 import dayjs from "dayjs"
@@ -22,7 +24,7 @@ interface ICardProps extends IHandler {
   registrationEnd: string
   handlerCancel?: () => void
   handlerReview?: () => void
-  handlerView?: () => void
+  handlerView?: (e: MouseEvent) => void
   isMy?: boolean
   isBtnHide?: boolean
   isReview?: boolean

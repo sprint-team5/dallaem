@@ -5,6 +5,7 @@ import { cookies } from "next/headers"
 import Providers from "@/components/app/provider"
 import GNB from "@/components/public/gnb/GNB"
 import ToastProvider from "@/provider/ToastProvider"
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 
 import "./globals.css"
 
@@ -63,6 +64,7 @@ const RootLayout = ({
           <Providers>
             <GNB userToken={userToken} />
             {children}
+            <ReactQueryDevtools position="bottom" />
           </Providers>
         </ToastProvider>
       </body>
