@@ -23,7 +23,7 @@ interface ICardProps extends IHandler {
   image: string
   registrationEnd: string
   handlerCancel?: () => void
-  handlerReview?: () => void
+  handlerReview?: (e: MouseEvent) => void
   handlerView?: (e: MouseEvent) => void
   isMy?: boolean
   isBtnHide?: boolean
