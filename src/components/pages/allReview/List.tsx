@@ -16,9 +16,7 @@ const List = () => {
   const [filter, setFilter] = useState<IFilter>({
     sortOrder: "asc",
   })
-  const { ref, inView } = useInView()
-
-  const { data, isLoading, hasNextPage, isFetchingNextPage, fetchNextPage } = useAllReview(filter)
+  const { ref, inView } = useInView({ threshold: 1 })
 
   // TODO: 이벤트를 넘기지 않고 수정할 값만 파싱해서 넘기도록 수정 필요(역할, 책임 등의 문제)
   const onFilterChanged = (
@@ -52,6 +50,8 @@ const List = () => {
       }
     }
   }
+
+  const { data, isLoading, hasNextPage, isFetchingNextPage, fetchNextPage } = useAllReview(filter)
 
   useEffect(() => {
     if (inView && hasNextPage) {
@@ -89,7 +89,6 @@ const List = () => {
 
       <div
         className={`mt-6 flex flex-1 flex-col gap-6 text-sm font-medium leading-5 text-gray-500 ${data?.pages.length === 0 && "items-center justify-center"}`}
-        ref={ref}
       >
         {isLoading && (
           <div className="h-full w-full items-center justify-center py-52">
@@ -117,13 +116,15 @@ const List = () => {
           })}
 
         {!isLoading && (!data || data.pages.length === 0) && <p>아직 리뷰가 없어요</p>}
-
-        {isFetchingNextPage && (
-          <div className="h-full w-full items-center justify-center py-52">
-            <Spinner />
-          </div>
-        )}
       </div>
+
+      {isFetchingNextPage && (
+        <div className="flex w-full items-center justify-center py-7">
+          <Spinner />
+        </div>
+      )}
+
+      <div ref={ref} />
     </>
   )
 }

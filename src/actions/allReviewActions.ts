@@ -25,7 +25,7 @@ const getAllReview = async (params: any, pageParam: number = 0): Promise<IAllRev
   const query = convertParamsToQueryString(params)
   try {
     const response = await fetch(
-      `${process.env.BASE_URL}/${process.env.TEAM_ID}/reviews?${query}&limit=5&offset=${pageParam * 10}`,
+      `${process.env.BASE_URL}/${process.env.TEAM_ID}/reviews?${query}&limit=10&offset=${pageParam}`,
       {
         headers: {
           "Content-Type": "application/json",

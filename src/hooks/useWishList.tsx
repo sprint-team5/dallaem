@@ -15,7 +15,7 @@ const useWishList = () => {
   const [wishlist, setWishlist] = useState<IWishListData[]>([])
 
   /* 데이터 refetch */
-  const onRefresh = useCallback(() => {
+  const onSetup = useCallback(() => {
     const wish = localStorage.getItem("wishlist")
     if (!wish) return
     const parse: IWishListData[] = JSON.parse(wish)
@@ -53,10 +53,10 @@ const useWishList = () => {
 
   useEffect(() => {
     setIsLoading(false)
-    onRefresh()
-  }, [filter, onRefresh])
+    onSetup()
+  }, [filter, onSetup])
 
-  return { isLoading, filter, setFilter, wishlist, onRefresh }
+  return { isLoading, filter, setFilter, wishlist, onSetup }
 }
 
 export default useWishList
