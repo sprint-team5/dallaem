@@ -42,17 +42,21 @@ const ProfileEditModal = ({ company, src = "" }: IProfileEditModalProps) => {
     if (!e.target.files) return
     const userImgInput = e.target.files[0]
     if (userImgInput.size > IMAGE_SIZE_LIMIT) {
-      setError((prev) => ({
-        ...prev,
-        img: errorMessage.img,
-      }))
+      setError((prev) => {
+        return {
+          ...prev,
+          img: errorMessage.img,
+        }
+      })
       return
     }
     const preview = URL.createObjectURL(userImgInput)
-    setError((prev) => ({
-      ...prev,
-      img: "",
-    }))
+    setError((prev) => {
+      return {
+        ...prev,
+        img: "",
+      }
+    })
     setImgSrc(preview)
     setUserProfileInput((prev) => {
       return {
@@ -64,16 +68,20 @@ const ProfileEditModal = ({ company, src = "" }: IProfileEditModalProps) => {
 
   const changeTextHandler = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length < 2) {
-      setError((prev) => ({
-        ...prev,
-        companyName: errorMessage.companyName,
-      }))
+      setError((prev) => {
+        return {
+          ...prev,
+          companyName: errorMessage.companyName,
+        }
+      })
       return
     }
-    setError((prev) => ({
-      ...prev,
-      companyName: "",
-    }))
+    setError((prev) => {
+      return {
+        ...prev,
+        companyName: "",
+      }
+    })
   }
 
   const submitHandler = async (formData: FormData) => {
@@ -81,6 +89,8 @@ const ProfileEditModal = ({ company, src = "" }: IProfileEditModalProps) => {
     await editProfileInfo(formData)
     router.back()
   }
+
+  const disabled = error.companyName || error.img ? true : undefined
 
   return (
     <form
@@ -110,6 +120,7 @@ const ProfileEditModal = ({ company, src = "" }: IProfileEditModalProps) => {
             className="mt-2 w-full rounded-xl bg-gray-50 px-3 py-2 font-medium placeholder-black"
             placeholder={company}
             onChange={changeTextHandler}
+            value={userProfileInput.companyName}
           />
         </label>
         {error.companyName && <p className="absolute text-sm text-red-500">{error.companyName}</p>}
@@ -117,9 +128,9 @@ const ProfileEditModal = ({ company, src = "" }: IProfileEditModalProps) => {
       <div className="flex gap-3">
         <CancelButton />
         <button
-          disabled={error.companyName || error.img ? true : false}
+          disabled={disabled}
           type="submit"
-          className={`w-1/2 rounded-lg bg-gray-400 py-2.5 text-white hover:bg-gray-500 active:bg-gray-700`}
+          className="w-1/2 rounded-lg bg-gray-400 py-2.5 text-white hover:bg-gray-500 active:bg-gray-700"
         >
           수정하기
         </button>

@@ -72,6 +72,8 @@ const ReviewModal = ({ gatheringId }: IReviewModalProp) => {
     })
   }
 
+  const disabled = addReviewMutation.isPending || errorMsg ? true : undefined
+
   return (
     <div className="absolute left-0 top-0 h-screen w-screen bg-gray-950/50">
       <form
@@ -116,7 +118,7 @@ const ReviewModal = ({ gatheringId }: IReviewModalProp) => {
             취소
           </button>
           <button
-            disabled={addReviewMutation.isPending || errorMsg ? true : false}
+            disabled={disabled}
             type="submit"
             className="w-1/2 rounded-xl bg-gray-400 py-2.5 text-white hover:bg-gray-500 active:bg-gray-600"
           >

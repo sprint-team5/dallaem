@@ -11,7 +11,7 @@ const editProfileInfo = async (formData: FormData) => {
     formData.set("image", "")
   }
 
-  const res = await fetch(`${process.env.BASE_URL}/${process.env.TEAM_ID}/auths/user`, {
+  await fetch(`${process.env.BASE_URL}/${process.env.TEAM_ID}/auths/user`, {
     method: "PUT",
     body: formData,
     headers: {
@@ -19,6 +19,7 @@ const editProfileInfo = async (formData: FormData) => {
       Authorization: `Bearer ${userToken}`,
     },
   })
+
   revalidatePath("/mypage")
 }
 
