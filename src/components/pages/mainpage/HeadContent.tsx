@@ -6,6 +6,7 @@ import { useInView } from "react-intersection-observer"
 
 import Button from "@/components/public/button/Button"
 import ROUTE from "@/constants/route"
+import useGetUserData from "@/hooks/useGetUserData"
 import { animated, useSpring } from "@react-spring/web"
 
 // 테일윈스 스타일
@@ -38,12 +39,17 @@ const wrapperStyles = `${mainPageStyles.wrapper.default} ${mainPageStyles.wrappe
 const h1TextStyles = `${headTextStyles.h1.default} ${headTextStyles.h1.mobile} ${headTextStyles.h1.tablet} ${headTextStyles.h1.desktop}`
 const h2TextStyles = `${headTextStyles.h2.default} ${headTextStyles.h2.mobile} ${headTextStyles.h2.tablet} ${headTextStyles.h2.desktop}`
 
-const HeadContent = () => {
+const HeadContent = ({ userToken }: { userToken: string | undefined }) => {
+  const { data } = useGetUserData(userToken)
+  const isLoggedIn = Boolean(data?.name)
+
+  // 스크롤 트리거
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
   })
 
+  // 글자에 적용되는 애니메이션
   const fadeIn = useSpring({
     opacity: inView ? 1 : 0,
     transform: inView ? "translateY(0)" : "translateY(20px)",
@@ -79,10 +85,16 @@ const HeadContent = () => {
           style={fadeInButtons}
           className="flex items-center justify-between gap-4 md:gap-16"
         >
-          <Link href={ROUTE.SIGNIN}>
-            <Button className="text-lg" borderStyle="solid">
-              로그인 하러가기
-            </Button>
+          <Link href={ROUTE.MY_PAGE}>
+            {isLoggedIn ? (
+              <Button className="text-lg" borderStyle="solid">
+                내 모임 보러가기
+              </Button>
+            ) : (
+              <Button className="text-lg" borderStyle="solid">
+                로그인 하러가기
+              </Button>
+            )}
           </Link>
           <Link href={ROUTE.GATHERINGS}>
             <Button className="text-lg" borderStyle="outlined">

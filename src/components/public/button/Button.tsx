@@ -17,7 +17,7 @@ const buttonStyles = {
     disabled: "border-[#9CA3AF] border-[1px] text-[#9CA3AF]",
   },
   hoveredText:
-    "transition-all ease-in-out transform group-hover:scale-125 delay-[10ms] duration-150",
+    "transition-all ease-in-out transform group-hover:scale-110 delay-[10ms] duration-150",
 }
 
 interface IButtonProps {
