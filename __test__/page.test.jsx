@@ -26,7 +26,7 @@ describe("Home 페이지 테스트", () => {
   test("메인 제목이 올바르게 렌더링되는지 확인", () => {
     const mainTitle = screen.getByText(/당신의 관심사/i)
     expect(mainTitle).toBeInTheDocument()
-    expect(screen.getByText(/5분만에 모임으로 만들어보세요!/i)).toBeInTheDocument()
+    expect(screen.getByText(/5분 만에 모임으로 만들어보세요!/i)).toBeInTheDocument()
   })
 
   test("부제목이 올바르게 렌더링되는지 확인", () => {
