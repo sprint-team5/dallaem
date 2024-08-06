@@ -1,14 +1,7 @@
-// import { cookies } from "next/headers"
-// import { redirect } from "next/navigation"
 import { fetchMyPageInfo } from "@/actions/fetchMyPageInfo"
 import MyPageInfoTap from "@/components/pages/mypage/MyPageInfoTap"
 import ProfileBox from "@/components/public/ProfileBox"
 import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query"
-
-// fixme: userToken 생성 후 middleware로 이동 예정
-// if (!cookies().get("userToken")) {
-//   redirect("/")
-// }
 
 const MyPage = async () => {
   const queryClient = new QueryClient()
@@ -18,6 +11,7 @@ const MyPage = async () => {
       return fetchMyPageInfo({ offset: 0, limit: 5 })
     },
   })
+
   return (
     <main>
       <ProfileBox />

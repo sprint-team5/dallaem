@@ -9,10 +9,13 @@ import { useQuery } from "@tanstack/react-query"
 
 interface IMyPageInfoWrapperProps {
   dataFetchingKey: string
+  onClick: ({ type }: { type: string }) => void
 }
 
-const MyPageInfoWrapper = ({ dataFetchingKey }: IMyPageInfoWrapperProps) => {
+const MyPageInfoWrapper = ({ dataFetchingKey, onClick }: IMyPageInfoWrapperProps) => {
+  const isMyOwnMeeting = dataFetchingKey === "myOwnMeeting"
   const router = useRouter()
+
   const { data, isPending } = useQuery({
     queryKey: ["mypage", dataFetchingKey],
     queryFn: ({ queryKey }) => {
@@ -23,12 +26,13 @@ const MyPageInfoWrapper = ({ dataFetchingKey }: IMyPageInfoWrapperProps) => {
     },
   })
 
-  const clickHandler = (pathId: number) => {
-    router.push(`/mypage/addReview?gatheringId=${pathId}`)
+  const clickViewReviewHandler = () => {
+    onClick({ type: "myReview" })
   }
-
+  const clickCreateReviewHandler = (pathId: number) => {
+    if (data.isReviewed) router.push(`/mypage/addReview?gatheringId=${pathId}`)
+  }
   if (isPending) return <Spinner />
-
   return (
     <div className="flex flex-col gap-6">
       {Array.isArray(data) &&
@@ -36,8 +40,9 @@ const MyPageInfoWrapper = ({ dataFetchingKey }: IMyPageInfoWrapperProps) => {
           return (
             <Card
               handlerReview={() => {
-                clickHandler(meeting.id)
+                clickCreateReviewHandler(meeting.id)
               }}
+              handlerView={clickViewReviewHandler}
               teamId={meeting.teamId}
               id={meeting.id}
               name={meeting.name}
@@ -48,6 +53,9 @@ const MyPageInfoWrapper = ({ dataFetchingKey }: IMyPageInfoWrapperProps) => {
               image={meeting.image}
               capacity={meeting.capacity}
               key={meeting.name}
+              isBtnHide={isMyOwnMeeting}
+              isMy={isMyOwnMeeting}
+              isReview={meeting.isReviewed}
             />
           )
         })}

@@ -6,10 +6,10 @@ import { useRouter } from "next/navigation"
 import { Fragment, useEffect, useState } from "react"
 import { SubmitHandler, useForm } from "react-hook-form"
 
-import { usePostSignin } from "@/actions/api-hooks/Auths"
 import Button from "@/components/public/button/Button"
 import InputField from "@/components/public/input/InputField"
 import ROUTE from "@/constants/route"
+import usePostSignup from "@/hooks/usePostSignup"
 
 import validations from "./Validations"
 
@@ -17,8 +17,8 @@ import validations from "./Validations"
 const formStyles = {
   container: {
     default: "rounded-3xl bg-white",
-    mobile: "min-h-[406px] w-[343px] px-4 py-8",
-    tablet: "md:min-h-[422px] md:w-[608px] md:px-16 md:py-8",
+    mobile: "min-h-[682px] w-[343px] px-4 py-8",
+    tablet: "md:min-h-[710px] md:w-[608px] md:px-16 md:py-8",
     desktop: "2xl:w-[510px] 2xl:px-[54px]",
   },
   form: "flex w-full flex-col items-stretch justify-between gap-6 font-semibold text-gray-900",
@@ -26,13 +26,27 @@ const formStyles = {
 
 const containerStyles = `${formStyles.container.default} ${formStyles.container.mobile} ${formStyles.container.tablet} ${formStyles.container.desktop}`
 
-const signinFormValue = [
+const signupFormValue = [
+  {
+    label: "이름",
+    name: "name",
+    type: "text",
+    placeholder: "이름을 입력해주세요",
+    validation: validations.name,
+  },
   {
     label: "아이디",
     name: "email",
     type: "text",
-    placeholder: "이메일을 입력해주세요",
+    placeholder: "아이디를 입력해주세요",
     validation: validations.email,
+  },
+  {
+    label: "회사명",
+    name: "companyName",
+    type: "text",
+    placeholder: "회사명을 입력해주세요",
+    validation: validations.companyName,
   },
   {
     label: "비밀번호",
@@ -41,27 +55,35 @@ const signinFormValue = [
     placeholder: "비밀번호를 입력해주세요",
     validation: validations.password,
   },
+  {
+    label: "비밀번호 확인",
+    name: "passwordConfirm",
+    type: "password",
+    placeholder: "비밀번호를 다시 한번 입력해주세요",
+    validation: validations.passwordConfirm,
+  },
 ]
-
-interface SigninData {
+interface ISignupData {
   email: string
   password: string
+  name: string
+  companyName: string
 }
 
-const SigninForm = () => {
+const SignupForm = () => {
   const router = useRouter()
 
   const [buttonDisabled, setButtonDisabled] = useState(true)
-  const { mutate: signin, error: signinError } = usePostSignin()
+  const { mutate: signup, error: signupError } = usePostSignup()
   const {
     register,
     handleSubmit,
     formState: { errors },
     trigger,
-    watch,
     setError,
     clearErrors,
-  } = useForm<SigninData>({
+    watch,
+  } = useForm<ISignupData>({
     mode: "onBlur",
     criteriaMode: "all",
     shouldUseNativeValidation: false,
@@ -70,28 +92,33 @@ const SigninForm = () => {
   const watchFields = watch()
 
   useEffect(() => {
-    const isFormFilled = signinFormValue.every((field) => {
-      return watchFields[field.name as keyof SigninData]
+    const isFormFilled = signupFormValue.every((field) => {
+      return watchFields[field.name as keyof ISignupData]
     })
     setButtonDisabled(!isFormFilled)
   }, [watchFields])
 
-  const onSubmit: SubmitHandler<SigninData> = (data) => {
-    signin(data, {
+  const onSubmit: SubmitHandler<ISignupData> = (data) => {
+    const signupData: ISignupData = {
+      email: data.email,
+      password: data.password,
+      name: data.name,
+      companyName: data.companyName,
+    }
+
+    signup(signupData, {
       onSuccess: () => {
-        setTimeout(() => {
-          router.replace(ROUTE.HOME)
-        }, 100)
+        router.replace(ROUTE.SIGNIN)
       },
     })
   }
 
-  const handleBlur = (name: keyof SigninData) => {
+  const handleBlur = (name: keyof ISignupData) => {
     clearErrors(name)
     trigger(name)
   }
 
-  const handleFocus = (name: keyof SigninData) => {
+  const handleFocus = (name: keyof ISignupData) => {
     const timer = setTimeout(() => {
       if (!watchFields[name]) {
         setError(name, {
@@ -109,8 +136,8 @@ const SigninForm = () => {
   return (
     <div className={containerStyles}>
       <form className={formStyles.form} onSubmit={handleSubmit(onSubmit)}>
-        <span className="text-center text-gray-800">로그인</span>
-        {signinFormValue.map((value) => {
+        <span className="text-center text-gray-800">회원가입</span>
+        {signupFormValue.map((value) => {
           return (
             <Fragment key={value.label}>
               <InputField
@@ -120,32 +147,32 @@ const SigninForm = () => {
                 placeholder={value.placeholder}
                 register={register}
                 validation={value.validation}
-                error={errors[value.name as keyof SigninData]}
+                error={errors[value.name as keyof ISignupData]}
                 onBlur={() => {
-                  return handleBlur(value.name as keyof SigninData)
-                }}
-                onFocus={() => {
-                  return handleFocus(value.name as keyof SigninData)
+                  return handleBlur(value.name as keyof ISignupData)
                 }}
                 inputType="input"
                 size="large"
+                onFocus={() => {
+                  return handleFocus(value.name as keyof ISignupData)
+                }}
               />
             </Fragment>
           )
         })}
-        {signinError && <span>※ {signinError.message}</span>}
-        <Button type="submit" className="mt-4" borderStyle="outlined" disabled={buttonDisabled}>
+        {signupError && <span>※ {signupError.message}</span>}
+        <Button type="submit" className="mt-4" borderStyle="solid" disabled={buttonDisabled}>
           확인
         </Button>
       </form>
       <div className="mt-6 text-center font-medium text-gray-800">
-        같이 달램이 처음이신가요?{" "}
-        <Link className="text-orange-600 underline" href={ROUTE.SIGNUP}>
-          회원가입
+        이미 회원이신가요?{" "}
+        <Link className="text-orange-600 underline" href={ROUTE.SIGNIN}>
+          로그인
         </Link>
       </div>
     </div>
   )
 }
 
-export default SigninForm
+export default SignupForm
