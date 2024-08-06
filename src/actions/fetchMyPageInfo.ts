@@ -2,23 +2,25 @@
 
 import { cookies } from "next/headers"
 
+import { IGathering } from "@/types/review/filter"
+
 interface IGetMyMeetings {
   limit: number
   offset: number
-  reviewed?: boolean
   sortBy?: "dateTime" | "registrationEnd" | "joinedAt"
   sortOrder?: "asc" | "desc"
 }
 
 interface IFetchMyPageInfo extends IGetMyMeetings {
   fetchingKey?: string
+  isReviewed?: boolean | null
 }
 
 interface CustomErr {
   [key: string]: string
 }
 
-export interface IGetMyMeetingsRes {
+export interface IGetMyPageRes {
   teamId: string
   id: number
   type: string
@@ -35,14 +37,27 @@ export interface IGetMyMeetingsRes {
   isReviewed: boolean
 }
 
+export interface IReview {
+  teamId: string
+  id: number
+  userId: number
+  gatheringId: number
+  score: number
+  comment: string
+  createdAt: string
+  Gathering: IGathering
+}
+
 export const getMyMeetings = async (
-  options: IGetMyMeetings,
-): Promise<IGetMyMeetingsRes[] | string> => {
+  options: IFetchMyPageInfo,
+): Promise<IGetMyPageRes[] | string> => {
   const userToken = cookies().get("userToken")?.value
-  const { limit = 5, offset } = options
+  const { limit = 5, offset, isReviewed } = options
+  const reviewed = isReviewed ? "&reviewed=true" : ""
+
   try {
     const response = await fetch(
-      `${process.env.BASE_URL}/${process.env.TEAM_ID}/gatherings/joined?limit=${limit}&offset=${offset}`,
+      `${process.env.BASE_URL}/${process.env.TEAM_ID}/gatherings/joined?limit=${limit}&offset=${offset}${reviewed}`,
       {
         method: "GET",
         headers: {
@@ -52,7 +67,6 @@ export const getMyMeetings = async (
     )
     if (response.status === 401) throw new Error("Authorization 헤더가 없습니다")
     if (response.status === 400) throw new Error("limit는 최소 1이어야 합니다")
-
     return await response.json()
   } catch (err) {
     const error = err as CustomErr
@@ -61,16 +75,17 @@ export const getMyMeetings = async (
   }
 }
 
-export const getMyReview = async (offset: number, limit: number, reviewed = false) => {
+export const getMyReview = async (offset: number, limit: number) => {
   const userToken = cookies().get("userToken")?.value
   try {
-    const response = await fetch(
-      `${process.env.BASE_URL}/${process.env.TEAM_ID}/gatherings/joined?limit=${limit}&offset=${offset}&completed=true&reviewed=${reviewed}`,
-      {
-        headers: {
-          Authorization: `Bearer ${userToken}`,
-        },
+    const userResponse = await fetch(`${process.env.BASE_URL}/${process.env.TEAM_ID}/auths/user`, {
+      headers: {
+        Authorization: `Bearer ${userToken}`,
       },
+    })
+    const { id } = await userResponse.json()
+    const response = await fetch(
+      `${process.env.BASE_URL}/${process.env.TEAM_ID}/reviews?userId=${id}&limit=${limit}&offset=${offset}`,
     )
     if (response.status === 400) {
       throw new Error("로그인 정보를 확인해주세요")
@@ -86,7 +101,7 @@ export const getMyReview = async (offset: number, limit: number, reviewed = fals
 export const getMyOwnMeeting = async (
   offset: number,
   limit: number,
-): Promise<IGetMyMeetingsRes[] | string> => {
+): Promise<IGetMyPageRes[] | string> => {
   const userToken = cookies().get("userToken")?.value
   try {
     const userRes = await fetch(`${process.env.BASE_URL}/${process.env.TEAM_ID}/auths/user`, {
@@ -115,12 +130,15 @@ export const getMyOwnMeeting = async (
 }
 
 export const fetchMyPageInfo = async (options: IFetchMyPageInfo) => {
-  const { fetchingKey = "myMeeting", offset, limit, reviewed, ...args } = options
+  const { fetchingKey = "myMeeting", offset, limit, isReviewed, ...args } = options
   switch (fetchingKey) {
     case "myMeeting":
       return getMyMeetings({ offset, limit, ...args })
     case "myReview":
-      return getMyReview(offset, limit, reviewed)
+      if (isReviewed) {
+        return getMyReview(offset, limit)
+      }
+      return getMyMeetings({ offset, limit, isReviewed })
     case "myOwnMeeting":
       return getMyOwnMeeting(offset, limit)
     default:

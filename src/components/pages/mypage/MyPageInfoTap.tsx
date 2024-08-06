@@ -9,10 +9,12 @@ interface IInitialState {
   myMeeting: boolean
   myReview: boolean
   myOwnMeeting: boolean
+  reviewed?: boolean
 }
 
 interface IAction {
   type: string
+  reviewed?: boolean
 }
 
 const initialState = {
@@ -31,6 +33,15 @@ const reducer = (state: IInitialState, action: IAction) => {
         myOwnMeeting: false,
       }
     case "myReview":
+      if (action.reviewed) {
+        return {
+          ...state,
+          myMeeting: false,
+          myReview: true,
+          myOwnMeeting: false,
+          reviewed: action.reviewed,
+        }
+      }
       return {
         ...state,
         myMeeting: false,
@@ -52,11 +63,11 @@ const reducer = (state: IInitialState, action: IAction) => {
 const MyPageInfoTap = () => {
   const [tapState, dispatch] = useReducer(reducer, initialState)
   const [[dataFetchingKey]] = Object.entries(tapState).filter((state) => {
-    return state[1]
+    return state[1] && state[0] !== "reviewed"
   })
 
   return (
-    <section className="mx-auto mt-[29px] h-[730px] w-profile-sm overflow-hidden border-t-2 border-gray-900 bg-white p-6 md:w-profile-md lg:w-profile-lg">
+    <section className="mx-auto mt-[29px] h-[730px] overflow-hidden border-t-2 border-gray-900 bg-white p-6">
       <div className="mb-6 flex gap-3">
         <MyPageInfoTapButton onClick={dispatch} state="myMeeting" isActive={tapState.myMeeting} />
         <MyPageInfoTapButton onClick={dispatch} state="myReview" isActive={tapState.myReview} />
@@ -66,7 +77,11 @@ const MyPageInfoTap = () => {
           isActive={tapState.myOwnMeeting}
         />
       </div>
-      <MyPageInfoWrapper onClick={dispatch} dataFetchingKey={dataFetchingKey} />
+      <MyPageInfoWrapper
+        onClick={dispatch}
+        dataFetchingKey={dataFetchingKey}
+        reviewed={tapState.reviewed ?? undefined}
+      />
     </section>
   )
 }

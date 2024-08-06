@@ -6,6 +6,7 @@ import { ChangeEvent, useState } from "react"
 import { SubmitHandler, useForm } from "react-hook-form"
 
 import addReview from "@/actions/addReview"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 
 import CloseBtn from "../CloseBtn"
 import ReviewHeartBtn from "../Review/ReviewHeartBtn/ReviewHeartBtn"
@@ -29,6 +30,13 @@ const ReviewModal = ({ gatheringId }: IReviewModalProp) => {
   const [userInput, setUserInput] = useState(initialValue)
   const [errorMsg, setErrorMsg] = useState("")
   const router = useRouter()
+  const queryClient = useQueryClient()
+  const addReviewMutation = useMutation({
+    mutationFn: addReview,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["myPage", { dataFetchingKey: "myReview" }] })
+    },
+  })
 
   const submitHandler: SubmitHandler<IUserData> = async (data) => {
     const userReview = {
@@ -37,11 +45,8 @@ const ReviewModal = ({ gatheringId }: IReviewModalProp) => {
       comment: data.comment,
     }
 
-    const res = await addReview(userReview)
-
-    if (res === 201) {
-      router.back()
-    }
+    addReviewMutation.mutate(userReview)
+    router.back()
   }
 
   const errorHandler = (data: any) => {
@@ -67,11 +72,13 @@ const ReviewModal = ({ gatheringId }: IReviewModalProp) => {
     })
   }
 
+  const disabled = addReviewMutation.isPending || errorMsg ? true : undefined
+
   return (
     <div className="absolute left-0 top-0 h-screen w-screen bg-gray-950/50">
       <form
         onSubmit={handleSubmit(submitHandler, errorHandler)}
-        className="absolute left-0 right-0 top-36 z-50 mx-auto w-modal-md rounded-md bg-white p-6 shadow-xl lg:w-modal-lg"
+        className="absolute left-0 right-0 top-48 z-50 mx-auto w-modal-md rounded-md bg-white p-6 shadow-xl lg:w-modal-lg"
       >
         <div className="flex justify-between">
           <h3 className="text-lg font-semibold">리뷰쓰기</h3>
@@ -111,6 +118,7 @@ const ReviewModal = ({ gatheringId }: IReviewModalProp) => {
             취소
           </button>
           <button
+            disabled={disabled}
             type="submit"
             className="w-1/2 rounded-xl bg-gray-400 py-2.5 text-white hover:bg-gray-500 active:bg-gray-600"
           >

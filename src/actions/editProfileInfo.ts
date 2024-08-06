@@ -1,8 +1,10 @@
 "use server"
 
 import { revalidatePath } from "next/cache"
+import { cookies } from "next/headers"
 
 const editProfileInfo = async (formData: FormData) => {
+  const userToken = cookies().get("userToken")?.value
   const img = formData.get("image")
 
   if (img instanceof File && img.size === 0) {
@@ -14,6 +16,7 @@ const editProfileInfo = async (formData: FormData) => {
     body: formData,
     headers: {
       "content-header": "multipart/form-data",
+      Authorization: `Bearer ${userToken}`,
     },
   })
 
