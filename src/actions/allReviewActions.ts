@@ -19,6 +19,7 @@ export interface IUser {
   id: number
   email: string
   name: string
+  image: string
 }
 
 const getAllReview = async (params: any, pageParam: number = 0): Promise<IAllReview[]> => {
