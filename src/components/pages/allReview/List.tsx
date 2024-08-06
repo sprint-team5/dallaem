@@ -7,7 +7,7 @@ import FilterSort from "@/components/pages/allReview/FilterSort"
 import FilterCalendar from "@/components/pages/findMeeting/FilterCalendar/FilterCalendar"
 import Filter from "@/components/public/Filter/Filter"
 import Review from "@/components/public/Review/Review"
-import Spinner from "@/components/public/Spinner/Spinner"
+import ReviewSkeleton from "@/components/public/Skeleton/ReviewSkeleton"
 import { location } from "@/constants/meeting"
 import { IFilter } from "@/types/review/filter"
 import { useQuery } from "@tanstack/react-query"
@@ -87,11 +87,10 @@ const List = () => {
       <div
         className={`mt-6 flex flex-1 flex-col gap-6 text-sm font-medium leading-5 text-gray-500 ${reviews?.length === 0 && "items-center justify-center"}`}
       >
-        {isLoading && (
-          <div className="h-full w-full items-center justify-center p-80">
-            <Spinner />
-          </div>
-        )}
+        {isLoading &&
+          Array.from({ length: 10 }, (_, num) => {
+            return <ReviewSkeleton key={num + 1} />
+          })}
 
         {reviews && reviews.length > 0 ? (
           reviews.map((review) => {
