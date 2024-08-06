@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import localFont from "next/font/local"
 import { cookies } from "next/headers"
 
-import Providers from "@/components/app/provider"
+import QueryProviders from "@/components/app/provider"
 import GNB from "@/components/public/gnb/GNB"
 import ToastProvider from "@/provider/ToastProvider"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
@@ -61,11 +61,11 @@ const RootLayout = ({
     <html lang="ko" className={pretendard.className}>
       <body className="bg-gray-100 pt-[55px]">
         <ToastProvider>
-          <Providers>
+          <QueryProviders>
             <GNB userToken={userToken} />
             {children}
-            <ReactQueryDevtools position="bottom" />
-          </Providers>
+            {process.env.NODE_ENV !== "production" && <ReactQueryDevtools position="bottom" />}
+          </QueryProviders>
         </ToastProvider>
       </body>
     </html>
