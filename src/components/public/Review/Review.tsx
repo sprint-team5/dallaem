@@ -70,7 +70,7 @@ const Review = ({ score, comment, createdAt, gathering, user, isImage }: IReview
                 height={24}
                 alt="유저 이미지"
               />
-              <p className="text-gray-700 after:ml-2 after:pr-3 after:content-['|']">럽윈즈올</p>
+              <p className="text-gray-700 after:ml-2 after:pr-3 after:content-['|']">{user.name}</p>
             </div>
           )}
           <p className="text-gray-500">{dayjs(createdAt).format("YYYY.MM.DD")}</p>
