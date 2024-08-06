@@ -1,8 +1,12 @@
 "use client"
 
+import { useRouter } from "next/navigation"
+
 import { useState } from "react"
 
 import getMeetingList from "@/actions/api-hooks/getMeetingList"
+import checkLogin from "@/actions/checkLogin"
+import CreateMeetingModal from "@/components/pages/findMeeting/CreateMeeting/CreateMeetingModal"
 import FilterCalendar from "@/components/pages/findMeeting/FilterCalendar/FilterCalendar"
 import FilterSort from "@/components/pages/findMeeting/FilterSort/FilterSort"
 import FilterTab from "@/components/pages/findMeeting/FilterTab/FilterTab"
@@ -18,12 +22,15 @@ const FindMeeting = () => {
     type: "DALLAEMFIT",
     sortBy: "registrationEnd",
   })
+  const [isMeetingModal, setIsMeetingModal] = useState(false)
   const { data, status, error } = useQuery({
     queryKey: ["meetingList", filterOption],
     queryFn: () => {
       return getMeetingList(filterOption)
     },
   })
+
+  const router = useRouter()
 
   // TODO: 이벤트를 넘기지 않고 수정할 값만 파싱해서 넘기도록 수정 필요(역할, 책임 등의 문제)
   const onFilterChanged = (
@@ -58,18 +65,23 @@ const FindMeeting = () => {
     }
   }
 
+  const onClickCreateMeeting = async () => {
+    if (await checkLogin()) setIsMeetingModal(!isMeetingModal)
+    else router.push("/auth?mode=signin")
+  }
+
   return (
-    <div className="flex flex-col items-center bg-gray-50 px-[102px] py-[40px] max-md:px-[24px] max-md:py-[24px] max-sm:px-[16px]">
-      <div className="w-full max-w-[1200px]">
-        <div className="flex justify-between">
+    <div className="flex flex-col items-center max-md:px-[24px] max-md:py-[24px] max-sm:px-[16px]">
+      <div className="h-full w-full max-w-[1200px] bg-gray-50 px-[102px] py-[40px]">
+        <div className="relative flex justify-between">
           <FilterTab
             selVal={filterOption.type}
             onSelect={(e) => {
               onFilterChanged(e, "type")
             }}
           />
-          <div>
-            <Button borderStyle="solid" onClick={() => {}}>
+          <div className="absolute right-0 top-0 w-[115px] max-sm:w-[100px]">
+            <Button borderStyle="solid" onClick={onClickCreateMeeting}>
               모임 만들기
             </Button>
           </div>
@@ -102,6 +114,17 @@ const FindMeeting = () => {
         </div>
         <MeetingList data={data} status={status} error={error} />
       </div>
+      {isMeetingModal && (
+        <CreateMeetingModal
+          changeState={() => {
+            setIsMeetingModal(!isMeetingModal)
+          }}
+          // 스크린 리더에서 해당 요소가 하위메뉴를 포함하고 있음을 알려주기 위한 속성
+          aria-haspopup="true"
+          // 스크린 리더에서 모달이 열려있는지 상태를 알려주기 위한 속성
+          aria-pressed={isMeetingModal}
+        />
+      )}
     </div>
   )
 }

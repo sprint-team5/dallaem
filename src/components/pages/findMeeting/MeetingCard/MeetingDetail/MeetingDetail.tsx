@@ -3,14 +3,18 @@
 import Image from "next/image"
 
 import getAllReview, { IAllReview } from "@/actions/allReviewActions"
+import getParticipants from "@/actions/api-hooks/getParticipants"
+import getUserInfo from "@/actions/getUserInfo"
+import DateTag from "@/components/pages/findMeeting/MeetingCard/Atoms/DateTag"
+import ParticipantGage from "@/components/pages/findMeeting/MeetingCard/Atoms/ParticipantGage"
+import WishBtn from "@/components/pages/wishlist/WishBtn"
 import Review from "@/components/public/Review/Review"
 import { useMeetingDetail } from "@/hooks/useMeetingDetail"
 import { IMeetingData } from "@/types/meeting/meeting"
 import { useQuery } from "@tanstack/react-query"
 import dayjs from "dayjs"
 
-import DateTag from "../Atoms/DateTag"
-import ParticipantGage from "../Atoms/ParticipantGage"
+import BottomBanner from "./BottomBanner"
 
 export const MeetingDetailImage = ({ data }: { data: IMeetingData }) => {
   return (
@@ -44,19 +48,12 @@ export const MeetingDetailCard = ({ data }: { data: IMeetingData }) => {
             <div className="mb-3 text-sm font-medium text-gray-700">{data.location}</div>
             <DateTag date={data.dateTime} />
           </div>
-          {/* TODO: 찜하기 버튼 추가 필요 */}
-          <Image
-            src="/icon/dynamicIcon/heart.svg"
-            alt="찜하기"
-            width={24}
-            height={24}
-            className="cursor-pointer"
-          />
+          <WishBtn list={data} />
         </div>
         <div className="flex flex-col gap-3">
           <div className="flex items-center justify-between">
             <span className="text-sm font-semibold text-gray-900">{`모집정원 ${data.participantCount}명`}</span>
-            {Number(data.participantCount) <= 5 && (
+            {Number(data.participantCount) >= 5 && (
               <div className="flex">
                 <Image
                   src="/icon/staticIcon/confirmed.svg"
@@ -113,25 +110,58 @@ const MeetingDetail = ({ id }: { id: string }) => {
     },
   })
 
+  const { data: userInfo } = useQuery({
+    queryKey: ["userInfo"],
+    queryFn: () => {
+      return getUserInfo()
+    },
+  })
+
+  const { data: participants } = useQuery({
+    queryKey: [`participants${id}`],
+    queryFn: () => {
+      return getParticipants(id)
+    },
+  })
+
   const { data, status, error } = useMeetingDetail(id)
 
+  const checkIsHost = userInfo ? userInfo.id === data.createdBy : false
+  const checkIsJoined =
+    userInfo && participants
+      ? participants.find((item: any) => {
+          return item.userId === userInfo.id
+        })
+      : false
+
   return (
-    <main className="flex max-w-[1200px] justify-center px-[102px] py-[40px] max-md:px-[24px] max-md:py-[24px] max-sm:flex-col max-sm:px-[16px]">
-      {status === "success" && (
-        <div className="flex flex-col gap-6 max-sm:gap-4">
-          <div className="flex gap-6 max-sm:flex-col">
-            <MeetingDetailImage data={data} />
-            <MeetingDetailCard data={data} />
-          </div>
-          <MeetingDetailReview reviews={reviews} />
+    <>
+      <main className="flex w-full justify-center">
+        <div className="flex w-full max-w-[996px] justify-center bg-gray-50 px-[102px] py-[40px] max-md:px-[24px] max-md:py-[24px] max-sm:flex-col max-sm:px-[16px]">
+          {status === "success" && (
+            <div className="flex flex-col gap-6 max-sm:gap-4">
+              <div className="flex gap-6 max-sm:flex-col">
+                <MeetingDetailImage data={data} />
+                <MeetingDetailCard data={data} />
+              </div>
+              <MeetingDetailReview reviews={reviews} />
+            </div>
+          )}
+          {error && (
+            <div className="flex items-center justify-center py-80 max-sm:py-40">
+              모임을 찾을 수 없습니다.
+            </div>
+          )}
         </div>
-      )}
-      {error && (
-        <div className="flex items-center justify-center py-80 max-sm:py-40">
-          모임을 찾을 수 없습니다.
-        </div>
-      )}
-    </main>
+      </main>
+      <BottomBanner
+        id={data.id}
+        isHost={checkIsHost}
+        isJoined={checkIsJoined}
+        limit={data.capacity}
+        participant={data.participantCount}
+      />
+    </>
   )
 }
 export default MeetingDetail

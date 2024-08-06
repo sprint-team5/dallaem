@@ -1,13 +1,19 @@
 import Image from "next/image"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 
+import { MouseEvent } from "react"
+
+import checkLogin from "@/actions/checkLogin"
+import joinMeeting from "@/actions/joinMeeting"
+import DateTag from "@/components/pages/findMeeting/MeetingCard/Atoms/DateTag"
+import ParticipantGage from "@/components/pages/findMeeting/MeetingCard/Atoms/ParticipantGage"
+import WishBtn from "@/components/pages/wishlist/WishBtn"
 import Spinner from "@/components/public/Spinner/Spinner"
 import ArrowRight from "@/components/public/icon/staticIcon/ArrowRight"
 import { IMeetingData } from "@/types/meeting/meeting"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import dayjs from "dayjs"
-
-import DateTag from "../Atoms/DateTag"
-import ParticipantGage from "../Atoms/ParticipantGage"
 
 interface IMeetingListProps {
   data: Array<IMeetingData> | null
@@ -16,6 +22,27 @@ interface IMeetingListProps {
 }
 
 export const MeetingCard = ({ data }: { data: IMeetingData }) => {
+  const router = useRouter()
+  const queryClient = useQueryClient()
+
+  const mutation = useMutation({
+    mutationFn: () => {
+      return joinMeeting(String(data.id))
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["meetingList"] })
+    },
+  })
+  const joinNow = async (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+    if (await checkLogin()) {
+      const res = await mutation.mutateAsync()
+      router.push(`/findMeeting?alert=${res}`)
+    } else {
+      router.push(`/findMeeting?alert=${"로그인이 필요합니다."}`)
+    }
+  }
+
   return (
     <div className="flex w-full overflow-hidden rounded-3xl border-2 border-gray-100 bg-white max-sm:flex-col">
       {data.image && (
@@ -47,14 +74,7 @@ export const MeetingCard = ({ data }: { data: IMeetingData }) => {
             </div>
             <DateTag date={data.dateTime} />
           </div>
-          {/* TODO: 찜하기 버튼 추가 필요 */}
-          <Image
-            src="/icon/dynamicIcon/heart.svg"
-            alt="찜하기"
-            width={24}
-            height={24}
-            className="cursor-pointer"
-          />
+          <WishBtn list={data} />
         </div>
         <div className="flex flex-col">
           <div className="flex items-center">
@@ -66,7 +86,7 @@ export const MeetingCard = ({ data }: { data: IMeetingData }) => {
               className="mr-[2px]"
             />
             <span className="text-sm">{`${data.participantCount}/${data.capacity}`}</span>
-            {Number(data.participantCount) <= 5 && (
+            {Number(data.participantCount) >= 5 && (
               <>
                 <Image
                   src="/icon/staticIcon/confirmed.svg"
@@ -81,10 +101,10 @@ export const MeetingCard = ({ data }: { data: IMeetingData }) => {
           </div>
           <div className="mt-2 flex items-end gap-6">
             <ParticipantGage now={data.participantCount} max={data.capacity} />
-            <div className="flex">
+            <button type="button" onClick={joinNow} className="flex">
               <span className="whitespace-nowrap font-semibold text-orange-600">join now</span>
               <ArrowRight />
-            </div>
+            </button>
           </div>
         </div>
       </div>
@@ -96,7 +116,7 @@ const MeetingList = ({ data, status, error }: IMeetingListProps) => {
   return (
     <>
       {status === "pending" && (
-        <div className="h-full w-full items-center justify-center py-80">
+        <div className="h-full w-full py-80">
           <Spinner />
         </div>
       )}

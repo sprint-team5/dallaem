@@ -6,6 +6,7 @@ export interface IUserInfo {
   email: string
   name: string
   companyName: string
+  id: string
   image?: string
 }
 
