@@ -1,6 +1,6 @@
 "use server"
 
-import { redirect } from "next/navigation"
+import { getCookie } from "@/util/cookies"
 
 interface ICustomResponse {
   code: string
@@ -10,20 +10,29 @@ interface ICustomResponse {
 
 const generateMeetUp = async (formData: FormData) => {
   try {
-    const response = await fetch(`${process.env.BASE_URL}/${process.env.TEAM_ID}/gatherings`, {
+    const token = await getCookie("userToken")
+    const data: {
+      method: string
+      body: FormData
+      headers: {
+        Authorization?: string
+      }
+    } = {
       method: "POST",
       body: formData,
       headers: {
-        "content-type": "multipart/form-data",
+        // accept: "application/json",
+        // "Content-Type": "multipart/form-data",
       },
-    })
+    }
+    if (token) data.headers.Authorization = `Bearer ${token}`
+
+    const response = await fetch(`${process.env.BASE_URL}/${process.env.TEAM_ID}/gatherings`, data)
 
     if (!response.ok) {
       const json: ICustomResponse = await response.json()
       throw new Error(json.message)
     }
-
-    redirect("/")
   } catch (error) {
     throw new Error(error as string)
   }
