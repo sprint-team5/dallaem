@@ -8,15 +8,7 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        "profile-sm": "url('/img/profile_bg/profile-bg-sm.png')",
-        "profile-md": "url('/img/profile_bg/profile-bg-md.png')",
-        "profile-lg": "url('/img/profile_bg/profile-bg-lg.png')",
-      },
       width: {
-        "profile-sm": "343px",
-        "profile-md": "696px",
-        "profile-lg": "996px",
         "modal-lg": "520px",
         "modal-md": "343px",
         signUp: "300px",
