@@ -73,32 +73,30 @@ const GNB = ({ userToken }: IGNBProps) => {
     { href: ROUTE.ALL_REVIEW, label: "모든 리뷰" },
   ]
 
+  if (!shouldShowGNB) return null
+
   return (
-    <>
-      {shouldShowGNB && (
-        <div className={gnbStyles.container}>
-          <div className={gnbStyles.wrapper}>
-            <div className={gnbStyles.navbar}>
-              <Link href={ROUTE.HOME}>
-                <Logo state="large" className={logoStyles} />
+    <div className={gnbStyles.container}>
+      <div className={gnbStyles.wrapper}>
+        <div className={gnbStyles.navbar}>
+          <Link href={ROUTE.HOME}>
+            <Logo state="large" className={logoStyles} />
+          </Link>
+          {navItems.map((item) => {
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={currentPath === item.href ? currentNavStyles : navBaseStyles}
+              >
+                {item.label}
               </Link>
-              {navItems.map((item) => {
-                return (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className={currentPath === item.href ? currentNavStyles : navBaseStyles}
-                  >
-                    {item.label}
-                  </Link>
-                )
-              })}
-            </div>
-            <ProfileComponent isLoggedIn={isLoggedIn} profileImg={profileImg} />
-          </div>
+            )
+          })}
         </div>
-      )}
-    </>
+        <ProfileComponent isLoggedIn={isLoggedIn} profileImg={profileImg} />
+      </div>
+    </div>
   )
 }
 
