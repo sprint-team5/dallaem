@@ -147,7 +147,7 @@ const InputField = ({
             }}
             className={iconBaseStyles}
           >
-            {showPassword ? <VisibilityOff /> : <VisibilityOn />}
+            {showPassword ? <VisibilityOn /> : <VisibilityOff />}
           </button>
         )}
       </div>

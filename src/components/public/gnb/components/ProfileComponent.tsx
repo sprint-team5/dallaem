@@ -13,19 +13,20 @@ import useOutsideClick from "@/util/useOutsideClick"
 // 테일윈드 스타일
 const navBaseStyles = "font-semibold  text-[#FFF7ED]"
 const profileStyles = "w-[40px] h-[40px]"
-const modalStyles = {
-  constainer:
+
+const profileMenuStyles = {
+  container:
     "absolute right-0 top-[62px] flex h-[70px] w-[150px] flex-col rounded-lg bg-white shadow-xl md:top-[66px]",
-  navItems: "flex h-1/2 w-full items-center justify-center rounded-lg text-center text-[#EA580C]",
+  navItems: "flex h-1/2 w-full items-center justify-center rounded-lg text-center text-orange-600",
+  hoveredNavItem: "transition-all ease-in-out transform hover:scale-125 delay-[10ms] duration-150",
 }
 
 interface IProfileComponentProps {
   isLoggedIn: boolean
   profileImg: string | undefined | null
-  hoveredNavItem: string
 }
 
-const ProfileComponent = ({ isLoggedIn, profileImg, hoveredNavItem }: IProfileComponentProps) => {
+const ProfileComponent = ({ isLoggedIn, profileImg }: IProfileComponentProps) => {
   const router = useRouter()
 
   const [isOpen, setIsOpen] = useState(false)
@@ -35,58 +36,52 @@ const ProfileComponent = ({ isLoggedIn, profileImg, hoveredNavItem }: IProfileCo
     return setIsOpen(false)
   })
 
+  if (!isLoggedIn) {
+    return (
+      <Link
+        href={ROUTE.SIGNIN}
+        className={`${navBaseStyles} ${profileMenuStyles.hoveredNavItem} text-orange-600`}
+      >
+        로그인
+      </Link>
+    )
+  }
+
   const handleToggle = () => {
     return setIsOpen(!isOpen)
   }
 
-  if (isLoggedIn) {
-    return (
-      <div className="" ref={dropdownRef}>
-        <button
-          type="button"
-          onClick={handleToggle}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              handleToggle()
-            }
-          }}
-          aria-label="프로필 메뉴 열기"
-        >
-          <Profile state="largeDefault" className={profileStyles} profileImg={profileImg} />
-        </button>
-        {isOpen && (
-          <div className={modalStyles.constainer}>
-            <button
-              type="button"
-              className={`${modalStyles.navItems} ${hoveredNavItem}`}
-              onClick={() => {
-                setIsOpen(false)
-                return router.push(ROUTE.MY_PAGE)
-              }}
-            >
-              마이 페이지
-            </button>
-            <form
-              action={() => {
-                setIsOpen(false)
-                return onLogout()
-              }}
-              className={`${modalStyles.navItems} ${hoveredNavItem}`}
-            >
-              <button type="submit" className="h-full w-full">
-                로그아웃
-              </button>
-            </form>
-          </div>
-        )}
-      </div>
-    )
-  }
-
   return (
-    <Link href={ROUTE.SIGNIN} className={`${navBaseStyles} ${hoveredNavItem}`}>
-      로그인
-    </Link>
+    <div ref={dropdownRef}>
+      <button type="button" onClick={handleToggle} aria-label="프로필 메뉴 열기">
+        <Profile state="largeDefault" className={profileStyles} profileImg={profileImg} />
+      </button>
+      {isOpen && (
+        <div className={profileMenuStyles.container}>
+          <button
+            type="button"
+            className={`${profileMenuStyles.navItems} ${profileMenuStyles.hoveredNavItem}`}
+            onClick={() => {
+              setIsOpen(false)
+              return router.push(ROUTE.MY_PAGE)
+            }}
+          >
+            마이 페이지
+          </button>
+          <form
+            action={() => {
+              setIsOpen(false)
+              return onLogout()
+            }}
+            className={`${profileMenuStyles.navItems} ${profileMenuStyles.hoveredNavItem}`}
+          >
+            <button type="submit" className="h-full w-full">
+              로그아웃
+            </button>
+          </form>
+        </div>
+      )}
+    </div>
   )
 }
 
