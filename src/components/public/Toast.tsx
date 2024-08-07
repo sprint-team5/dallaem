@@ -1,8 +1,8 @@
 "use client"
 
-import { useSearchParams } from "next/navigation"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 
 import XSVG from "@public/icon/staticIcon/X.svg"
 import ErrorSVG from "@public/icon/staticIcon/error.svg"
@@ -13,11 +13,19 @@ const MODAL_DELAY_TIME = {
 }
 
 const Toast = () => {
+  const router = useRouter()
   const searchParams = useSearchParams()
   const [active, setActive] = useState(false)
   const [errorMsg, setErrorMsg] = useState("")
-
+  const pathname = usePathname()
   const search = searchParams.get("alert")
+
+  const newURL = useCallback(() => {
+    const newParams = new URLSearchParams(searchParams.toString())
+    newParams.delete("alert")
+    const url = `${pathname}?${newParams.toString()}`
+    return url
+  }, [pathname, searchParams])
 
   useEffect(() => {
     if (!search) return setActive(false)
@@ -30,16 +38,18 @@ const Toast = () => {
 
     const secondTime = setTimeout(() => {
       setActive(false)
+      router.replace(newURL(), { scroll: false })
     }, MODAL_DELAY_TIME.open + MODAL_DELAY_TIME.close)
 
     return () => {
       clearTimeout(firstTime)
       clearTimeout(secondTime)
     }
-  }, [search])
+  }, [search, router, newURL])
 
   const clickHanlder = () => {
     setActive(false)
+    router.replace(newURL(), { scroll: false })
   }
 
   return (
