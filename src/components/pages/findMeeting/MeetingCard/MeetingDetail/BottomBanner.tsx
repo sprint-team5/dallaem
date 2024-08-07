@@ -47,7 +47,8 @@ const BottomBanner = ({ id, isHost, isJoined, limit, participant }: IBannerProps
       return joinMeeting(id)
     },
     onSuccess: (res) => {
-      queryClient.invalidateQueries({ queryKey: [`meetingDetail${id}`, `participants${id}`] })
+      queryClient.invalidateQueries({ queryKey: ["meetingDetail", id] })
+      queryClient.invalidateQueries({ queryKey: ["participants", id] })
       router.push(`/findMeeting/${id}?alert=${res}`)
     },
   })
@@ -57,7 +58,8 @@ const BottomBanner = ({ id, isHost, isJoined, limit, participant }: IBannerProps
       return quitMeeting(id)
     },
     onSuccess: (res) => {
-      queryClient.invalidateQueries({ queryKey: [`meetingDetail${id}`, `participants${id}`] })
+      queryClient.invalidateQueries({ queryKey: ["meetingDetail", id] })
+      queryClient.invalidateQueries({ queryKey: ["participants", id] })
       router.push(`/findMeeting/${id}?alert=${res}`)
     },
   })

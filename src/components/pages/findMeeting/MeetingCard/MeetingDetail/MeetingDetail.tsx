@@ -118,7 +118,7 @@ const MeetingDetail = ({ id }: { id: string }) => {
   })
 
   const { data: participants } = useQuery({
-    queryKey: [`participants${id}`],
+    queryKey: ["participants", id],
     queryFn: () => {
       return getParticipants(id)
     },
