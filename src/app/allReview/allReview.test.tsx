@@ -10,6 +10,21 @@ import allReviewPage from "./page"
 
 const queryClient = getQueryClient()
 
+const intersectionObserverMock = () => {
+  return {
+    observe() {
+      return null
+    },
+    disconnect() {
+      return null
+    },
+    unobserve() {
+      return null
+    },
+  }
+}
+window.IntersectionObserver = jest.fn().mockImplementation(intersectionObserverMock)
+
 jest.mock("@/public/icon/dynamicIcon/heart.svg", () => {
   return SvgrMock
 })
