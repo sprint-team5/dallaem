@@ -13,7 +13,7 @@ const MyPage = async () => {
   })
 
   return (
-    <main>
+    <main className="flex h-full flex-col items-stretch gap-3 pt-28">
       <ProfileBox />
       <HydrationBoundary state={dehydrate(queryClient)}>
         <MyPageInfoTap />
