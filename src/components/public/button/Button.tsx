@@ -23,7 +23,7 @@ const buttonStyles = {
 interface IButtonProps {
   className?: string
   borderStyle: "solid" | "outlined"
-  type?: "submit" | "reset" | "button" | undefined
+  type?: "submit" | "reset" | "button"
   disabled?: boolean
   children: React.ReactNode
   onClick?: () => void
@@ -39,10 +39,20 @@ const getButtonClasses = ({
     active,
     disabled: disabledStyle,
   } = buttonStyles[borderStyle]
+
   const styleClasses = disabled ? disabledStyle : `${defaultStyle} ${hover} ${active}`
 
   return `${baseStyles} ${styleClasses}`.trim()
 }
+
+/**
+ * @interface IInputFieldProps
+ * @param className - 추가적인 테일윈드 스타일을 작성할 때 사용합니다.
+ * @param borderStyle - Button의 스타일을 정하는 prop
+ * @param type - button의 type
+ * @param disabled - disabled 상태와 스타일 적용 유무를 결정합니다.
+ * @param children - Button 안에 표시될 문자열
+ */
 
 const Button = ({
   className,
