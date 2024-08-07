@@ -39,6 +39,8 @@ const Review = ({ score, comment, createdAt, gathering, user, isImage }: IReview
             src={gathering.image}
             alt={`${gathering.name} 모임 이미지`}
             fill
+            sizes="(min-width : 640px) 280px"
+            priority
           />
         </div>
       )}

@@ -1,5 +1,7 @@
+import Image from "next/image"
+
 import List from "@/components/pages/wishlist/List"
-import Head from "@/components/public/img/Head"
+import HeadSavedIMG from "@public/img/head_saved.png"
 
 const WishListPage = () => {
   return (
@@ -8,7 +10,7 @@ const WishListPage = () => {
         <div className="flex-none">
           <div className="flex items-center gap-4 sm:gap-[13px]">
             <div className="size-[72px] flex-none">
-              <Head state="saved" />
+              <Image width={72} height={72} src={HeadSavedIMG.src} alt="HeadSavedIMG" />
             </div>
             <div>
               <h4 className="text-lg font-semibold leading-8 text-gray-900 sm:text-2xl">

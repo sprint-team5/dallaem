@@ -1,27 +1,23 @@
 "use client"
 
-import { useState } from "react"
+import React, { useEffect, useState } from "react"
+import { useInView } from "react-intersection-observer"
 
-import getAllReview from "@/actions/allReviewActions"
 import FilterSort from "@/components/pages/allReview/FilterSort"
 import FilterCalendar from "@/components/pages/findMeeting/FilterCalendar/FilterCalendar"
 import Filter from "@/components/public/Filter/Filter"
 import Review from "@/components/public/Review/Review"
 import ReviewSkeleton from "@/components/public/Skeleton/ReviewSkeleton"
+import Spinner from "@/components/public/Spinner/Spinner"
 import { location } from "@/constants/meeting"
+import { useAllReview } from "@/hooks/Review/useAllReview"
 import { IFilter } from "@/types/review/filter"
-import { useQuery } from "@tanstack/react-query"
 
 const List = () => {
   const [filter, setFilter] = useState<IFilter>({
     sortOrder: "asc",
   })
-  const { data: reviews, isLoading } = useQuery({
-    queryKey: ["allReview", filter],
-    queryFn: () => {
-      return getAllReview(filter)
-    },
-  })
+  const { ref, inView } = useInView({ threshold: 1 })
 
   // TODO: 이벤트를 넘기지 않고 수정할 값만 파싱해서 넘기도록 수정 필요(역할, 책임 등의 문제)
   const onFilterChanged = (
@@ -56,6 +52,42 @@ const List = () => {
     }
   }
 
+  const { data, isLoading, hasNextPage, isFetchingNextPage, fetchNextPage } = useAllReview(filter)
+
+  const render = () => {
+    if (isLoading) {
+      return new Array(10).fill(0).map((_, index) => {
+        return <ReviewSkeleton key={`${index + 1}`} />
+      })
+    }
+
+    if (!data || data.length === 0) {
+      return <p>아직 리뷰가 없어요</p>
+    }
+
+    return data.map((reviews) => {
+      return reviews.map((review) => {
+        return (
+          <Review
+            key={review.id}
+            score={review.score}
+            comment={review.comment}
+            gathering={review.Gathering}
+            createdAt={review.createdAt}
+            user={review.User}
+            isImage
+          />
+        )
+      })
+    })
+  }
+
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage()
+    }
+  }, [inView, fetchNextPage, hasNextPage])
+
   return (
     <>
       <div className="flex justify-between">
@@ -85,31 +117,18 @@ const List = () => {
       </div>
 
       <div
-        className={`mt-6 flex flex-1 flex-col gap-6 text-sm font-medium leading-5 text-gray-500 ${reviews?.length === 0 && "items-center justify-center"}`}
+        className={`mt-6 flex flex-1 flex-col gap-6 text-sm font-medium leading-5 text-gray-500 ${data.length === 0 && "items-center justify-center"}`}
       >
-        {isLoading &&
-          Array.from({ length: 10 }, (_, num) => {
-            return <ReviewSkeleton key={num + 1} />
-          })}
-
-        {reviews && reviews.length > 0 ? (
-          reviews.map((review) => {
-            return (
-              <Review
-                key={review.id}
-                score={review.score}
-                comment={review.comment}
-                gathering={review.Gathering}
-                createdAt={review.createdAt}
-                user={review.User}
-                isImage
-              />
-            )
-          })
-        ) : (
-          <p>아직 리뷰가 없어요</p>
-        )}
+        {render()}
       </div>
+
+      {hasNextPage && isFetchingNextPage && (
+        <div className="flex w-full items-center justify-center py-7">
+          <Spinner />
+        </div>
+      )}
+
+      <div ref={ref} className="h-1 w-full" />
     </>
   )
 }
