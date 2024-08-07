@@ -14,17 +14,17 @@ import usePostSignup from "@/hooks/usePostSignup"
 import validations from "./Validations"
 
 // 테일윈드 스타일
-const formStyles = {
-  container: {
-    default: "rounded-3xl bg-white",
-    mobile: "min-h-[682px] w-[343px] px-4 py-8",
-    tablet: "md:min-h-[710px] md:w-[608px] md:px-16 md:py-8",
-    desktop: "2xl:w-[510px] 2xl:px-[54px]",
-  },
-  form: "flex w-full flex-col items-stretch justify-between gap-6 font-semibold text-gray-900",
+const containerStyles = {
+  default: "rounded-3xl bg-white",
+  mobile: "min-h-[682px] w-[343px] px-4 py-8",
+  tablet: "md:min-h-[710px] md:w-[608px] md:px-16 md:py-8",
+  desktop: "2xl:w-[510px] 2xl:px-[54px]",
 }
 
-const containerStyles = `${formStyles.container.default} ${formStyles.container.mobile} ${formStyles.container.tablet} ${formStyles.container.desktop}`
+const formStyles = {
+  container: `${containerStyles.default} ${containerStyles.mobile} ${containerStyles.tablet} ${containerStyles.desktop}`,
+  form: "flex w-full flex-col items-stretch justify-between gap-6 font-semibold text-gray-900",
+}
 
 const signupFormValue = [
   {
@@ -134,7 +134,7 @@ const SignupForm = () => {
   }
 
   return (
-    <div className={containerStyles}>
+    <div className={formStyles.container}>
       <form className={formStyles.form} onSubmit={handleSubmit(onSubmit)}>
         <span className="text-center text-gray-800">회원가입</span>
         {signupFormValue.map((value) => {
