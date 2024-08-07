@@ -52,7 +52,7 @@ export const getMyMeetings = async (
   options: IFetchMyPageInfo,
 ): Promise<IGetMyPageRes[] | string> => {
   const userToken = cookies().get("userToken")?.value
-  const { limit = 5, offset, isReviewed } = options
+  const { limit, offset, isReviewed } = options
   const reviewed = isReviewed ? "&reviewed=true" : ""
 
   try {
@@ -75,7 +75,7 @@ export const getMyMeetings = async (
   }
 }
 
-export const getMyReview = async (offset: number, limit: number) => {
+export const getMyReview = async ({ offset, limit }: IGetMyMeetings) => {
   const userToken = cookies().get("userToken")?.value
   try {
     const userResponse = await fetch(`${process.env.BASE_URL}/${process.env.TEAM_ID}/auths/user`, {
@@ -98,10 +98,10 @@ export const getMyReview = async (offset: number, limit: number) => {
   }
 }
 
-export const getMyOwnMeeting = async (
-  offset: number,
-  limit: number,
-): Promise<IGetMyPageRes[] | string> => {
+export const getMyOwnMeeting = async ({
+  offset,
+  limit,
+}: IGetMyMeetings): Promise<IGetMyPageRes[] | string> => {
   const userToken = cookies().get("userToken")?.value
   try {
     const userRes = await fetch(`${process.env.BASE_URL}/${process.env.TEAM_ID}/auths/user`, {
@@ -132,16 +132,42 @@ export const getMyOwnMeeting = async (
 export const fetchMyPageInfo = async (options: IFetchMyPageInfo) => {
   const { fetchingKey = "myMeeting", offset, limit, isReviewed, ...args } = options
   switch (fetchingKey) {
-    case "myMeeting":
-      return getMyMeetings({ offset, limit, ...args })
-    case "myReview":
-      if (isReviewed) {
-        return getMyReview(offset, limit)
+    case "myMeeting": {
+      const data = await getMyMeetings({ offset, limit, ...args })
+      const hasMore = data.length > 0
+      return {
+        data,
+        hasMore,
       }
-      return getMyMeetings({ offset, limit, isReviewed })
-    case "myOwnMeeting":
-      return getMyOwnMeeting(offset, limit)
+    }
+    case "myReview": {
+      if (isReviewed) {
+        const data = await getMyReview({ offset, limit })
+        const hasMore = data.length > 0
+        return {
+          data,
+          hasMore,
+        }
+      }
+      const data = await getMyMeetings({ offset, limit, isReviewed })
+      const hasMore = data.length > 0
+      return {
+        data,
+        hasMore,
+      }
+    }
+    case "myOwnMeeting": {
+      const data = await getMyOwnMeeting({ offset, limit })
+      const hasMore = data.length > 0
+      return {
+        data,
+        hasMore,
+      }
+    }
     default:
-      return "잘못된 요청 종류입니다."
+      return {
+        data: "잘못된 요청 종류입니다.",
+        hasMore: false,
+      }
   }
 }
