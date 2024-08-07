@@ -12,13 +12,12 @@ import WishBtn from "@/components/pages/wishlist/WishBtn"
 import Spinner from "@/components/public/Spinner/Spinner"
 import ArrowRight from "@/components/public/icon/staticIcon/ArrowRight"
 import { IMeetingData } from "@/types/meeting/meeting"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { InfiniteData, useMutation, useQueryClient } from "@tanstack/react-query"
 import dayjs from "dayjs"
 
 interface IMeetingListProps {
-  data: Array<IMeetingData> | null
-  status: string
-  error: Error | null
+  data: InfiniteData<Array<IMeetingData>> | null
+  isLoading: boolean
 }
 
 export const MeetingCard = ({ data }: { data: IMeetingData }) => {
@@ -112,41 +111,35 @@ export const MeetingCard = ({ data }: { data: IMeetingData }) => {
   )
 }
 
-const MeetingList = ({ data, status, error }: IMeetingListProps) => {
+const MeetingList = ({ data, isLoading }: IMeetingListProps) => {
   return (
     <>
-      {status === "pending" && (
+      {isLoading && (
         <div className="h-full w-full py-80">
           <Spinner />
         </div>
       )}
-      {status === "success" && (
-        <>
-          {data?.length === 0 && (
-            <div className="flex h-full w-full flex-col items-center justify-center py-80">
-              <span className="whitespace-nowrap text-sm text-gray-500">아직 모임이 없어요,</span>
-              <span className="whitespace-nowrap text-sm text-gray-500">
-                지금 바로 모임을 만들어보세요
-              </span>
-            </div>
-          )}
+      {!isLoading &&
+        (data?.pages.length === 0 ? (
+          <div className="flex h-full w-full flex-col items-center justify-center py-80">
+            <span className="whitespace-nowrap text-sm text-gray-500">아직 모임이 없어요,</span>
+            <span className="whitespace-nowrap text-sm text-gray-500">
+              지금 바로 모임을 만들어보세요
+            </span>
+          </div>
+        ) : (
           <div className="flex flex-col gap-6">
-            {data?.map((meeting) => {
-              return (
-                <Link href={`/findMeeting/${meeting.id}`} key={meeting.id}>
-                  <MeetingCard key={meeting.id} data={meeting} />
-                </Link>
-              )
+            {data?.pages.map((pages) => {
+              return pages.map((meeting) => {
+                return (
+                  <Link href={`/findMeeting/${meeting.id}`} key={meeting.id}>
+                    <MeetingCard key={meeting.id} data={meeting} />
+                  </Link>
+                )
+              })
             })}
           </div>
-        </>
-      )}
-      {error && (
-        <div className="flex h-full w-full flex-col items-center justify-center p-80">
-          <Image src="/icon/staticIcon/X.svg" alt="Error" width={48} height={48} />
-          에러가 발생했습니다.
-        </div>
-      )}
+        ))}
     </>
   )
 }
