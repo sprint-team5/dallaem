@@ -119,16 +119,15 @@ const MeetingList = ({ data, isLoading }: IMeetingListProps) => {
           <Spinner />
         </div>
       )}
-      {!isLoading && (
-        <>
-          {data?.pages.length === 0 && (
-            <div className="flex h-full w-full flex-col items-center justify-center py-80">
-              <span className="whitespace-nowrap text-sm text-gray-500">아직 모임이 없어요,</span>
-              <span className="whitespace-nowrap text-sm text-gray-500">
-                지금 바로 모임을 만들어보세요
-              </span>
-            </div>
-          )}
+      {!isLoading &&
+        (data?.pages.length === 0 ? (
+          <div className="flex h-full w-full flex-col items-center justify-center py-80">
+            <span className="whitespace-nowrap text-sm text-gray-500">아직 모임이 없어요,</span>
+            <span className="whitespace-nowrap text-sm text-gray-500">
+              지금 바로 모임을 만들어보세요
+            </span>
+          </div>
+        ) : (
           <div className="flex flex-col gap-6">
             {data?.pages.map((pages) => {
               return pages.map((meeting) => {
@@ -140,8 +139,7 @@ const MeetingList = ({ data, isLoading }: IMeetingListProps) => {
               })
             })}
           </div>
-        </>
-      )}
+        ))}
     </>
   )
 }
