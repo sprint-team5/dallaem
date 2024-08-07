@@ -61,7 +61,7 @@ const List = () => {
       })
     }
 
-    if (data && data.length === 0) {
+    if (!data || data.length === 0) {
       return <p>아직 리뷰가 없어요</p>
     }
 
