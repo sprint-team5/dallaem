@@ -11,10 +11,10 @@ import ProfileComponent from "./components/ProfileComponent"
 
 // 테일윈드 스타일
 const wrapperStyles = {
-  default: "flex items-center justify-between relative",
-  mobile: "h-[54px] w-[375px]",
-  tablet: "md:h-[58px] md:w-[744px]",
-  desktop: "xl:w-[1198px]",
+  default: "flex items-center justify-between relative max-w-[1198px]",
+  mobile: "h-[55px] w-full text-sm",
+  tablet: "md:h-[59px] md:text-lg",
+  desktop: "xl:w-[1198px] xl:mx-auto",
 }
 
 const navbarStyles = {
@@ -26,7 +26,7 @@ const navbarStyles = {
 
 const gnbStyles = {
   container:
-    "z-50 border-b fixed top-0 left-0 border-gray-400 flex w-full items-center justify-center whitespace-nowrap bg-white",
+    "fixed left-0 top-0 z-50 flex w-full items-center justify-between whitespace-nowrap border-b border-gray-400 bg-white px-4 md:px-6 xl:px-0",
   wrapper: `${wrapperStyles.default} ${wrapperStyles.mobile} ${wrapperStyles.tablet} ${wrapperStyles.desktop}`,
   navbar: `${navbarStyles.default} ${navbarStyles.mobile} ${navbarStyles.tablet} ${navbarStyles.desktop}`,
   navItem: "font-semibold text-orange-600",
@@ -34,6 +34,7 @@ const gnbStyles = {
   hoveredNavItem: "transition-all ease-in-out transform hover:scale-125 delay-[10ms] duration-150",
 }
 
+const logoStyles = `${gnbStyles.hoveredNavItem} text-orange-600 w-[60px] h-6 md:w-[70px] md:h-9`
 const navBaseStyles = `${gnbStyles.navItem} ${gnbStyles.hoveredNavItem}`
 const currentNavStyles = `${gnbStyles.currentNavItem} ${gnbStyles.hoveredNavItem}`
 
@@ -79,7 +80,7 @@ const GNB = ({ userToken }: IGNBProps) => {
           <div className={gnbStyles.wrapper}>
             <div className={gnbStyles.navbar}>
               <Link href={ROUTE.HOME}>
-                <Logo state="large" className={`${gnbStyles.hoveredNavItem} text-orange-600`} />
+                <Logo state="large" className={logoStyles} />
               </Link>
               {navItems.map((item) => {
                 return (
