@@ -87,7 +87,7 @@ const FindMeeting = () => {
     if (inView && hasNextPage) {
       fetchNextPage()
     }
-  }, [inView])
+  }, [fetchNextPage, hasNextPage, inView])
 
   return (
     <div className="flex flex-col items-center max-md:px-[24px] max-md:py-[24px] max-sm:px-[16px]">
