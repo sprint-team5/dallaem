@@ -25,6 +25,26 @@ interface IDataSort {
   isReviewed?: boolean
 }
 
+const useInfiniteQueryHook = (keyData: IDataSort) => {
+  const { data, isPending, fetchNextPage } = useInfiniteQuery({
+    queryKey: ["mypage", keyData],
+    queryFn: ({ queryKey, pageParam }) => {
+      const querySort = queryKey[1] as IDataSort
+      const fetchingKey = querySort.dataFetchingKey
+      const isReviewed = querySort.isReviewed ?? null
+      const offset = pageParam
+      const limit = 5
+      return fetchMyPageInfo({ fetchingKey, offset, limit, isReviewed })
+    },
+    initialPageParam: 0,
+    getNextPageParam: (lastPage, allPages, lastPageParam) => {
+      return lastPage.hasMore ? lastPageParam + 5 : undefined
+    },
+  })
+
+  return { data, isPending, fetchNextPage }
+}
+
 const MyPageInfoWrapper = ({ dataFetchingKey, onClick, reviewed }: IMyPageInfoWrapperProps) => {
   const isMyOwnMeeting = dataFetchingKey === "myOwnMeeting"
   const isMyReview = dataFetchingKey === "myReview"
@@ -41,21 +61,7 @@ const MyPageInfoWrapper = ({ dataFetchingKey, onClick, reviewed }: IMyPageInfoWr
     dataSort = { ...dataSort, isReviewed: true }
   }
 
-  const { data, isPending, fetchNextPage } = useInfiniteQuery({
-    queryKey: ["mypage", dataSort],
-    queryFn: ({ queryKey, pageParam }) => {
-      const querySort = queryKey[1] as IDataSort
-      const fetchingKey = querySort.dataFetchingKey
-      const isReviewed = querySort.isReviewed ?? null
-      const offset = pageParam
-      const limit = 5
-      return fetchMyPageInfo({ fetchingKey, offset, limit, isReviewed })
-    },
-    initialPageParam: 0,
-    getNextPageParam: (lastPage, allPages, lastPageParam) => {
-      return lastPage.hasMore ? lastPageParam + 5 : undefined
-    },
-  })
+  const { data, isPending, fetchNextPage } = useInfiniteQueryHook(dataSort)
 
   const fetchNextPageCallback = useCallback(() => {
     return fetchNextPage
