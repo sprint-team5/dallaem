@@ -9,7 +9,7 @@ const ProfileBox = async () => {
   const userInfo = await getUserInfo()
 
   return (
-    <div className="relative mx-auto h-44 w-full rounded-3xl border-2 border-gray-200 bg-white">
+    <div className="relative mx-auto h-[172px] w-full flex-none rounded-3xl border-2 border-gray-200 bg-white">
       <div className="flex items-center justify-between rounded-t-3xl bg-orange-400 px-6 pb-5 pt-3.5">
         <h3 className="text-lg font-semibold">내 프로필</h3>
         <ProfileEditBtn />
