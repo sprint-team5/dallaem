@@ -2,7 +2,7 @@
 
 import { useInView } from "react-intersection-observer"
 
-import getAllReview from "@/actions/allReviewActions"
+import getAllReviews from "@/actions/getReviewActions"
 import Heart from "@/components/public/icon/dynamicIcon/Heart"
 import Profile from "@/components/public/img/Profile"
 import { animated, useSpring } from "@react-spring/web"
@@ -41,9 +41,9 @@ const ReviewPreview = () => {
     sortOrder: "asc",
   }
   const { data: reviewData } = useQuery({
-    queryKey: ["allReview", filter],
+    queryKey: ["allReviews", filter],
     queryFn: () => {
-      return getAllReview(filter)
+      return getAllReviews(filter)
     },
   })
 
