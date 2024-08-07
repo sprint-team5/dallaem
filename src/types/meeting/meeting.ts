@@ -5,6 +5,8 @@ export interface IFilterOption {
   date?: string
   createdBy?: string
   sortOrder?: string
+  limit?: number
+  offset?: number
 }
 
 export interface IMeetingData {

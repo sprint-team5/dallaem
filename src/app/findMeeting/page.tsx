@@ -2,7 +2,8 @@
 
 import { useRouter } from "next/navigation"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { useInView } from "react-intersection-observer"
 
 import getMeetingList from "@/actions/api-hooks/getMeetingList"
 import checkLogin from "@/actions/checkLogin"
@@ -12,23 +13,35 @@ import FilterSort from "@/components/pages/findMeeting/FilterSort/FilterSort"
 import FilterTab from "@/components/pages/findMeeting/FilterTab/FilterTab"
 import MeetingList from "@/components/pages/findMeeting/MeetingCard/MeetingList/MeetingList"
 import Filter from "@/components/public/Filter/Filter"
+import Spinner from "@/components/public/Spinner/Spinner"
 import Button from "@/components/public/button/Button"
 import { location } from "@/constants/meeting"
-import { IFilterOption } from "@/types/meeting/meeting"
-import { useQuery } from "@tanstack/react-query"
+import { IFilterOption, IMeetingData } from "@/types/meeting/meeting"
+import { InfiniteData, useInfiniteQuery } from "@tanstack/react-query"
 
 const FindMeeting = () => {
   const [filterOption, setFilterOption] = useState<IFilterOption>({
     type: "DALLAEMFIT",
     sortBy: "registrationEnd",
+    limit: 10,
   })
   const [isMeetingModal, setIsMeetingModal] = useState(false)
-  const { data, status, error } = useQuery({
+
+  const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
     queryKey: ["meetingList", filterOption],
-    queryFn: () => {
-      return getMeetingList(filterOption)
+    queryFn: ({ pageParam = 0 }) => {
+      const queryOption = { ...filterOption }
+      if (pageParam !== 0 && filterOption.limit) queryOption.offset = pageParam * filterOption.limit
+      return getMeetingList(queryOption)
+    },
+    initialPageParam: 0,
+    getNextPageParam: (lastPage, allPages) => {
+      const total = allPages.length
+      return total < lastPage.length ? total : undefined
     },
   })
+
+  const { ref, inView } = useInView()
 
   const router = useRouter()
 
@@ -69,6 +82,12 @@ const FindMeeting = () => {
     if (await checkLogin()) setIsMeetingModal(!isMeetingModal)
     else router.push("/auth?mode=signin")
   }
+
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage()
+    }
+  }, [inView])
 
   return (
     <div className="flex flex-col items-center max-md:px-[24px] max-md:py-[24px] max-sm:px-[16px]">
@@ -112,7 +131,17 @@ const FindMeeting = () => {
             selVal={filterOption.sortBy}
           />
         </div>
-        <MeetingList data={data} status={status} error={error} />
+        <MeetingList
+          data={data as InfiniteData<Array<IMeetingData>> | null}
+          isLoading={isLoading}
+        />
+        {isFetchingNextPage ? (
+          <div className="py-7">
+            <Spinner />
+          </div>
+        ) : (
+          <div ref={ref} />
+        )}
       </div>
       {isMeetingModal && (
         <CreateMeetingModal
