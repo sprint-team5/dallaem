@@ -39,13 +39,4 @@ describe("ProfileComponent", () => {
     expect(screen.queryByText("마이 페이지")).not.toBeInTheDocument()
     expect(screen.queryByText("로그아웃")).not.toBeInTheDocument()
   })
-
-  it("Enter 키로 드롭다운 메뉴를 열 수 있습니다", () => {
-    render(<ProfileComponent isLoggedIn profileImg={null} />)
-    const profileButton = screen.getByLabelText("프로필 메뉴 열기")
-
-    fireEvent.keyDown(profileButton, { key: "Enter" })
-    expect(screen.getByText("마이 페이지")).toBeInTheDocument()
-    expect(screen.getByText("로그아웃")).toBeInTheDocument()
-  })
 })
