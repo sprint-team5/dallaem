@@ -1,18 +1,34 @@
 import { useCallback, useEffect, useState } from "react"
+import { useInView } from "react-intersection-observer"
 
 import { IFilterOption } from "@/types/meeting/meeting"
 import { IWishListData } from "@/types/wishlist/wishlist"
 import dayjs from "dayjs"
 
 const useWishList = () => {
+  const { ref, inView } = useInView({
+    threshold: 1,
+  })
+  const [wishlist, setWishlist] = useState<IWishListData[]>([])
+  const [allData, setAllData] = useState<IWishListData[]>([])
+  const [hasNext, setHasNext] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
-
   const [filter, setFilter] = useState<IFilterOption>({
     type: "DALLAEMFIT",
     sortBy: "registrationEnd",
   })
 
-  const [wishlist, setWishlist] = useState<IWishListData[]>([])
+  const loadItem = useCallback(() => {
+    setWishlist((prev) => {
+      const getItem = allData.slice(prev.length, prev.length + 5)
+
+      if (prev.length + getItem.length >= allData.length) {
+        setHasNext(false)
+      }
+
+      return [...prev, ...getItem]
+    })
+  }, [allData])
 
   /* 데이터 refetch */
   const onSetup = useCallback(() => {
@@ -48,15 +64,29 @@ const useWishList = () => {
       return 0
     })
 
-    setWishlist(sortedList)
+    setAllData(sortedList)
+    setWishlist([])
   }, [filter])
 
   useEffect(() => {
     setIsLoading(false)
     onSetup()
+    setHasNext(true)
   }, [filter, onSetup])
 
-  return { isLoading, filter, setFilter, wishlist, onSetup }
+  useEffect(() => {
+    if (!isLoading) {
+      loadItem()
+    }
+  }, [isLoading, loadItem])
+
+  useEffect(() => {
+    if (inView && hasNext && !isLoading) {
+      loadItem()
+    }
+  }, [inView, hasNext, loadItem, isLoading])
+
+  return { isLoading, filter, setFilter, wishlist, onSetup, ref, hasNext }
 }
 
 export default useWishList

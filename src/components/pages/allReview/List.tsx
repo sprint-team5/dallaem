@@ -7,6 +7,7 @@ import FilterSort from "@/components/pages/allReview/FilterSort"
 import FilterCalendar from "@/components/pages/findMeeting/FilterCalendar/FilterCalendar"
 import Filter from "@/components/public/Filter/Filter"
 import Review from "@/components/public/Review/Review"
+import ReviewSkeleton from "@/components/public/Skeleton/ReviewSkeleton"
 import Spinner from "@/components/public/Spinner/Spinner"
 import { location } from "@/constants/meeting"
 import { useAllReview } from "@/hooks/Review/useAllReview"
@@ -90,11 +91,10 @@ const List = () => {
       <div
         className={`mt-6 flex flex-1 flex-col gap-6 text-sm font-medium leading-5 text-gray-500 ${data?.pages.length === 0 && "items-center justify-center"}`}
       >
-        {isLoading && (
-          <div className="h-full w-full items-center justify-center py-52">
-            <Spinner />
-          </div>
-        )}
+        {isLoading &&
+          new Array(10).fill(0).map((_, index) => {
+            return <ReviewSkeleton key={`${index + 1}`} />
+          })}
 
         {!isLoading &&
           data &&
