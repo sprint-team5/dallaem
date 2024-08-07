@@ -54,6 +54,34 @@ const List = () => {
 
   const { data, isLoading, hasNextPage, isFetchingNextPage, fetchNextPage } = useAllReview(filter)
 
+  const render = () => {
+    if (isLoading) {
+      return new Array(10).fill(0).map((_, index) => {
+        return <ReviewSkeleton key={`${index + 1}`} />
+      })
+    }
+
+    if (data && data.length === 0) {
+      return <p>아직 리뷰가 없어요</p>
+    }
+
+    return data.map((reviews) => {
+      return reviews.map((review) => {
+        return (
+          <Review
+            key={review.id}
+            score={review.score}
+            comment={review.comment}
+            gathering={review.Gathering}
+            createdAt={review.createdAt}
+            user={review.User}
+            isImage
+          />
+        )
+      })
+    })
+  }
+
   useEffect(() => {
     if (inView && hasNextPage) {
       fetchNextPage()
@@ -89,42 +117,18 @@ const List = () => {
       </div>
 
       <div
-        className={`mt-6 flex flex-1 flex-col gap-6 text-sm font-medium leading-5 text-gray-500 ${data?.pages.length === 0 && "items-center justify-center"}`}
+        className={`mt-6 flex flex-1 flex-col gap-6 text-sm font-medium leading-5 text-gray-500 ${data.length === 0 && "items-center justify-center"}`}
       >
-        {isLoading &&
-          new Array(10).fill(0).map((_, index) => {
-            return <ReviewSkeleton key={`${index + 1}`} />
-          })}
-
-        {!isLoading &&
-          data &&
-          data.pages.length > 0 &&
-          data.pages.map((reviews) => {
-            return reviews.map((review) => {
-              return (
-                <Review
-                  key={review.id}
-                  score={review.score}
-                  comment={review.comment}
-                  gathering={review.Gathering}
-                  createdAt={review.createdAt}
-                  user={review.User}
-                  isImage
-                />
-              )
-            })
-          })}
-
-        {!isLoading && (!data || data.pages.length === 0) && <p>아직 리뷰가 없어요</p>}
+        {render()}
       </div>
 
-      {isFetchingNextPage && (
+      {hasNextPage && isFetchingNextPage && (
         <div className="flex w-full items-center justify-center py-7">
           <Spinner />
         </div>
       )}
 
-      <div ref={ref} />
+      <div ref={ref} className="h-1 w-full" />
     </>
   )
 }

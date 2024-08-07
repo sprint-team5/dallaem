@@ -1,4 +1,5 @@
 import getAllReview from "@/actions/allReviewActions"
+import LIMIT from "@/constants/limit"
 import { IFilter } from "@/types/review/filter"
 import { queryOptions, useInfiniteQuery } from "@tanstack/react-query"
 
@@ -19,9 +20,14 @@ export const useAllReview = (filter: IFilter | {}) => {
     },
     initialPageParam: 0,
     getNextPageParam: (lastPage, pages) => {
-      const total = pages.length
-      return total < lastPage.length ? total : undefined
+      if (lastPage.length < LIMIT) {
+        return undefined
+      }
+      return pages.length
     },
   })
-  return { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage }
+
+  const dataPage = data?.pages ?? []
+
+  return { data: dataPage, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage }
 }

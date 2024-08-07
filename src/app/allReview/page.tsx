@@ -1,8 +1,10 @@
+import Image from "next/image"
+
 import getQueryClient from "@/components/app/queryClient"
 import List from "@/components/pages/allReview/List"
 import Scores from "@/components/pages/allReview/Scores/Scores"
-import Head from "@/components/public/img/Head"
 import { allReviewOptions } from "@/hooks/Review/useAllReview"
+import HeadReviewIMG from "@public/img/head_review.png"
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query"
 
 const AllReviewsPage = async () => {
@@ -16,7 +18,7 @@ const AllReviewsPage = async () => {
         <div className="flex-none">
           <div className="flex items-center gap-4 sm:gap-[13px]">
             <div className="size-[72px] flex-none">
-              <Head state="review" />
+              <Image width={72} height={72} src={HeadReviewIMG.src} alt="HeadReviewIMG" />
             </div>
             <div>
               <h4 className="text-lg font-semibold leading-8 text-gray-900 sm:text-2xl">

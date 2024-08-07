@@ -1,5 +1,6 @@
 "use server"
 
+import LIMIT from "@/constants/limit"
 import { IGathering } from "@/types/review/filter"
 import { convertParamsToQueryString } from "@/util/fetchParameterParser"
 
@@ -26,7 +27,7 @@ const getAllReview = async (params: any, pageParam: number = 0): Promise<IAllRev
   const query = convertParamsToQueryString(params)
   try {
     const response = await fetch(
-      `${process.env.BASE_URL}/${process.env.TEAM_ID}/reviews?${query}&limit=10&offset=${pageParam}`,
+      `${process.env.BASE_URL}/${process.env.TEAM_ID}/reviews?${query}&limit=${LIMIT}&offset=${pageParam * LIMIT}`,
       {
         headers: {
           "Content-Type": "application/json",
