@@ -10,32 +10,33 @@ import useGetUserData from "@/hooks/useGetUserData"
 import ProfileComponent from "./components/ProfileComponent"
 
 // 테일윈드 스타일
+const wrapperStyles = {
+  default: "flex items-center justify-between relative",
+  mobile: "h-[54px] w-[375px]",
+  tablet: "md:h-[58px] md:w-[744px]",
+  desktop: "xl:w-[1198px]",
+}
+
+const navbarStyles = {
+  default: "flex items-center justify-between",
+  mobile: "gap-3",
+  tablet: "md:gap-5",
+  desktop: "xl:gap-6",
+}
+
 const gnbStyles = {
   container:
     "z-50 border-b fixed top-0 left-0 border-gray-400 flex w-full items-center justify-center whitespace-nowrap bg-white",
-  wrapper: {
-    default: "flex items-center justify-between relative",
-    mobile: "h-[54px] w-[375px]",
-    tablet: "md:h-[58px] md:w-[744px]",
-    desktop: "xl:w-[1198px]",
-  },
-  navbar: {
-    default: "flex items-center justify-between",
-    mobile: "gap-3",
-    tablet: "md:gap-5",
-    desktop: "xl:gap-6",
-  },
-  navItem: "font-semibold text-[#FFF7ED]",
+  wrapper: `${wrapperStyles.default} ${wrapperStyles.mobile} ${wrapperStyles.tablet} ${wrapperStyles.desktop}`,
+  navbar: `${navbarStyles.default} ${navbarStyles.mobile} ${navbarStyles.tablet} ${navbarStyles.desktop}`,
+  navItem: "font-semibold text-orange-600",
   currentNavItem: "font-semibold text-[#111827]",
-  hoveredNavItem:
-    "transition-all ease-in-out transform hover:scale-125 delay-[10ms] duration-150 text-orange-600",
+  hoveredNavItem: "transition-all ease-in-out transform hover:scale-125 delay-[10ms] duration-150",
 }
-
-const wrapperStyles = `${gnbStyles.wrapper.default} ${gnbStyles.wrapper.mobile} ${gnbStyles.wrapper.tablet} ${gnbStyles.wrapper.desktop}`
-const navbarStyles = `${gnbStyles.navbar.default} ${gnbStyles.navbar.mobile} ${gnbStyles.navbar.tablet} ${gnbStyles.navbar.desktop}`
 
 const navBaseStyles = `${gnbStyles.navItem} ${gnbStyles.hoveredNavItem}`
 const currentNavStyles = `${gnbStyles.currentNavItem} ${gnbStyles.hoveredNavItem}`
+
 interface IGNBProps {
   userToken: string | undefined
 }
@@ -72,13 +73,13 @@ const GNB = ({ userToken }: IGNBProps) => {
   ]
 
   return (
-    <div className="">
+    <>
       {shouldShowGNB && (
         <div className={gnbStyles.container}>
-          <div className={wrapperStyles}>
-            <div className={navbarStyles}>
+          <div className={gnbStyles.wrapper}>
+            <div className={gnbStyles.navbar}>
               <Link href={ROUTE.HOME}>
-                <Logo state="large" className={gnbStyles.hoveredNavItem} />
+                <Logo state="large" className={`${gnbStyles.hoveredNavItem} text-orange-600`} />
               </Link>
               {navItems.map((item) => {
                 return (
@@ -92,15 +93,11 @@ const GNB = ({ userToken }: IGNBProps) => {
                 )
               })}
             </div>
-            <ProfileComponent
-              isLoggedIn={isLoggedIn}
-              profileImg={profileImg}
-              hoveredNavItem={gnbStyles.hoveredNavItem}
-            />
+            <ProfileComponent isLoggedIn={isLoggedIn} profileImg={profileImg} />
           </div>
         </div>
       )}
-    </div>
+    </>
   )
 }
 
