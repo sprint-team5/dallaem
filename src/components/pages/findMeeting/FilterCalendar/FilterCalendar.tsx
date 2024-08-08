@@ -1,10 +1,11 @@
 "use client"
 
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { Value } from "react-calendar/dist/cjs/shared/types"
 
 import Calendars from "@/components/public/Calendars/Calendars"
 import Arrow from "@/components/public/icon/dynamicIcon/Arrow"
+import useOutsideClick from "@/util/useOutsideClick"
 import dayjs from "dayjs"
 
 interface IFilterProps {
@@ -20,6 +21,11 @@ interface IFilterProps {
  * @param {Function} onChange - 필터링 데이터 선택 시 실행할 함수(setState 함수 전달)
  */
 const FilterCalendar = (props: IFilterProps) => {
+  const filterCalendarRef = useRef<HTMLDivElement>(null)
+  useOutsideClick(filterCalendarRef, () => {
+    return setIsOpen(false)
+  })
+
   const [isOpen, setIsOpen] = useState(false)
   const { placeholder, selVal, onChange } = props
 
@@ -55,6 +61,7 @@ const FilterCalendar = (props: IFilterProps) => {
         <Arrow className="w-[15px]" state={selVal ? "inverseDown" : "defaultDown"} />
       </div>
       <div
+        ref={filterCalendarRef}
         role="listbox"
         aria-expanded={isOpen}
         className={`absolute top-full z-[1] mt-[2px] box-border overflow-hidden rounded-xl bg-white shadow-expand transition delay-100 ease-in-out ${isOpen ? "opacity-1 max-h-none" : "max-h-0 overflow-hidden opacity-0"}`}

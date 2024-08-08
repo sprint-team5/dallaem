@@ -1,6 +1,8 @@
 "use client"
 
-import { useState } from "react"
+import { useRef, useState } from "react"
+
+import useOutsideClick from "@/util/useOutsideClick"
 
 import Arrow from "../icon/dynamicIcon/Arrow"
 
@@ -21,6 +23,11 @@ interface IFilterProps {
  * @param {Function} onSelect - 필터링 데이터 선택 시 실행할 함수(setState 함수 전달)
  */
 const Filter = (props: IFilterProps) => {
+  const filterRef = useRef<HTMLDivElement>(null)
+  useOutsideClick(filterRef, () => {
+    return setIsOpen(false)
+  })
+
   const [isOpen, setIsOpen] = useState(false)
   const { data, placeholder, selVal, onSelect } = props
 
@@ -59,6 +66,7 @@ const Filter = (props: IFilterProps) => {
         <Arrow className="w-[15px]" state={selVal ? "inverseDown" : "defaultDown"} />
       </div>
       <div
+        ref={filterRef}
         role="listbox"
         aria-expanded={isOpen}
         className={`absolute top-full z-[1] mt-[2px] box-border flex w-full flex-col overflow-hidden rounded-xl bg-white p-1 text-sm shadow-expand transition delay-100 ease-in-out ${isOpen ? "opacity-1 max-h-none" : "max-h-0 overflow-hidden opacity-0"}`}
