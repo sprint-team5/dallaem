@@ -19,3 +19,12 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+
+@layer components {
+  .skeleton-full {
+    @apply animate-pulse rounded-full bg-gray-300;
+  }
+  .skeleton-normal {
+    @apply animate-pulse bg-gray-300;
+  }
+}
