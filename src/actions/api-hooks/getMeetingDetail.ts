@@ -7,6 +7,7 @@ const getMeetingDetail = async (id: string) => {
       headers: {
         "Content-Type": "application/json",
       },
+      cache: "no-store",
     })
     if (!res.ok) throw new Error("HTTP ERROR OCCURED")
     const json = await res.json()
