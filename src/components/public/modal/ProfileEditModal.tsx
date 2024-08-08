@@ -67,6 +67,13 @@ const ProfileEditModal = ({ company, src = "" }: IProfileEditModalProps) => {
   }
 
   const changeTextHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setUserProfileInput((prev) => {
+      return {
+        ...prev,
+        [e.target.name]: e.target.value,
+      }
+    })
+
     if (e.target.value.length < 2) {
       setError((prev) => {
         return {
@@ -76,6 +83,7 @@ const ProfileEditModal = ({ company, src = "" }: IProfileEditModalProps) => {
       })
       return
     }
+
     setError((prev) => {
       return {
         ...prev,

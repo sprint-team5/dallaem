@@ -64,7 +64,7 @@ const FilterCalendar = (props: IFilterProps) => {
         ref={filterCalendarRef}
         role="listbox"
         aria-expanded={isOpen}
-        className={`absolute top-full z-[1] mt-[2px] box-border overflow-hidden rounded-xl bg-white shadow-expand transition delay-100 ease-in-out ${isOpen ? "opacity-1 max-h-none" : "max-h-0 overflow-hidden opacity-0"}`}
+        className={`absolute top-full z-50 mt-[2px] box-border overflow-hidden rounded-xl bg-white shadow-expand transition delay-100 ease-in-out ${isOpen ? "opacity-1 max-h-none" : "max-h-0 overflow-hidden opacity-0"}`}
       >
         <Calendars value={selVal} onChange={onChangeHandler} />
       </div>

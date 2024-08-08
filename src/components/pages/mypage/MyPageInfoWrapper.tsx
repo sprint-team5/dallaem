@@ -25,6 +25,13 @@ interface IDataSort {
   isReviewed?: boolean
 }
 
+const getDefaultText = (key: string, review: boolean | undefined): string => {
+  if (key === "myMeeting") return "신청한 모임이"
+  if (key === "myOwnMeeting") return "만든 모임이"
+  if (key === "myReview" && !!review) return "작성한 리뷰가"
+  return "작성 가능한 리뷰가"
+}
+
 const useInfiniteQueryHook = (keyData: IDataSort) => {
   const { data, isPending, fetchNextPage } = useInfiniteQuery({
     queryKey: ["mypage", keyData],
@@ -48,9 +55,8 @@ const useInfiniteQueryHook = (keyData: IDataSort) => {
 const MyPageInfoWrapper = ({ dataFetchingKey, onClick, reviewed }: IMyPageInfoWrapperProps) => {
   const isMyOwnMeeting = dataFetchingKey === "myOwnMeeting"
   const isMyReview = dataFetchingKey === "myReview"
-  const initialState = reviewed && true
   const router = useRouter()
-  const [hasReview, setHasReview] = useState(initialState)
+  const [hasReview, setHasReview] = useState(reviewed)
   const { ref, inView } = useInView({
     threshold: 1,
   })
@@ -89,6 +95,18 @@ const MyPageInfoWrapper = ({ dataFetchingKey, onClick, reviewed }: IMyPageInfoWr
   const dataPages = data?.pages ?? []
 
   if (isPending) return <Spinner />
+
+  if (!isPending && dataPages[0].data.length === 0) {
+    return (
+      <>
+        {isMyReview && <ReviewStateButton onClick={reviewButtonHandler} hasReview={hasReview} />}
+        <p className="mt-72 text-center text-sm font-medium leading-5 text-gray-500">
+          {`아직  ${getDefaultText(dataFetchingKey, hasReview)} 없어요`}
+        </p>
+      </>
+    )
+  }
+
   return (
     <>
       {isMyReview && <ReviewStateButton onClick={reviewButtonHandler} hasReview={hasReview} />}
