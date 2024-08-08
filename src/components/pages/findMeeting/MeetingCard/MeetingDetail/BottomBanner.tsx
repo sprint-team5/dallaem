@@ -70,7 +70,8 @@ const BottomBanner = ({ id, isHost, isJoined, limit, participant }: IBannerProps
     },
     onSuccess: async (res) => {
       await queryClient.invalidateQueries({ queryKey: ["meetingList"] })
-      router.replace(`/findMeeting?alert=${res}`)
+      if (res) router.replace(`/findMeeting?alert=${res}`)
+      else router.replace(`/findMeeting`)
     },
   })
 

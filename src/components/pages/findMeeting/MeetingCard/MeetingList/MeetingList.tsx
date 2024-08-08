@@ -132,7 +132,13 @@ const MeetingList = ({ data, isLoading }: IMeetingListProps) => {
             {data?.pages.map((pages) => {
               return pages.map((meeting) => {
                 return (
-                  <Link href={`/findMeeting/${meeting.id}`} key={meeting.id}>
+                  <Link className="relative" href={`/findMeeting/${meeting.id}`} key={meeting.id}>
+                    {dayjs().isAfter(dayjs(meeting.registrationEnd)) && (
+                      <div className="absolute left-0 top-0 z-10 flex h-full w-full flex-col items-center justify-center gap-6 rounded-3xl bg-black/80 text-center text-sm font-medium leading-5 text-white sm:flex-row">
+                        마감된 챌린지에요, <br />
+                        다음 기회에 만나요 🙏
+                      </div>
+                    )}
                     <MeetingCard key={meeting.id} data={meeting} />
                   </Link>
                 )
