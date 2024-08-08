@@ -21,13 +21,13 @@ interface IFilterProps {
  * @param {Function} onChange - 필터링 데이터 선택 시 실행할 함수(setState 함수 전달)
  */
 const FilterCalendar = (props: IFilterProps) => {
+  const [isOpen, setIsOpen] = useState(false)
+  const { placeholder, selVal, onChange } = props
+
   const filterCalendarRef = useRef<HTMLDivElement>(null)
   useOutsideClick(filterCalendarRef, () => {
     return setIsOpen(false)
   })
-
-  const [isOpen, setIsOpen] = useState(false)
-  const { placeholder, selVal, onChange } = props
 
   const onLabelClickHandler = () => {
     setIsOpen(!isOpen)

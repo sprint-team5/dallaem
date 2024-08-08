@@ -19,13 +19,13 @@ interface IFilterProps {
  * @param {Function} onSelect - 필터링 데이터 선택 시 실행할 함수(setState 함수 전달)
  */
 const FilterSort = (props: IFilterProps) => {
+  const [isOpen, setIsOpen] = useState(false)
+  const { selVal, onSelect } = props
+
   const filterSortRef = useRef<HTMLDivElement>(null)
   useOutsideClick(filterSortRef, () => {
     return setIsOpen(false)
   })
-
-  const [isOpen, setIsOpen] = useState(false)
-  const { selVal, onSelect } = props
 
   const onLabelClickHandler = () => {
     setIsOpen(!isOpen)
