@@ -7,6 +7,7 @@ import generateMeetUp from "@/actions/generateMeetUp"
 import Calendars from "@/components/public/Calendars/Calendars"
 import Button from "@/components/public/button/Button"
 import Arrow from "@/components/public/icon/dynamicIcon/Arrow"
+import CompleteSignUpModal from "@/components/public/modal/CompleteSignUpModal"
 import { location } from "@/constants/meeting"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import dayjs from "dayjs"
@@ -48,6 +49,8 @@ const Label = ({
 }
 
 const CreateMeetingForm = ({ changeState }: { changeState: () => void }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
   const [meetingData, setMeetingData] = useState<IMeetingData>({
     location: "",
     type: "",
@@ -154,11 +157,20 @@ const CreateMeetingForm = ({ changeState }: { changeState: () => void }) => {
     )
 
     mutation.mutateAsync(params)
+    setIsModalOpen(true)
+  }
+
+  const onConfirmClick = () => {
     changeState()
   }
 
   return (
     <>
+      {isModalOpen && (
+        <CompleteSignUpModal isOneBtn onConfirmClick={onConfirmClick}>
+          모임이 생성되었습니다.
+        </CompleteSignUpModal>
+      )}
       <Label label="모임명" htmlFor="name">
         <input
           id="name"
