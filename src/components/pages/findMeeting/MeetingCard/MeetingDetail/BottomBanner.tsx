@@ -46,10 +46,10 @@ const BottomBanner = ({ id, isHost, isJoined, limit, participant }: IBannerProps
     mutationFn: () => {
       return joinMeeting(id)
     },
-    onSuccess: (res) => {
-      queryClient.invalidateQueries({ queryKey: ["meetingDetail", id] })
-      queryClient.invalidateQueries({ queryKey: ["participants", id] })
-      router.push(`/findMeeting/${id}?alert=${res}`)
+    onSuccess: async (res) => {
+      await queryClient.invalidateQueries({ queryKey: ["meetingDetail"] })
+      await queryClient.invalidateQueries({ queryKey: ["participants"] })
+      router.replace(`/findMeeting/${id}?alert=${res}`)
     },
   })
 
@@ -57,10 +57,10 @@ const BottomBanner = ({ id, isHost, isJoined, limit, participant }: IBannerProps
     mutationFn: () => {
       return quitMeeting(id)
     },
-    onSuccess: (res) => {
-      queryClient.invalidateQueries({ queryKey: ["meetingDetail", id] })
-      queryClient.invalidateQueries({ queryKey: ["participants", id] })
-      router.push(`/findMeeting/${id}?alert=${res}`)
+    onSuccess: async (res) => {
+      await queryClient.invalidateQueries({ queryKey: ["meetingDetail"] })
+      await queryClient.invalidateQueries({ queryKey: ["participants"] })
+      router.replace(`/findMeeting/${id}?alert=${res}`)
     },
   })
 
@@ -68,9 +68,10 @@ const BottomBanner = ({ id, isHost, isJoined, limit, participant }: IBannerProps
     mutationFn: () => {
       return cancelMeeting(id)
     },
-    onSuccess: (res) => {
-      queryClient.invalidateQueries({ queryKey: ["meetingList"] })
-      router.push(`/findMeeting?alert=${res}`)
+    onSuccess: async (res) => {
+      await queryClient.invalidateQueries({ queryKey: ["meetingList"] })
+      if (res) router.replace(`/findMeeting?alert=${res}`)
+      else router.replace(`/findMeeting`)
     },
   })
 

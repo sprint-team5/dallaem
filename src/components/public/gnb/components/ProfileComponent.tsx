@@ -18,7 +18,7 @@ const profileMenuStyles = {
   container:
     "absolute right-0 top-[62px] flex h-[70px] w-[150px] flex-col rounded-lg bg-white shadow-xl md:top-[66px]",
   navItems: "flex h-1/2 w-full items-center justify-center rounded-lg text-center text-orange-600",
-  hoveredNavItem: "transition-all ease-in-out transform hover:scale-125 delay-[10ms] duration-150",
+  hoveredNavItem: "transition-all ease-in-out transform hover:scale-110 delay-[10ms] duration-150",
 }
 
 interface IProfileComponentProps {

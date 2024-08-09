@@ -1,9 +1,10 @@
 "use client"
 
-import { useState } from "react"
+import { useRef, useState } from "react"
 
 import Sort from "@/components/public/icon/dynamicIcon/Sort"
 import { sortType } from "@/constants/meeting"
+import useOutsideClick from "@/util/useOutsideClick"
 
 interface IFilterProps {
   selVal: string
@@ -20,6 +21,11 @@ interface IFilterProps {
 const FilterSort = (props: IFilterProps) => {
   const [isOpen, setIsOpen] = useState(false)
   const { selVal, onSelect } = props
+
+  const filterSortRef = useRef<HTMLDivElement>(null)
+  useOutsideClick(filterSortRef, () => {
+    return setIsOpen(false)
+  })
 
   const onLabelClickHandler = () => {
     setIsOpen(!isOpen)
@@ -65,9 +71,10 @@ const FilterSort = (props: IFilterProps) => {
         </span>
       </div>
       <div
+        ref={filterSortRef}
         role="listbox"
         aria-expanded={isOpen}
-        className={`absolute top-full z-[1] mt-[2px] box-border flex flex-col overflow-hidden rounded-xl bg-white p-1 text-sm shadow-expand transition delay-100 ease-in-out ${isOpen ? "opacity-1 max-h-none" : "max-h-0 overflow-hidden opacity-0"}`}
+        className={`absolute top-full z-50 mt-[2px] box-border flex flex-col overflow-hidden rounded-xl bg-white p-1 text-sm shadow-expand transition delay-100 ease-in-out ${isOpen ? "opacity-1 max-h-none" : "max-h-0 overflow-hidden opacity-0"}`}
       >
         {sortType.map((item) => {
           return (

@@ -11,7 +11,7 @@ interface IMyPageInfoTapButton {
 }
 
 const text = {
-  myMeeting: "나의 모임",
+  myMeeting: "참여한 모임",
   myReview: "나의 리뷰",
   myOwnMeeting: "내가 만든 모임",
 }
