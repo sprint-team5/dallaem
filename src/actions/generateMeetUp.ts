@@ -8,24 +8,31 @@ interface ICustomResponse {
   parameter?: string
 }
 
-const generateMeetUp = async (formData: FormData) => {
+interface IMeetingData {
+  id: string
+  location: string
+  type: string
+  name: string
+  date: string
+  time: string
+  capacity: number
+  image: {
+    file: File | null
+    name: string
+  }
+  registrationEnd: string
+}
+
+const generateMeetUp = async (formData: FormData): Promise<IMeetingData> => {
   try {
     const token = await getCookie("userToken")
-    const data: {
-      method: string
-      body: FormData
-      headers: {
-        Authorization?: string
-      }
-    } = {
+    const data: RequestInit = {
       method: "POST",
       body: formData,
       headers: {
-        // accept: "application/json",
-        // "Content-Type": "multipart/form-data",
+        Authorization: token ? `Bearer ${token}` : "",
       },
     }
-    if (token) data.headers.Authorization = `Bearer ${token}`
 
     const response = await fetch(`${process.env.BASE_URL}/${process.env.TEAM_ID}/gatherings`, data)
 
@@ -33,8 +40,14 @@ const generateMeetUp = async (formData: FormData) => {
       const json: ICustomResponse = await response.json()
       throw new Error(json.message)
     }
+
+    const responseData: IMeetingData = await response.json()
+    return responseData
   } catch (error) {
-    throw new Error(error as string)
+    if (error instanceof Error) {
+      throw new Error(error.message)
+    }
+    throw new Error("An unknown error occurred")
   }
 }
 

@@ -2,11 +2,11 @@
 
 import { KeyboardEvent, useEffect, useRef } from "react"
 
+import CreateMeetingForm from "@/components/pages/findMeeting/CreateMeeting/CreateMeetingForm"
 import X from "@/components/public/icon/staticIcon/X"
 import { allowScroll, preventScroll } from "@/util/modal"
 import useOutsideClick from "@/util/useOutsideClick"
 
-import CreateMeetingForm from "./CreateMeetingForm"
 import "./styles.scss"
 
 const CreateMeetingModal = ({ changeState }: { changeState: () => void }) => {

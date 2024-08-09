@@ -3,13 +3,14 @@
 import { KeyboardEvent, useRef, useState } from "react"
 import { Value } from "react-calendar/dist/cjs/shared/types"
 
-import generateMeetUp from "@/actions/generateMeetUp"
 import Calendars from "@/components/public/Calendars/Calendars"
 import Button from "@/components/public/button/Button"
 import Arrow from "@/components/public/icon/dynamicIcon/Arrow"
 import CompleteSignUpModal from "@/components/public/modal/CompleteSignUpModal"
 import { location } from "@/constants/meeting"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
+import useCreateGathering from "@/hooks/Gatherings/useCreateGathering"
+import useJoinGathering from "@/hooks/Gatherings/useJoinGathering"
+import { useQueryClient } from "@tanstack/react-query"
 import dayjs from "dayjs"
 
 import SelectServiceRadioGroup from "./selectComponents/SelectServiceRadioGroup"
@@ -63,15 +64,8 @@ const CreateMeetingForm = ({ changeState }: { changeState: () => void }) => {
   })
 
   const queryClient = useQueryClient()
-
-  const mutation = useMutation({
-    mutationFn: (params: any) => {
-      return generateMeetUp(params)
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["meetingList"] })
-    },
-  })
+  const { mutate: createGathering } = useCreateGathering()
+  const { mutate: joinGathering } = useJoinGathering()
 
   const modalSelectRef = useRef<HTMLSelectElement>(null)
   const fileLabelRef = useRef<HTMLInputElement>(null)
@@ -156,7 +150,16 @@ const CreateMeetingForm = ({ changeState }: { changeState: () => void }) => {
         .format("YYYY-MM-DDTHH:mm:ss"),
     )
 
-    mutation.mutateAsync(params)
+    createGathering(params, {
+      onSuccess: async (gatheringData) => {
+        queryClient.invalidateQueries({ queryKey: ["meetingList"] })
+
+        if (gatheringData && gatheringData?.id) {
+          await joinGathering(gatheringData.id)
+        }
+        setIsModalOpen(true)
+      },
+    })
     setIsModalOpen(true)
   }
 

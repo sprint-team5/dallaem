@@ -4,9 +4,9 @@ import { useRouter } from "next/navigation"
 
 import cancelMeeting from "@/actions/cancelMeeting"
 import checkLogin from "@/actions/checkLogin"
-import joinMeeting from "@/actions/joinMeeting"
 import quitMeeting from "@/actions/quitMeeting"
 import Button from "@/components/public/button/Button"
+import useJoinGathering from "@/hooks/Gatherings/useJoinGathering"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 
 const floatingBarStyles = {
@@ -42,16 +42,7 @@ const BottomBanner = ({ id, isHost, isJoined, limit, participant }: IBannerProps
   const queryClient = useQueryClient()
   const router = useRouter()
 
-  const joinMutation = useMutation({
-    mutationFn: () => {
-      return joinMeeting(id)
-    },
-    onSuccess: async (res) => {
-      await queryClient.invalidateQueries({ queryKey: ["meetingDetail"] })
-      await queryClient.invalidateQueries({ queryKey: ["participants"] })
-      router.replace(`/findMeeting/${id}?alert=${res}`)
-    },
-  })
+  const { mutate: joinGathering } = useJoinGathering()
 
   const quitMutation = useMutation({
     mutationFn: () => {
@@ -60,6 +51,7 @@ const BottomBanner = ({ id, isHost, isJoined, limit, participant }: IBannerProps
     onSuccess: async (res) => {
       await queryClient.invalidateQueries({ queryKey: ["meetingDetail"] })
       await queryClient.invalidateQueries({ queryKey: ["participants"] })
+      await queryClient.invalidateQueries({ queryKey: ["meetingList"] })
       router.replace(`/findMeeting/${id}?alert=${res}`)
     },
   })
@@ -95,9 +87,18 @@ const BottomBanner = ({ id, isHost, isJoined, limit, participant }: IBannerProps
     cancelMutaion.mutate()
   }
   const onClickJoin = async () => {
-    if (await checkLogin()) joinMutation.mutate()
-    else router.push(`/findMeeting/${id}?alert=로그인이 필요합니다.`)
+    if (await checkLogin())
+      joinGathering(id, {
+        onSuccess: async (res) => {
+          await queryClient.invalidateQueries({ queryKey: ["meetingDetail"] })
+          await queryClient.invalidateQueries({ queryKey: ["participants"] })
+          await queryClient.invalidateQueries({ queryKey: ["meetingList"] })
+
+          router.replace(`/findMeeting/${id}?alert=${res}`)
+        },
+      })
   }
+
   const onClickQuit = async () => {
     quitMutation.mutate()
   }

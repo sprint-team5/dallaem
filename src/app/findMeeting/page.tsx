@@ -5,9 +5,7 @@ import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { useInView } from "react-intersection-observer"
 
-import getMeetingList from "@/actions/api-hooks/getMeetingList"
 import checkLogin from "@/actions/checkLogin"
-import CreateMeetingModal from "@/components/pages/findMeeting/CreateMeeting/CreateMeetingModal"
 import FilterCalendar from "@/components/pages/findMeeting/FilterCalendar/FilterCalendar"
 import FilterSort from "@/components/pages/findMeeting/FilterSort/FilterSort"
 import FilterTab from "@/components/pages/findMeeting/FilterTab/FilterTab"
@@ -15,65 +13,55 @@ import MeetingList from "@/components/pages/findMeeting/MeetingCard/MeetingList/
 import Filter from "@/components/public/Filter/Filter"
 import Spinner from "@/components/public/Spinner/Spinner"
 import Button from "@/components/public/button/Button"
+import CreateMeetingModal from "@/components/public/modal/CreateMeetingModal"
 import { location } from "@/constants/meeting"
 import ROUTE from "@/constants/route"
-import { IFilterOption, IMeetingData } from "@/types/meeting/meeting"
-import { InfiniteData, useInfiniteQuery } from "@tanstack/react-query"
+import useGetMeetingList from "@/hooks/useGetMeetingList"
+import { IFilterOption } from "@/types/meeting/meeting"
 
 const FindMeeting = () => {
-  const [filterOption, setFilterOption] = useState<IFilterOption>({
+  const initialFilterOption: IFilterOption = {
     type: "DALLAEMFIT",
     sortBy: "registrationEnd",
     limit: 10,
-  })
-  const [isMeetingModal, setIsMeetingModal] = useState(false)
+  }
 
-  const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
-    queryKey: ["meetingList", filterOption],
-    queryFn: ({ pageParam = 0 }) => {
-      const queryOption = { ...filterOption }
-      if (pageParam !== 0 && filterOption.limit) queryOption.offset = pageParam * filterOption.limit
-      return getMeetingList(queryOption)
-    },
-    initialPageParam: 0,
-    getNextPageParam: (lastPage, allPages) => {
-      const total = allPages.length
-      return total < lastPage.length ? total : undefined
-    },
-  })
+  const {
+    data,
+    isLoading,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    filterOption,
+    updateFilterOption,
+  } = useGetMeetingList(initialFilterOption)
+
+  const [isMeetingModal, setIsMeetingModal] = useState(false)
 
   const { ref, inView } = useInView()
 
   const router = useRouter()
 
-  // TODO: 이벤트를 넘기지 않고 수정할 값만 파싱해서 넘기도록 수정 필요(역할, 책임 등의 문제)
   const onFilterChanged = (
     e: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLButtonElement> | string,
     key: string,
   ) => {
     if (key) {
-      // 1. date 등 문자열 값을 넘기는 경우
       if (typeof e === "string") {
-        // 1-1. 빈 문자열을 받는 경우 초기화
         if (e === "") {
-          if (key in filterOption) {
-            const newFilterOption = { ...filterOption }
-            // @ts-ignore
-            delete newFilterOption[key]
-            setFilterOption(newFilterOption)
-          }
+          const newFilterOption = { ...filterOption }
+          // @ts-ignore
+          delete newFilterOption[key]
+          updateFilterOption(newFilterOption)
         } else {
-          setFilterOption({ ...filterOption, [key]: e })
+          updateFilterOption({ [key]: e })
         }
-      }
-      // 2. 이벤트 객체를 넘기는 경우
-      else {
+      } else {
         const target = e.target as HTMLButtonElement
-        if (target.value) setFilterOption({ ...filterOption, [key]: target.value })
-        // 3. 버튼 내의 svg 클릭 하는 경우 (value가 존재하지 않는 문제 때문에 추가, 부모요소의 value를 가져오도록)
+        if (target.value) updateFilterOption({ [key]: target.value })
         else if (target.parentElement && target.parentElement.tagName.toLowerCase() === "button") {
           const targetParent = target.parentElement as HTMLButtonElement
-          if (targetParent.value) setFilterOption({ ...filterOption, [key]: targetParent.value })
+          if (targetParent.value) updateFilterOption({ [key]: targetParent.value })
         }
       }
     }
@@ -132,10 +120,7 @@ const FindMeeting = () => {
             selVal={filterOption.sortBy}
           />
         </div>
-        <MeetingList
-          data={data as InfiniteData<Array<IMeetingData>> | null}
-          isLoading={isLoading}
-        />
+        <MeetingList data={data ?? null} isLoading={isLoading} />
         {isFetchingNextPage ? (
           <div className="py-7">
             <Spinner />
@@ -149,13 +134,12 @@ const FindMeeting = () => {
           changeState={() => {
             setIsMeetingModal(!isMeetingModal)
           }}
-          // 스크린 리더에서 해당 요소가 하위메뉴를 포함하고 있음을 알려주기 위한 속성
           aria-haspopup="true"
-          // 스크린 리더에서 모달이 열려있는지 상태를 알려주기 위한 속성
           aria-pressed={isMeetingModal}
         />
       )}
     </div>
   )
 }
+
 export default FindMeeting
