@@ -5,7 +5,7 @@ import React from "react"
 import Bye from "@/components/public/icon/staticIcon/Bye"
 import { IWishListData } from "@/types/wishlist/wishlist"
 
-const ByeBtn = ({ list, onRefresh }: { list: IWishListData; onRefresh: () => void }) => {
+const ByeBtn = ({ list, removeHanlder }: { list: IWishListData; removeHanlder?: any }) => {
   const HanlderRemove = () => {
     const wish = localStorage.getItem("wishlist")
     if (wish) {
@@ -17,7 +17,7 @@ const ByeBtn = ({ list, onRefresh }: { list: IWishListData; onRefresh: () => voi
         parse.splice(index, 1)
       }
       localStorage.setItem("wishlist", JSON.stringify([...parse]))
-      onRefresh()
+      removeHanlder(list.id)
     }
   }
 

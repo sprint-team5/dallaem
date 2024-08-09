@@ -1,37 +1,20 @@
 import { useCallback, useEffect, useState } from "react"
 import { useInView } from "react-intersection-observer"
 
-import LIMIT from "@/constants/limit"
 import { IFilterOption } from "@/types/meeting/meeting"
 import { IWishListData } from "@/types/wishlist/wishlist"
 import dayjs from "dayjs"
 
-const useWishList = () => {
+const useWishList = (filter: IFilterOption) => {
+  const [wish, setWish] = useState<IWishListData[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [page, setPage] = useState(0)
+  const [hasMore, setHasMore] = useState(true)
   const { ref, inView } = useInView({
     threshold: 1,
   })
-  const [wishlist, setWishlist] = useState<IWishListData[]>([])
-  const [allData, setAllData] = useState<IWishListData[]>([])
-  const [hasNext, setHasNext] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
-  const [filter, setFilter] = useState<IFilterOption>({
-    type: "DALLAEMFIT",
-    sortBy: "registrationEnd",
-  })
 
-  const loadItem = useCallback(() => {
-    setWishlist((prev) => {
-      const getItem = allData.slice(prev.length, prev.length + LIMIT)
-
-      if (prev.length + getItem.length >= allData.length) {
-        setHasNext(false)
-      }
-
-      return [...prev, ...getItem]
-    })
-  }, [allData])
-
-  const filters = useCallback(
+  const filterAndSort = useCallback(
     (parse: IWishListData[]): IWishListData[] => {
       return parse
         .filter((item) => {
@@ -64,35 +47,42 @@ const useWishList = () => {
     [filter],
   )
 
-  /* 데이터 refetch */
-  const onSetup = useCallback(() => {
-    const wish = localStorage.getItem("wishlist")
-    if (!wish) return
-    const parse: IWishListData[] = JSON.parse(wish)
-    const sortedList = filters(parse)
-    setAllData(sortedList)
-    setWishlist([])
-    setHasNext(true)
-  }, [filters])
+  const loadMore = useCallback(() => {
+    const storage = JSON.parse(localStorage.getItem("wishlist") || "[]")
+    const newItems = filterAndSort(storage).slice(page * 10, (page + 1) * 10)
+
+    if (newItems.length > 0) {
+      setWish((prev) => {
+        return [...prev, ...newItems]
+      })
+      setPage((prev) => {
+        return prev + 1
+      })
+    } else {
+      setHasMore(false)
+    }
+  }, [page, filterAndSort])
 
   useEffect(() => {
+    // Initial fetch
     setIsLoading(false)
-    onSetup()
-  }, [filter, onSetup])
+    const storage = JSON.parse(localStorage.getItem("wishlist") || "[]")
+    const newItems = filterAndSort(storage).slice(0, 10)
+    setWish(newItems)
+    setPage(1)
+
+    if (storage.length === newItems.length) {
+      setHasMore(false)
+    }
+  }, [filter, filterAndSort])
 
   useEffect(() => {
-    if (!isLoading) {
-      loadItem()
+    if (inView && hasMore) {
+      loadMore()
     }
-  }, [isLoading, loadItem])
+  }, [inView, hasMore, loadMore])
 
-  useEffect(() => {
-    if (inView && hasNext && !isLoading) {
-      loadItem()
-    }
-  }, [inView, hasNext, loadItem, isLoading])
-
-  return { isLoading, filter, setFilter, wishlist, onSetup, ref, hasNext }
+  return { wish, setWish, ref, isLoading, hasMore }
 }
 
 export default useWishList

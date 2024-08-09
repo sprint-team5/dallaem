@@ -1,6 +1,8 @@
 "use client"
 
-import React from "react"
+import Link from "next/link"
+
+import React, { useState } from "react"
 
 import FilterCalendar from "@/components/pages/findMeeting/FilterCalendar/FilterCalendar"
 import FilterSort from "@/components/pages/findMeeting/FilterSort/FilterSort"
@@ -12,10 +14,24 @@ import MeetingCardSkeleton from "@/components/public/Skeleton/MeetingCardSkeleto
 import Spinner from "@/components/public/Spinner/Spinner"
 import { location } from "@/constants/meeting"
 import useWishList from "@/hooks/useWishList"
+import { IFilterOption } from "@/types/meeting/meeting"
 import dayjs from "dayjs"
 
 const List = () => {
-  const { isLoading, filter, setFilter, wishlist, onSetup, ref, hasNext } = useWishList()
+  const [filter, setFilter] = useState<IFilterOption>({
+    type: "DALLAEMFIT",
+    sortBy: "registrationEnd",
+  })
+
+  const { wish, setWish, ref, isLoading, hasMore } = useWishList(filter)
+
+  const removeWishHanlder = (id: number) => {
+    setWish(
+      wish.filter((item) => {
+        return item.id !== id
+      }),
+    )
+  }
 
   // TODO: 이벤트를 넘기지 않고 수정할 값만 파싱해서 넘기도록 수정 필요(역할, 책임 등의 문제)
   const onFilterChanged = (
@@ -60,6 +76,7 @@ const List = () => {
           }}
         />
       </div>
+
       <div className="relative z-30 mt-6 flex justify-between border-t pt-6 sm:mt-4 sm:pt-4">
         <div className="flex gap-2">
           <Filter
@@ -85,38 +102,40 @@ const List = () => {
           selVal={filter.sortBy}
         />
       </div>
-      <div
-        className={`mt-6 flex-1 ${!isLoading && wishlist.length === 0 && "flex items-center justify-center"}`}
-      >
-        {isLoading &&
-          Array(10)
-            .fill(0)
-            .map((_, index) => {
-              return <MeetingCardSkeleton key={`${index + 1}`} />
-            })}
 
-        {!isLoading && wishlist.length === 0 && (
-          <p className="text-sm font-medium leading-5 text-gray-500">아직 찜한 모임이 없어요</p>
-        )}
+      {isLoading ? (
+        <div className="mt-6 flex-1">
+          {new Array(10).fill(0).map((_, index) => {
+            return <MeetingCardSkeleton key={`${index + 1}`} />
+          })}
+        </div>
+      ) : (
+        <div className={`mt-6 flex-1 ${wish.length === 0 && "flex items-center justify-center"}`}>
+          {wish.length === 0 && (
+            <p className="text-sm font-medium leading-5 text-gray-500">아직 찜한 모임이 없어요</p>
+          )}
 
-        {!isLoading &&
-          wishlist.map((list) => {
+          {wish.map((list) => {
             return (
               <div key={list.id} className="relative mt-6 first:mt-0">
                 {dayjs().isAfter(dayjs(list.registrationEnd)) && (
                   <div className="absolute left-0 top-0 z-10 flex h-full w-full flex-col items-center justify-center gap-6 rounded-3xl bg-black/80 text-center text-sm font-medium leading-5 text-white sm:flex-row">
                     마감된 챌린지에요, <br />
                     다음 기회에 만나요 🙏
-                    <ByeBtn list={list} onRefresh={onSetup} />
+                    <ByeBtn list={list} removeHanlder={removeWishHanlder} />
                   </div>
                 )}
-                <MeetingCard data={list} />
+                <Link href={`/findMeeting/${list.id}`}>
+                  <MeetingCard data={list} />
+                </Link>
               </div>
             )
           })}
-      </div>
-      {hasNext && (
-        <div ref={ref} className="flex items-center justify-center py-4">
+        </div>
+      )}
+
+      {hasMore && !isLoading && (
+        <div ref={ref} className="w-full">
           <Spinner />
         </div>
       )}
