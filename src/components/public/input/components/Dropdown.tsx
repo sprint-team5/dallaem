@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, useState } from "react"
+import { useCallback, useRef, useState } from "react"
 import { UseFormRegister } from "react-hook-form"
 
 import Arrow from "@/components/public/icon/dynamicIcon/Arrow"
@@ -21,12 +21,23 @@ interface IDropdownProps {
   iconBaseStyles: string
   options: string[]
   register?: UseFormRegister<any>
+  placeholder?: string
+  onBlur?: () => void
 }
 
-const Dropdown = ({ name, baseStyles, iconBaseStyles, options, register }: IDropdownProps) => {
+const Dropdown = ({
+  name,
+  baseStyles,
+  iconBaseStyles,
+  options,
+  register,
+  placeholder,
+  onBlur,
+}: IDropdownProps) => {
   const [isOpen, setIsOpen] = useState(false)
   const [selectedOption, setSelectedOption] = useState(options[0])
   const [isOptionSelected, setIsOptionSelected] = useState(false)
+  const [isTouched, setIsTouched] = useState(false)
 
   const buttonTextColor = isOptionSelected ? "text-[#1F2937]" : "text-[#9CA3AF]"
 
@@ -35,6 +46,14 @@ const Dropdown = ({ name, baseStyles, iconBaseStyles, options, register }: IDrop
   useOutsideClick(dropdownRef, () => {
     return setIsOpen(false)
   })
+
+  const handleBlur = useCallback(async () => {
+    setIsTouched(true)
+
+    if (onBlur) {
+      onBlur()
+    }
+  }, [onBlur])
 
   const toggleDropdown = () => {
     return setIsOpen(!isOpen)
@@ -69,8 +88,9 @@ const Dropdown = ({ name, baseStyles, iconBaseStyles, options, register }: IDrop
         onKeyDown={keyDownHandler}
         aria-haspopup="listbox"
         aria-expanded={isOpen}
+        onBlur={handleBlur}
       >
-        {selectedOption}
+        {isTouched ? selectedOption : placeholder}
         <Arrow state={isOpen ? "defaultUp" : "defaultDown"} className={iconBaseStyles} />
       </button>
       {isOpen && (

@@ -15,14 +15,14 @@ const baseStyles =
 const inputStyles = {
   label: "mb-3 block",
   input: {
-    default: "border-2",
+    default: "border-2 border-[#F9FAFB]",
     hover: "hover:border-[#FDBA74]",
     focus: "focus:border-[#EA580C] focus:placeholder-[#1F2937]",
     valid: "border-[#1F2937] placeholder-[#1F2937]",
     error: "border-[#DC2626]",
   },
   dropdown: {
-    default: "border-2",
+    default: "border-2 border-[#F9FAFB]",
     hover: "hover:border-[#FDBA74]",
     focus: "",
     valid: "border-[#1F2937] placeholder-[#1F2937]",
@@ -114,6 +114,8 @@ const InputField = ({
           iconBaseStyles={iconBaseStyles}
           options={options}
           register={register}
+          placeholder={placeholder}
+          onBlur={onBlur}
         />
       </div>
     )

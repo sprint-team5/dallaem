@@ -16,6 +16,7 @@ import Filter from "@/components/public/Filter/Filter"
 import Spinner from "@/components/public/Spinner/Spinner"
 import Button from "@/components/public/button/Button"
 import { location } from "@/constants/meeting"
+import ROUTE from "@/constants/route"
 import { IFilterOption, IMeetingData } from "@/types/meeting/meeting"
 import { InfiniteData, useInfiniteQuery } from "@tanstack/react-query"
 
@@ -80,7 +81,7 @@ const FindMeeting = () => {
 
   const onClickCreateMeeting = async () => {
     if (await checkLogin()) setIsMeetingModal(!isMeetingModal)
-    else router.push("/auth?mode=signin")
+    else router.push(ROUTE.SIGNIN)
   }
 
   useEffect(() => {
