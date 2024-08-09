@@ -23,10 +23,12 @@ describe("Dropdown 컴포넌트", () => {
   })
 
   it("기본 렌더링 테스트", () => {
-    render(<Dropdown options={mockOptions} name="test" iconBaseStyles="" />)
+    render(
+      <Dropdown options={mockOptions} name="test" iconBaseStyles="" placeholder="testMessage" />,
+    )
     expect(screen.getByRole("button")).toBeInTheDocument()
     expect(screen.getByTestId("arrow-icon")).toBeInTheDocument()
-    expect(screen.getByText("옵션1")).toBeInTheDocument()
+    expect(screen.getByText("testMessage")).toBeInTheDocument()
   })
 
   it("baseStyle 적용 테스트", () => {
@@ -52,8 +54,11 @@ describe("Dropdown 컴포넌트", () => {
 
   it("드롭다운 메뉴 option 클릭 테스트", () => {
     render(<Dropdown options={mockOptions} name="test" iconBaseStyles="" />)
-    fireEvent.click(screen.getByRole("button"))
+    const button = screen.getByRole("button")
+    fireEvent.click(button)
     fireEvent.click(screen.getByText("옵션3"))
+    fireEvent.blur(button)
+
     expect(screen.getByRole("button")).toHaveTextContent("옵션3")
     expect(screen.queryByRole("listbox")).not.toBeInTheDocument()
   })
