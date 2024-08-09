@@ -5,6 +5,7 @@ import { Value } from "react-calendar/dist/cjs/shared/types"
 
 import generateMeetUp from "@/actions/generateMeetUp"
 import Calendars from "@/components/public/Calendars/Calendars"
+import Button from "@/components/public/button/Button"
 import Arrow from "@/components/public/icon/dynamicIcon/Arrow"
 import Checkbox from "@/components/public/icon/dynamicIcon/Checkbox"
 import X from "@/components/public/icon/staticIcon/X"
@@ -419,14 +420,14 @@ const CreateMeetingModal = ({ changeState }: { changeState: () => void }) => {
         </Label>
 
         <div className="mt-10">
-          <button
-            className={`w-full rounded-xl bg-gray-400 py-2.5 text-white ${isValidated ? "cursor-pointer bg-orange-500" : "cursor-not-allowed bg-gray-400"}`}
+          <Button
+            borderStyle="solid"
             type="submit"
             onClick={onSubmitHandler}
             disabled={!isValidated}
           >
             확인
-          </button>
+          </Button>
         </div>
       </div>
     </div>
