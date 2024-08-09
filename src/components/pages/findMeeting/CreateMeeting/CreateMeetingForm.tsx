@@ -1,18 +1,18 @@
 "use client"
 
-import { Dispatch, KeyboardEvent, SetStateAction, useRef, useState } from "react"
+import { KeyboardEvent, useRef, useState } from "react"
 import { Value } from "react-calendar/dist/cjs/shared/types"
 
 import generateMeetUp from "@/actions/generateMeetUp"
 import Calendars from "@/components/public/Calendars/Calendars"
 import Button from "@/components/public/button/Button"
 import Arrow from "@/components/public/icon/dynamicIcon/Arrow"
-import Checkbox from "@/components/public/icon/dynamicIcon/Checkbox"
 import { location } from "@/constants/meeting"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import dayjs from "dayjs"
 
-import "./styles.scss"
+import SelectServiceRadioGroup from "./selectComponents/SelectServiceRadioGroup"
+import SelectTimeButton from "./selectComponents/SelectTimeButton"
 
 interface IMeetingData {
   location: string
@@ -44,121 +44,6 @@ const Label = ({
       </label>
       {children}
     </>
-  )
-}
-
-const SelectServiceButton = ({
-  category,
-  detail,
-  state,
-  type,
-  onClick,
-}: {
-  category: string
-  detail: string
-  state: boolean
-  type: string
-  onClick: (type: string) => void
-}) => {
-  return (
-    <button
-      type="button"
-      className={`grow rounded-lg p-3 ${state ? "bg-gray-900" : "bg-gray-50"}`}
-      onClick={() => {
-        onClick(type)
-      }}
-    >
-      <div className="flex h-full items-start gap-[3px]">
-        <Checkbox state={state ? "active" : "default"} />
-        <div className={`flex flex-col items-start ${state ? "text-white" : "text-gray-900"}`}>
-          <span className="font-semibold">{category}</span>
-          <div className={`text-xs ${state ? "text-white" : "text-gray-700"}`}>{detail}</div>
-        </div>
-      </div>
-    </button>
-  )
-}
-
-const SelectServiceRadioGroup = ({
-  meetingData,
-  setMeetingData,
-}: {
-  meetingData: IMeetingData
-  setMeetingData: Dispatch<SetStateAction<IMeetingData>>
-}) => {
-  const ButtonList = [
-    { category: "달램핏", detail: "오피스 스트레칭", type: "OFFICE_STRETCHING" },
-    { category: "달램핏", detail: "마인드풀니스", type: "MINDFULNESS" },
-    { category: "워케이션", detail: "", type: "WORKATION" },
-  ]
-
-  const changeServiceType = (val: string) => {
-    setMeetingData({ ...meetingData, type: val })
-  }
-  return (
-    <div className="flex gap-3">
-      {ButtonList.map((button) => {
-        return (
-          <SelectServiceButton
-            onClick={changeServiceType}
-            key={button.type}
-            category={button.category}
-            detail={button.detail}
-            state={meetingData.type === button.type}
-            type={button.type}
-          />
-        )
-      })}
-    </div>
-  )
-}
-
-const SelectTimeButton = ({
-  meetingData,
-  setMeetingData,
-  timeList,
-}: {
-  meetingData: IMeetingData
-  setMeetingData: Dispatch<SetStateAction<IMeetingData>>
-  timeList: string[]
-}) => {
-  const checkDisabled = (time: string) => {
-    if (meetingData.date === "") return true
-    const now = dayjs().format("YYYY-MM-DDTHH")
-    const compare = dayjs(meetingData.date + time).format("YYYY-MM-DDTHH")
-
-    return dayjs(compare).isBefore(now) || dayjs(compare).isSame(now)
-  }
-
-  const changeDateTime = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const target = e.target as HTMLButtonElement
-    if (target.disabled || !target.textContent) return
-    setMeetingData({ ...meetingData, time: target.textContent })
-  }
-
-  return (
-    <div className="flex gap-2">
-      {timeList.map((time) => {
-        const isDisabled = checkDisabled(time)
-        const isSelected = meetingData.time === time
-
-        return (
-          <button
-            disabled={isDisabled}
-            key={time}
-            type="button"
-            className={`rounded-lg border-[1px] border-gray-200 px-3 py-[6px] ${isSelected ? "bg-gray-900" : "bg-gray-50"} ${isDisabled && "!bg-gray-200"}`}
-            onClick={changeDateTime}
-          >
-            <span
-              className={`text-sm ${isSelected ? "text-white" : "text-gray-900"} ${isDisabled && "!text-gray-400"}`}
-            >
-              {time}
-            </span>
-          </button>
-        )
-      })}
-    </div>
   )
 }
 

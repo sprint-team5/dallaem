@@ -4,6 +4,7 @@ import { KeyboardEvent, useEffect, useRef } from "react"
 
 import X from "@/components/public/icon/staticIcon/X"
 import { allowScroll, preventScroll } from "@/util/modal"
+import useOutsideClick from "@/util/useOutsideClick"
 
 import CreateMeetingForm from "./CreateMeetingForm"
 import "./styles.scss"
@@ -17,6 +18,12 @@ const CreateMeetingModal = ({ changeState }: { changeState: () => void }) => {
     }
   }
 
+  // outsideClick hook 사용
+  const modalRef = useRef<HTMLDivElement>(null)
+  useOutsideClick(modalRef, () => {
+    return changeState()
+  })
+
   useEffect(() => {
     const prevScrollY = preventScroll()
     modalSelectRef.current?.focus()
@@ -29,6 +36,7 @@ const CreateMeetingModal = ({ changeState }: { changeState: () => void }) => {
   return (
     <div className="fixed left-0 top-0 z-[100] flex h-screen w-screen items-center justify-center bg-black bg-opacity-55">
       <div
+        ref={modalRef}
         id="contentWrapper"
         className="flex max-h-screen w-modal-lg flex-col overflow-y-scroll rounded-xl bg-white p-6 shadow-md max-sm:w-full"
       >
