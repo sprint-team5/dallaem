@@ -2,7 +2,7 @@
 
 import { getCookie } from "@/util/cookies"
 
-const joinMeeting = async (id: string) => {
+const joinGathering = async (id: string) => {
   const token = await getCookie("userToken")
   try {
     const data = {
@@ -24,4 +24,4 @@ const joinMeeting = async (id: string) => {
   }
 }
 
-export default joinMeeting
+export default joinGathering

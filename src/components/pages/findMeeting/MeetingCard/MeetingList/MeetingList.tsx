@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"
 import { MouseEvent } from "react"
 
 import checkLogin from "@/actions/checkLogin"
-import joinMeeting from "@/actions/joinMeeting"
+import joinGathering from "@/actions/joinGathering"
 import DateTag from "@/components/pages/findMeeting/MeetingCard/Atoms/DateTag"
 import ParticipantGage from "@/components/pages/findMeeting/MeetingCard/Atoms/ParticipantGage"
 import WishBtn from "@/components/pages/wishlist/WishBtn"
@@ -26,7 +26,7 @@ export const MeetingCard = ({ data }: { data: IMeetingData }) => {
 
   const mutation = useMutation({
     mutationFn: () => {
-      return joinMeeting(String(data.id))
+      return joinGathering(String(data.id))
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["meetingList"] })

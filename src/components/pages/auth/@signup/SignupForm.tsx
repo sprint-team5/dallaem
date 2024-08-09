@@ -8,6 +8,7 @@ import { SubmitHandler, useForm } from "react-hook-form"
 
 import Button from "@/components/public/button/Button"
 import InputField from "@/components/public/input/InputField"
+import CompleteSignUpModal from "@/components/public/modal/CompleteSignUpModal"
 import ROUTE from "@/constants/route"
 import usePostSignup from "@/hooks/usePostSignup"
 
@@ -74,6 +75,7 @@ const SignupForm = () => {
   const router = useRouter()
 
   const [buttonDisabled, setButtonDisabled] = useState(true)
+  const [isModalOpen, setIsModalOpen] = useState(false)
   const { mutate: signup, error: signupError } = usePostSignup()
   const {
     register,
@@ -108,7 +110,7 @@ const SignupForm = () => {
 
     signup(signupData, {
       onSuccess: () => {
-        router.replace(ROUTE.SIGNIN)
+        setIsModalOpen(true)
       },
     })
   }
@@ -133,8 +135,18 @@ const SignupForm = () => {
     }
   }
 
+  const onConfirmClick = () => {
+    setIsModalOpen(false)
+    router.replace(ROUTE.SIGNIN)
+  }
+
   return (
     <div className={formStyles.container}>
+      {isModalOpen && (
+        <CompleteSignUpModal isOneBtn onConfirmClick={onConfirmClick}>
+          회원가입이 완료되었습니다.
+        </CompleteSignUpModal>
+      )}
       <form className={formStyles.form} onSubmit={handleSubmit(onSubmit)}>
         <span className="text-center text-gray-800">회원가입</span>
         {signupFormValue.map((value) => {
