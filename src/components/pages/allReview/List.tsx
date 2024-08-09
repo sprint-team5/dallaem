@@ -1,5 +1,7 @@
 "use client"
 
+import Link from "next/link"
+
 import React, { useEffect, useState } from "react"
 import { useInView } from "react-intersection-observer"
 
@@ -68,15 +70,16 @@ const List = () => {
     return data.map((reviews) => {
       return reviews.map((review) => {
         return (
-          <Review
-            key={review.id}
-            score={review.score}
-            comment={review.comment}
-            gathering={review.Gathering}
-            createdAt={review.createdAt}
-            user={review.User}
-            isImage
-          />
+          <Link key={review.id} href={`/findMeeting/${review.Gathering.id}`}>
+            <Review
+              score={review.score}
+              comment={review.comment}
+              gathering={review.Gathering}
+              createdAt={review.createdAt}
+              user={review.User}
+              isImage
+            />
+          </Link>
         )
       })
     })
@@ -117,7 +120,7 @@ const List = () => {
       </div>
 
       <div
-        className={`mt-6 flex flex-1 flex-col gap-6 text-sm font-medium leading-5 text-gray-500 ${data.length === 0 && "items-center justify-center"}`}
+        className={`mt-6 flex flex-1 flex-col gap-6 text-sm font-medium leading-5 text-gray-500 ${!isLoading && data.length === 0 && "items-center justify-center"}`}
       >
         {render()}
       </div>
