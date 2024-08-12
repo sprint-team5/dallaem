@@ -7,6 +7,7 @@ import {
   createContext,
   useContext,
   useEffect,
+  useMemo,
   useState,
 } from "react"
 
@@ -25,15 +26,13 @@ export const CountProvider = ({ children }: ICountProviderProp) => {
   const [wishCount, setWishCount] = useState(0)
 
   useEffect(() => {
-    const wishCount = JSON.parse(localStorage.getItem("wishlist") || "[]")
-    setWishCount(wishCount.length)
+    const newWishCount = JSON.parse(localStorage.getItem("wishlist") || "[]")
+    setWishCount(newWishCount.length)
   }, [])
-
-  return (
-    <WishCountContext.Provider value={{ wishCount, setWishCount }}>
-      {children}
-    </WishCountContext.Provider>
-  )
+  const cachedValue = useMemo(() => {
+    return { wishCount, setWishCount }
+  }, [wishCount])
+  return <WishCountContext.Provider value={cachedValue}>{children}</WishCountContext.Provider>
 }
 
 export const useWishCount = () => {
