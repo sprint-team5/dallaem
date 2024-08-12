@@ -11,6 +11,7 @@ import Review from "@/components/public/Review/Review"
 import CardSkeleton from "@/components/public/Skeleton/CardSkeleton"
 import ReviewSkeleton from "@/components/public/Skeleton/ReviewSkeleton"
 import Spinner from "@/components/public/Spinner/Spinner"
+import ROUTE from "@/constants/route"
 import { useInfiniteQuery } from "@tanstack/react-query"
 
 import MyPageDefault from "./MyPageDefault"
@@ -80,7 +81,7 @@ const MyPageInfoWrapper = ({ dataFetchingKey, onClick, reviewed }: IMyPageInfoWr
 
   const clickCreateReviewHandler = (e: MouseEvent, pathId: number) => {
     e.preventDefault()
-    router.push(`/mypage/addReview?gatheringId=${pathId}`)
+    router.push(`${ROUTE.MY_PAGE}/addReview?gatheringId=${pathId}`)
   }
 
   useEffect(() => {

@@ -13,6 +13,7 @@ import Filter from "@/components/public/Filter/Filter"
 import MeetingCardSkeleton from "@/components/public/Skeleton/MeetingCardSkeleton"
 import Spinner from "@/components/public/Spinner/Spinner"
 import { location } from "@/constants/meeting"
+import ROUTE from "@/constants/route"
 import useWishList from "@/hooks/useWishList"
 import { IFilterOption } from "@/types/meeting/meeting"
 import dayjs from "dayjs"
@@ -125,7 +126,7 @@ const List = () => {
                     <ByeBtn list={list} removeHanlder={removeWishHanlder} />
                   </div>
                 )}
-                <Link href={`/findMeeting/${list.id}`}>
+                <Link href={`${ROUTE.GATHERINGS}/${list.id}`}>
                   <MeetingCard data={list} />
                 </Link>
               </div>

@@ -11,6 +11,7 @@ import ParticipantGage from "@/components/pages/findMeeting/MeetingCard/Atoms/Pa
 import WishBtn from "@/components/pages/wishlist/WishBtn"
 import Spinner from "@/components/public/Spinner/Spinner"
 import ArrowRight from "@/components/public/icon/staticIcon/ArrowRight"
+import ROUTE from "@/constants/route"
 import { IMeetingData } from "@/types/meeting/meeting"
 import { InfiniteData, useMutation, useQueryClient } from "@tanstack/react-query"
 import dayjs from "dayjs"
@@ -36,9 +37,9 @@ export const MeetingCard = ({ data }: { data: IMeetingData }) => {
     e.preventDefault()
     if (await checkLogin()) {
       const res = await mutation.mutateAsync()
-      router.push(`/findMeeting?alert=${res}`)
+      router.push(`${ROUTE.GATHERINGS}?alert=${res}`)
     } else {
-      router.push(`/findMeeting?alert=${"로그인이 필요합니다."}`)
+      router.push(`${ROUTE.GATHERINGS}?alert=${"로그인이 필요합니다."}`)
     }
   }
 
@@ -132,7 +133,11 @@ const MeetingList = ({ data, isLoading }: IMeetingListProps) => {
             {data?.pages.map((pages) => {
               return pages.map((meeting) => {
                 return (
-                  <Link className="relative" href={`/findMeeting/${meeting.id}`} key={meeting.id}>
+                  <Link
+                    className="relative"
+                    href={`${ROUTE.GATHERINGS}/${meeting.id}`}
+                    key={meeting.id}
+                  >
                     {dayjs().isAfter(dayjs(meeting.registrationEnd)) && (
                       <div className="absolute left-0 top-0 z-10 flex h-full w-full flex-col items-center justify-center gap-6 rounded-3xl bg-black/80 text-center text-sm font-medium leading-5 text-white sm:flex-row">
                         마감된 챌린지에요, <br />
