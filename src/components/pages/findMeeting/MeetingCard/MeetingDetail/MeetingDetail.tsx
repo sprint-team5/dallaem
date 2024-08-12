@@ -3,7 +3,7 @@
 import Image from "next/image"
 
 import getAllReview, { IAllReview } from "@/actions/allReviewActions"
-import getParticipants from "@/actions/api-hooks/getParticipants"
+import getParticipants from "@/actions/gatherings/getParticipants"
 import getUserInfo from "@/actions/getUserInfo"
 import DateTag from "@/components/pages/findMeeting/MeetingCard/Atoms/DateTag"
 import ParticipantGage from "@/components/pages/findMeeting/MeetingCard/Atoms/ParticipantGage"

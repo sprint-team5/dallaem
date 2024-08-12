@@ -13,6 +13,7 @@ import MeetingList from "@/components/pages/findMeeting/MeetingCard/MeetingList/
 import Filter from "@/components/public/Filter/Filter"
 import Spinner from "@/components/public/Spinner/Spinner"
 import Button from "@/components/public/button/Button"
+import Sort from "@/components/public/icon/dynamicIcon/Sort"
 import CreateMeetingModal from "@/components/public/modal/CreateMeetingModal"
 import { location } from "@/constants/meeting"
 import ROUTE from "@/constants/route"
@@ -113,12 +114,17 @@ const FindMeeting = () => {
               }}
             />
           </div>
-          <FilterSort
-            onSelect={(e) => {
-              onFilterChanged(e, "sortBy")
-            }}
-            selVal={filterOption.sortBy}
-          />
+          <div className="flex gap-2">
+            <div className="flex size-9 items-center justify-center rounded-xl border-2 border-gray-100 bg-white">
+              <Sort state="default" />
+            </div>
+            <FilterSort
+              onSelect={(e) => {
+                onFilterChanged(e, "sortBy")
+              }}
+              selVal={filterOption.sortBy}
+            />
+          </div>
         </div>
         <MeetingList data={data ?? null} isLoading={isLoading} />
         {isFetchingNextPage ? (

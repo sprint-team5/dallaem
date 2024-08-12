@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-import getMeetingList from "@/actions/getMeetingList"
+import getMeetingList from "@/actions/gatherings/getMeetingList"
 import { IFilterOption, IMeetingData } from "@/types/meeting/meeting"
 import { InfiniteData, useInfiniteQuery } from "@tanstack/react-query"
 

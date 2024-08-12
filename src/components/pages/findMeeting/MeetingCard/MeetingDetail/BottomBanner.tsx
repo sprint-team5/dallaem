@@ -2,8 +2,8 @@
 
 import { useRouter } from "next/navigation"
 
-import cancelMeeting from "@/actions/cancelMeeting"
 import checkLogin from "@/actions/checkLogin"
+import cancelMeeting from "@/actions/gatherings/cancelMeeting"
 import quitMeeting from "@/actions/quitMeeting"
 import Button from "@/components/public/button/Button"
 import useJoinGathering from "@/hooks/Gatherings/useJoinGathering"
