@@ -52,16 +52,22 @@ const BottomBanner = ({ id, isHost, isJoined, limit, participant }: IBannerProps
       await queryClient.invalidateQueries({ queryKey: ["meetingDetail"] })
       await queryClient.invalidateQueries({ queryKey: ["participants"] })
       await queryClient.invalidateQueries({ queryKey: ["meetingList"] })
+      await queryClient.invalidateQueries({
+        queryKey: ["mypage"],
+      })
       router.replace(`/findMeeting/${id}?alert=${res}`)
     },
   })
 
-  const cancelMutaion = useMutation({
+  const cancelMutation = useMutation({
     mutationFn: () => {
       return cancelMeeting(id)
     },
     onSuccess: async (res) => {
       await queryClient.invalidateQueries({ queryKey: ["meetingList"] })
+      await queryClient.invalidateQueries({
+        queryKey: ["mypage"],
+      })
       if (res) router.replace(`/findMeeting?alert=${res}`)
       else router.replace(`/findMeeting`)
     },
@@ -84,7 +90,7 @@ const BottomBanner = ({ id, isHost, isJoined, limit, participant }: IBannerProps
   }
 
   const onClickCancel = async () => {
-    cancelMutaion.mutate()
+    cancelMutation.mutate()
   }
   const onClickJoin = async () => {
     if (await checkLogin())
@@ -93,6 +99,9 @@ const BottomBanner = ({ id, isHost, isJoined, limit, participant }: IBannerProps
           await queryClient.invalidateQueries({ queryKey: ["meetingDetail"] })
           await queryClient.invalidateQueries({ queryKey: ["participants"] })
           await queryClient.invalidateQueries({ queryKey: ["meetingList"] })
+          await queryClient.invalidateQueries({
+            queryKey: ["mypage"],
+          })
 
           router.replace(`/findMeeting/${id}?alert=${res}`)
         },

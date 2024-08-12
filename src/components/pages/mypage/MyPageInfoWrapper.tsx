@@ -1,6 +1,5 @@
 "use client"
 
-import Link from "next/link"
 import { useRouter } from "next/navigation"
 
 import { MouseEvent, useCallback, useEffect, useState } from "react"
@@ -9,9 +8,12 @@ import { useInView } from "react-intersection-observer"
 import { IGetMyPageRes, IReview, fetchMyPageInfo } from "@/actions/fetchMyPageInfo"
 import Card from "@/components/public/Card/Card"
 import Review from "@/components/public/Review/Review"
+import CardSkeleton from "@/components/public/Skeleton/CardSkeleton"
+import ReviewSkeleton from "@/components/public/Skeleton/ReviewSkeleton"
 import Spinner from "@/components/public/Spinner/Spinner"
 import { useInfiniteQuery } from "@tanstack/react-query"
 
+import MyPageDefault from "./MyPageDefault"
 import ReviewStateButton from "./ReviewStateButton"
 
 interface IMyPageInfoWrapperProps {
@@ -25,31 +27,24 @@ interface IDataSort {
   isReviewed?: boolean
 }
 
-const getDefaultText = (key: string, review: boolean | undefined): string => {
-  if (key === "myMeeting") return "신청한 모임이"
-  if (key === "myOwnMeeting") return "만든 모임이"
-  if (key === "myReview" && !!review) return "작성한 리뷰가"
-  return "작성 가능한 리뷰가"
-}
-
 const useInfiniteQueryHook = (keyData: IDataSort) => {
-  const { data, isPending, fetchNextPage } = useInfiniteQuery({
+  const { data, isPending, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
     queryKey: ["mypage", keyData],
     queryFn: ({ queryKey, pageParam }) => {
       const querySort = queryKey[1] as IDataSort
       const fetchingKey = querySort.dataFetchingKey
       const isReviewed = querySort.isReviewed ?? null
-      const offset = pageParam
+      const offset = pageParam * 5
       const limit = 5
       return fetchMyPageInfo({ fetchingKey, offset, limit, isReviewed })
     },
     initialPageParam: 0,
     getNextPageParam: (lastPage, allPages, lastPageParam) => {
-      return lastPage.hasMore ? lastPageParam + 5 : undefined
+      return lastPage.hasMore ? lastPageParam + 1 : undefined
     },
   })
 
-  return { data, isPending, fetchNextPage }
+  return { data, isPending, fetchNextPage, isFetchingNextPage }
 }
 
 const MyPageInfoWrapper = ({ dataFetchingKey, onClick, reviewed }: IMyPageInfoWrapperProps) => {
@@ -67,7 +62,7 @@ const MyPageInfoWrapper = ({ dataFetchingKey, onClick, reviewed }: IMyPageInfoWr
     dataSort = { ...dataSort, isReviewed: true }
   }
 
-  const { data, isPending, fetchNextPage } = useInfiniteQueryHook(dataSort)
+  const { data, isPending, fetchNextPage, isFetchingNextPage } = useInfiniteQueryHook(dataSort)
 
   const fetchNextPageCallback = useCallback(() => {
     return fetchNextPage
@@ -94,16 +89,18 @@ const MyPageInfoWrapper = ({ dataFetchingKey, onClick, reviewed }: IMyPageInfoWr
 
   const dataPages = data?.pages ?? []
 
-  if (isPending) return <Spinner />
+  if (isPending) {
+    if (dataFetchingKey === "myReview") return <ReviewSkeleton />
+    return <CardSkeleton />
+  }
 
   if (!isPending && dataPages[0].data.length === 0) {
     return (
-      <>
-        {isMyReview && <ReviewStateButton onClick={reviewButtonHandler} hasReview={hasReview} />}
-        <p className="mt-72 text-center text-sm font-medium leading-5 text-gray-500">
-          {`아직  ${getDefaultText(dataFetchingKey, hasReview)} 없어요`}
-        </p>
-      </>
+      <MyPageDefault
+        dataFetchingKey={dataFetchingKey}
+        onClick={reviewButtonHandler}
+        hasReview={hasReview}
+      />
     )
   }
 
@@ -127,30 +124,30 @@ const MyPageInfoWrapper = ({ dataFetchingKey, onClick, reviewed }: IMyPageInfoWr
                 )
               }
               return (
-                <Link key={item.name} href={`/findMeeting/${item.id}`}>
-                  <Card
-                    handlerReview={(e: MouseEvent) => {
-                      clickCreateReviewHandler(e, item.id)
-                    }}
-                    handlerView={clickViewReviewHandler}
-                    teamId={item.teamId}
-                    id={item.id}
-                    name={item.name}
-                    dateTime={item.dateTime}
-                    registrationEnd={item.registrationEnd}
-                    location={item.location}
-                    participantCount={item.participantCount}
-                    image={item.image}
-                    capacity={item.capacity}
-                    isBtnHide={isMyOwnMeeting}
-                    isMy={isMyOwnMeeting || !hasReview}
-                    isReview={item.isReviewed}
-                  />
-                </Link>
+                <Card
+                  handlerReview={(e: MouseEvent) => {
+                    clickCreateReviewHandler(e, item.id)
+                  }}
+                  handlerView={clickViewReviewHandler}
+                  key={item.id}
+                  teamId={item.teamId}
+                  id={item.id}
+                  name={item.name}
+                  dateTime={item.dateTime}
+                  registrationEnd={item.registrationEnd}
+                  location={item.location}
+                  participantCount={item.participantCount}
+                  image={item.image}
+                  capacity={item.capacity}
+                  isBtnHide={isMyOwnMeeting}
+                  isMy={isMyOwnMeeting || !hasReview}
+                  isReview={item.isReviewed}
+                />
               )
             })
           })}
         <div ref={ref} className="h-1 w-full" />
+        {isFetchingNextPage && <Spinner />}
       </div>
     </>
   )
