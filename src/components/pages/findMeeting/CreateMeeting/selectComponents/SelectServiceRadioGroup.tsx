@@ -33,7 +33,7 @@ const SelectServiceRadioGroup = ({
     setMeetingData({ ...meetingData, type: val })
   }
   return (
-    <div className="flex gap-3">
+    <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
       {ButtonList.map((button) => {
         return (
           <SelectServiceButton
