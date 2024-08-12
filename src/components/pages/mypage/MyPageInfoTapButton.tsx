@@ -25,7 +25,7 @@ const MyPageInfoTapButton = ({ isActive, state, onClick }: IMyPageInfoTapButton)
     <button
       onClick={clickHandler}
       type="button"
-      className={`text-lg font-semibold text-gray-400 ${isActive ? "text-gray-900" : "text-gray-400"}`}
+      className={`text-[12px] font-semibold text-gray-400 sm:text-sm md:text-base lg:text-lg ${isActive ? "text-gray-900" : "text-gray-400"}`}
     >
       {text[state]}
     </button>

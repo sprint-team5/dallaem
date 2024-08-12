@@ -11,7 +11,7 @@ const ReviewStateButton = ({ onClick, hasReview }: IReviewStateButtonProp) => {
         onClick={() => {
           return onClick(false)
         }}
-        className={`rounded-xl px-3 py-2 text-sm ${hasReview ? "bg-gray-200" : "bg-gray-900 text-white"}`}
+        className={`rounded-xl px-3 py-2 text-[10px] md:text-sm ${hasReview ? "bg-gray-200" : "bg-gray-900 text-white"}`}
       >
         작성 가능한 리뷰
       </button>
@@ -20,7 +20,7 @@ const ReviewStateButton = ({ onClick, hasReview }: IReviewStateButtonProp) => {
         onClick={() => {
           return onClick(true)
         }}
-        className={`rounded-xl px-3 py-2 text-sm ${hasReview ? "bg-gray-900 text-white" : "bg-gray-200"}`}
+        className={`rounded-xl px-3 py-2 text-[10px] md:text-sm ${hasReview ? "bg-gray-900 text-white" : "bg-gray-200"}`}
       >
         작성한 리뷰
       </button>
