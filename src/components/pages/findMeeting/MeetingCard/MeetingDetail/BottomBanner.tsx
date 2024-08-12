@@ -6,6 +6,7 @@ import checkLogin from "@/actions/checkLogin"
 import cancelMeeting from "@/actions/gatherings/cancelMeeting"
 import quitMeeting from "@/actions/quitMeeting"
 import Button from "@/components/public/button/Button"
+import ROUTE from "@/constants/route"
 import useJoinGathering from "@/hooks/Gatherings/useJoinGathering"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 
@@ -55,7 +56,8 @@ const BottomBanner = ({ id, isHost, isJoined, limit, participant }: IBannerProps
       await queryClient.invalidateQueries({
         queryKey: ["mypage"],
       })
-      router.replace(`/findMeeting/${id}?alert=${res}`)
+
+      router.replace(`${ROUTE.GATHERINGS}/${id}?alert=${res}`)
     },
   })
 
@@ -68,8 +70,9 @@ const BottomBanner = ({ id, isHost, isJoined, limit, participant }: IBannerProps
       await queryClient.invalidateQueries({
         queryKey: ["mypage"],
       })
-      if (res) router.replace(`/findMeeting?alert=${res}`)
-      else router.replace(`/findMeeting`)
+
+      if (res) router.replace(`${ROUTE.GATHERINGS}?alert=${res}`)
+      else router.replace(ROUTE.GATHERINGS)
     },
   })
 
@@ -103,7 +106,7 @@ const BottomBanner = ({ id, isHost, isJoined, limit, participant }: IBannerProps
             queryKey: ["mypage"],
           })
 
-          router.replace(`/findMeeting/${id}?alert=${res}`)
+          router.replace(`${ROUTE.GATHERINGS}/${id}?alert=${res}`)
         },
       })
   }
@@ -113,7 +116,7 @@ const BottomBanner = ({ id, isHost, isJoined, limit, participant }: IBannerProps
   }
   const onClickShare = () => {
     navigator.clipboard.writeText(window.location.href)
-    router.push(`/findMeeting/${id}?alert=클립보드에 복사됐습니다.`)
+    router.push(`${ROUTE.GATHERINGS}/${id}?alert=클립보드에 복사됐습니다.`)
   }
 
   return (

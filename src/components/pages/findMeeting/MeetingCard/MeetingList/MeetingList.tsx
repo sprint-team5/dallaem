@@ -11,6 +11,7 @@ import ParticipantGage from "@/components/pages/findMeeting/MeetingCard/Atoms/Pa
 import WishBtn from "@/components/pages/wishlist/WishBtn"
 import Spinner from "@/components/public/Spinner/Spinner"
 import ArrowRight from "@/components/public/icon/staticIcon/ArrowRight"
+import ROUTE from "@/constants/route"
 import { IMeetingData } from "@/types/meeting/meeting"
 import { formatToDate, isCurrentDateAfter } from "@/util/days"
 import { InfiniteData, useMutation, useQueryClient } from "@tanstack/react-query"
@@ -36,9 +37,9 @@ export const MeetingCard = ({ data }: { data: IMeetingData }) => {
     e.preventDefault()
     if (await checkLogin()) {
       const res = await mutation.mutateAsync()
-      router.push(`/findMeeting?alert=${res}`)
+      router.push(`${ROUTE.GATHERINGS}?alert=${res}`)
     } else {
-      router.push(`/findMeeting?alert=${"로그인이 필요합니다."}`)
+      router.push(`${ROUTE.GATHERINGS}?alert=${"로그인이 필요합니다."}`)
     }
   }
 

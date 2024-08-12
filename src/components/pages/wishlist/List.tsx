@@ -14,6 +14,7 @@ import MeetingCardSkeleton from "@/components/public/Skeleton/MeetingCardSkeleto
 import Spinner from "@/components/public/Spinner/Spinner"
 import Sort from "@/components/public/icon/dynamicIcon/Sort"
 import { location } from "@/constants/meeting"
+import ROUTE from "@/constants/route"
 import useWishList from "@/hooks/useWishList"
 import { IFilterOption } from "@/types/meeting/meeting"
 import { isCurrentDateAfter } from "@/util/days"
@@ -156,7 +157,7 @@ const List = () => {
                     <ByeBtn list={list} removeHanlder={removeWishHanlder} />
                   </div>
                 )}
-                <Link href={`/findMeeting/${list.id}`}>
+                <Link href={`${ROUTE.GATHERINGS}/${list.id}`}>
                   <MeetingCard data={list} />
                 </Link>
               </div>
