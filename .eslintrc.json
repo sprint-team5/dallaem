@@ -10,7 +10,7 @@
     "plugin:react/recommended",
     // eslint-plugin-prettier -> prettier와 충돌하는 eslint 규칙 제거
     "prettier",
-    "plugin:@typescript-eslint/parser"
+    "plugin:cypress/recommended"
   ],
   "parserOptions": {
     "project": "./tsconfig.json"
