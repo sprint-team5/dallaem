@@ -2,6 +2,8 @@
 
 import { cookies } from "next/headers"
 
+import ROUTE from "@/constants/route"
+
 const HOUR = 60 * 60
 
 const setCookie = async (token: string) => {
@@ -9,7 +11,7 @@ const setCookie = async (token: string) => {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "strict",
-    path: "/",
+    path: ROUTE.HOME,
     maxAge: HOUR,
   })
 }

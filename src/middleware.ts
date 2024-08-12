@@ -2,6 +2,8 @@ import { cookies } from "next/headers"
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
 
+import ROUTE from "./constants/route"
+
 function startsWith(request: NextRequest, path: string) {
   return request.nextUrl.pathname.startsWith(path)
 }
@@ -20,14 +22,14 @@ export function middleware(request: NextRequest) {
   const checkUserToken = request.cookies.has("userToken") || userToken
 
   if (!checkUserToken) {
-    if (startsWith(request, "/wishlist") || startsWith(request, "/mypage")) {
-      return toPrivateRedirect(request, "/auth?mode=signin")
+    if (startsWith(request, ROUTE.SAVE_GATHERINGS) || startsWith(request, ROUTE.MY_PAGE)) {
+      return toPrivateRedirect(request, ROUTE.SIGNIN)
     }
   }
 
   if (checkUserToken) {
     if (startsWith(request, "/auth")) {
-      return toPublicRedirect(request, "/")
+      return toPublicRedirect(request, ROUTE.HOME)
     }
   }
 

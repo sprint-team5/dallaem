@@ -10,6 +10,7 @@ import { IGetMyPageRes, IReview, fetchMyPageInfo } from "@/actions/fetchMyPageIn
 import Card from "@/components/public/Card/Card"
 import Review from "@/components/public/Review/Review"
 import Spinner from "@/components/public/Spinner/Spinner"
+import ROUTE from "@/constants/route"
 import { useInfiniteQuery } from "@tanstack/react-query"
 
 import ReviewStateButton from "./ReviewStateButton"
@@ -85,7 +86,7 @@ const MyPageInfoWrapper = ({ dataFetchingKey, onClick, reviewed }: IMyPageInfoWr
 
   const clickCreateReviewHandler = (e: MouseEvent, pathId: number) => {
     e.preventDefault()
-    router.push(`/mypage/addReview?gatheringId=${pathId}`)
+    router.push(`${ROUTE.MY_PAGE}/addReview?gatheringId=${pathId}`)
   }
 
   useEffect(() => {
@@ -127,7 +128,7 @@ const MyPageInfoWrapper = ({ dataFetchingKey, onClick, reviewed }: IMyPageInfoWr
                 )
               }
               return (
-                <Link key={item.name} href={`/findMeeting/${item.id}`}>
+                <Link key={item.name} href={`${ROUTE.GATHERINGS}/${item.id}`}>
                   <Card
                     handlerReview={(e: MouseEvent) => {
                       clickCreateReviewHandler(e, item.id)

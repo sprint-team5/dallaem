@@ -3,6 +3,8 @@
 import { revalidatePath } from "next/cache"
 import { cookies } from "next/headers"
 
+import ROUTE from "@/constants/route"
+
 const editProfileInfo = async (formData: FormData) => {
   const userToken = cookies().get("userToken")?.value
   const img = formData.get("image")
@@ -20,7 +22,7 @@ const editProfileInfo = async (formData: FormData) => {
     },
   })
 
-  revalidatePath("/mypage")
+  revalidatePath(ROUTE.MY_PAGE)
 }
 
 export default editProfileInfo
