@@ -53,11 +53,12 @@ export const MeetingCard = ({ data }: { data: IMeetingData }) => {
             height={156}
             className="!h-full object-cover max-sm:w-full"
           />
-          {formatToDate(data.registrationEnd, "YYYY-MM-DD") === formatToDate("", "YYYY-MM-DD") && (
+          {formatToDate({ date: data.registrationEnd, format: "YYYY-MM-DD" }) ===
+            formatToDate({ format: "YYYY-MM-DD" }) && (
             <div className="absolute right-0 top-0 inline-flex items-center rounded-bl-xl bg-orange-600 px-[10px] py-[4px]">
               <Image src="/icon/staticIcon/clock.svg" alt="마감 임박" width={24} height={24} />
               <span className="text-xs text-white">
-                오늘 {formatToDate(data.registrationEnd, "H")}시 마감
+                오늘 {formatToDate({ date: data.registrationEnd, format: "H" })}시 마감
               </span>
             </div>
           )}

@@ -18,6 +18,7 @@ const joinGathering = async (id: string) => {
     )
 
     const json = await response.json()
+
     return json.message
   } catch (error) {
     throw new Error(error as string)

@@ -15,6 +15,7 @@ import Spinner from "@/components/public/Spinner/Spinner"
 import Button from "@/components/public/button/Button"
 import Sort from "@/components/public/icon/dynamicIcon/Sort"
 import CreateMeetingModal from "@/components/public/modal/CreateMeetingModal"
+import LIMIT from "@/constants/limit"
 import { location } from "@/constants/meeting"
 import ROUTE from "@/constants/route"
 import useGetMeetingList from "@/hooks/useGetMeetingList"
@@ -24,7 +25,8 @@ const FindMeeting = () => {
   const initialFilterOption: IFilterOption = {
     type: "DALLAEMFIT",
     sortBy: "registrationEnd",
-    limit: 10,
+    sortOrder: "asc",
+    limit: LIMIT,
   }
 
   const {
@@ -115,9 +117,26 @@ const FindMeeting = () => {
             />
           </div>
           <div className="flex gap-2">
-            <div className="flex size-9 items-center justify-center rounded-xl border-2 border-gray-100 bg-white">
-              <Sort state="default" />
-            </div>
+            <button
+              aria-label="sortButton"
+              type="button"
+              className={`group flex size-9 cursor-pointer items-center justify-center rounded-xl border-2 transition-colors ${filterOption.sortOrder === "asc" ? "border-gray-100 bg-white" : "border-gray-100 bg-black"}`}
+              onClick={() => {
+                if (filterOption.sortOrder === "asc") {
+                  return updateFilterOption({
+                    sortOrder: "desc",
+                  })
+                }
+                return updateFilterOption({
+                  sortOrder: "asc",
+                })
+              }}
+            >
+              <Sort
+                state="default"
+                className={`transition-colors ${filterOption.sortOrder === "desc" && "text-white"} `}
+              />
+            </button>
             <FilterSort
               onSelect={(e) => {
                 onFilterChanged(e, "sortBy")

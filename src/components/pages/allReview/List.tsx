@@ -111,6 +111,7 @@ const List = () => {
             }}
           />
         </div>
+
         <FilterSort
           onSelect={(e) => {
             onFilterChanged(e, "sortOrder")
