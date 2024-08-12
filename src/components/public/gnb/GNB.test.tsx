@@ -1,5 +1,6 @@
 import React from "react"
 
+import ROUTE from "@/constants/route"
 import "@testing-library/jest-dom"
 import { render, screen } from "@testing-library/react"
 
@@ -14,14 +15,6 @@ const GNB = ({ userToken }: { userToken?: string }) => {
     </div>
   )
 }
-
-// ROUTE 상수 모의 객체
-const ROUTE = {
-  HOME: "/",
-  GATHERINGS: "/gatherings",
-  SAVE_GATHERINGS: "/save-gatherings",
-  ALL_REVIEW: "/all-review",
-} as const
 
 describe("GNB 컴포넌트", () => {
   const { usePathname } = jest.requireMock("next/navigation")

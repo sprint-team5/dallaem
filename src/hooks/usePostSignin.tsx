@@ -9,11 +9,19 @@ const usePostSignin = () => {
   return useMutation({
     mutationFn: PostSigninFn,
     onSuccess: (data) => {
-      if (!data.ok) {
-        throw new Error(data.message)
+      if ("token" in data) {
+        // LoginSuccess 케이스
+        setCookie(data.token)
+        return data
       }
-      // 로그인 성공 시, token 저장
-      setCookie(data.token)
+      // response에 토큰이 없는 경우, 에러로 처리
+      return Promise.reject(new Error(data.message || "로그인 실패"))
+    },
+    onError: (error) => {
+      if ("code" in error) {
+        throw new Error(error.message)
+      }
+      throw error
     },
   })
 }

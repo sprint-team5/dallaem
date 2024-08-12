@@ -12,6 +12,7 @@ import Review from "@/components/public/Review/Review"
 import ReviewSkeleton from "@/components/public/Skeleton/ReviewSkeleton"
 import Spinner from "@/components/public/Spinner/Spinner"
 import { location } from "@/constants/meeting"
+import ROUTE from "@/constants/route"
 import { useAllReview } from "@/hooks/Review/useAllReview"
 import { IFilter } from "@/types/review/filter"
 
@@ -70,7 +71,7 @@ const List = () => {
     return data.map((reviews) => {
       return reviews.map((review) => {
         return (
-          <Link key={review.id} href={`/findMeeting/${review.Gathering.id}`}>
+          <Link key={review.id} href={`${ROUTE.GATHERINGS}/${review.Gathering.id}`}>
             <Review
               score={review.score}
               comment={review.comment}
