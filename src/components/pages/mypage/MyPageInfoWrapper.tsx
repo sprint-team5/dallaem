@@ -40,7 +40,7 @@ const useInfiniteQueryHook = (keyData: IDataSort) => {
     },
     initialPageParam: 0,
     getNextPageParam: (lastPage, allPages, lastPageParam) => {
-      return lastPage.hasMore ? lastPageParam + 1 : undefined
+      return lastPage?.hasMore ? lastPageParam + 1 : undefined
     },
   })
 
@@ -94,7 +94,7 @@ const MyPageInfoWrapper = ({ dataFetchingKey, onClick, reviewed }: IMyPageInfoWr
     return <CardSkeleton />
   }
 
-  if (!isPending && dataPages[0].data.length === 0) {
+  if (!isPending && dataPages[0]?.data.length === 0) {
     return (
       <MyPageDefault
         dataFetchingKey={dataFetchingKey}
@@ -109,8 +109,8 @@ const MyPageInfoWrapper = ({ dataFetchingKey, onClick, reviewed }: IMyPageInfoWr
       {isMyReview && <ReviewStateButton onClick={reviewButtonHandler} hasReview={hasReview} />}
       <div className="relative flex flex-col gap-6 overflow-hidden">
         {dataPages &&
-          dataPages.map((dataPage) => {
-            return dataPage.data.map((item: IGetMyPageRes & IReview) => {
+          dataPages?.map((dataPage) => {
+            return dataPage?.data.map((item: IGetMyPageRes & IReview) => {
               if (isMyReview && hasReview) {
                 return (
                   <Review
