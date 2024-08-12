@@ -1,20 +1,26 @@
 "use client"
 
-import PostSignupFn from "@/actions/postSignupFn"
+import PostSignupFn, { SignupResponse } from "@/actions/postSignupFn"
 import { useMutation } from "@tanstack/react-query"
 
 const usePostSignup = () => {
   return useMutation({
     mutationFn: PostSignupFn,
     onSuccess: (data) => {
+      // 성공적인 응답 처리
       if ("code" in data) {
-        switch (data.code) {
+        // 에러 응답이 온 경우
+        return Promise.reject(data)
+      }
+      return data
+    },
+    onError: (error: SignupResponse) => {
+      if ("code" in error) {
+        switch (error.code) {
           case "EMAIL_EXISTS":
-            // 이메일 중복 에러
-            throw new Error(data.message)
+            throw new Error(error.message)
           case "VALIDATION_ERROR":
-            // 비밀번호 중복 에러
-            throw new Error(data.message)
+            throw new Error(error.message)
           default:
         }
       }

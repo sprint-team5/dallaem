@@ -1,6 +1,6 @@
 "use client"
 
-import PostSigninFn from "@/actions/postSigninFn"
+import PostSigninFn, { SigninResponse } from "@/actions/postSigninFn"
 import setCookie from "@/actions/setCookies"
 import { useMutation } from "@tanstack/react-query"
 
@@ -9,25 +9,26 @@ const usePostSignin = () => {
   return useMutation({
     mutationFn: PostSigninFn,
     onSuccess: (data) => {
-      if ("code" in data) {
-        switch (data.code) {
-          case "VALIDATION_ERROR":
-            // 이메일 유효성 검사 에러
-            throw new Error(data.message)
-          case "INVALID_CREDENTIALS":
-            // 비밀번호 유효성 검사 에러
-            throw new Error(data.message)
-          default:
-        }
-      }
-
       if ("token" in data) {
-        // 로그인 성공 시 쿠키에 토큰값 저장
+        // LoginSuccess 케이스
         setCookie(data.token)
         return data
       }
-
-      return undefined
+      // response에 토큰이 없는 경우, 에러로 처리
+      return Promise.reject(new Error(data.message || "로그인 실패"))
+    },
+    onError: (error: SigninResponse) => {
+      if ("code" in error) {
+        switch (error.code) {
+          case "VALIDATION_ERROR": {
+            throw new Error(error.message)
+          }
+          case "INVALID_CREDENTIALS": {
+            throw new Error(error.message)
+          }
+          default:
+        }
+      }
     },
   })
 }
