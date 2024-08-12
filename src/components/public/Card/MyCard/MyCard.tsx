@@ -1,25 +1,9 @@
 import Image from "next/image"
 import Link from "next/link"
 
-import { ReactNode } from "react"
-
 import Person from "@/components/public/icon/staticIcon/Person"
-import dayjs from "dayjs"
-
-interface IHandler {
-  teamId: string
-  id: number
-}
-
-interface ICardProps extends IHandler {
-  name: string
-  dateTime: string
-  location: string
-  participantCount: number
-  capacity: number
-  image: string
-  children?: ReactNode
-}
+import MyCardProps from "@/types/card/props"
+import { formatToDate } from "@/util/days"
 
 /**
  * @interface ICardProps
@@ -42,7 +26,7 @@ const MyCard = ({
   capacity,
   image,
   children,
-}: ICardProps) => {
+}: MyCardProps) => {
   return (
     <Link href={`/findMeeting/${id}`}>
       <div className="flex flex-col gap-4 border-b-2 border-dashed border-gray-200 pb-6 sm:flex-row">
@@ -65,7 +49,7 @@ const MyCard = ({
           </div>
 
           <div className="flex gap-3 text-sm font-medium leading-5 text-gray-700">
-            <p>{dayjs(dateTime).format("M월 D일 · HH:mm")}</p>
+            <p>{formatToDate(dateTime, "M월 D일 · HH:mm")}</p>
             <div className="flex items-center">
               <Person />
               <p className="test-sm font-medium leading-5">

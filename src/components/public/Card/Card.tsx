@@ -1,35 +1,13 @@
 import Image from "next/image"
 import Link from "next/link"
 
-import { ReactNode } from "react"
-
 import Checkbox from "@/components/public/icon/dynamicIcon/Checkbox"
 import Person from "@/components/public/icon/staticIcon/Person"
-import dayjs from "dayjs"
+import MyCardProps from "@/types/card/props"
+import { formatToDate, isCurrentDateAfter } from "@/util/days"
 
-// import CardReview from "./Atom/ReviewBtn"
-// import CardCancel from "./CardCancel"
-
-interface IHandler {
-  teamId: string
-  id: number
-}
-
-interface ICardProps extends IHandler {
-  name: string
-  dateTime: string
-  location: string
-  participantCount: number
-  capacity: number
-  image: string
+interface ICardProps extends MyCardProps {
   registrationEnd: string
-  // handlerCancel?: () => void
-  // handlerReview?: (e: MouseEvent) => void
-  // handlerView?: (e: MouseEvent) => void
-  // isMy?: boolean
-  // isBtnHide?: boolean
-  // isReview?: boolean
-  children?: ReactNode
 }
 
 const ButtonStyle =
@@ -46,12 +24,6 @@ const ButtonStyle =
  * @param {number} capacity - 모집 정원 (최소 5인 이상)
  * @param {string} image - 모임 이미지
  * @param {string} registrationEnd - 모임 모집 마감 날짜 및 시간
- * @param {boolean} isMy - 마이페이지에서의 UI를 수정해줍니다
- * @param {boolean} isBtnHide - 버튼을 숨겨줍니다. ( 예약취소, 리뷰등록 등 )
- * @param {boolean} isReview - 내가 쓴 리뷰 보기
- * @param {function} handlerCancel - 예약취소 onClick
- * @param {function} handlerReview - 리뷰등록 onClick
- * @param {function} handlerView - 내가쓴 리뷰 onClick
  */
 const Card = ({
   teamId,
@@ -65,18 +37,6 @@ const Card = ({
   registrationEnd,
   children,
 }: ICardProps) => {
-  /* const renderButton = () => {
-    if (isReview) {
-      return <CardReview onClick={handlerView}>내가 쓴 리뷰 보기</CardReview>
-    }
-
-    if (dayjs().isAfter(dayjs(registrationEnd))) {
-      return <CardReview onClick={handlerReview}>리뷰 작성하기</CardReview>
-    }
-
-    return <CardCancel handlerCancel={handlerCancel} />
-  } */
-
   return (
     <Link href={`/findMeeting/${id}`}>
       <div className="flex flex-col gap-4 border-b-2 border-dashed border-gray-200 pb-6 sm:flex-row">
@@ -94,12 +54,11 @@ const Card = ({
         </div>
         <div className="flex flex-col">
           <div className="mb-3 flex gap-2">
-            {dayjs().isAfter(dayjs(registrationEnd)) ? (
+            {isCurrentDateAfter(registrationEnd) ? (
               <div className={`bg-gray-200 text-gray-500 ${ButtonStyle}`}>이용 완료</div>
             ) : (
               <>
                 <div className={`bg-orange-100 text-orange-600 ${ButtonStyle}`}>이용 예정</div>
-
                 {participantCount >= 5 ? (
                   <div className={`border border-orange-100 text-orange-500 ${ButtonStyle}`}>
                     <Checkbox state="active" /> 개설확정
@@ -121,7 +80,7 @@ const Card = ({
           </h3>
 
           <div className="flex gap-3 text-sm font-medium leading-5 text-gray-700">
-            <p>{dayjs(dateTime).format("M월 D일 · HH:mm")}</p>
+            <p>{formatToDate(dateTime, "M월 D일 · HH:mm")}</p>
             <div className="flex items-center">
               <Person />
               <p className="test-sm font-medium leading-5">
