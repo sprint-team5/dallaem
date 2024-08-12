@@ -31,6 +31,7 @@ const WishBtn = ({ list }: { list: IWishListData }) => {
       } else {
         parse.push({ ...list, wish: true })
       }
+
       setWishCount(parse.length)
       localStorage.setItem("wishlist", JSON.stringify([...parse]))
     } else {

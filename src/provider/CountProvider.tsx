@@ -29,9 +29,11 @@ export const CountProvider = ({ children }: ICountProviderProp) => {
     const newWishCount = JSON.parse(localStorage.getItem("wishlist") || "[]")
     setWishCount(newWishCount.length)
   }, [])
+
   const cachedValue = useMemo(() => {
     return { wishCount, setWishCount }
   }, [wishCount])
+
   return <WishCountContext.Provider value={cachedValue}>{children}</WishCountContext.Provider>
 }
 
