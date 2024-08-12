@@ -33,7 +33,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "__mocks__/svgrMock.jsx",
-    "jest.setup.js"
+    "jest.setup.js",
+    "cypress.config.ts"
   ],
   "exclude": ["node_modules"]
 }
