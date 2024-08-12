@@ -1,5 +1,20 @@
 "use server"
 
+interface EmailExists {
+  code: "EMAIL_EXISTS"
+  message: string
+}
+
+interface ValidationError {
+  code: "VALIDATION_ERROR"
+  parameter: "email"
+  message: string
+}
+
+interface SignupSuccess {
+  message: "사용자 생성 성공"
+}
+
 interface ISignupData {
   name: string
   email: string
@@ -7,7 +22,9 @@ interface ISignupData {
   password: string
 }
 
-const PostSignupFn = async (signupData: ISignupData) => {
+type SignupResponse = EmailExists | ValidationError | SignupSuccess
+
+const PostSignupFn = async (signupData: ISignupData): Promise<SignupResponse> => {
   const response = await fetch(`${process.env.BASE_URL}/${process.env.TEAM_ID}/auths/signup`, {
     method: "POST",
     headers: {
@@ -17,11 +34,25 @@ const PostSignupFn = async (signupData: ISignupData) => {
   })
   const data = await response.json()
 
-  return {
+  const result = {
     ...data,
     ok: response.ok,
     status: response.status,
   }
+
+  if (result.status === 200 && result.ok) {
+    return result as SignupSuccess
+  }
+
+  if (result.status !== 200 && result.code === "EMAIL_EXISTS") {
+    return result as EmailExists
+  }
+
+  if (result.status !== 200 && result.code === "VALIDATION_ERROR") {
+    return result as ValidationError
+  }
+
+  throw new Error(result.message)
 }
 
 export default PostSignupFn
