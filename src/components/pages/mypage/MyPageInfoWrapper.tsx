@@ -6,12 +6,14 @@ import { MouseEvent, useCallback, useEffect, useState } from "react"
 import { useInView } from "react-intersection-observer"
 
 import { IGetMyPageRes, IReview, fetchMyPageInfo } from "@/actions/fetchMyPageInfo"
+import CardBtn from "@/components/public/Card/Atom/CardBtn"
 import Card from "@/components/public/Card/Card"
 import Review from "@/components/public/Review/Review"
 import CardSkeleton from "@/components/public/Skeleton/CardSkeleton"
 import ReviewSkeleton from "@/components/public/Skeleton/ReviewSkeleton"
 import Spinner from "@/components/public/Spinner/Spinner"
 import { useInfiniteQuery } from "@tanstack/react-query"
+import dayjs from "dayjs"
 
 import MyPageDefault from "./MyPageDefault"
 import ReviewStateButton from "./ReviewStateButton"
@@ -48,7 +50,7 @@ const useInfiniteQueryHook = (keyData: IDataSort) => {
 }
 
 const MyPageInfoWrapper = ({ dataFetchingKey, onClick, reviewed }: IMyPageInfoWrapperProps) => {
-  const isMyOwnMeeting = dataFetchingKey === "myOwnMeeting"
+  // const isMyOwnMeeting = dataFetchingKey === "myOwnMeeting"
   const isMyReview = dataFetchingKey === "myReview"
   const router = useRouter()
   const [hasReview, setHasReview] = useState(reviewed)
@@ -125,10 +127,6 @@ const MyPageInfoWrapper = ({ dataFetchingKey, onClick, reviewed }: IMyPageInfoWr
               }
               return (
                 <Card
-                  handlerReview={(e: MouseEvent) => {
-                    clickCreateReviewHandler(e, item.id)
-                  }}
-                  handlerView={clickViewReviewHandler}
                   key={item.id}
                   teamId={item.teamId}
                   id={item.id}
@@ -139,10 +137,33 @@ const MyPageInfoWrapper = ({ dataFetchingKey, onClick, reviewed }: IMyPageInfoWr
                   participantCount={item.participantCount}
                   image={item.image}
                   capacity={item.capacity}
-                  isBtnHide={isMyOwnMeeting}
-                  isMy={isMyOwnMeeting || !hasReview}
-                  isReview={item.isReviewed}
-                />
+                >
+                  {/* children에 들어가게 수정했는데 조건문은 제가 여기서 하는것보다 정헌님이 편하신대로 하는게 나을것 같아서 기본 조건만 적어놨습니다. */}
+
+                  {/* 모임 기간이 지났을경우 */}
+                  {dayjs().isAfter(dayjs(item.registrationEnd)) && (
+                    <CardBtn
+                      type="active"
+                      onClick={(e: MouseEvent) => {
+                        clickCreateReviewHandler(e, item.id)
+                      }}
+                    >
+                      리뷰 작성하기
+                    </CardBtn>
+                  )}
+
+                  {/* 리뷰를 작성했을경우 */}
+                  {item.isReviewed && (
+                    <CardBtn type="active" onClick={clickViewReviewHandler}>
+                      내가 쓴 리뷰 보기
+                    </CardBtn>
+                  )}
+
+                  {/* 둘다 아닐때 */}
+                  <CardBtn type="outline" onClick={() => {}}>
+                    예약 취소하기
+                  </CardBtn>
+                </Card>
               )
             })
           })}
