@@ -64,9 +64,7 @@ const FilterSort = (props: IFilterProps) => {
         onClick={onLabelClickHandler}
         onKeyDown={onLabelKeyDownHandler}
       >
-        <span className="flex items-center whitespace-nowrap max-sm:hidden">
-          {getSortType(selVal)}
-        </span>
+        <span className="flex items-center whitespace-nowrap">{getSortType(selVal)}</span>
       </div>
       <div
         ref={filterSortRef}

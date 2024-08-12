@@ -136,23 +136,21 @@ const MeetingDetail = ({ id }: { id: string }) => {
 
   return (
     <>
-      <main className="flex w-full justify-center">
-        <div className="flex w-full max-w-[996px] justify-center bg-gray-50 px-[102px] py-[40px] max-md:px-[24px] max-md:py-[24px] max-sm:flex-col max-sm:px-[16px]">
-          {status === "success" && (
-            <div className="flex flex-col gap-6 max-sm:gap-4">
-              <div className="flex gap-6 max-sm:flex-col">
-                <MeetingDetailImage data={data} />
-                <MeetingDetailCard data={data} />
-              </div>
-              <MeetingDetailReview reviews={reviews} />
+      <main className="mx-auto flex min-h-screen max-w-[1200px] flex-col bg-gray-50 px-4 pb-[51px] pt-6 sm:pt-[40px] md:px-6 lg:px-[102px]">
+        {status === "success" && (
+          <div className="flex flex-col gap-6 max-sm:gap-4">
+            <div className="flex gap-6 max-sm:flex-col">
+              <MeetingDetailImage data={data} />
+              <MeetingDetailCard data={data} />
             </div>
-          )}
-          {error && (
-            <div className="flex items-center justify-center py-80 max-sm:py-40">
-              모임을 찾을 수 없습니다.
-            </div>
-          )}
-        </div>
+            <MeetingDetailReview reviews={reviews} />
+          </div>
+        )}
+        {error && (
+          <div className="flex items-center justify-center py-80 max-sm:py-40">
+            모임을 찾을 수 없습니다.
+          </div>
+        )}
       </main>
       <BottomBanner
         id={data.id}

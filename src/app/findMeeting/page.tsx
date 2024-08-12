@@ -12,7 +12,6 @@ import FilterTab from "@/components/pages/findMeeting/FilterTab/FilterTab"
 import MeetingList from "@/components/pages/findMeeting/MeetingCard/MeetingList/MeetingList"
 import Filter from "@/components/public/Filter/Filter"
 import Spinner from "@/components/public/Spinner/Spinner"
-import Button from "@/components/public/button/Button"
 import Sort from "@/components/public/icon/dynamicIcon/Sort"
 import CreateMeetingModal from "@/components/public/modal/CreateMeetingModal"
 import LIMIT from "@/constants/limit"
@@ -82,78 +81,77 @@ const FindMeeting = () => {
   }, [fetchNextPage, hasNextPage, inView])
 
   return (
-    <div className="flex flex-col items-center max-md:px-[24px] max-md:py-[24px] max-sm:px-[16px]">
-      <div className="h-full w-full max-w-[1200px] bg-gray-50 px-[102px] py-[40px]">
-        <div className="relative flex justify-between">
-          <FilterTab
-            selVal={filterOption.type}
+    <div className="mx-auto flex min-h-screen max-w-[1200px] flex-col bg-gray-50 px-4 pb-[51px] pt-6 sm:pt-[40px] md:px-6 lg:px-[102px]">
+      <div className="relative flex justify-between">
+        <FilterTab
+          selVal={filterOption.type}
+          onSelect={(e) => {
+            onFilterChanged(e, "type")
+          }}
+        />
+        <button
+          className="absolute right-0 top-0 h-[34px] w-[85px] rounded-lg border border-orange-600 bg-orange-600 text-xs font-semibold leading-6 text-white transition-colors hover:bg-white hover:text-orange-600 sm:text-sm md:h-[44px] md:w-[115px] md:rounded-xl md:text-base"
+          onClick={onClickCreateMeeting}
+        >
+          모임 만들기
+        </button>
+      </div>
+      <hr className="my-4" />
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
+        <div className="flex gap-2">
+          <Filter
+            data={location}
+            placeholder="지역 선택"
             onSelect={(e) => {
-              onFilterChanged(e, "type")
+              onFilterChanged(e, "location")
+            }}
+            selVal={filterOption.location}
+          />
+          <FilterCalendar
+            placeholder="날짜 선택"
+            selVal={filterOption.date}
+            onChange={(e) => {
+              onFilterChanged(e, "date")
             }}
           />
-          <div className="absolute right-0 top-0 w-[115px] max-sm:w-[100px]">
-            <Button borderStyle="solid" onClick={onClickCreateMeeting}>
-              모임 만들기
-            </Button>
-          </div>
         </div>
-        <hr className="my-4" />
-        <div className="mb-6 flex justify-between">
-          <div className="flex gap-2">
-            <Filter
-              data={location}
-              placeholder="지역 선택"
-              onSelect={(e) => {
-                onFilterChanged(e, "location")
-              }}
-              selVal={filterOption.location}
-            />
-            <FilterCalendar
-              placeholder="날짜 선택"
-              selVal={filterOption.date}
-              onChange={(e) => {
-                onFilterChanged(e, "date")
-              }}
-            />
-          </div>
-          <div className="flex gap-2">
-            <button
-              aria-label="sortButton"
-              type="button"
-              className={`group flex size-9 cursor-pointer items-center justify-center rounded-xl border-2 transition-colors ${filterOption.sortOrder === "asc" ? "border-gray-100 bg-white" : "border-gray-100 bg-black"}`}
-              onClick={() => {
-                if (filterOption.sortOrder === "asc") {
-                  return updateFilterOption({
-                    sortOrder: "desc",
-                  })
-                }
+        <div className="ml-auto flex gap-2">
+          <button
+            aria-label="sortButton"
+            type="button"
+            className={`group flex size-9 cursor-pointer items-center justify-center rounded-xl border-2 transition-colors ${filterOption.sortOrder === "asc" ? "border-gray-100 bg-white" : "border-gray-100 bg-black"}`}
+            onClick={() => {
+              if (filterOption.sortOrder === "asc") {
                 return updateFilterOption({
-                  sortOrder: "asc",
+                  sortOrder: "desc",
                 })
-              }}
-            >
-              <Sort
-                state="default"
-                className={`transition-colors ${filterOption.sortOrder === "desc" && "text-white"} `}
-              />
-            </button>
-            <FilterSort
-              onSelect={(e) => {
-                onFilterChanged(e, "sortBy")
-              }}
-              selVal={filterOption.sortBy}
+              }
+              return updateFilterOption({
+                sortOrder: "asc",
+              })
+            }}
+          >
+            <Sort
+              state="default"
+              className={`transition-colors ${filterOption.sortOrder === "desc" && "text-white"} `}
             />
-          </div>
+          </button>
+          <FilterSort
+            onSelect={(e) => {
+              onFilterChanged(e, "sortBy")
+            }}
+            selVal={filterOption.sortBy}
+          />
         </div>
-        <MeetingList data={data ?? null} isLoading={isLoading} />
-        {isFetchingNextPage ? (
-          <div className="py-7">
-            <Spinner />
-          </div>
-        ) : (
-          <div ref={ref} />
-        )}
       </div>
+      <MeetingList data={data ?? null} isLoading={isLoading} />
+      {isFetchingNextPage ? (
+        <div className="py-7">
+          <Spinner />
+        </div>
+      ) : (
+        <div ref={ref} />
+      )}
       {isMeetingModal && (
         <CreateMeetingModal
           changeState={() => {

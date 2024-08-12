@@ -12,6 +12,7 @@ import ByeBtn from "@/components/pages/wishlist/ByeBtn"
 import Filter from "@/components/public/Filter/Filter"
 import MeetingCardSkeleton from "@/components/public/Skeleton/MeetingCardSkeleton"
 import Spinner from "@/components/public/Spinner/Spinner"
+import Sort from "@/components/public/icon/dynamicIcon/Sort"
 import { location } from "@/constants/meeting"
 import useWishList from "@/hooks/useWishList"
 import { IFilterOption } from "@/types/meeting/meeting"
@@ -21,6 +22,7 @@ const List = () => {
   const [filter, setFilter] = useState<IFilterOption>({
     type: "DALLAEMFIT",
     sortBy: "registrationEnd",
+    sortOrder: "asc",
   })
 
   const { wish, setWish, ref, isLoading, hasMore } = useWishList(filter)
@@ -95,12 +97,41 @@ const List = () => {
             }}
           />
         </div>
-        <FilterSort
-          onSelect={(e) => {
-            onFilterChanged(e, "sortBy")
-          }}
-          selVal={filter.sortBy}
-        />
+
+        <div className="ml-auto flex gap-2">
+          <button
+            aria-label="sortButton"
+            type="button"
+            className={`group flex size-9 cursor-pointer items-center justify-center rounded-xl border-2 transition-colors ${filter.sortOrder === "asc" ? "border-gray-100 bg-white" : "border-gray-100 bg-black"}`}
+            onClick={() => {
+              if (filter.sortOrder === "asc") {
+                return setFilter((prev) => {
+                  return {
+                    ...prev,
+                    sortOrder: "desc",
+                  }
+                })
+              }
+              return setFilter((prev) => {
+                return {
+                  ...prev,
+                  sortOrder: "asc",
+                }
+              })
+            }}
+          >
+            <Sort
+              state="default"
+              className={`transition-colors ${filter.sortOrder === "desc" && "text-white"} `}
+            />
+          </button>
+          <FilterSort
+            onSelect={(e) => {
+              onFilterChanged(e, "sortBy")
+            }}
+            selVal={filter.sortBy}
+          />
+        </div>
       </div>
 
       {isLoading ? (
