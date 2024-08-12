@@ -22,7 +22,7 @@ interface ISignupData {
   password: string
 }
 
-export type SignupResponse = EmailExists | ValidationError | SignupSuccess
+type SignupResponse = EmailExists | ValidationError | SignupSuccess
 
 const PostSignupFn = async (signupData: ISignupData): Promise<SignupResponse> => {
   const response = await fetch(`${process.env.BASE_URL}/${process.env.TEAM_ID}/auths/signup`, {

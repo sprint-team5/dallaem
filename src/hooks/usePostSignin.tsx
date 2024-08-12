@@ -1,6 +1,6 @@
 "use client"
 
-import PostSigninFn, { SigninResponse } from "@/actions/postSigninFn"
+import PostSigninFn from "@/actions/postSigninFn"
 import setCookie from "@/actions/setCookies"
 import { useMutation } from "@tanstack/react-query"
 
@@ -17,18 +17,11 @@ const usePostSignin = () => {
       // response에 토큰이 없는 경우, 에러로 처리
       return Promise.reject(new Error(data.message || "로그인 실패"))
     },
-    onError: (error: SigninResponse) => {
+    onError: (error) => {
       if ("code" in error) {
-        switch (error.code) {
-          case "VALIDATION_ERROR": {
-            throw new Error(error.message)
-          }
-          case "INVALID_CREDENTIALS": {
-            throw new Error(error.message)
-          }
-          default:
-        }
+        throw new Error(error.message)
       }
+      throw error
     },
   })
 }

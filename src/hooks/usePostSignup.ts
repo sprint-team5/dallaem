@@ -1,6 +1,6 @@
 "use client"
 
-import PostSignupFn, { SignupResponse } from "@/actions/postSignupFn"
+import PostSignupFn from "@/actions/postSignupFn"
 import { useMutation } from "@tanstack/react-query"
 
 const usePostSignup = () => {
@@ -14,16 +14,11 @@ const usePostSignup = () => {
       }
       return data
     },
-    onError: (error: SignupResponse) => {
+    onError: (error) => {
       if ("code" in error) {
-        switch (error.code) {
-          case "EMAIL_EXISTS":
-            throw new Error(error.message)
-          case "VALIDATION_ERROR":
-            throw new Error(error.message)
-          default:
-        }
+        throw new Error(error.message)
       }
+      throw error
     },
   })
 }
