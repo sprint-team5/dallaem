@@ -2,13 +2,15 @@
 
 import { useRouter } from "next/navigation"
 
+import ROUTE from "@/constants/route"
+
 import Edit from "./img/Edit"
 
 const ProfileEditBtn = () => {
   const router = useRouter()
 
   const handleClick = () => {
-    router.push("/mypage/edit")
+    router.push(`${ROUTE.MY_PAGE}/edit`)
   }
   return (
     <button
