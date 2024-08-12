@@ -131,7 +131,6 @@ const Card = ({
           </div>
 
           <div className="mt-[18px]">{children}</div>
-          {/* {!isBtnHide && <div className="mt-[18px]">{renderButton()}</div>} */}
         </div>
       </div>
     </Link>
