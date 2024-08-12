@@ -16,7 +16,7 @@ interface LoginSuccess {
   token: string
 }
 
-type SigninResponse = ValidationError | InvalidCredentials | LoginSuccess
+export type SigninResponse = ValidationError | InvalidCredentials | LoginSuccess
 
 // api로 전송되는 데이터 타입 선언
 interface ISigninData {
