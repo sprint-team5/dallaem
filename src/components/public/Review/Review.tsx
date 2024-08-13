@@ -36,8 +36,8 @@ const Review = ({ score, comment, createdAt, gathering, user, isImage }: IReview
         <div className="relative h-[156px] w-full flex-none overflow-hidden rounded-3xl sm:w-[280px]">
           <Image
             className="object-cover object-center"
-            src={gathering.image}
-            alt={`${gathering.name} 모임 이미지`}
+            src={gathering?.image}
+            alt={`${gathering?.name} 모임 이미지`}
             fill
             sizes="(min-width : 640px) 280px"
             priority

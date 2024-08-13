@@ -67,7 +67,7 @@ const MyPageInfoTap = () => {
   })
 
   return (
-    <section className="mx-auto mt-[29px] w-full grow overflow-y-scroll border-t-2 border-gray-900 bg-white p-6">
+    <section className="mx-auto mt-[29px] w-full grow border-t-2 border-gray-900 bg-white p-6">
       <div className="mb-6 flex gap-3">
         <MyPageInfoTapButton onClick={dispatch} state="myMeeting" isActive={tapState.myMeeting} />
         <MyPageInfoTapButton onClick={dispatch} state="myReview" isActive={tapState.myReview} />
