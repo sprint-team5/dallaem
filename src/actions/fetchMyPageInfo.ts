@@ -13,6 +13,7 @@ interface IGetMyMeetings {
 
 interface IFetchMyPageInfo extends IGetMyMeetings {
   fetchingKey?: string
+  reviewMeeting?: boolean | null
   isReviewed?: boolean | null
 }
 
@@ -35,6 +36,7 @@ export interface IGetMyPageRes {
   canceledAt: string
   joinedAt: string
   isReviewed: boolean
+  isCompleted: boolean
 }
 
 export interface IReview {
@@ -52,8 +54,8 @@ export const getMyMeetings = async (
   options: IFetchMyPageInfo,
 ): Promise<IGetMyPageRes[] | string> => {
   const userToken = cookies().get("userToken")?.value
-  const { limit, offset, isReviewed } = options
-  const reviewed = isReviewed ? "&reviewed=true" : ""
+  const { limit, offset, reviewMeeting } = options
+  const reviewed = reviewMeeting ? "&completed=true&reviewed=false" : ""
 
   try {
     const response = await fetch(
@@ -149,7 +151,8 @@ export const fetchMyPageInfo = async (options: IFetchMyPageInfo) => {
           hasMore,
         }
       }
-      const data = await getMyMeetings({ offset, limit, isReviewed })
+      const reviewMeeting = true
+      const data = await getMyMeetings({ offset, limit, reviewMeeting })
       const hasMore = data.length > 0
       return {
         data,

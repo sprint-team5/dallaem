@@ -18,7 +18,7 @@ const MyPageDefault = ({ dataFetchingKey, hasReview, onClick }: IMyPageDefaultPr
   return (
     <>
       {isMyReview && <ReviewStateButton onClick={onClick} hasReview={hasReview} />}
-      <p className="mt-72 text-center text-sm font-medium leading-5 text-gray-500">
+      <p className="mb-72 mt-48 text-center text-sm font-medium leading-5 text-gray-500">
         {`아직  ${getDefaultText(dataFetchingKey, hasReview)} 없어요`}
       </p>
     </>
