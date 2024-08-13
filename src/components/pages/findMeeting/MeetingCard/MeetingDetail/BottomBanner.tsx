@@ -123,7 +123,7 @@ const BottomBanner = ({ id, isHost, isJoined, limit, participant, setHeight }: I
           <p className="text-sm font-semibold text-gray-900 md:text-base">{renderFirstText()}</p>
           <p className="mt-1 text-xs font-medium text-gray-700">{renderSecondaryText()}</p>
         </div>
-        <div className="flex flex-none gap-2">
+        <div className="grid flex-none grid-cols-2 gap-2 md:flex">
           {isHost && (
             <button
               type="button"
