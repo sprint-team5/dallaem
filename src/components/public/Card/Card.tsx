@@ -80,7 +80,7 @@ const Card = ({
           </h3>
 
           <div className="flex gap-3 text-sm font-medium leading-5 text-gray-700">
-            <p>{formatToDate(dateTime, "M월 D일 · HH:mm")}</p>
+            <p>{formatToDate({ date: dateTime, format: "M월 D일 · HH:mm" })}</p>
             <div className="flex items-center">
               <Person />
               <p className="test-sm font-medium leading-5">
