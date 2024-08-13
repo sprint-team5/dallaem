@@ -12,7 +12,7 @@ interface ValidationError {
 }
 
 interface SignupSuccess {
-  message: "사용자 생성 성공"
+  message: string
 }
 
 interface ISignupData {
@@ -40,15 +40,15 @@ const PostSignupFn = async (signupData: ISignupData): Promise<SignupResponse> =>
     status: response.status,
   }
 
-  if (result.status === 200 && result.ok) {
+  if (result.status === 201 && result.ok) {
     return result as SignupSuccess
   }
 
-  if (result.status !== 200 && result.code === "EMAIL_EXISTS") {
+  if (result.status !== 201 && result.code === "EMAIL_EXISTS") {
     return result as EmailExists
   }
 
-  if (result.status !== 200 && result.code === "VALIDATION_ERROR") {
+  if (result.status !== 201 && result.code === "VALIDATION_ERROR") {
     return result as ValidationError
   }
 
