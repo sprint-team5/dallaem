@@ -37,7 +37,7 @@ describe("log-in page test", () => {
 
   it("should be able to click confirm button when all goes well", () => {
     cy.get("#email").type("test@test.com")
-    cy.get("#password").type("testtest")
+    cy.get("#password").type("삭제")
     cy.get(".group").should("be.enabled")
     cy.get(".group").click()
     cy.location("pathname").should("eq", "/")
