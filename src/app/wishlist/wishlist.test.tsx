@@ -1,10 +1,29 @@
-import { act } from "react"
+import { ReactNode, act } from "react"
 
+import { CountProvider } from "@/provider/CountProvider"
 import SvgrMock from "@mocks/svgrMock"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import "@testing-library/jest-dom"
 import { fireEvent, render, screen } from "@testing-library/react"
 
 import WishListPage from "./page"
+
+const queryClient = new QueryClient()
+
+const intersectionObserverMock = () => {
+  return {
+    observe() {
+      return null
+    },
+    disconnect() {
+      return null
+    },
+    unobserve() {
+      return null
+    },
+  }
+}
+window.IntersectionObserver = jest.fn().mockImplementation(intersectionObserverMock)
 
 jest.mock("@/public/icon/staticIcon/dalaemfit.svg", () => {
   return SvgrMock
@@ -18,6 +37,22 @@ jest.mock("@/components/public/Spinner/Spinner", () => {
     },
   }
 })
+
+jest.mock("next/navigation", () => {
+  return {
+    useRouter() {
+      return {
+        prefetch: () => {
+          return null
+        },
+      }
+    },
+  }
+})
+
+const wrapper = ({ children }: { children: ReactNode }) => {
+  return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+}
 
 const mockLocalStorage = {
   getItem: jest.fn(),
@@ -78,13 +113,18 @@ const list = [
   },
 ]
 
-describe.skip("찜목록 UI 렌더링 테스트", () => {
+describe("찜목록 UI 렌더링 테스트", () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
 
   test("페이지가 잘 불러와지는지 테스트", () => {
-    render(<WishListPage />)
+    render(
+      <CountProvider>
+        <WishListPage />
+      </CountProvider>,
+      { wrapper },
+    )
     expect(screen.getByText("찜한 모임")).toBeInTheDocument()
   })
 
@@ -92,7 +132,12 @@ describe.skip("찜목록 UI 렌더링 테스트", () => {
     mockLocalStorage.getItem.mockReturnValue(JSON.stringify(list))
 
     await act(async () => {
-      render(<WishListPage />)
+      render(
+        <CountProvider>
+          <WishListPage />
+        </CountProvider>,
+        { wrapper },
+      )
     })
 
     expect(screen.getByText(/7월 30일 마감 7월 29일 모집/)).toBeInTheDocument()
@@ -104,7 +149,12 @@ describe.skip("찜목록 UI 렌더링 테스트", () => {
     mockLocalStorage.getItem.mockReturnValue(JSON.stringify(list))
 
     await act(async () => {
-      render(<WishListPage />)
+      render(
+        <CountProvider>
+          <WishListPage />
+        </CountProvider>,
+        { wrapper },
+      )
     })
 
     fireEvent.click(screen.getByRole("button", { name: /달램핏/ }))
@@ -119,7 +169,12 @@ describe.skip("찜목록 UI 렌더링 테스트", () => {
     mockLocalStorage.getItem.mockReturnValue(JSON.stringify(list))
 
     await act(async () => {
-      render(<WishListPage />)
+      render(
+        <CountProvider>
+          <WishListPage />
+        </CountProvider>,
+        { wrapper },
+      )
     })
 
     fireEvent.click(screen.getByRole("button", { name: /달램핏/ }))
@@ -134,7 +189,12 @@ describe.skip("찜목록 UI 렌더링 테스트", () => {
     mockLocalStorage.getItem.mockReturnValue(JSON.stringify(list))
 
     await act(async () => {
-      render(<WishListPage />)
+      render(
+        <CountProvider>
+          <WishListPage />
+        </CountProvider>,
+        { wrapper },
+      )
     })
 
     fireEvent.click(screen.getByRole("button", { name: /워케이션/ }))
@@ -148,7 +208,12 @@ describe.skip("찜목록 UI 렌더링 테스트", () => {
     mockLocalStorage.getItem.mockReturnValue(JSON.stringify([]))
 
     await act(async () => {
-      render(<WishListPage />)
+      render(
+        <CountProvider>
+          <WishListPage />
+        </CountProvider>,
+        { wrapper },
+      )
     })
 
     expect(screen.getByText("아직 찜한 모임이 없어요")).toBeInTheDocument()

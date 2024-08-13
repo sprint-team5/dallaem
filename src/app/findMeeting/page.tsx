@@ -90,6 +90,7 @@ const FindMeeting = () => {
           }}
         />
         <button
+          type="button"
           className="absolute right-0 top-0 h-[34px] w-[85px] rounded-lg border border-orange-600 bg-orange-600 text-xs font-semibold leading-6 text-white transition-colors hover:bg-white hover:text-orange-600 sm:text-sm md:h-[44px] md:w-[115px] md:rounded-xl md:text-base"
           onClick={onClickCreateMeeting}
         >
