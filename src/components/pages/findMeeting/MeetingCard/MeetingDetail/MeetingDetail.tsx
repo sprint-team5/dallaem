@@ -2,6 +2,8 @@
 
 import Image from "next/image"
 
+import { useEffect, useRef, useState } from "react"
+
 import getAllReview, { IAllReview } from "@/actions/allReviewActions"
 import getParticipants from "@/actions/gatherings/getParticipants"
 import getUserInfo from "@/actions/getUserInfo"
@@ -103,6 +105,14 @@ export const MeetingDetailReview = ({ reviews }: { reviews: Array<IAllReview> | 
 }
 
 const MeetingDetail = ({ id }: { id: string }) => {
+  const ref = useRef<HTMLElement>(null)
+  const [height, setHeight] = useState(0)
+
+  useEffect(() => {
+    if (!ref.current) return
+    ref.current.style.paddingBottom = `${height}px`
+  }, [ref, height])
+
   const { data: reviews } = useQuery({
     queryKey: ["reviews", id],
     queryFn: () => {
@@ -136,7 +146,10 @@ const MeetingDetail = ({ id }: { id: string }) => {
 
   return (
     <>
-      <main className="mx-auto flex min-h-screen max-w-[1200px] flex-col bg-gray-50 px-4 pb-[51px] pt-6 sm:pt-[40px] md:px-6 lg:px-[102px]">
+      <main
+        ref={ref}
+        className="mx-auto flex min-h-screen max-w-[1200px] flex-col bg-gray-50 px-4 pb-[51px] pt-6 sm:pt-[40px] md:px-6 lg:px-[102px]"
+      >
         {status === "success" && (
           <div className="flex flex-col gap-6 max-sm:gap-4">
             <div className="flex gap-6 max-sm:flex-col">
@@ -153,6 +166,7 @@ const MeetingDetail = ({ id }: { id: string }) => {
         )}
       </main>
       <BottomBanner
+        setHeight={setHeight}
         id={data.id}
         isHost={checkIsHost}
         isJoined={checkIsJoined}

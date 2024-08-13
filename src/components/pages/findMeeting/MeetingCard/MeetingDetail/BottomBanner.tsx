@@ -2,34 +2,14 @@
 
 import { useRouter } from "next/navigation"
 
+import { Dispatch, SetStateAction, useEffect, useRef } from "react"
+
 import checkLogin from "@/actions/checkLogin"
 import cancelMeeting from "@/actions/gatherings/cancelMeeting"
 import quitMeeting from "@/actions/quitMeeting"
-import Button from "@/components/public/button/Button"
 import ROUTE from "@/constants/route"
 import useJoinGathering from "@/hooks/Gatherings/useJoinGathering"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-
-const floatingBarStyles = {
-  container: {
-    default:
-      "fixed bottom-0 flex items-center justify-center w-full border-t-2 border-[#111827] bg-white",
-    mobile: "h-[136px] px-4 py-5",
-    tablet: "md:h-[86px] md:px-6",
-    desktop: "2xl:px-[380px]",
-  },
-  wrapper: {
-    default: {
-      true: "flex h-full w-full flex-col items-center justify-between gap-[10px]",
-      false: "flex h-full w-full flex-row items-center justify-between gap-[10px]",
-    },
-    mobile: "",
-    tablet: "md:flex-row md:gap-[164px]",
-    desktop: "",
-  },
-}
-
-const containerStyles = `${floatingBarStyles.container.default} ${floatingBarStyles.container.mobile} ${floatingBarStyles.container.tablet} ${floatingBarStyles.container.desktop}`
 
 interface IBannerProps {
   id: string
@@ -37,9 +17,12 @@ interface IBannerProps {
   isJoined: boolean
   limit: number
   participant: number
+  setHeight: Dispatch<SetStateAction<number>>
 }
 
-const BottomBanner = ({ id, isHost, isJoined, limit, participant }: IBannerProps) => {
+const BottomBanner = ({ id, isHost, isJoined, limit, participant, setHeight }: IBannerProps) => {
+  const ref = useRef<HTMLDivElement>(null)
+
   const queryClient = useQueryClient()
   const router = useRouter()
 
@@ -75,8 +58,6 @@ const BottomBanner = ({ id, isHost, isJoined, limit, participant }: IBannerProps
       else router.replace(ROUTE.GATHERINGS)
     },
   })
-
-  const wrapperStyles = `${isHost ? floatingBarStyles.wrapper.default.true : floatingBarStyles.wrapper.default.false} ${floatingBarStyles.wrapper.mobile} ${floatingBarStyles.wrapper.tablet} ${floatingBarStyles.wrapper.desktop}`
 
   const renderFirstText = () => {
     if (participant === limit) return `모집이 마감됐어요, 다음 기회를 기대해주세요.`
@@ -114,45 +95,73 @@ const BottomBanner = ({ id, isHost, isJoined, limit, participant }: IBannerProps
   const onClickQuit = async () => {
     quitMutation.mutate()
   }
+
   const onClickShare = () => {
     navigator.clipboard.writeText(window.location.href)
     router.push(`${ROUTE.GATHERINGS}/${id}?alert=클립보드에 복사됐습니다.`)
   }
 
+  useEffect(() => {
+    const bottomResize = () => {
+      if (!ref.current) return
+      setHeight(ref.current.clientHeight)
+    }
+    bottomResize()
+    window.addEventListener("resize", bottomResize)
+    return () => {
+      window.removeEventListener("resize", bottomResize)
+    }
+  }, [ref, setHeight])
+
   return (
-    <>
-      <div className="w-full border-t-2 border-[#111827]" />
-      <div className={containerStyles}>
-        <div className={wrapperStyles}>
-          <div className="h-11 w-full whitespace-nowrap">
-            <span className="font-semibold text-[#111827]">{renderFirstText()}</span>
-            <br />
-            <span className="text-xs font-medium text-[#374151]">{renderSecondaryText()}</span>
-          </div>
-          <div className="flex gap-2">
-            {isHost && (
-              <Button className="bg-red-500" borderStyle="solid" onClick={onClickCancel}>
-                개설취소
-              </Button>
-            )}
-            {isJoined ? (
-              <>
-                <Button className="" borderStyle="outlined" onClick={onClickQuit}>
-                  취소하기
-                </Button>
-                <Button className="" borderStyle="solid" onClick={onClickShare}>
-                  공유하기
-                </Button>
-              </>
-            ) : (
-              <Button className="" borderStyle="solid" onClick={onClickJoin}>
-                참여하기
-              </Button>
-            )}
-          </div>
+    <div
+      ref={ref}
+      className="fixed bottom-0 left-0 w-full border-t-2 border-gray-900 bg-white px-6 py-5"
+    >
+      <div className="mx-auto flex max-w-[996px] items-center justify-between gap-2">
+        <div className="break-keep">
+          <p className="text-sm font-semibold text-gray-900 md:text-base">{renderFirstText()}</p>
+          <p className="mt-1 text-xs font-medium text-gray-700">{renderSecondaryText()}</p>
+        </div>
+        <div className="grid flex-none grid-cols-2 gap-2 md:flex">
+          {isHost && (
+            <button
+              type="button"
+              onClick={onClickCancel}
+              className="w-[80px] rounded-xl border border-red-500 bg-red-500 py-2 text-sm leading-6 text-white transition-colors hover:bg-red-600 md:w-[115px] md:py-[10px] md:text-base"
+            >
+              개설취소
+            </button>
+          )}
+          {isJoined ? (
+            <>
+              <button
+                type="button"
+                onClick={onClickQuit}
+                className="w-[80px] rounded-xl border border-orange-600 bg-white py-2 text-sm leading-6 text-orange-600 transition-colors hover:bg-gray-100 md:w-[115px] md:py-[10px] md:text-base"
+              >
+                취소하기
+              </button>
+              <button
+                type="button"
+                onClick={onClickShare}
+                className="w-[80px] rounded-xl border border-orange-600 bg-orange-600 py-2 text-sm leading-6 text-white transition-colors hover:bg-orange-700 md:w-[115px] md:py-[10px] md:text-base"
+              >
+                공유하기
+              </button>
+            </>
+          ) : (
+            <button
+              type="button"
+              onClick={onClickJoin}
+              className="w-[80px] rounded-xl border border-orange-600 bg-orange-600 py-2 text-sm leading-6 text-white transition-colors hover:bg-white hover:text-orange-700 md:w-[115px] md:py-[10px] md:text-base"
+            >
+              참여하기
+            </button>
+          )}
         </div>
       </div>
-    </>
+    </div>
   )
 }
 
