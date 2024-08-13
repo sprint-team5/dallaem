@@ -4,6 +4,7 @@ import { cookies } from "next/headers"
 
 import QueryProviders from "@/components/app/provider"
 import GNB from "@/components/public/gnb/GNB"
+import { CountProvider } from "@/provider/CountProvider"
 import ToastProvider from "@/provider/ToastProvider"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 
@@ -60,13 +61,15 @@ const RootLayout = ({
   return (
     <html lang="ko" className={pretendard.className}>
       <body className="bg-gray-100 pt-[56px] md:pt-[60px]">
-        <ToastProvider>
-          <QueryProviders>
-            <GNB userToken={userToken} />
-            {children}
-            {process.env.NODE_ENV !== "production" && <ReactQueryDevtools position="bottom" />}
-          </QueryProviders>
-        </ToastProvider>
+        <CountProvider>
+          <ToastProvider>
+            <QueryProviders>
+              <GNB userToken={userToken} />
+              {children}
+              {process.env.NODE_ENV !== "production" && <ReactQueryDevtools position="bottom" />}
+            </QueryProviders>
+          </ToastProvider>
+        </CountProvider>
       </body>
     </html>
   )

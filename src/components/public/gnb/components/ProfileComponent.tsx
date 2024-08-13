@@ -52,7 +52,7 @@ const ProfileComponent = ({ isLoggedIn, profileImg }: IProfileComponentProps) =>
   }
 
   return (
-    <div ref={dropdownRef}>
+    <div ref={dropdownRef} className="mt-1 md:mt-2">
       <button type="button" onClick={handleToggle} aria-label="프로필 메뉴 열기">
         <Profile state="largeDefault" className={profileStyles} profileImg={profileImg} />
       </button>
