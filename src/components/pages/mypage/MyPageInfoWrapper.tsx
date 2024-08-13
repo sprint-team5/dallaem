@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation"
 
-import { Fragment, MouseEvent, useCallback, useEffect, useState } from "react"
+import { Fragment, MouseEvent, useEffect, useState } from "react"
 import { useInView } from "react-intersection-observer"
 
 import { IGetMyPageRes, IReview, fetchMyPageInfo } from "@/actions/fetchMyPageInfo"
@@ -68,10 +68,6 @@ const MyPageInfoWrapper = ({ dataFetchingKey, onClick, reviewed }: IMyPageInfoWr
 
   const { data, isPending, fetchNextPage, isFetchingNextPage } = useInfiniteQueryHook(dataSort)
 
-  const fetchNextPageCallback = useCallback(() => {
-    return fetchNextPage
-  }, [fetchNextPage])
-
   const reviewButtonHandler = (value: boolean) => {
     setHasReview(value)
   }
@@ -88,8 +84,8 @@ const MyPageInfoWrapper = ({ dataFetchingKey, onClick, reviewed }: IMyPageInfoWr
   }
 
   useEffect(() => {
-    fetchNextPageCallback()
-  }, [inView, fetchNextPageCallback])
+    fetchNextPage()
+  }, [inView, fetchNextPage])
 
   const dataPages = data?.pages ?? []
 
@@ -111,7 +107,7 @@ const MyPageInfoWrapper = ({ dataFetchingKey, onClick, reviewed }: IMyPageInfoWr
   return (
     <>
       {isMyReview && <ReviewStateButton onClick={reviewButtonHandler} hasReview={hasReview} />}
-      <div className="relative flex flex-col gap-6 overflow-hidden">
+      <div className="relative flex flex-col gap-6">
         {dataPages &&
           dataPages?.map((dataPage) => {
             return dataPage?.data.map((item: IGetMyPageRes & IReview) => {
@@ -123,7 +119,7 @@ const MyPageInfoWrapper = ({ dataFetchingKey, onClick, reviewed }: IMyPageInfoWr
                     createdAt={item.createdAt}
                     comment={item.comment}
                     gathering={item.Gathering}
-                    isImage={item.Gathering.image !== ""}
+                    isImage={item.Gathering?.image !== ""}
                   />
                 )
               }
@@ -178,9 +174,9 @@ const MyPageInfoWrapper = ({ dataFetchingKey, onClick, reviewed }: IMyPageInfoWr
               )
             })
           })}
-        <div ref={ref} className="h-1 w-full" />
         {isFetchingNextPage && <Spinner />}
       </div>
+      <div ref={ref} className="h-1 w-full" />
     </>
   )
 }
