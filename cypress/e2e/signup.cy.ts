@@ -66,9 +66,9 @@ describe("sign-up page test", () => {
   it("should be able to sign up", () => {
     cy.get("#name").type("test")
     cy.get("#name").blur()
-    cy.get("#email").type("test14@test14.com")
+    cy.get("#email").type("test18@test18.com")
     cy.get("#email").blur()
-    cy.get("#companyName").type("test14")
+    cy.get("#companyName").type("test18")
     cy.get("#companyName").blur()
     cy.get("#password").type("testtest")
     cy.get("#password").blur()
@@ -76,7 +76,7 @@ describe("sign-up page test", () => {
     cy.get("#passwordConfirm").blur()
     cy.get(".group").should("be.enabled")
     cy.get(".group").click()
-    cy.contains("사용자 생성").should("be.visible")
+    cy.contains("회원가입이 완료되었습니다.").should("be.visible")
   })
 
   it("should be able to visit login page", () => {
