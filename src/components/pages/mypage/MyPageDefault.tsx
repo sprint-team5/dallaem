@@ -3,7 +3,7 @@ import ReviewStateButton from "./ReviewStateButton"
 interface IMyPageDefaultProp {
   dataFetchingKey: string
   hasReview: boolean | undefined
-  onClick: () => void
+  onClick: (value: boolean) => void
 }
 
 const getDefaultText = (key: string, review: boolean | undefined): string => {
