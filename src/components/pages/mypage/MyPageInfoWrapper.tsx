@@ -14,8 +14,8 @@ import CardSkeleton from "@/components/public/Skeleton/CardSkeleton"
 import ReviewSkeleton from "@/components/public/Skeleton/ReviewSkeleton"
 import Spinner from "@/components/public/Spinner/Spinner"
 import ROUTE from "@/constants/route"
+import { isCurrentDateAfter } from "@/util/days"
 import { useInfiniteQuery } from "@tanstack/react-query"
-import dayjs from "dayjs"
 
 import MyPageDefault from "./MyPageDefault"
 import ReviewStateButton from "./ReviewStateButton"
@@ -152,7 +152,7 @@ const MyPageInfoWrapper = ({ dataFetchingKey, onClick, reviewed }: IMyPageInfoWr
                       image={item.image}
                       capacity={item.capacity}
                     >
-                      {dayjs().isAfter(dayjs(item.registrationEnd)) && !item.isReviewed && (
+                      {isCurrentDateAfter(item.registrationEnd) && !item.isReviewed && (
                         <CardBtn
                           type="active"
                           onClick={(e: MouseEvent) => {
@@ -162,12 +162,12 @@ const MyPageInfoWrapper = ({ dataFetchingKey, onClick, reviewed }: IMyPageInfoWr
                           리뷰 작성하기
                         </CardBtn>
                       )}
-                      {dayjs().isAfter(dayjs(item.registrationEnd)) && item.isReviewed && (
+                      {isCurrentDateAfter(item.registrationEnd) && item.isReviewed && (
                         <CardBtn type="active" onClick={clickViewReviewHandler}>
                           내가 쓴 리뷰 보기
                         </CardBtn>
                       )}
-                      {!dayjs().isAfter(dayjs(item.registrationEnd)) && (
+                      {!isCurrentDateAfter(item.registrationEnd) && (
                         <CardBtn type="outline" onClick={() => {}}>
                           예약 취소하기
                         </CardBtn>
