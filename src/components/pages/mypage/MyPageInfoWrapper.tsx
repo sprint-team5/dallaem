@@ -72,8 +72,8 @@ const MyPageInfoWrapper = ({ dataFetchingKey, onClick, reviewed }: IMyPageInfoWr
     return fetchNextPage
   }, [fetchNextPage])
 
-  const reviewButtonHandler = () => {
-    setHasReview(!hasReview)
+  const reviewButtonHandler = (value: boolean) => {
+    setHasReview(value)
   }
 
   const clickViewReviewHandler = (e: MouseEvent) => {
@@ -129,9 +129,7 @@ const MyPageInfoWrapper = ({ dataFetchingKey, onClick, reviewed }: IMyPageInfoWr
               }
               return (
                 <Fragment key={item.id}>
-                  {/* children에 들어가게 수정했는데 조건문은 제가 여기서 하는것보다 정헌님이 편하신대로 하는게 나을것 같아서 기본 조건만 적어놨습니다. */}
-                  {isMyOwnMeeting || !hasReview ? (
-                    /* 나의 리뷰쪽 컴포넌트 */
+                  {isMyOwnMeeting ? (
                     <MyCard
                       teamId={item.teamId}
                       id={item.id}
@@ -141,16 +139,7 @@ const MyPageInfoWrapper = ({ dataFetchingKey, onClick, reviewed }: IMyPageInfoWr
                       participantCount={item.participantCount}
                       image={item.image}
                       capacity={item.capacity}
-                    >
-                      <CardBtn
-                        type="active"
-                        onClick={(e: MouseEvent) => {
-                          clickCreateReviewHandler(e, item.id)
-                        }}
-                      >
-                        리뷰 작성하기
-                      </CardBtn>
-                    </MyCard>
+                    />
                   ) : (
                     <Card
                       teamId={item.teamId}
@@ -163,8 +152,7 @@ const MyPageInfoWrapper = ({ dataFetchingKey, onClick, reviewed }: IMyPageInfoWr
                       image={item.image}
                       capacity={item.capacity}
                     >
-                      {/* 모임 기간이 지났을경우 */}
-                      {dayjs().isAfter(dayjs(item.registrationEnd)) && (
+                      {dayjs().isAfter(dayjs(item.registrationEnd)) && !item.isReviewed && (
                         <CardBtn
                           type="active"
                           onClick={(e: MouseEvent) => {
@@ -174,18 +162,16 @@ const MyPageInfoWrapper = ({ dataFetchingKey, onClick, reviewed }: IMyPageInfoWr
                           리뷰 작성하기
                         </CardBtn>
                       )}
-
-                      {/* 리뷰를 작성했을경우 */}
-                      {item.isReviewed && (
+                      {dayjs().isAfter(dayjs(item.registrationEnd)) && item.isReviewed && (
                         <CardBtn type="active" onClick={clickViewReviewHandler}>
                           내가 쓴 리뷰 보기
                         </CardBtn>
                       )}
-
-                      {/* 둘다 아닐때 */}
-                      <CardBtn type="outline" onClick={() => {}}>
-                        예약 취소하기
-                      </CardBtn>
+                      {!dayjs().isAfter(dayjs(item.registrationEnd)) && (
+                        <CardBtn type="outline" onClick={() => {}}>
+                          예약 취소하기
+                        </CardBtn>
+                      )}
                     </Card>
                   )}
                 </Fragment>
