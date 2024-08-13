@@ -6,6 +6,7 @@ import { usePathname, useSearchParams } from "next/navigation"
 import Logo from "@/components/public/img/Logo"
 import ROUTE from "@/constants/route"
 import useGetUserData from "@/hooks/useGetUserData"
+import { useWishCount } from "@/provider/CountProvider"
 
 import ProfileComponent from "./components/ProfileComponent"
 
@@ -29,8 +30,8 @@ const gnbStyles = {
     "fixed left-0 top-0 z-50 flex w-full items-center justify-between whitespace-nowrap border-b border-gray-400 bg-white px-4 md:px-6 xl:px-0",
   wrapper: `${wrapperStyles.default} ${wrapperStyles.mobile} ${wrapperStyles.tablet} ${wrapperStyles.desktop}`,
   navbar: `${navbarStyles.default} ${navbarStyles.mobile} ${navbarStyles.tablet} ${navbarStyles.desktop}`,
-  navItem: "font-semibold text-orange-600",
-  currentNavItem: "font-semibold text-[#111827]",
+  navItem: "font-semibold text-[#111827]",
+  currentNavItem: "font-semibold text-orange-600",
   hoveredNavItem: "transition-all ease-in-out transform hover:scale-125 delay-[10ms] duration-150",
 }
 
@@ -44,6 +45,8 @@ interface IGNBProps {
 
 const GNB = ({ userToken }: IGNBProps) => {
   const { data } = useGetUserData(userToken)
+  const { wishCount } = useWishCount()
+  const isClient = typeof window !== "undefined"
 
   const isLoggedIn = Boolean(data?.name)
   const profileImg = data?.image
@@ -83,6 +86,7 @@ const GNB = ({ userToken }: IGNBProps) => {
             <Logo state="large" className={logoStyles} />
           </Link>
           {navItems.map((item) => {
+            const isLabel = item.label === "찜한 모임"
             return (
               <Link
                 key={item.href}
@@ -90,6 +94,17 @@ const GNB = ({ userToken }: IGNBProps) => {
                 className={currentPath === item.href ? currentNavStyles : navBaseStyles}
               >
                 {item.label}
+                {isClient && isLabel && wishCount > 0 && (
+                  <span
+                    className={
+                      currentPath === item.href
+                        ? "relative bottom-[1px] ml-1 rounded-full bg-orange-600 px-2 py-0 text-sm font-medium text-white"
+                        : "relative bottom-[1px] ml-1 rounded-full bg-[#111827] px-2 py-0 text-sm font-medium text-white"
+                    }
+                  >
+                    {wishCount}
+                  </span>
+                )}
               </Link>
             )
           })}

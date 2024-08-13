@@ -26,10 +26,10 @@ const useWishList = (filter: IFilterOption) => {
             WORKATION: item.type === "WORKATION",
           }
 
-          const matchesType = filterTypeMappings[filter.type]
-          const matchesLocation = !filter.location || item.location === filter.location
+          const matchesType = filterTypeMappings[filter?.type]
+          const matchesLocation = !filter?.location || item.location === filter.location
           const matchesDateTime =
-            !filter.date || dayjs(item.dateTime).format("YYYY-MM-DD") === filter.date
+            !filter?.date || dayjs(item.dateTime).format("YYYY-MM-DD") === filter.date
           return matchesType && matchesLocation && matchesDateTime
         })
         .sort((a, b) => {
