@@ -36,5 +36,5 @@
     "jest.setup.js",
     "cypress.config.ts"
   ],
-  "exclude": ["node_modules", "cypress.config.ts", "cypress", "**/*.cy.tsx"]
+  "exclude": ["node_modules"]
 }
