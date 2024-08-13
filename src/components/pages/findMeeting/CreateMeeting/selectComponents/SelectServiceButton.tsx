@@ -16,7 +16,7 @@ const SelectServiceButton = ({
   return (
     <button
       type="button"
-      className={`grow rounded-lg p-3 ${state ? "bg-gray-900" : "bg-gray-50"}`}
+      className={`rounded-lg p-3 ${state ? "bg-gray-900" : "bg-gray-50"}`}
       onClick={() => {
         onClick(type)
       }}

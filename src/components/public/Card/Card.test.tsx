@@ -1,6 +1,6 @@
 import SvgrMock from "@mocks/svgrMock.jsx"
 import "@testing-library/jest-dom"
-import { fireEvent, render } from "@testing-library/react"
+import { render } from "@testing-library/react"
 import dayjs from "dayjs"
 
 import Card from "./Card"
@@ -60,7 +60,7 @@ describe("Card 컴포넌트 테스트", () => {
         registrationEnd: dayjs().add(1, "days").toISOString(),
       }
 
-      const { getByText, getByRole } = render(
+      const { getByText } = render(
         <Card
           teamId={props.teamId}
           id={props.id}
@@ -76,7 +76,6 @@ describe("Card 컴포넌트 테스트", () => {
 
       // then - 이용 예정가 화면에 그려짐
       expect(getByText("이용 예정")).toBeInTheDocument()
-      expect(getByRole("button", { name: "예약 취소하기" })).toBeInTheDocument()
     })
 
     test("모집 마감 날짜가 지났다면 이용 완료와 리뷰 작성하기가 나오는지 테스트", () => {
@@ -86,7 +85,7 @@ describe("Card 컴포넌트 테스트", () => {
         registrationEnd: dayjs().subtract(1, "days").toISOString(),
       }
 
-      const { getByText, getByRole } = render(
+      const { getByText } = render(
         <Card
           teamId={props.teamId}
           id={props.id}
@@ -102,7 +101,6 @@ describe("Card 컴포넌트 테스트", () => {
 
       // then - 이용 완료가 화면에 그려짐
       expect(getByText("이용 완료")).toBeInTheDocument()
-      expect(getByRole("button", { name: "리뷰 작성하기" })).toBeInTheDocument()
     })
 
     test("참여 인원이 5명 미만일 경우 개설 대기가 화면에 보입니다.", () => {
@@ -155,71 +153,6 @@ describe("Card 컴포넌트 테스트", () => {
 
       // then - 이용 완료가 화면에 그려짐
       expect(getByText(/개설확정/)).toBeInTheDocument()
-    })
-  })
-
-  describe("버튼 테스트", () => {
-    const mockFnClick = jest.fn()
-
-    test("예약 취소 버튼이 잘 클릭 되는지", () => {
-      // given - Card 컴포넌트를 화면에 그려줌
-      const props = {
-        ...defaultProps,
-        registrationEnd: dayjs().add(1, "days").toISOString(),
-      }
-
-      const { getByRole } = render(
-        <Card
-          teamId={props.teamId}
-          id={props.id}
-          name={props.name}
-          dateTime={props.dateTime}
-          location={props.location}
-          participantCount={props.participantCount}
-          capacity={props.capacity}
-          image={props.image}
-          registrationEnd={props.registrationEnd}
-          handlerCancel={mockFnClick}
-        />,
-      )
-
-      // when - 버튼가져와서 클릭
-      const button = getByRole("button", { name: "예약 취소하기" })
-
-      fireEvent.click(button)
-
-      // then - 클릭시 실행이 잘되었는지
-      expect(mockFnClick).toHaveBeenCalled()
-    })
-    describe("리뷰 작성 버튼이 잘 클릭 되는지", () => {
-      // given - Card 컴포넌트를 화면에 그려줌
-      const props = {
-        ...defaultProps,
-        registrationEnd: dayjs().subtract(1, "days").toISOString(),
-      }
-
-      const { getByRole } = render(
-        <Card
-          teamId={props.teamId}
-          id={props.id}
-          name={props.name}
-          dateTime={props.dateTime}
-          location={props.location}
-          participantCount={props.participantCount}
-          capacity={props.capacity}
-          image={props.image}
-          registrationEnd={props.registrationEnd}
-          handlerReview={mockFnClick}
-        />,
-      )
-
-      // when - 버튼가져와서 클릭
-      const button = getByRole("button", { name: "리뷰 작성하기" })
-
-      fireEvent.click(button)
-
-      // then - 클릭시 실행이 잘되었는지
-      expect(mockFnClick).toHaveBeenCalled()
     })
   })
 })

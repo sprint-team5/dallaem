@@ -3,6 +3,7 @@ import { useInView } from "react-intersection-observer"
 
 import { IFilterOption } from "@/types/meeting/meeting"
 import { IWishListData } from "@/types/wishlist/wishlist"
+import { msTransform } from "@/util/days"
 import dayjs from "dayjs"
 
 const useWishList = (filter: IFilterOption) => {
@@ -33,14 +34,32 @@ const useWishList = (filter: IFilterOption) => {
         })
         .sort((a, b) => {
           if (filter.sortBy === "registrationEnd") {
-            return dayjs(a.registrationEnd).unix() - dayjs(b.registrationEnd).unix()
+            if (filter.sortOrder === "asc") {
+              return msTransform(a.registrationEnd) - msTransform(b.registrationEnd)
+            }
+            if (filter.sortOrder === "desc") {
+              return msTransform(b.registrationEnd) - msTransform(a.registrationEnd)
+            }
           }
+
           if (filter.sortBy === "dateTime") {
-            return dayjs(a.dateTime).unix() - dayjs(b.dateTime).unix()
+            if (filter.sortOrder === "asc") {
+              return msTransform(a.dateTime) - msTransform(b.dateTime)
+            }
+            if (filter.sortOrder === "desc") {
+              return msTransform(b.dateTime) - msTransform(a.dateTime)
+            }
           }
+
           if (filter.sortBy === "participantCount") {
-            return b.participantCount - a.participantCount
+            if (filter.sortOrder === "asc") {
+              return b.participantCount - a.participantCount
+            }
+            if (filter.sortOrder === "desc") {
+              return a.participantCount - b.participantCount
+            }
           }
+
           return 0
         })
     },

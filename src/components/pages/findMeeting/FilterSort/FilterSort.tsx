@@ -2,7 +2,6 @@
 
 import { useRef, useState } from "react"
 
-import Sort from "@/components/public/icon/dynamicIcon/Sort"
 import { sortType } from "@/constants/meeting"
 import useOutsideClick from "@/util/useOutsideClick"
 
@@ -65,10 +64,7 @@ const FilterSort = (props: IFilterProps) => {
         onClick={onLabelClickHandler}
         onKeyDown={onLabelKeyDownHandler}
       >
-        <Sort state="default" />
-        <span className="flex items-center whitespace-nowrap max-sm:hidden">
-          {getSortType(selVal)}
-        </span>
+        <span className="flex items-center whitespace-nowrap">{getSortType(selVal)}</span>
       </div>
       <div
         ref={filterSortRef}

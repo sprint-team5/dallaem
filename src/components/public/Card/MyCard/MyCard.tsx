@@ -1,17 +1,9 @@
 import Image from "next/image"
 import Link from "next/link"
 
-import Checkbox from "@/components/public/icon/dynamicIcon/Checkbox"
 import Person from "@/components/public/icon/staticIcon/Person"
 import MyCardProps from "@/types/card/props"
-import { formatToDate, isCurrentDateAfter } from "@/util/days"
-
-interface ICardProps extends MyCardProps {
-  registrationEnd: string
-}
-
-const ButtonStyle =
-  "rounded-3xl h-8 px-3 flex items-center justify-center text-sm font-medium leading-5"
+import { formatToDate } from "@/util/days"
 
 /**
  * @interface ICardProps
@@ -23,9 +15,8 @@ const ButtonStyle =
  * @param {number} participantCount - 참여 인원
  * @param {number} capacity - 모집 정원 (최소 5인 이상)
  * @param {string} image - 모임 이미지
- * @param {string} registrationEnd - 모임 모집 마감 날짜 및 시간
  */
-const Card = ({
+const MyCard = ({
   teamId,
   id,
   name,
@@ -34,9 +25,8 @@ const Card = ({
   participantCount,
   capacity,
   image,
-  registrationEnd,
   children,
-}: ICardProps) => {
+}: MyCardProps) => {
   return (
     <Link href={`/findMeeting/${id}`}>
       <div className="flex flex-col gap-4 border-b-2 border-dashed border-gray-200 pb-6 sm:flex-row">
@@ -53,31 +43,10 @@ const Card = ({
           )}
         </div>
         <div className="flex flex-col">
-          <div className="mb-3 flex gap-2">
-            {isCurrentDateAfter(registrationEnd) ? (
-              <div className={`bg-gray-200 text-gray-500 ${ButtonStyle}`}>이용 완료</div>
-            ) : (
-              <>
-                <div className={`bg-orange-100 text-orange-600 ${ButtonStyle}`}>이용 예정</div>
-                {participantCount >= 5 ? (
-                  <div className={`border border-orange-100 text-orange-500 ${ButtonStyle}`}>
-                    <Checkbox state="active" /> 개설확정
-                  </div>
-                ) : (
-                  <div className={`border border-gray-200 text-gray-500 ${ButtonStyle}`}>
-                    개설대기
-                  </div>
-                )}
-              </>
-            )}
+          <div>
+            <h3 className="text-lg font-semibold leading-7 text-gray-900">{name}</h3>
+            <p className="mt-2 text-sm font-medium leading-5 text-gray-700">{location}</p>
           </div>
-
-          <h3 className="flex items-center text-lg font-semibold leading-7 text-gray-900">
-            {name}
-            <span className="ml-2 border-l-2 border-gray-900 pl-2 text-sm font-medium leading-5 text-gray-700">
-              {location}
-            </span>
-          </h3>
 
           <div className="flex gap-3 text-sm font-medium leading-5 text-gray-700">
             <p>{formatToDate({ date: dateTime, format: "M월 D일 · HH:mm" })}</p>
@@ -96,4 +65,4 @@ const Card = ({
   )
 }
 
-export default Card
+export default MyCard

@@ -34,11 +34,11 @@ const CreateMeetingModal = ({ changeState }: { changeState: () => void }) => {
   }, [])
 
   return (
-    <div className="fixed left-0 top-0 z-[100] flex h-screen w-screen items-center justify-center bg-black bg-opacity-55">
+    <div className="fixed left-0 top-0 z-[100] flex h-screen w-screen items-center justify-center bg-black bg-opacity-55 py-[26px]">
       <div
         ref={modalRef}
         id="contentWrapper"
-        className="flex max-h-screen w-modal-lg flex-col overflow-y-scroll rounded-xl bg-white p-6 shadow-md max-sm:w-full"
+        className="flex h-full w-[95%] max-w-[520px] flex-col overflow-y-scroll rounded-xl bg-white p-6 shadow-md sm:w-full"
       >
         <div className="flex justify-between">
           <h3 className="text-lg font-semibold">모임만들기</h3>

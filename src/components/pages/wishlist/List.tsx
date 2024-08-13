@@ -12,16 +12,18 @@ import ByeBtn from "@/components/pages/wishlist/ByeBtn"
 import Filter from "@/components/public/Filter/Filter"
 import MeetingCardSkeleton from "@/components/public/Skeleton/MeetingCardSkeleton"
 import Spinner from "@/components/public/Spinner/Spinner"
+import Sort from "@/components/public/icon/dynamicIcon/Sort"
 import { location } from "@/constants/meeting"
 import ROUTE from "@/constants/route"
 import useWishList from "@/hooks/useWishList"
 import { IFilterOption } from "@/types/meeting/meeting"
-import dayjs from "dayjs"
+import { isCurrentDateAfter } from "@/util/days"
 
 const List = () => {
   const [filter, setFilter] = useState<IFilterOption>({
     type: "DALLAEMFIT",
     sortBy: "registrationEnd",
+    sortOrder: "asc",
   })
 
   const { wish, setWish, ref, isLoading, hasMore } = useWishList(filter)
@@ -96,12 +98,41 @@ const List = () => {
             }}
           />
         </div>
-        <FilterSort
-          onSelect={(e) => {
-            onFilterChanged(e, "sortBy")
-          }}
-          selVal={filter.sortBy}
-        />
+
+        <div className="ml-auto flex gap-2">
+          <button
+            aria-label="sortButton"
+            type="button"
+            className={`group flex size-9 cursor-pointer items-center justify-center rounded-xl border-2 transition-colors ${filter.sortOrder === "asc" ? "border-gray-100 bg-white" : "border-gray-100 bg-black"}`}
+            onClick={() => {
+              if (filter.sortOrder === "asc") {
+                return setFilter((prev) => {
+                  return {
+                    ...prev,
+                    sortOrder: "desc",
+                  }
+                })
+              }
+              return setFilter((prev) => {
+                return {
+                  ...prev,
+                  sortOrder: "asc",
+                }
+              })
+            }}
+          >
+            <Sort
+              state="default"
+              className={`transition-colors ${filter.sortOrder === "desc" && "text-white"} `}
+            />
+          </button>
+          <FilterSort
+            onSelect={(e) => {
+              onFilterChanged(e, "sortBy")
+            }}
+            selVal={filter.sortBy}
+          />
+        </div>
       </div>
 
       {isLoading ? (
@@ -119,7 +150,7 @@ const List = () => {
           {wish.map((list) => {
             return (
               <div key={list.id} className="relative mt-6 first:mt-0">
-                {dayjs().isAfter(dayjs(list.registrationEnd)) && (
+                {isCurrentDateAfter(list.registrationEnd) && (
                   <div className="absolute left-0 top-0 z-10 flex h-full w-full flex-col items-center justify-center gap-6 rounded-3xl bg-black/80 text-center text-sm font-medium leading-5 text-white sm:flex-row">
                     마감된 챌린지에요, <br />
                     다음 기회에 만나요 🙏

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"
 import { MouseEvent } from "react"
 
 import checkLogin from "@/actions/checkLogin"
-import joinGathering from "@/actions/joinGathering"
+import joinGathering from "@/actions/gatherings/joinGathering"
 import DateTag from "@/components/pages/findMeeting/MeetingCard/Atoms/DateTag"
 import ParticipantGage from "@/components/pages/findMeeting/MeetingCard/Atoms/ParticipantGage"
 import WishBtn from "@/components/pages/wishlist/WishBtn"
@@ -13,8 +13,8 @@ import Spinner from "@/components/public/Spinner/Spinner"
 import ArrowRight from "@/components/public/icon/staticIcon/ArrowRight"
 import ROUTE from "@/constants/route"
 import { IMeetingData } from "@/types/meeting/meeting"
+import { formatToDate, isCurrentDateAfter } from "@/util/days"
 import { InfiniteData, useMutation, useQueryClient } from "@tanstack/react-query"
-import dayjs from "dayjs"
 
 interface IMeetingListProps {
   data: InfiniteData<Array<IMeetingData>> | null
@@ -54,11 +54,12 @@ export const MeetingCard = ({ data }: { data: IMeetingData }) => {
             height={156}
             className="!h-full object-cover max-sm:w-full"
           />
-          {dayjs(data.registrationEnd).format("YYYY-MM-DD") === dayjs().format("YYYY-MM-DD") && (
+          {formatToDate({ date: data.registrationEnd, format: "YYYY-MM-DD" }) ===
+            formatToDate({ format: "YYYY-MM-DD" }) && (
             <div className="absolute right-0 top-0 inline-flex items-center rounded-bl-xl bg-orange-600 px-[10px] py-[4px]">
               <Image src="/icon/staticIcon/clock.svg" alt="마감 임박" width={24} height={24} />
               <span className="text-xs text-white">
-                오늘 {dayjs(data.registrationEnd).format("H")}시 마감
+                오늘 {formatToDate({ date: data.registrationEnd, format: "H" })}시 마감
               </span>
             </div>
           )}
@@ -133,12 +134,8 @@ const MeetingList = ({ data, isLoading }: IMeetingListProps) => {
             {data?.pages.map((pages) => {
               return pages.map((meeting) => {
                 return (
-                  <Link
-                    className="relative"
-                    href={`${ROUTE.GATHERINGS}/${meeting.id}`}
-                    key={meeting.id}
-                  >
-                    {dayjs().isAfter(dayjs(meeting.registrationEnd)) && (
+                  <Link className="relative" href={`/findMeeting/${meeting.id}`} key={meeting.id}>
+                    {isCurrentDateAfter(meeting.registrationEnd) && (
                       <div className="absolute left-0 top-0 z-10 flex h-full w-full flex-col items-center justify-center gap-6 rounded-3xl bg-black/80 text-center text-sm font-medium leading-5 text-white sm:flex-row">
                         마감된 챌린지에요, <br />
                         다음 기회에 만나요 🙏
