@@ -1,12 +1,19 @@
-name: Run ESLint
+name: Run ESLint & Jest test
 
 on:
   pull_request:
     branches:
       - develop
+      - main
+
+  push:
+    branches:
+      - develop
+      - main
 
 jobs:
-  build:
+  eslint-test:
+    name: Run ESLint by Node.js 18x, 20.x
     runs-on: ubuntu-latest
 
     strategy:
@@ -14,19 +21,30 @@ jobs:
         node-version: [18.x, 20.x]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Clear npm cache
         run: npm cache clean --force
 
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: npm install, build, and test
-        run: |
-          npm ci
-          npm run lint
+      - name: install dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        run: npm run lint
+        env:
+          CI: true
+
+      - name: Run build
+        env:
+          BASE_URL: ${{ secrets.BASE_URL }} # 환경 변수 설정
+        run: npm run build
+
+      - name: Run Jest test
+        run: npm test
         env:
           CI: true

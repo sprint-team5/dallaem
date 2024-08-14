@@ -1,4 +1,4 @@
-const nextJest = require("next/jest");
+const nextJest = require("next/jest")
 /**
  * For a detailed explanation regarding each configuration property, visit:
  * https://jestjs.io/docs/configuration
@@ -7,7 +7,7 @@ const nextJest = require("next/jest");
 
 const createJestConfig = nextJest({
   dir: "./",
-});
+})
 
 const config = {
   // All imported modules in your tests should be mocked automatically
@@ -94,7 +94,10 @@ const config = {
   // ],
 
   // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
-  // moduleNameMapper: {},
+  moduleNameMapper: {
+    "\\.svg$": "<rootDir>/__mocks__/svgrMock.jsx",
+    "^@/(.*)$": "<rootDir>/src/$1",
+  },
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
   // modulePathIgnorePatterns: [],
@@ -165,9 +168,8 @@ const config = {
   // ],
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
-  // testPathIgnorePatterns: [
-  //   "\\\\node_modules\\\\"
-  // ],
+
+  testPathIgnorePatterns: ["<rootDir>/cypress/"],
 
   // The regexp pattern or array of patterns that Jest uses to detect test files
   // testRegex: [],
@@ -198,6 +200,6 @@ const config = {
 
   // Whether to use watchman for file crawling
   // watchman: true,
-};
+}
 
-module.exports = createJestConfig(config);
+module.exports = createJestConfig(config)
