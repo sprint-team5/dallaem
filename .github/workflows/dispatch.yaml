@@ -1,0 +1,19 @@
+name: Update Fork and Deploy
+
+on:
+  repository_dispatch:
+    types: [main_updated]
+
+jobs:
+  update-and-deploy:
+    runs-on: ubuntu-latest
+    if: github.repository == 'JeongHeonK/dallaem-publish'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Sync fork
+        run: |
+          git remote add upstream https://github.com/sprint-team5/dallaem
+          git fetch upstream
+          git checkout main
+          git merge upstream/main
+          git push origin main
