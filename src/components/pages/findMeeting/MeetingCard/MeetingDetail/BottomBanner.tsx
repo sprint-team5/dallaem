@@ -77,7 +77,7 @@ const BottomBanner = ({ id, isHost, isJoined, limit, participant, setHeight }: I
     cancelMutation.mutate()
   }
   const onClickJoin = async () => {
-    if (await checkLogin())
+    if (await checkLogin()) {
       joinGathering(id, {
         onSuccess: async (res) => {
           await queryClient.invalidateQueries({ queryKey: ["meetingDetail"] })
@@ -90,6 +90,9 @@ const BottomBanner = ({ id, isHost, isJoined, limit, participant, setHeight }: I
           router.replace(`${ROUTE.GATHERINGS}/${id}?alert=${res}`)
         },
       })
+    } else {
+      router.push(`${ROUTE.GATHERINGS}/${id}?alert=${"로그인이 필요합니다."}`)
+    }
   }
 
   const onClickQuit = async () => {
