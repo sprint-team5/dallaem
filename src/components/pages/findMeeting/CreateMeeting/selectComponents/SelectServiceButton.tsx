@@ -21,8 +21,14 @@ const SelectServiceButton = ({
         onClick(type)
       }}
     >
-      <div className="flex h-full items-start gap-[3px]">
-        <Checkbox state={state ? "active" : "default"} />
+      <div className="flex h-full items-start gap-2">
+        <div className="relative h-[18px] w-[18px]">
+          <div className="absolute left-0 top-0 z-20 h-full w-full rounded-md border border-gray-200" />
+          <Checkbox
+            className="absolute left-1/2 top-1/2 z-0 -translate-x-1/2 -translate-y-1/2"
+            state={state ? "active" : "default"}
+          />
+        </div>
         <div className={`flex flex-col items-start ${state ? "text-white" : "text-gray-900"}`}>
           <span className="font-semibold">{category}</span>
           <div className={`text-xs ${state ? "text-white" : "text-gray-700"}`}>{detail}</div>

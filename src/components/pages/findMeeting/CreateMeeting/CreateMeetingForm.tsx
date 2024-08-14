@@ -1,6 +1,6 @@
 "use client"
 
-import { KeyboardEvent, useRef, useState } from "react"
+import { ChangeEventHandler, KeyboardEvent, useRef, useState } from "react"
 import { Value } from "react-calendar/dist/cjs/shared/types"
 
 import Calendars from "@/components/public/Calendars/Calendars"
@@ -58,7 +58,7 @@ const CreateMeetingForm = ({ changeState }: { changeState: () => void }) => {
     name: "",
     date: "",
     time: "",
-    capacity: 0,
+    capacity: 5,
     image: { file: null, name: "" },
     registrationEnd: "",
   })
@@ -68,7 +68,7 @@ const CreateMeetingForm = ({ changeState }: { changeState: () => void }) => {
   const { mutate: joinGathering } = useJoinGathering()
 
   const modalSelectRef = useRef<HTMLSelectElement>(null)
-  const fileLabelRef = useRef<HTMLInputElement>(null)
+  const [fileName, setFileName] = useState("")
 
   const onChangeData = (e: React.ChangeEvent) => {
     let target
@@ -88,6 +88,15 @@ const CreateMeetingForm = ({ changeState }: { changeState: () => void }) => {
     }
   }
 
+  const onChangeNumber: ChangeEventHandler<HTMLInputElement> = (e) => {
+    const { value } = e.target
+    if (Number(value) >= 5) {
+      return setMeetingData({ ...meetingData, capacity: Number(value) })
+    }
+    // eslint-disable-next-line no-alert
+    return alert("5미만 숫자를 입력할 수 없습니다.")
+  }
+
   const openFileHandler = (e: KeyboardEvent) => {
     if (e.code === "Enter" || e.code === "Space") document.getElementById("thumbnail")?.click()
   }
@@ -97,9 +106,9 @@ const CreateMeetingForm = ({ changeState }: { changeState: () => void }) => {
     if (!e.target.files) return
     const file = e.target.files[0]
     if (!file) {
-      if (fileLabelRef.current) fileLabelRef.current.textContent = "이미지를 첨부해주세요."
+      setFileName("")
     } else {
-      if (fileLabelRef.current) fileLabelRef.current.textContent = file.name
+      setFileName(file.name)
       const image = e.target.files[0]
       setMeetingData({ ...meetingData, image: { file: image, name: file.name } })
     }
@@ -180,14 +189,14 @@ const CreateMeetingForm = ({ changeState }: { changeState: () => void }) => {
           type="text"
           onChange={onChangeData}
           placeholder="모임명을 입력해주세요."
-          className="box-border rounded-xl bg-gray-50 px-[16px] py-[10px]"
+          className="box-border rounded-xl bg-gray-50 px-[16px] py-[10px] font-medium leading-6 outline-none placeholder:text-gray-400"
         />
       </Label>
 
       <Label label="장소" htmlFor="location">
-        <div className="relative box-border rounded-xl bg-gray-50 px-[16px] py-[10px] focus-within:border-[2px] focus-within:border-blue-700">
+        <div className="relative box-border rounded-xl bg-gray-50 px-[16px] py-[10px]">
           <select
-            className="focus: h-full w-full appearance-none bg-gray-50 focus:outline-none"
+            className="h-full w-full appearance-none bg-gray-50 font-medium leading-6 text-gray-400 outline-none"
             name="select location"
             id="location"
             aria-label="장소를 선택해주세요."
@@ -195,7 +204,7 @@ const CreateMeetingForm = ({ changeState }: { changeState: () => void }) => {
             value={meetingData.location}
             onChange={onChangeData}
           >
-            <option value="" disabled hidden>
+            <option value="" disabled hidden className="text-black">
               장소를 선택해주세요
             </option>
             {location.map((loc) => {
@@ -214,22 +223,17 @@ const CreateMeetingForm = ({ changeState }: { changeState: () => void }) => {
         <div className="flex items-center gap-3" id="selectImage">
           <div
             tabIndex={-1}
-            ref={fileLabelRef}
-            className="relative grow rounded-xl bg-gray-50 px-[16px] py-[10px]"
+            className={`relative grow rounded-xl bg-gray-50 px-[16px] py-[10px] font-medium leading-6 ${fileName ? "text-black" : "text-gray-400"} `}
           >
-            이미지를 첨부해 주세요
+            {!fileName ? "이미지를 첨부해주세요." : fileName}
           </div>
-          <button
-            tabIndex={-1}
-            type="button"
-            className="rounded-xl border-[1px] border-orange-600 focus-within:border-[2px] focus-within:border-blue-700"
-          >
+          <button tabIndex={-1} type="button" className="rounded-xl border-[1px] border-orange-600">
             {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
             <label
               // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
               tabIndex={0}
               htmlFor="thumbnail"
-              className="block px-[20px] py-[10px] font-semibold text-orange-600 outline-none"
+              className="block w-[100px] cursor-pointer py-[10px] font-semibold text-orange-600 outline-0"
               onKeyDown={openFileHandler}
             >
               파일 찾기
@@ -251,11 +255,13 @@ const CreateMeetingForm = ({ changeState }: { changeState: () => void }) => {
       </Label>
 
       <Label label="날짜" htmlFor="dateTime">
-        <Calendars
-          className="mx-auto"
-          value={meetingData.date}
-          onChange={onCalendarChangeHandler}
-        />
+        <div className="rounded-xl border border-gray-200 px-4 py-[10px]">
+          <Calendars
+            className="mx-auto border-0"
+            value={meetingData.date}
+            onChange={onCalendarChangeHandler}
+          />
+        </div>
       </Label>
 
       <Label label="오전" htmlFor="time">
@@ -278,9 +284,11 @@ const CreateMeetingForm = ({ changeState }: { changeState: () => void }) => {
         <input
           type="number"
           id="capacity"
-          onChange={onChangeData}
+          onChange={onChangeNumber}
           placeholder="최소 5인 이상 입력해주세요."
-          className="box-border rounded-xl bg-gray-50 px-[16px] py-[10px]"
+          className="box-border rounded-xl bg-gray-50 px-[16px] py-[10px] outline-none"
+          min={5}
+          value={meetingData.capacity}
         />
       </Label>
 
