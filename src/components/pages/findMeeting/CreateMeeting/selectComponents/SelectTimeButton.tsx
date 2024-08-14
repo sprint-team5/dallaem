@@ -40,7 +40,7 @@ const SelectTimeButton = ({
   }
 
   return (
-    <div className="flex gap-2">
+    <div className="flex flex-wrap gap-2">
       {timeList.map((time) => {
         const isDisabled = checkDisabled(time)
         const isSelected = meetingData.time === time

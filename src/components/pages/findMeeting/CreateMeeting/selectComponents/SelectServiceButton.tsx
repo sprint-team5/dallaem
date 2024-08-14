@@ -29,7 +29,9 @@ const SelectServiceButton = ({
             state={state ? "active" : "default"}
           />
         </div>
-        <div className={`flex flex-col items-start ${state ? "text-white" : "text-gray-900"}`}>
+        <div
+          className={`flex flex-col items-start text-sm sm:text-base ${state ? "text-white" : "text-gray-900"}`}
+        >
           <span className="font-semibold">{category}</span>
           <div className={`text-xs ${state ? "text-white" : "text-gray-700"}`}>{detail}</div>
         </div>
