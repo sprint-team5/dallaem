@@ -27,6 +27,7 @@ const formStyles = {
   form: "flex w-full flex-col items-stretch justify-between gap-6 font-semibold text-gray-900",
 }
 
+// input에 표시될 요소를 객체로 정의
 const signupFormValue = [
   {
     label: "이름",

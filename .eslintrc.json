@@ -12,8 +12,26 @@
     "prettier",
     "plugin:cypress/recommended"
   ],
+  "overrides": [
+    {
+      "files": ["**/*.ts", "**/*.tsx"],
+      "excludedFiles": ["cypress/**/*.ts", "cypress/**/*.tsx"],
+      "parserOptions": {
+        "project": "./tsconfig.json"
+      }
+    },
+    {
+      "files": ["cypress/**/*.ts", "cypress/**/*.tsx"],
+      "parserOptions": {
+        "project": "./cypress/tsconfig.json"
+      },
+      "rules": {
+        // Cypress 파일에 대한 특별한 ESLint 규칙을 여기에 추가할 수 있습니다.
+      }
+    }
+  ],
   "parserOptions": {
-    "project": "./tsconfig.json"
+    "project": ["./tsconfig.json", "./cypress/tsconfig.json"]
   },
   "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint", "prettier"],
