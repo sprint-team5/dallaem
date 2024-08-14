@@ -5,7 +5,7 @@ const authLayoutStyles = {
     default: "w-full bg-slate-100",
     mobile: "min-h-[906px] pt-[33px] pb-[72px]",
     tablet: "md:min-h-[1133px] md:pt-10 md:pb-[162px]",
-    desktop: "2xl:min-h-[1080px] 2xl:py-[329px]",
+    desktop: "2xl:min-h-[1080px] 2xl:py-[153px]",
   },
   wrapper: {
     default: "flex flex-col items-center justify-center",

@@ -22,7 +22,8 @@
       "@public/*": ["./public/*"],
       "@mocks/*": ["./__mocks__/*"]
     },
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "types": ["jest"]
   },
   "include": [
     "postcss.config.mjs",
@@ -33,8 +34,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "__mocks__/svgrMock.jsx",
-    "jest.setup.js",
-    "cypress.config.ts"
+    "jest.setup.js"
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "cypress.config.ts", "cypress/**/*.tsx", "cypress"]
 }
