@@ -40,7 +40,7 @@ const SelectTimeButton = ({
   }
 
   return (
-    <div className="flex gap-2">
+    <div className="flex flex-wrap gap-2">
       {timeList.map((time) => {
         const isDisabled = checkDisabled(time)
         const isSelected = meetingData.time === time
@@ -50,7 +50,7 @@ const SelectTimeButton = ({
             disabled={isDisabled}
             key={time}
             type="button"
-            className={`rounded-lg border-[1px] border-gray-200 px-3 py-[6px] ${isSelected ? "bg-gray-900" : "bg-gray-50"} ${isDisabled && "!bg-gray-200"}`}
+            className={`rounded-lg border-[1px] border-gray-200 px-3 py-[6px] leading-5 ${isSelected ? "bg-gray-900" : "bg-gray-50"} ${isDisabled && "!bg-gray-200"}`}
             onClick={changeDateTime}
           >
             <span
