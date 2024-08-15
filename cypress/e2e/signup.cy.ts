@@ -91,7 +91,6 @@ describe("sign-up page test", () => {
     })
     cy.contains("회원가입이 완료되었습니다.").should("be.visible")
     cy.contains("확인").click()
-    cy.wait(1000)
     // 회원가입 이후 cookie에 userToken 생성 후 마이페이지 접속 확인
     cy.setCookie("userToken", "testToken")
     cy.visit("/mypage")
