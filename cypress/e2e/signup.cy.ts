@@ -48,39 +48,53 @@ describe("sign-up page test", () => {
   })
 
   it("should be disable to sign up with same email", () => {
+    const testId = Cypress.env("TEST_ID")
+    const testPassword = Cypress.env("TEST_PASSWORD")
     cy.get("#name").type("test")
     cy.get("#name").blur()
-    cy.get("#email").type("test10@test10.com")
+    cy.get("#email").type(testId)
     cy.get("#email").blur()
     cy.get("#companyName").type("test10")
     cy.get("#companyName").blur()
-    cy.get("#password").type("testtest")
+    cy.get("#password").type(testPassword)
     cy.get("#password").blur()
-    cy.get("#passwordConfirm").type("testtest")
+    cy.get("#passwordConfirm").type(testPassword)
     cy.get("#passwordConfirm").blur()
     cy.get(".group").should("be.enabled")
     cy.get(".group").click()
     cy.contains("이미 사용 중인").should("be.visible")
   })
 
-  // it("should be able to sign up", () => {
-  //   cy.get("#name").type("test")
-  //   cy.get("#name").blur()
-  //   cy.get("#email").type("test18@test18.com")
-  //   cy.get("#email").blur()
-  //   cy.get("#companyName").type("test18")
-  //   cy.get("#companyName").blur()
-  //   cy.get("#password").type("testtest")
-  //   cy.get("#password").blur()
-  //   cy.get("#passwordConfirm").type("testtest")
-  //   cy.get("#passwordConfirm").blur()
-  //   cy.get(".group").should("be.enabled")
-  //   cy.get(".group").click()
-  //   cy.contains("회원가입이 완료되었습니다.").should("be.visible")
-  // })
+  it("should be able to sign up", () => {
+    const testId = Cypress.env("TEST_ID")
+    const testPassword = Cypress.env("TEST_PASSWORD")
+    cy.intercept("POST", "**/auth?mode=signup", {
+      statusCode: 201,
+      body: {
+        message: "사용자 생성 성공",
+      },
+    }).as("signupRequest")
+    cy.get("#name").type("test")
+    cy.get("#name").blur()
+    cy.get("#email").type(testId)
+    cy.get("#email").blur()
+    cy.get("#companyName").type("test18")
+    cy.get("#companyName").blur()
+    cy.get("#password").type(testPassword)
+    cy.get("#password").blur()
+    cy.get("#passwordConfirm").type(testPassword)
+    cy.get("#passwordConfirm").blur()
+    cy.get(".group").should("be.enabled")
+    cy.get(".group").click()
+    cy.wait("@signupRequest").then((interception) => {
+      expect(interception.response?.statusCode).to.eq(201)
+    })
+    cy.contains("회원가입이 완료되었습니다.").should("be.visible")
+  })
 
   it("should be able to visit login page", () => {
     cy.contains("로그인").click()
     cy.location("pathname").should("contains", "/auth")
+    cy.url().should("include", "?mode=signin")
   })
 })
