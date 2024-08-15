@@ -36,11 +36,14 @@ describe("log-in page test", () => {
   })
 
   it("should be able to click confirm button when all goes well", () => {
-    cy.get("#email").type("test@test.com")
-    cy.get("#password").type("삭제")
+    const testId = Cypress.env("TEST_ID")
+    const testPassword = Cypress.env("TEST_PASSWORD")
+    cy.get("#email").type(testId)
+    cy.get("#password").type(testPassword)
     cy.get(".group").should("be.enabled")
     cy.get(".group").click()
     cy.location("pathname").should("eq", "/")
+    cy.getCookie("userToken").should("exist")
   })
 
   it("should be able to visit sign-up page", () => {
