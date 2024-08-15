@@ -90,6 +90,12 @@ describe("sign-up page test", () => {
       expect(interception.response?.statusCode).to.eq(201)
     })
     cy.contains("회원가입이 완료되었습니다.").should("be.visible")
+    cy.contains("확인").click()
+    cy.wait(1000)
+    // 회원가입 이후 cookie에 userToken 생성 후 마이페이지 접속 확인
+    cy.setCookie("userToken", "testToken")
+    cy.visit("/mypage")
+    cy.contains("마이페이지")
   })
 
   it("should be able to visit login page", () => {
