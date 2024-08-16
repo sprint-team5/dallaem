@@ -34,7 +34,7 @@ const ReviewModal = ({ gatheringId }: IReviewModalProp) => {
   const addReviewMutation = useMutation({
     mutationFn: addReview,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["myPage", { dataFetchingKey: "myReview" }] })
+      queryClient.invalidateQueries({ queryKey: ["mypage"] })
     },
   })
 
