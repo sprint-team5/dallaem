@@ -50,7 +50,6 @@
     "React": "readonly"
   },
   "rules": {
-    "cypress/no-unnecessary-waiting": "off",
     // 긴 라인 줄바꿈 시 연산자 뒤에서 줄바꿈
     "operator-linebreak": "off",
     // 화살표 함수 사용 시 중괄호 포함시키도록

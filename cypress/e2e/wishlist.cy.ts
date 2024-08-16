@@ -50,13 +50,14 @@ describe("add wish button test", () => {
 
 describe("wishlist page test", () => {
   beforeEach(() => {
+    cy.intercept("POST", "/").as("goHome")
     const testId = Cypress.env("TEST_ID")
     const testPassword = Cypress.env("TEST_PASSWORD")
     cy.visit("/auth?mode=signin")
     cy.get("#email").type(testId)
     cy.get("#password").type(testPassword)
     cy.get(".group").click()
-    cy.wait(1000)
+    cy.wait("@goHome")
     cy.get('[href="/wishlist"]').click()
   })
   it("should access wishlist page", () => {

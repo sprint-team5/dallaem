@@ -8,14 +8,14 @@ const usePostSignup = () => {
     mutationFn: PostSignupFn,
     onSuccess: (data) => {
       // 성공적인 응답 처리
-      if ("code" in data) {
+      if (data && "code" in data) {
         // 에러 응답이 온 경우
         return Promise.reject(data)
       }
       return data
     },
     onError: (error) => {
-      if ("code" in error) {
+      if (error && "code" in error) {
         throw new Error(error.message)
       }
       throw error
