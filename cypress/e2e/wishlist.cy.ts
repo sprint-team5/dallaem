@@ -18,8 +18,10 @@ describe("wishlist page access test", () => {
 describe("add wish button test", () => {
   beforeEach(() => {
     cy.visit("/wishlist")
-    cy.get("#email").type("test@test.com")
-    cy.get("#password").type("testtest")
+    const testId = Cypress.env("TEST_ID")
+    const testPassword = Cypress.env("TEST_PASSWORD")
+    cy.get("#email").type(testId)
+    cy.get("#password").type(testPassword)
     cy.get(".group").click()
     cy.visit("/findMeeting").then((win) => {
       cy.spy(win.localStorage, "setItem").as("storeGathering")
@@ -48,11 +50,14 @@ describe("add wish button test", () => {
 
 describe("wishlist page test", () => {
   beforeEach(() => {
+    cy.intercept("POST", "/").as("goHome")
+    const testId = Cypress.env("TEST_ID")
+    const testPassword = Cypress.env("TEST_PASSWORD")
     cy.visit("/auth?mode=signin")
-    cy.get("#email").type("test@test.com")
-    cy.get("#password").type("testtest")
+    cy.get("#email").type(testId)
+    cy.get("#password").type(testPassword)
     cy.get(".group").click()
-    cy.wait(1000)
+    cy.wait("@goHome")
     cy.get('[href="/wishlist"]').click()
   })
   it("should access wishlist page", () => {

@@ -14,7 +14,7 @@ const useScoreCalculation = (scoreData: IScoreReview[] | undefined) => {
 
     const totalScore = 5 * fiveStars + 4 * fourStars + 3 * threeStars + 2 * twoStars + 1 * oneStar
 
-    const allScore = totalScore / allReviewLength
+    const allScore = Number((totalScore / allReviewLength).toFixed(1))
     const maxScore = Math.max(oneStar, twoStars, threeStars, fourStars, fiveStars) + 5
     const ratings = [
       { rating: 5, count: fiveStars },

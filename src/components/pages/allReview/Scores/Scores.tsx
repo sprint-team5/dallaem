@@ -26,9 +26,13 @@ const Scores = () => {
   const { allScore, maxScore, ratings } = useScoreCalculation(scoreData)
 
   useEffect(() => {
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       setClipPath(`inset(0 ${100 - (allScore / 5) * 100}% 0 0)`)
     }, 100)
+
+    return () => {
+      clearTimeout(timer)
+    }
   }, [allScore])
 
   // TODO: 이벤트를 넘기지 않고 수정할 값만 파싱해서 넘기도록 수정 필요(역할, 책임 등의 문제)
