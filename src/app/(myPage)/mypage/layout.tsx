@@ -8,14 +8,11 @@ interface IMyPageLayoutProps {
 
 const MyPageLayout = ({ edit, addReview, children }: IMyPageLayoutProps) => {
   return (
-    <div className="relative mx-auto min-h-screen max-w-[1200px] bg-gray-50 px-[16px] md:px-[24px] lg:px-[97px]">
-      <h2 className="z-1 absolute left-0 right-0 top-4 mx-auto w-full pl-[16px] pt-8 text-2xl font-semibold md:pl-[24px] lg:pl-[97px]">
-        마이페이지
-      </h2>
+    <main className="relative mx-6 my-12 min-h-screen rounded-2xl bg-white px-[16px] md:m-12 md:px-[24px]">
       {children}
       {edit}
       {addReview}
-    </div>
+    </main>
   )
 }
 
