@@ -4,8 +4,8 @@ import { useRouter } from "next/navigation"
 
 import { MouseEvent } from "react"
 
-import checkLogin from "@/actions/checkLogin"
-import joinGathering from "@/actions/gatherings/joinGathering"
+import checkLogin from "@/actions/Auths/checkLogin"
+import joinGathering from "@/actions/Gatherings/joinGathering"
 import DateTag from "@/components/pages/findMeeting/MeetingCard/Atoms/DateTag"
 import ParticipantGage from "@/components/pages/findMeeting/MeetingCard/Atoms/ParticipantGage"
 import WishBtn from "@/components/pages/wishlist/WishBtn"

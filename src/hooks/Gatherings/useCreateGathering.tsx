@@ -1,6 +1,6 @@
 "use client"
 
-import generateMeetUp from "@/actions/generateMeetUp"
+import generateGathering from "@/actions/Gatherings/generateGathering"
 import { useMutation } from "@tanstack/react-query"
 
 interface IMeetingData {
@@ -21,7 +21,7 @@ interface IMeetingData {
 const useCreateGathering = () => {
   return useMutation<IMeetingData, Error, FormData>({
     mutationFn: (formData: FormData) => {
-      return generateMeetUp(formData)
+      return generateGathering(formData)
     },
     onSuccess: (data) => {
       if (!data) {

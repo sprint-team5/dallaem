@@ -7,7 +7,7 @@ import { render, screen, waitFor } from "@testing-library/react"
 import ReviewPreview from "./ReviewPreview"
 
 // getAllReview 모킹
-jest.mock("@/actions/getAllReviews", () => {
+jest.mock("@/actions/Gatherings/getAllReviews", () => {
   return {
     __esModule: true,
     default: jest.fn().mockResolvedValue([

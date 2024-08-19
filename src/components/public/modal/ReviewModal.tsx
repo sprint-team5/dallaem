@@ -1,11 +1,12 @@
 "use client"
 
+import { revalidatePath } from "next/cache"
 import { useRouter } from "next/navigation"
 
 import { ChangeEvent, useState } from "react"
 import { SubmitHandler, useForm } from "react-hook-form"
 
-import addReview from "@/actions/addReview"
+import addReview from "@/actions/Reviews/addReview"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 
 import CloseBtn from "../CloseBtn"
@@ -35,6 +36,7 @@ const ReviewModal = ({ gatheringId }: IReviewModalProp) => {
     mutationFn: addReview,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["mypage"] })
+      revalidatePath("/mypage")
     },
   })
 

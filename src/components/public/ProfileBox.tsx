@@ -1,4 +1,4 @@
-import getUserInfo from "@/actions/getUserInfo"
+import getUserInfo from "@/actions/Auths/getUserInfo"
 
 import LogoutBtn from "./LogoutBtn"
 import ProfileEditBtn from "./ProfileEditBtn"
@@ -10,7 +10,7 @@ const ProfileBox = async () => {
 
   return (
     <div className="relative mx-auto h-[180px] w-full flex-none rounded-3xl border-2 border-gray-200 bg-white">
-      <div className="bg-primary flex items-center justify-between rounded-t-3xl px-6 py-3.5 pt-5">
+      <div className="flex items-center justify-between rounded-t-3xl bg-primary px-6 py-3.5 pt-5">
         <h3 className="z-10 text-lg font-semibold text-gray-900">내 프로필</h3>
         <ProfileEditBtn />
       </div>

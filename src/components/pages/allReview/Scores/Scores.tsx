@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 
-import getScoreReview from "@/actions/getScoreReview"
+import getScoreReview from "@/actions/Reviews/getScoreReview"
 import RatingBar from "@/components/pages/allReview/Scores/Atoms/RatingBar"
 import FilterTab from "@/components/pages/findMeeting/FilterTab/FilterTab"
 import Heart from "@/components/public/icon/dynamicIcon/Heart"

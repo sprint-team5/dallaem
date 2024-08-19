@@ -4,9 +4,9 @@ import Image from "next/image"
 
 import { useEffect, useRef, useState } from "react"
 
-import getAllReview, { IAllReview } from "@/actions/allReviewActions"
-import getParticipants from "@/actions/gatherings/getParticipants"
-import getUserInfo from "@/actions/getUserInfo"
+import getUserInfo from "@/actions/Auths/getUserInfo"
+import getParticipants from "@/actions/Gatherings/getParticipants"
+import getAllReview, { IAllReview } from "@/actions/Reviews/allReviewActions"
 import DateTag from "@/components/pages/findMeeting/MeetingCard/Atoms/DateTag"
 import ParticipantGage from "@/components/pages/findMeeting/MeetingCard/Atoms/ParticipantGage"
 import WishBtn from "@/components/pages/wishlist/WishBtn"

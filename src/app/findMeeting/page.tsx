@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { useInView } from "react-intersection-observer"
 
-import checkLogin from "@/actions/checkLogin"
+import checkLogin from "@/actions/Auths/checkLogin"
 import FilterCalendar from "@/components/pages/findMeeting/FilterCalendar/FilterCalendar"
 import FilterSort from "@/components/pages/findMeeting/FilterSort/FilterSort"
 import FilterTab from "@/components/pages/findMeeting/FilterTab/FilterTab"

@@ -1,6 +1,6 @@
 import { useMemo } from "react"
 
-import { IScoreReview } from "@/actions/getScoreReview"
+import { IScoreReview } from "@/actions/Reviews/getScoreReview"
 
 const useScoreCalculation = (scoreData: IScoreReview[] | undefined) => {
   return useMemo(() => {

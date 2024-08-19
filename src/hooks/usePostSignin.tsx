@@ -1,7 +1,7 @@
 "use client"
 
-import PostSigninFn from "@/actions/postSigninFn"
-import setCookie from "@/actions/setCookies"
+import PostSigninFn from "@/actions/Auths/postSigninFn"
+import setCookie from "@/actions/Auths/setCookies"
 import { useMutation } from "@tanstack/react-query"
 
 // 사용자 로그인

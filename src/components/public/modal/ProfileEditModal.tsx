@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"
 
 import { ChangeEvent, useState } from "react"
 
-import editProfileInfo from "@/actions/editProfileInfo"
+import editProfileInfo from "@/actions/Auths/editProfileInfo"
 import CancelButton from "@/components/pages/mypage/CancelButton"
 
 import CloseBtn from "../CloseBtn"
