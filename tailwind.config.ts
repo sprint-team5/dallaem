@@ -8,6 +8,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      colors: {
+        primary: "#ff9660",
+      },
       width: {
         "modal-lg": "520px",
         "modal-md": "343px",
