@@ -26,6 +26,7 @@ describe("mypage test", () => {
   it("should be able to logout", () => {
     cy.intercept("/").as("home")
     cy.contains("로그아웃").click()
-    cy.getCookie("userToken").should("not.exist")
+    cy.location("pathname").should("eq", "/")
+    cy.getCookie("userToken").should("be.null")
   })
 })
