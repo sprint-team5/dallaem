@@ -82,20 +82,22 @@ const ReviewModal = ({ gatheringId }: IReviewModalProp) => {
         onSubmit={handleSubmit(submitHandler, errorHandler)}
         className="absolute left-0 right-0 top-48 z-50 mx-auto w-modal-md rounded-md bg-white p-6 shadow-xl lg:w-modal-lg"
       >
-        <div className="flex justify-between">
+        <div className="mb-2 flex justify-between">
           <h3 className="text-lg font-semibold">리뷰쓰기</h3>
           <CloseBtn />
         </div>
         <ReviewHeartBtn value={userInput.score} setter={heartChangeHandler} />
         <div className="relative pb-6">
-          <p className="mb-3 font-semibold">경험에 대해 남겨주세요.</p>
+          <p className="mb-1 mt-2 font-semibold">
+            경험에 대해 남겨주세요.<span className="ml-1 text-xs text-blue-500">(5자 이상)</span>
+          </p>
           <textarea
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...register("comment", {
               required: true,
               minLength: {
-                value: 10,
-                message: "10자 이상 입력하셔야 합니다.",
+                value: 5,
+                message: "5자 이상 입력하셔야 합니다.",
               },
               maxLength: {
                 value: 200,
@@ -112,7 +114,7 @@ const ReviewModal = ({ gatheringId }: IReviewModalProp) => {
         <div className="flex justify-center gap-3">
           <button
             type="button"
-            className="border-primary text-primary hover:border-primary/65 hover:text-primary/60 w-1/2 rounded-xl border py-2.5 active:border-orange-700 active:text-orange-700"
+            className="w-1/2 rounded-xl border border-primary py-2.5 text-primary hover:border-primary/65 hover:text-primary/60 active:border-orange-700 active:text-orange-700"
             onClick={() => {
               return router.back()
             }}
