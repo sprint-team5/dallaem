@@ -58,7 +58,7 @@ const Card = ({
               <div className={`bg-gray-200 text-gray-500 ${ButtonStyle}`}>이용 완료</div>
             ) : (
               <>
-                <div className={`bg-orange-100 text-orange-600 ${ButtonStyle}`}>이용 예정</div>
+                <div className={`text-primary bg-orange-100 ${ButtonStyle}`}>이용 예정</div>
                 {participantCount >= 5 ? (
                   <div className={`border border-orange-100 text-orange-500 ${ButtonStyle}`}>
                     <Checkbox state="active" /> 개설확정

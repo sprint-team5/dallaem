@@ -110,7 +110,7 @@ const ReviewModal = ({ gatheringId }: IReviewModalProp) => {
         <div className="flex justify-center gap-3">
           <button
             type="button"
-            className="active: w-1/2 rounded-xl border border-orange-600 py-2.5 text-orange-600 hover:border-orange-500 hover:text-orange-500 active:border-orange-700 active:text-orange-700"
+            className="border-primary text-primary hover:border-primary/65 hover:text-primary/60 w-1/2 rounded-xl border py-2.5 active:border-orange-700 active:text-orange-700"
             onClick={() => {
               return router.back()
             }}

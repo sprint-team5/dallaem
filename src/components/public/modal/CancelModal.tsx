@@ -20,7 +20,7 @@ const CancelModal = ({ children, isOneBtn = true }: ICancelModalProps) => {
         {!isOneBtn && (
           <button
             type="button"
-            className="w-1/3 rounded-xl border-2 border-orange-600 py-2.5 text-orange-600 hover:border-orange-500 hover:text-orange-500"
+            className="border-primary text-primary hover:border-primary/60 hover:text-primary/60 w-1/3 rounded-xl border-2 py-2.5"
           >
             취소
           </button>
