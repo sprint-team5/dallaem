@@ -20,6 +20,7 @@ const IMAGE_SIZE_LIMIT = 5242880
 
 const errorMessage = {
   img: "5MB보다 큰 파일은 업로드할 수 없습니다.",
+  noImg: "이미지를 업로드해주세요.",
   companyName: "회사 이름을 입력해주세요.",
 }
 
@@ -27,6 +28,7 @@ const ProfileEditModal = ({ company, src = "" }: IProfileEditModalProps) => {
   const [imgSrc, setImgSrc] = useState(src)
   const [error, setError] = useState({
     img: "",
+    noImg: "",
     companyName: "",
   })
   const [userProfileInput, setUserProfileInput] = useState<{
@@ -55,6 +57,7 @@ const ProfileEditModal = ({ company, src = "" }: IProfileEditModalProps) => {
       return {
         ...prev,
         img: "",
+        noImg: "",
       }
     })
     setImgSrc(preview)
@@ -93,12 +96,36 @@ const ProfileEditModal = ({ company, src = "" }: IProfileEditModalProps) => {
   }
 
   const submitHandler = async (formData: FormData) => {
-    if (error.companyName || error.img) return
+    const uploadedImg = formData.get("image")
+
+    if (uploadedImg instanceof File) {
+      if (!uploadedImg.name) {
+        setError((prev) => {
+          return {
+            ...prev,
+            noImg: errorMessage.noImg,
+          }
+        })
+        return
+      }
+    } else {
+      setError((prev) => {
+        return {
+          ...prev,
+          noImg: errorMessage.noImg,
+        }
+      })
+
+      return
+    }
+
+    if (error.companyName || error.img || error.noImg) return
+
     await editProfileInfo(formData)
     router.back()
   }
 
-  const disabled = error.companyName || error.img ? true : undefined
+  const disabled = error.companyName || error.img || error.noImg ? true : undefined
 
   return (
     <form
@@ -119,6 +146,7 @@ const ProfileEditModal = ({ company, src = "" }: IProfileEditModalProps) => {
           <input hidden id="image" name="image" type="file" onChange={changeFileHandler} />
         </label>
         {error.img && <p className="absolute text-sm text-red-500">{error.img}</p>}
+        {error.noImg && <p className="absolute text-sm text-red-500">{error.noImg}</p>}
       </div>
       <div className="relative pb-3">
         <label htmlFor="companyName" className="font-semibold">
