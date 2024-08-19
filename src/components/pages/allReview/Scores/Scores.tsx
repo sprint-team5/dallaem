@@ -78,7 +78,7 @@ const Scores = () => {
           }}
         />
       </div>
-      <div className="mt-6 flex h-[180px] items-center justify-center gap-5 border-b border-t sm:gap-[120px] md:gap-[138px] lg:gap-[188px]">
+      <div className="mt-6 flex h-[180px] items-center justify-center gap-5 border-2 border-l-0 border-r-0 border-primary md:gap-[138px] lg:gap-[188px]">
         {allScore > 0 ? (
           <>
             <div>
