@@ -81,25 +81,30 @@ export const MeetingDetailCard = ({ data }: { data: IMeetingData }) => {
 
 export const MeetingDetailReview = ({ reviews }: { reviews: Array<IAllReview> | undefined }) => {
   return (
-    <div className="border-t-2 border-gray-200 p-6">
-      {reviews && reviews.length > 0 ? (
-        reviews.map((review) => {
-          return (
-            <Review
-              key={review.id}
-              score={review.score}
-              comment={review.comment}
-              gathering={review.Gathering}
-              createdAt={review.createdAt}
-              user={review.User}
-            />
-          )
-        })
-      ) : (
-        <div className="flex items-center justify-center whitespace-nowrap py-80 max-sm:p-40">
-          아직 리뷰가 없어요
-        </div>
-      )}
+    <div className="border-t-2 border-primary py-6">
+      <p className="text-base font-semibold leading-7 text-[#11827] sm:text-lg">
+        이용자들은 이 프로그램을 이렇게 느꼈어요!
+      </p>
+      <div className="mt-4 flex flex-col gap-4">
+        {reviews && reviews.length > 0 ? (
+          reviews.map((review) => {
+            return (
+              <Review
+                key={review.id}
+                score={review.score}
+                comment={review.comment}
+                gathering={review.Gathering}
+                createdAt={review.createdAt}
+                user={review.User}
+              />
+            )
+          })
+        ) : (
+          <div className="flex items-center justify-center whitespace-nowrap py-80 max-sm:p-40">
+            아직 리뷰가 없어요
+          </div>
+        )}
+      </div>
     </div>
   )
 }
@@ -146,24 +151,23 @@ const MeetingDetail = ({ id }: { id: string }) => {
 
   return (
     <>
-      <main
-        ref={ref}
-        className="mx-auto flex min-h-screen max-w-[1200px] flex-col bg-gray-50 px-4 pb-[51px] pt-6 sm:pt-[40px] md:px-6 lg:px-[102px]"
-      >
-        {status === "success" && (
-          <div className="flex flex-col gap-6 max-sm:gap-4">
-            <div className="flex gap-6 max-sm:flex-col">
-              <MeetingDetailImage data={data} />
-              <MeetingDetailCard data={data} />
+      <main ref={ref}>
+        <div className="m-6 flex min-h-screen flex-col rounded-[20px] bg-gray-50 px-6 py-14 md:m-12 md:px-16">
+          {status === "success" && (
+            <div className="flex flex-col gap-6 max-sm:gap-4">
+              <div className="flex gap-6 max-sm:flex-col">
+                <MeetingDetailImage data={data} />
+                <MeetingDetailCard data={data} />
+              </div>
+              <MeetingDetailReview reviews={reviews} />
             </div>
-            <MeetingDetailReview reviews={reviews} />
-          </div>
-        )}
-        {error && (
-          <div className="flex items-center justify-center py-80 max-sm:py-40">
-            모임을 찾을 수 없습니다.
-          </div>
-        )}
+          )}
+          {error && (
+            <div className="flex items-center justify-center py-80 max-sm:py-40">
+              모임을 찾을 수 없습니다.
+            </div>
+          )}
+        </div>
       </main>
       <BottomBanner
         setHeight={setHeight}
