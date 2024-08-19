@@ -11,6 +11,7 @@ import Filter from "@/components/public/Filter/Filter"
 import Review from "@/components/public/Review/Review"
 import ReviewSkeleton from "@/components/public/Skeleton/ReviewSkeleton"
 import Spinner from "@/components/public/Spinner/Spinner"
+import LIMIT from "@/constants/limit"
 import { location } from "@/constants/meeting"
 import ROUTE from "@/constants/route"
 import { useAllReview } from "@/hooks/Review/useAllReview"
@@ -59,13 +60,13 @@ const List = () => {
 
   const render = () => {
     if (isLoading) {
-      return new Array(10).fill(0).map((_, index) => {
+      return new Array(LIMIT).fill(0).map((_, index) => {
         return <ReviewSkeleton key={`${index + 1}`} />
       })
     }
 
-    if (!data || data.length === 0) {
-      return <p>아직 리뷰가 없어요</p>
+    if (!data || data[0].length === 0) {
+      return <p className="w-full flex-1 items-center justify-center">아직 리뷰가 없어요</p>
     }
 
     return data.map((reviews) => {
