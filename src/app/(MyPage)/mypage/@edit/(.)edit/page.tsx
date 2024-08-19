@@ -1,4 +1,4 @@
-import getUserInfo from "@/actions/getUserInfo"
+import getUserInfo from "@/actions/Auths/getUserInfo"
 import ProfileEditModal from "@/components/public/modal/ProfileEditModal"
 
 const ModalPage = async () => {

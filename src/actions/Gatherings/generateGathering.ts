@@ -23,7 +23,7 @@ interface IMeetingData {
   registrationEnd: string
 }
 
-const generateMeetUp = async (formData: FormData): Promise<IMeetingData> => {
+const generateGathering = async (formData: FormData): Promise<IMeetingData> => {
   try {
     const token = await getCookie("userToken")
     const data: RequestInit = {
@@ -51,4 +51,4 @@ const generateMeetUp = async (formData: FormData): Promise<IMeetingData> => {
   }
 }
 
-export default generateMeetUp
+export default generateGathering

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"
 import { Fragment, MouseEvent, useEffect, useState } from "react"
 import { useInView } from "react-intersection-observer"
 
-import { IGetMyPageRes, IReview, fetchMyPageInfo } from "@/actions/fetchMyPageInfo"
+import { IGetMyPageRes, IReview, fetchMyPageInfo } from "@/actions/Gatherings/fetchMyPageInfo"
 import CardBtn from "@/components/public/Card/Atom/CardBtn"
 import Card from "@/components/public/Card/Card"
 import MyCard from "@/components/public/Card/MyCard/MyCard"
@@ -13,6 +13,7 @@ import Review from "@/components/public/Review/Review"
 import CardSkeleton from "@/components/public/Skeleton/CardSkeleton"
 import ReviewSkeleton from "@/components/public/Skeleton/ReviewSkeleton"
 import Spinner from "@/components/public/Spinner/Spinner"
+import LIMIT from "@/constants/limit"
 import ROUTE from "@/constants/route"
 import { isCurrentDateAfter } from "@/util/days"
 import { useInfiniteQuery } from "@tanstack/react-query"
@@ -38,12 +39,12 @@ const useInfiniteQueryHook = (keyData: IDataSort) => {
       const querySort = queryKey[1] as IDataSort
       const fetchingKey = querySort.dataFetchingKey
       const isReviewed = querySort.isReviewed ?? null
-      const offset = pageParam * 5
-      const limit = 5
+      const offset = pageParam * LIMIT
+      const limit = LIMIT
       return fetchMyPageInfo({ fetchingKey, offset, limit, isReviewed })
     },
     initialPageParam: 0,
-    getNextPageParam: (lastPage, allPages, lastPageParam) => {
+    getNextPageParam: (lastPage, _, lastPageParam) => {
       return lastPage?.hasMore ? lastPageParam + 1 : undefined
     },
   })
@@ -90,8 +91,32 @@ const MyPageInfoWrapper = ({ dataFetchingKey, onClick, reviewed }: IMyPageInfoWr
   const dataPages = data?.pages ?? []
 
   if (isPending) {
-    if (dataFetchingKey === "myReview") return <ReviewSkeleton />
-    return <CardSkeleton />
+    if (dataFetchingKey === "myReview") {
+      return (
+        <div className="flex flex-col gap-4">
+          {new Array(LIMIT)
+            .fill(0)
+            .map((_, i) => {
+              return i + 1
+            })
+            .map((number) => {
+              return <ReviewSkeleton key={number} />
+            })}
+        </div>
+      )
+    }
+    return (
+      <div className="flex flex-col gap-4">
+        {new Array(LIMIT)
+          .fill(0)
+          .map((_, i) => {
+            return i + 1
+          })
+          .map((number) => {
+            return <CardSkeleton key={number} />
+          })}
+      </div>
+    )
   }
 
   if (!isPending && dataPages[0]?.data.length === 0) {

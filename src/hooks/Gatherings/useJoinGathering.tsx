@@ -1,4 +1,4 @@
-import joinGathering from "@/actions/gatherings/joinGathering"
+import joinGathering from "@/actions/Gatherings/joinGathering"
 import { useMutation } from "@tanstack/react-query"
 
 const useJoinGathering = () => {

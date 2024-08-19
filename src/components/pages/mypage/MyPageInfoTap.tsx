@@ -60,6 +60,19 @@ const reducer = (state: IInitialState, action: IAction) => {
   }
 }
 
+const animatedBottomClassName = (state: string) => {
+  switch (state) {
+    case "myMeeting":
+      return "w-[66px] -translate-x-[1px] md:w-[74px]"
+    case "myReview":
+      return "w-[54px] translate-x-[76px] md:w-[62px] md:translate-x-[85px]"
+    case "myOwnMeeting":
+      return "w-[82px] translate-x-[140px] md:w-[94px] md:translate-x-[155px]"
+    default:
+      return "w-[66px] -translate-x-[1px] md:w-[74px]"
+  }
+}
+
 const MyPageInfoTap = () => {
   const [tapState, dispatch] = useReducer(reducer, initialState)
   const [[dataFetchingKey]] = Object.entries(tapState).filter((state) => {
@@ -67,14 +80,17 @@ const MyPageInfoTap = () => {
   })
 
   return (
-    <section className="mx-auto mt-[29px] w-full grow border-t-2 border-gray-900 bg-white p-6">
-      <div className="mb-6 flex gap-3">
+    <section className="border-primary mx-auto mt-6 w-full grow border-t-2 bg-white p-6">
+      <div className="relative mb-6 flex gap-3">
         <MyPageInfoTapButton onClick={dispatch} state="myMeeting" isActive={tapState.myMeeting} />
         <MyPageInfoTapButton onClick={dispatch} state="myReview" isActive={tapState.myReview} />
         <MyPageInfoTapButton
           onClick={dispatch}
           state="myOwnMeeting"
           isActive={tapState.myOwnMeeting}
+        />
+        <div
+          className={`absolute bottom-0 h-[1.5px] bg-gray-900 transition-transform ${animatedBottomClassName(dataFetchingKey)}`}
         />
       </div>
       <MyPageInfoWrapper

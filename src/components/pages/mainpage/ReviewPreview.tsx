@@ -2,7 +2,7 @@
 
 import { useInView } from "react-intersection-observer"
 
-import getAllReviews from "@/actions/getAllReviews"
+import getAllReviews from "@/actions/Gatherings/getAllReviews"
 import Heart from "@/components/public/icon/dynamicIcon/Heart"
 import Profile from "@/components/public/img/Profile"
 import { animated, useSpring } from "@react-spring/web"

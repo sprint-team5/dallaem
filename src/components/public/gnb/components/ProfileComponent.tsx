@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"
 
 import { useRef, useState } from "react"
 
-import onLogout from "@/actions/onLogout"
+import onLogout from "@/actions/Auths/onLogout"
 import Profile from "@/components/public/img/Profile"
 import ROUTE from "@/constants/route"
 import useOutsideClick from "@/util/useOutsideClick"

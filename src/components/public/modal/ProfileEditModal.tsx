@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"
 
 import { ChangeEvent, useState } from "react"
 
-import editProfileInfo from "@/actions/editProfileInfo"
+import editProfileInfo from "@/actions/Auths/editProfileInfo"
 import CancelButton from "@/components/pages/mypage/CancelButton"
 
 import CloseBtn from "../CloseBtn"
@@ -138,7 +138,7 @@ const ProfileEditModal = ({ company, src = "" }: IProfileEditModalProps) => {
         <button
           disabled={disabled}
           type="submit"
-          className="w-1/2 rounded-lg bg-gray-400 py-2.5 text-white hover:bg-gray-500 active:bg-gray-700"
+          className="w-1/2 rounded-lg bg-gray-400 py-2.5 text-white transition-all hover:bg-gray-500 active:bg-gray-700"
         >
           수정하기
         </button>

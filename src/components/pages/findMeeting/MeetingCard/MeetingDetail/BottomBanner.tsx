@@ -4,9 +4,9 @@ import { useRouter } from "next/navigation"
 
 import { Dispatch, SetStateAction, useEffect, useRef } from "react"
 
-import checkLogin from "@/actions/checkLogin"
-import cancelMeeting from "@/actions/gatherings/cancelMeeting"
-import quitMeeting from "@/actions/quitMeeting"
+import checkLogin from "@/actions/Auths/checkLogin"
+import cancelMeeting from "@/actions/Gatherings/cancelMeeting"
+import quitMeeting from "@/actions/Gatherings/quitMeeting"
 import ROUTE from "@/constants/route"
 import useJoinGathering from "@/hooks/Gatherings/useJoinGathering"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
