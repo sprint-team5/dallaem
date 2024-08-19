@@ -90,8 +90,32 @@ const MyPageInfoWrapper = ({ dataFetchingKey, onClick, reviewed }: IMyPageInfoWr
   const dataPages = data?.pages ?? []
 
   if (isPending) {
-    if (dataFetchingKey === "myReview") return <ReviewSkeleton />
-    return <CardSkeleton />
+    if (dataFetchingKey === "myReview") {
+      return (
+        <div className="flex flex-col gap-4">
+          {new Array(4)
+            .fill(0)
+            .map((_, i) => {
+              return i + 1
+            })
+            .map((number) => {
+              return <ReviewSkeleton key={number} />
+            })}
+        </div>
+      )
+    }
+    return (
+      <div className="flex flex-col gap-4">
+        {new Array(4)
+          .fill(0)
+          .map((_, i) => {
+            return i + 1
+          })
+          .map((number) => {
+            return <CardSkeleton key={number} />
+          })}
+      </div>
+    )
   }
 
   if (!isPending && dataPages[0]?.data.length === 0) {
