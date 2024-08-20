@@ -64,8 +64,7 @@ const RootLayout = ({
         <CountProvider>
           <ToastProvider>
             <QueryProviders>
-              <GNB userToken={userToken} />
-              {children}
+              <GNB userToken={userToken}>{children}</GNB>
               {process.env.NODE_ENV !== "production" && <ReactQueryDevtools position="bottom" />}
             </QueryProviders>
           </ToastProvider>
