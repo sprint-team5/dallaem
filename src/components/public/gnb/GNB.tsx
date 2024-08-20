@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { usePathname, useSearchParams } from "next/navigation"
 
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 import Logo from "@/components/public/img/Logo"
 import ROUTE from "@/constants/route"
@@ -34,10 +34,12 @@ const logoStyles = `${gnbStyles.hoveredNavItem} text-orange-600 w-[60px] h-6 md:
 
 interface IGNBProps {
   userToken: string | undefined
+  children: React.ReactNode
 }
 
-const GNB = ({ userToken }: IGNBProps) => {
+const GNB = ({ userToken, children }: IGNBProps) => {
   const [isOpen, setIsOpen] = useState(false)
+  const [is2XlScreen, setIs2XlScreen] = useState(false)
 
   const { data } = useGetUserData(userToken)
 
@@ -49,8 +51,21 @@ const GNB = ({ userToken }: IGNBProps) => {
 
   const menuRef = useRef<HTMLDivElement>(null)
   useOutsideClick(menuRef, () => {
-    return setIsOpen(false)
+    setIsOpen(false)
   })
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIs2XlScreen(window.innerWidth >= 1536) // 1536px is the default '2xl' breakpoint in Tailwind
+    }
+
+    checkScreenSize()
+    window.addEventListener("resize", checkScreenSize)
+
+    return () => {
+      return window.removeEventListener("resize", checkScreenSize)
+    }
+  }, [])
 
   // 현재 경로가 showGNBPaths에 포함되어 있는지 확인
   function isValidRoute(path: string): boolean {
@@ -69,7 +84,7 @@ const GNB = ({ userToken }: IGNBProps) => {
   const shouldShowGNB = isValidRoute(currentPath)
 
   // 메뉴 전환 애니메이션
-  const menuTransition = useTransition(isOpen, {
+  const menuTransition = useTransition(is2XlScreen || isOpen, {
     from: { opacity: 0 },
     enter: { opacity: 1 },
     leave: { opacity: 0 },
@@ -85,24 +100,31 @@ const GNB = ({ userToken }: IGNBProps) => {
   }
 
   return (
-    <div className={gnbStyles.container}>
-      {menuTransition((style, item) => {
-        return (
-          item && (
-            <animated.div style={style}>
-              <AnimatedMenu menuRef={menuRef} />
-            </animated.div>
+    <>
+      <div className={gnbStyles.container}>
+        {menuTransition((style, item) => {
+          return (
+            item && (
+              <animated.div style={style}>
+                <AnimatedMenu menuRef={menuRef} />
+              </animated.div>
+            )
           )
-        )
-      })}
-      <div className={gnbStyles.wrapper}>
-        <AnimatedMenuIcon onClick={navButtonClick} isOpen={isOpen} />
-        <Link href={ROUTE.HOME} className="ml-5 mr-auto">
-          <Logo state="large" className={logoStyles} />
-        </Link>
-        <ProfileComponent isLoggedIn={isLoggedIn} profileImg={profileImg} />
+        })}
+        <div className={gnbStyles.wrapper}>
+          {!is2XlScreen && <AnimatedMenuIcon onClick={navButtonClick} isOpen={isOpen} />}
+          <Link href={ROUTE.HOME} className="ml-5 mr-auto">
+            <Logo state="large" className={logoStyles} />
+          </Link>
+          <ProfileComponent isLoggedIn={isLoggedIn} profileImg={profileImg} />
+        </div>
       </div>
-    </div>
+      <div
+        className={`transition-all duration-300 ease-in-out ${isOpen && !is2XlScreen ? "ml-[100vw] md:ml-[220px]" : ""}`}
+      >
+        {children}
+      </div>
+    </>
   )
 }
 

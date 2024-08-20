@@ -19,22 +19,23 @@ const navItems = [
 const menuContainer = {
   default:
     "absolute left-0 flex  flex-col items-stretch justify-between border-r border-r-[##D1D5DB] bg-white px-[20px] py-[120px] shadow-lg",
-  mobile: "top-[56px] h-[calc(100vh-56px)] w-[70vw] md:py-[17px] text-2xl",
+  mobile: "top-[56px] h-[calc(100vh-56px)] w-[100vw] md:py-[17px] text-2xl",
   tablet: "md:top-[60px] md:h-[calc(100vh-60px)] md:w-[220px] md:text-sm",
   desktop: "",
 }
 
 const menuStyles = {
   container: `${menuContainer.default} ${menuContainer.mobile} ${menuContainer.tablet} ${menuContainer.desktop}`,
-  wrraper: "flex flex-col justify-start gap-10 md:gap-5",
-  navItem: "px-[10px] py-[3px] font-semibold text-[#6B7280]",
-  currentNavItem: "px-[10px] py-[3px] font-semibold text-black",
+  wrraper: "flex flex-col justify-start gap-15 md:gap-10",
+  navItem:
+    "px-[20px] py-[15px] md:px-[10px] md:py-[3px] font-semibold text-[#6B7280] text-lg md:text-xl",
+  currentNavItem: "text-black bg-primary",
   hoveredNavItem:
     "transform rounded-md transition-all delay-[10ms] duration-150 ease-in-out hover:bg-primary",
 }
 
 const navBaseStyles = `${menuStyles.navItem} ${menuStyles.hoveredNavItem}`
-const currentNavStyles = `${menuStyles.currentNavItem} ${menuStyles.hoveredNavItem}`
+const currentNavStyles = `${menuStyles.navItem} ${menuStyles.currentNavItem} ${menuStyles.hoveredNavItem}`
 
 interface IAminatedMenuProps {
   menuRef: React.RefObject<HTMLDivElement>
