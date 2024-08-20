@@ -120,7 +120,7 @@ const GNB = ({ userToken, children }: IGNBProps) => {
         </div>
       </div>
       <div
-        className={`transition-all duration-300 ease-in-out ${isOpen && !is2XlScreen ? "ml-[100vw] md:ml-[220px]" : ""}`}
+        className={`transition-all duration-300 ease-in-out ${is2XlScreen ? "2xl:ml-[220px]" : ""}`}
       >
         {children}
       </div>
