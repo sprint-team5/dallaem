@@ -7,7 +7,7 @@ import {
   IFetchMyPageInfo,
   IGetMyMeetings,
   IGetMyPageRes,
-} from "@/app/(MyPage)/mypage/mypage"
+} from "@/types/mypage/mypage"
 
 export const getMyMeetings = async (
   options: IFetchMyPageInfo,

@@ -6,8 +6,8 @@ import { useRouter } from "next/navigation"
 import { ChangeEvent, useState } from "react"
 
 import editProfileInfo from "@/actions/Auths/editProfileInfo"
-import { IFile, IProfileEditModalProps } from "@/app/(MyPage)/mypage/mypage"
 import CancelButton from "@/components/pages/mypage/CancelButton"
+import { IFile, IProfileEditModalProps } from "@/types/mypage/mypage"
 
 import CloseBtn from "../CloseBtn"
 import Profile from "../img/Profile"

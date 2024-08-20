@@ -2,7 +2,7 @@
 
 import { cookies } from "next/headers"
 
-import { IUserInfo } from "@/app/(MyPage)/mypage/mypage"
+import { IUserInfo } from "@/types/mypage/mypage"
 
 const getUserInfo = async (): Promise<IUserInfo> => {
   const userToken = cookies().get("userToken")?.value

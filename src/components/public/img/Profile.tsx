@@ -1,6 +1,6 @@
 import Image from "next/image"
 
-import { IProfileProps } from "@/app/(MyPage)/mypage/mypage"
+import { IProfileProps } from "@/types/mypage/mypage"
 import ProfileLargeDefaultIMG from "@public/img/profile_large_default.png"
 import ProfileLargeEditIMG from "@public/img/profile_large_edit.png"
 import ProfileSmallDefaultIMG from "@public/img/profile_small_default.png"

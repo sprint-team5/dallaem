@@ -7,7 +7,14 @@ type TSort = "dateTime" | "registrationEnd" | "joinedAt"
 type TSortOrder = "asc" | "desc"
 
 export interface IMyPageLayoutProps {
-  [key: string]: ReactNode
+  children: ReactNode
+  edit: ReactNode
+  addReview: ReactNode
+}
+
+export interface IReviewStateButtonProp {
+  onClick: (value: boolean) => void
+  hasReview?: boolean
 }
 
 export interface IAddReviewPageProp {
@@ -44,7 +51,7 @@ export interface IUserInfo extends IProfileEditModalProps {
   id: string
 }
 
-export interface IHandlerArg {
+interface IHandlerArg {
   type: string
 }
 

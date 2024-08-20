@@ -7,7 +7,7 @@ import { ChangeEvent, useState } from "react"
 import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form"
 
 import addReview from "@/actions/Reviews/addReview"
-import { IReviewModalProp, IUserData } from "@/app/(MyPage)/mypage/mypage"
+import { IReviewModalProp, IUserData } from "@/types/mypage/mypage"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 
 import CloseBtn from "../CloseBtn"

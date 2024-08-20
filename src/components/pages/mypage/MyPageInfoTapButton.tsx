@@ -1,6 +1,6 @@
 "use client"
 
-import { IMyPageInfoTapButton } from "@/app/(MyPage)/mypage/mypage"
+import { IMyPageInfoTapButton } from "@/types/mypage/mypage"
 
 const text = {
   myMeeting: "참여한 모임",

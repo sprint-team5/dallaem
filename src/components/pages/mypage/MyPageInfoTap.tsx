@@ -2,7 +2,7 @@
 
 import { useReducer } from "react"
 
-import { IAction, IInitialState } from "@/app/(MyPage)/mypage/mypage"
+import { IAction, IInitialState } from "@/types/mypage/mypage"
 
 import MyPageInfoTapButton from "./MyPageInfoTapButton"
 import MyPageInfoWrapper from "./MyPageInfoWrapper"

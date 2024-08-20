@@ -6,12 +6,6 @@ import { Fragment, MouseEvent, useEffect, useState } from "react"
 import { useInView } from "react-intersection-observer"
 
 import { fetchMyPageInfo } from "@/actions/Gatherings/fetchMyPageInfo"
-import {
-  IDataSort,
-  IGetMyPageRes,
-  IMyPageInfoWrapperProps,
-  IReview,
-} from "@/app/(MyPage)/mypage/mypage"
 import CardBtn from "@/components/public/Card/Atom/CardBtn"
 import Card from "@/components/public/Card/Card"
 import MyCard from "@/components/public/Card/MyCard/MyCard"
@@ -21,6 +15,7 @@ import ReviewSkeleton from "@/components/public/Skeleton/ReviewSkeleton"
 import Spinner from "@/components/public/Spinner/Spinner"
 import LIMIT from "@/constants/limit"
 import ROUTE from "@/constants/route"
+import { IDataSort, IGetMyPageRes, IMyPageInfoWrapperProps, IReview } from "@/types/mypage/mypage"
 import { isCurrentDateAfter } from "@/util/days"
 import { useInfiniteQuery } from "@tanstack/react-query"
 

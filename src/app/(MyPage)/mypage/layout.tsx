@@ -1,6 +1,6 @@
 import { Metadata } from "next"
 
-import { IMyPageLayoutProps } from "./mypage"
+import { IMyPageLayoutProps } from "@/types/mypage/mypage"
 
 export const metadata: Metadata = {
   title: "같이 달램 | 마이 페이지",
