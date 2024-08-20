@@ -101,7 +101,7 @@ const AnimatedMenu = ({ menuRef }: IAminatedMenuProps) => {
           )
         })}
       </animated.div>
-      <animated.span style={itemAnimation} className="text-[#9CA3AF]">
+      <animated.span style={itemAnimation} className="text-center text-[#9CA3AF]">
         ⓒ 2024 같이달램{" "}
       </animated.span>
     </animated.div>

@@ -17,20 +17,20 @@ import ProfileComponent from "./components/ProfileComponent"
 
 // 테일윈드 스타일
 const wrapperStyles = {
-  default: "flex items-center justify-between relative max-w-[1198px]",
-  mobile: "h-[55px] w-full text-sm",
+  default: "flex items-center justify-between relative w-full px-[30px]",
+  mobile: "h-[55px] text-sm",
   tablet: "md:h-[59px] md:text-lg",
-  desktop: "xl:w-[1198px] xl:mx-auto",
+  desktop: "",
 }
 
 const gnbStyles = {
   container:
     "fixed left-0 top-0 z-50 flex w-full items-center justify-between whitespace-nowrap border-b border-gray-400 bg-white px-4 md:px-6 xl:px-0",
   wrapper: `${wrapperStyles.default} ${wrapperStyles.mobile} ${wrapperStyles.tablet} ${wrapperStyles.desktop}`,
-  hoveredNavItem: "transition-all ease-in-out transform hover:scale-125 delay-[10ms] duration-150",
+  hoveredNavItem: "transition-all ease-in-out transform hover:scale-150 delay-[10ms] duration-150",
 }
 
-const logoStyles = `${gnbStyles.hoveredNavItem} text-orange-600 w-[60px] h-6 md:w-[70px] md:h-9`
+const logoStyles = `${gnbStyles.hoveredNavItem} scale-125 text-primary w-[60px] h-6 md:w-[70px] md:h-9`
 
 interface IGNBProps {
   userToken: string | undefined
