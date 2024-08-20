@@ -4,22 +4,14 @@ import { revalidatePath } from "next/cache"
 import { useRouter } from "next/navigation"
 
 import { ChangeEvent, useState } from "react"
-import { SubmitHandler, useForm } from "react-hook-form"
+import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form"
 
 import addReview from "@/actions/Reviews/addReview"
+import { IReviewModalProp, IUserData } from "@/types/mypage/mypage"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 
 import CloseBtn from "../CloseBtn"
 import ReviewHeartBtn from "../Review/ReviewHeartBtn/ReviewHeartBtn"
-
-interface IReviewModalProp {
-  gatheringId: string
-}
-
-interface IUserData extends IReviewModalProp {
-  score: number
-  comment: string
-}
 
 const initialValue = {
   score: 0,
@@ -32,6 +24,7 @@ const ReviewModal = ({ gatheringId }: IReviewModalProp) => {
   const [errorMsg, setErrorMsg] = useState("")
   const router = useRouter()
   const queryClient = useQueryClient()
+
   const addReviewMutation = useMutation({
     mutationFn: addReview,
     onSuccess: () => {
@@ -51,8 +44,11 @@ const ReviewModal = ({ gatheringId }: IReviewModalProp) => {
     router.back()
   }
 
-  const errorHandler = (data: any) => {
-    setErrorMsg(data.comment.message)
+  const errorHandler: SubmitErrorHandler<IUserData> = (error) => {
+    if (error && error.comment) {
+      const errorMessage = error.comment.message as string
+      setErrorMsg(errorMessage)
+    }
   }
 
   const heartChangeHandler = (userClick: number) => {

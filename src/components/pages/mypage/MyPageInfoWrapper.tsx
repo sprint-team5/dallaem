@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"
 import { Fragment, MouseEvent, useEffect, useState } from "react"
 import { useInView } from "react-intersection-observer"
 
-import { IGetMyPageRes, IReview, fetchMyPageInfo } from "@/actions/Gatherings/fetchMyPageInfo"
+import { fetchMyPageInfo } from "@/actions/Gatherings/fetchMyPageInfo"
 import CardBtn from "@/components/public/Card/Atom/CardBtn"
 import Card from "@/components/public/Card/Card"
 import MyCard from "@/components/public/Card/MyCard/MyCard"
@@ -15,22 +15,12 @@ import ReviewSkeleton from "@/components/public/Skeleton/ReviewSkeleton"
 import Spinner from "@/components/public/Spinner/Spinner"
 import LIMIT from "@/constants/limit"
 import ROUTE from "@/constants/route"
+import { IDataSort, IGetMyPageRes, IMyPageInfoWrapperProps, IReview } from "@/types/mypage/mypage"
 import { isCurrentDateAfter } from "@/util/days"
 import { useInfiniteQuery } from "@tanstack/react-query"
 
 import MyPageDefault from "./MyPageDefault"
 import ReviewStateButton from "./ReviewStateButton"
-
-interface IMyPageInfoWrapperProps {
-  dataFetchingKey: string
-  onClick: ({ type, reviewed }: { type: string; reviewed: boolean }) => void
-  reviewed?: boolean
-}
-
-interface IDataSort {
-  dataFetchingKey: string
-  isReviewed?: boolean
-}
 
 const useInfiniteQueryHook = (keyData: IDataSort) => {
   const { data, isPending, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
@@ -52,11 +42,11 @@ const useInfiniteQueryHook = (keyData: IDataSort) => {
   return { data, isPending, fetchNextPage, isFetchingNextPage }
 }
 
-const MyPageInfoWrapper = ({ dataFetchingKey, onClick, reviewed }: IMyPageInfoWrapperProps) => {
+const MyPageInfoWrapper = ({ dataFetchingKey, onClick, isReviewed }: IMyPageInfoWrapperProps) => {
   const isMyOwnMeeting = dataFetchingKey === "myOwnMeeting"
   const isMyReview = dataFetchingKey === "myReview"
   const router = useRouter()
-  const [hasReview, setHasReview] = useState(reviewed)
+  const [hasReview, setHasReview] = useState(isReviewed)
   const { ref, inView } = useInView({
     threshold: 1,
   })
@@ -75,7 +65,7 @@ const MyPageInfoWrapper = ({ dataFetchingKey, onClick, reviewed }: IMyPageInfoWr
 
   const clickViewReviewHandler = (e: MouseEvent) => {
     e.preventDefault()
-    onClick({ type: "myReview", reviewed: true })
+    onClick({ type: "myReview", isReviewed: true })
     setHasReview(true)
   }
 

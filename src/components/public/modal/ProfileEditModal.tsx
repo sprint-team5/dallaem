@@ -7,14 +7,10 @@ import { ChangeEvent, useState } from "react"
 
 import editProfileInfo from "@/actions/Auths/editProfileInfo"
 import CancelButton from "@/components/pages/mypage/CancelButton"
+import { IFile, IProfileEditModalProps } from "@/types/mypage/mypage"
 
 import CloseBtn from "../CloseBtn"
 import Profile from "../img/Profile"
-
-interface IProfileEditModalProps {
-  company: string
-  src?: string
-}
 
 const IMAGE_SIZE_LIMIT = 5242880
 
@@ -24,17 +20,14 @@ const errorMessage = {
   companyName: "회사 이름을 입력해주세요.",
 }
 
-const ProfileEditModal = ({ company, src = "" }: IProfileEditModalProps) => {
-  const [imgSrc, setImgSrc] = useState(src)
+const ProfileEditModal = ({ companyName, image = "" }: IProfileEditModalProps) => {
+  const [imgSrc, setImgSrc] = useState(image)
   const [error, setError] = useState({
     img: "",
     noImg: "",
     companyName: "",
   })
-  const [userProfileInput, setUserProfileInput] = useState<{
-    companyName: string
-    image: null | File
-  }>({
+  const [userProfileInput, setUserProfileInput] = useState<IFile>({
     companyName: "",
     image: null,
   })
@@ -154,7 +147,7 @@ const ProfileEditModal = ({ company, src = "" }: IProfileEditModalProps) => {
           <input
             name="companyName"
             className="mt-2 w-full rounded-xl bg-gray-50 px-3 py-2 font-medium placeholder-black"
-            placeholder={company}
+            placeholder={companyName}
             onChange={changeTextHandler}
             value={userProfileInput.companyName}
           />

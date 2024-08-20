@@ -1,7 +1,4 @@
-interface IReviewStateButtonProp {
-  onClick: (value: boolean) => void
-  hasReview: boolean | undefined
-}
+import { IReviewStateButtonProp } from "@/types/mypage/mypage"
 
 const ReviewStateButton = ({ onClick, hasReview }: IReviewStateButtonProp) => {
   return (
