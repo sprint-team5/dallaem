@@ -9,6 +9,7 @@ import Logo from "@/components/public/img/Logo"
 import ROUTE from "@/constants/route"
 import useGetUserData from "@/hooks/useGetUserData"
 import useOutsideClick from "@/util/useOutsideClick"
+import { animated, useTransition } from "@react-spring/web"
 
 import AnimatedMenu from "./components/AnimatedMenu"
 import AnimatedMenuIcon from "./components/AnimatedMenuIcon"
@@ -67,6 +68,14 @@ const GNB = ({ userToken }: IGNBProps) => {
 
   const shouldShowGNB = isValidRoute(currentPath)
 
+  // 메뉴 전환 애니메이션
+  const menuTransition = useTransition(isOpen, {
+    from: { opacity: 0 },
+    enter: { opacity: 1 },
+    leave: { opacity: 0 },
+    config: { duration: 150 },
+  })
+
   if (!shouldShowGNB) return null
 
   const navButtonClick = () => {
@@ -77,7 +86,15 @@ const GNB = ({ userToken }: IGNBProps) => {
 
   return (
     <div className={gnbStyles.container}>
-      {isOpen && <AnimatedMenu menuRef={menuRef} />}
+      {menuTransition((style, item) => {
+        return (
+          item && (
+            <animated.div style={style}>
+              <AnimatedMenu menuRef={menuRef} />
+            </animated.div>
+          )
+        )
+      })}
       <div className={gnbStyles.wrapper}>
         <AnimatedMenuIcon onClick={navButtonClick} isOpen={isOpen} />
         <Link href={ROUTE.HOME} className="ml-5 mr-auto">

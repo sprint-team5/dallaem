@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation"
 
 import ROUTE from "@/constants/route"
 import { useWishCount } from "@/provider/CountProvider"
+import { animated, config, useSpring } from "@react-spring/web"
 
 const navItems = [
   { href: ROUTE.HOME, label: "홈" },
@@ -43,9 +44,38 @@ const AnimatedMenu = ({ menuRef }: IAminatedMenuProps) => {
   const isClient = typeof window !== "undefined"
   const currentPath = usePathname()
 
+  // 컨테이너 애니메이션
+  const containerAnimation = useSpring({
+    from: {
+      clipPath: "circle(0% at 0 0)",
+    },
+    to: {
+      clipPath: "circle(150% at 0 0)",
+    },
+    config: {
+      ...config.gentle,
+      duration: 200,
+      tension: 400,
+      friction: 15,
+    },
+  })
+
+  // 내부 요소 애니메이션
+  const itemAnimation = useSpring({
+    from: { opacity: 0, transform: "translateY(5px)" },
+    to: { opacity: 1, transform: "translateY(0px)" },
+    delay: 20,
+    config: {
+      ...config.gentle,
+      duration: 150,
+      tension: 400,
+      friction: 15,
+    },
+  })
+
   return (
-    <div ref={menuRef} className={menuStyles.container}>
-      <div className={menuStyles.wrraper}>
+    <animated.div ref={menuRef} style={containerAnimation} className={menuStyles.container}>
+      <animated.div style={itemAnimation} className={menuStyles.wrraper}>
         {navItems.map((item) => {
           const isLabel = item.label === "찜한 모임"
           return (
@@ -69,9 +99,11 @@ const AnimatedMenu = ({ menuRef }: IAminatedMenuProps) => {
             </Link>
           )
         })}
-      </div>
-      <span className="text-[#9CA3AF]">ⓒ 2024 같이달램 </span>
-    </div>
+      </animated.div>
+      <animated.span style={itemAnimation} className="text-[#9CA3AF]">
+        ⓒ 2024 같이달램{" "}
+      </animated.span>
+    </animated.div>
   )
 }
 
