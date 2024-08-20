@@ -1,12 +1,6 @@
 import { Metadata } from "next"
 
-import { ReactNode } from "react"
-
-interface IMyPageLayoutProps {
-  children: ReactNode
-  edit: ReactNode
-  addReview: ReactNode
-}
+import { IMyPageLayoutProps } from "./mypage"
 
 export const metadata: Metadata = {
   title: "같이 달램 | 마이 페이지",

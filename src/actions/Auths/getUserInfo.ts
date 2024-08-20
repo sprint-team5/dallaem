@@ -2,15 +2,9 @@
 
 import { cookies } from "next/headers"
 
-export interface IUserInfo {
-  email: string
-  name: string
-  companyName: string
-  id: string
-  image?: string
-}
+import { IUserInfo } from "@/app/(MyPage)/mypage/mypage"
 
-const getUserInfo = async () => {
+const getUserInfo = async (): Promise<IUserInfo> => {
   const userToken = cookies().get("userToken")?.value
   const response = await fetch(`${process.env.BASE_URL}/${process.env.TEAM_ID}/auths/user`, {
     method: "GET",
@@ -19,7 +13,7 @@ const getUserInfo = async () => {
       Authorization: `Bearer ${userToken}`,
     },
   })
-  const userInfo: IUserInfo = await response.json()
+  const userInfo = await response.json()
 
   return userInfo
 }

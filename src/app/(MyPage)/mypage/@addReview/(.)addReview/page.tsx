@@ -1,11 +1,9 @@
 import ReviewModal from "@/components/public/modal/ReviewModal"
 import { HydrationBoundary } from "@tanstack/react-query"
 
-interface IAddReviewPageProp {
-  [key: string]: string
-}
+import { IAddReviewPageProp } from "../../mypage"
 
-const AddReviewPage = ({ searchParams }: { searchParams: IAddReviewPageProp }) => {
+const AddReviewPage = ({ searchParams }: IAddReviewPageProp) => {
   return (
     <HydrationBoundary>
       <ReviewModal gatheringId={searchParams.gatheringId} />

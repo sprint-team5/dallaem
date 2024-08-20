@@ -1,14 +1,9 @@
 import Image from "next/image"
 
+import { IProfileProps } from "@/app/(MyPage)/mypage/mypage"
 import ProfileLargeDefaultIMG from "@public/img/profile_large_default.png"
 import ProfileLargeEditIMG from "@public/img/profile_large_edit.png"
 import ProfileSmallDefaultIMG from "@public/img/profile_small_default.png"
-
-interface IProfileProps {
-  className?: string
-  state: "smallDefault" | "largeDefault" | "largeEdit"
-  profileImg?: string | undefined | null
-}
 
 const Profile = ({ className, state, profileImg }: IProfileProps) => {
   if (profileImg !== undefined && profileImg !== "" && profileImg !== null) {

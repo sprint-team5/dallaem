@@ -2,53 +2,12 @@
 
 import { cookies } from "next/headers"
 
-import { IGathering } from "@/types/review/filter"
-
-interface IGetMyMeetings {
-  limit: number
-  offset: number
-  sortBy?: "dateTime" | "registrationEnd" | "joinedAt"
-  sortOrder?: "asc" | "desc"
-}
-
-interface IFetchMyPageInfo extends IGetMyMeetings {
-  fetchingKey?: string
-  reviewMeeting?: boolean | null
-  isReviewed?: boolean | null
-}
-
-interface CustomErr {
-  [key: string]: string
-}
-
-export interface IGetMyPageRes {
-  teamId: string
-  id: number
-  type: string
-  name: string
-  dateTime: string
-  registrationEnd: string
-  location: string
-  participantCount: number
-  capacity: number
-  image: string
-  createdBy: number
-  canceledAt: string
-  joinedAt: string
-  isReviewed: boolean
-  isCompleted: boolean
-}
-
-export interface IReview {
-  teamId: string
-  id: number
-  userId: number
-  gatheringId: number
-  score: number
-  comment: string
-  createdAt: string
-  Gathering: IGathering
-}
+import {
+  ICustomError,
+  IFetchMyPageInfo,
+  IGetMyMeetings,
+  IGetMyPageRes,
+} from "@/app/(MyPage)/mypage/mypage"
 
 export const getMyMeetings = async (
   options: IFetchMyPageInfo,
@@ -71,7 +30,7 @@ export const getMyMeetings = async (
     if (response.status === 400) throw new Error("limit는 최소 1이어야 합니다")
     return await response.json()
   } catch (err) {
-    const error = err as CustomErr
+    const error = err as ICustomError
 
     return error.message
   }
@@ -94,7 +53,7 @@ export const getMyReview = async ({ offset, limit }: IGetMyMeetings) => {
     }
     return await response.json()
   } catch (err) {
-    const error = err as CustomErr
+    const error = err as ICustomError
 
     return error.message
   }
@@ -125,7 +84,7 @@ export const getMyOwnMeeting = async ({
     }
     return await response.json()
   } catch (err) {
-    const error = err as CustomErr
+    const error = err as ICustomError
 
     return error.message
   }

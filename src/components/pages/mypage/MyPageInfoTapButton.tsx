@@ -1,14 +1,6 @@
 "use client"
 
-interface IHandlerArg {
-  type: string
-}
-
-interface IMyPageInfoTapButton {
-  isActive: boolean
-  state: "myMeeting" | "myReview" | "myOwnMeeting"
-  onClick: ({ type }: IHandlerArg) => void
-}
+import { IMyPageInfoTapButton } from "@/app/(MyPage)/mypage/mypage"
 
 const text = {
   myMeeting: "참여한 모임",

@@ -2,20 +2,10 @@
 
 import { useReducer } from "react"
 
+import { IAction, IInitialState } from "@/app/(MyPage)/mypage/mypage"
+
 import MyPageInfoTapButton from "./MyPageInfoTapButton"
 import MyPageInfoWrapper from "./MyPageInfoWrapper"
-
-interface IInitialState {
-  myMeeting: boolean
-  myReview: boolean
-  myOwnMeeting: boolean
-  reviewed?: boolean
-}
-
-interface IAction {
-  type: string
-  reviewed?: boolean
-}
 
 const initialState = {
   myMeeting: true,
@@ -33,13 +23,13 @@ const reducer = (state: IInitialState, action: IAction) => {
         myOwnMeeting: false,
       }
     case "myReview":
-      if (action.reviewed) {
+      if (action.isReviewed) {
         return {
           ...state,
           myMeeting: false,
           myReview: true,
           myOwnMeeting: false,
-          reviewed: action.reviewed,
+          isReviewed: action.isReviewed,
         }
       }
       return {
@@ -76,11 +66,11 @@ const animatedBottomClassName = (state: string) => {
 const MyPageInfoTap = () => {
   const [tapState, dispatch] = useReducer(reducer, initialState)
   const [[dataFetchingKey]] = Object.entries(tapState).filter((state) => {
-    return state[1] && state[0] !== "reviewed"
+    return state[1] === true && state[0] !== "isReviewed"
   })
 
   return (
-    <section className="border-primary mx-auto mt-6 w-full grow border-t-2 bg-white p-6">
+    <section className="mx-auto mt-6 w-full grow border-t-2 border-primary bg-white p-6">
       <div className="relative mb-6 flex gap-3">
         <MyPageInfoTapButton onClick={dispatch} state="myMeeting" isActive={tapState.myMeeting} />
         <MyPageInfoTapButton onClick={dispatch} state="myReview" isActive={tapState.myReview} />
@@ -96,7 +86,7 @@ const MyPageInfoTap = () => {
       <MyPageInfoWrapper
         onClick={dispatch}
         dataFetchingKey={dataFetchingKey}
-        reviewed={tapState.reviewed ?? undefined}
+        isReviewed={tapState.isReviewed ?? undefined}
       />
     </section>
   )
