@@ -82,7 +82,7 @@ const SigninForm = () => {
       onSuccess: () => {
         setTimeout(() => {
           router.replace(ROUTE.HOME)
-        }, 100)
+        }, 200)
       },
     })
   }
