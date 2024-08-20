@@ -11,7 +11,7 @@ import ROUTE from "@/constants/route"
 import useOutsideClick from "@/util/useOutsideClick"
 
 // 테일윈드 스타일
-const navBaseStyles = "font-semibold  text-[#FFF7ED]"
+const navBaseStyles = "font-semibold  text-white bg-primary rounded-lg px-[15px] py-[3px]"
 const profileStyles = "w-[40px] h-[40px]"
 
 const profileMenuStyles = {
