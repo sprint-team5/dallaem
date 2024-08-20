@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import { useRouter } from "next/navigation"
 
 import { useEffect, useState } from "react"
@@ -19,6 +20,7 @@ import { location } from "@/constants/meeting"
 import ROUTE from "@/constants/route"
 import useGetMeetingList from "@/hooks/useGetMeetingList"
 import { IFilterOption } from "@/types/meeting/meeting"
+import headClassIMG from "@public/img/head_class.png"
 
 const FindMeeting = () => {
   const initialFilterOption: IFilterOption = {
@@ -81,8 +83,21 @@ const FindMeeting = () => {
   }, [fetchNextPage, hasNextPage, inView])
 
   return (
-    <div className="mx-auto flex min-h-screen max-w-[1200px] flex-col bg-gray-50 px-4 pb-[51px] pt-6 sm:pt-[40px] md:px-6 lg:px-[102px]">
-      <div className="relative flex justify-between">
+    <div className="m-6 flex min-h-screen flex-col rounded-[20px] bg-gray-50 px-6 py-14 md:m-12 md:px-16">
+      <div className="flex-none">
+        <div className="flex items-center gap-4">
+          <div className="size-[72px] flex-none">
+            <Image width={72} height={72} src={headClassIMG.src} alt="headClassIMG" />
+          </div>
+          <div>
+            <p className="text-sm font-medium text-gray-700">함께 할 사람이 없나요?</p>
+            <h4 className="mt-2 text-lg font-semibold leading-8 text-gray-900 sm:text-2xl">
+              지금 모임에 참여해보세요
+            </h4>
+          </div>
+        </div>
+      </div>
+      <div className="relative mt-12 flex justify-between">
         <FilterTab
           selVal={filterOption.type}
           onSelect={(e) => {
@@ -91,14 +106,13 @@ const FindMeeting = () => {
         />
         <button
           type="button"
-          className="absolute right-0 top-0 h-[34px] w-[85px] rounded-lg border border-orange-600 bg-orange-600 text-xs font-semibold leading-6 text-white transition-colors hover:bg-white hover:text-orange-600 sm:text-sm md:h-[44px] md:w-[115px] md:rounded-xl md:text-base"
+          className="absolute right-0 top-0 h-[34px] w-[85px] rounded-lg border border-primary bg-primary text-xs font-semibold leading-6 text-white transition-colors hover:bg-white hover:text-primary sm:text-sm md:h-[44px] md:w-[115px] md:rounded-xl md:text-base"
           onClick={onClickCreateMeeting}
         >
           모임 만들기
         </button>
       </div>
-      <hr className="my-4" />
-      <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
+      <div className="mb-6 mt-4 flex flex-wrap items-center justify-between gap-4 border-t border-primary pt-4">
         <div className="flex gap-2">
           <Filter
             data={location}

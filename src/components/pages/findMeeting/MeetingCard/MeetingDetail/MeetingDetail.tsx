@@ -13,12 +13,29 @@ import WishBtn from "@/components/pages/wishlist/WishBtn"
 import Review from "@/components/public/Review/Review"
 import { useMeetingDetail } from "@/hooks/useMeetingDetail"
 import { IMeetingData } from "@/types/meeting/meeting"
+import { msTransform } from "@/util/days"
 import { useQuery } from "@tanstack/react-query"
 import dayjs from "dayjs"
 
 import BottomBanner from "./BottomBanner"
 
 export const MeetingDetailImage = ({ data }: { data: IMeetingData }) => {
+  const dayRender = (registrationEnd: string) => {
+    if (dayjs(registrationEnd).diff(dayjs(), "day") === 7) {
+      return <>다음주 마감</>
+    }
+
+    if (dayjs(registrationEnd).diff(dayjs(), "day") > 0) {
+      return <>{dayjs(registrationEnd).diff(dayjs(), "day")}일 후 마감</>
+    }
+
+    if (dayjs(registrationEnd).diff(dayjs(), "hour") <= 24) {
+      return <>오늘 {dayjs(registrationEnd).diff(dayjs(), "hour")}시 마감</>
+    }
+
+    return null
+  }
+
   return (
     <div className="relative aspect-[19/10] h-[270px] w-1/2 overflow-hidden rounded-3xl border-2 border-gray-200 max-sm:h-auto max-sm:w-full">
       <Image
@@ -28,12 +45,10 @@ export const MeetingDetailImage = ({ data }: { data: IMeetingData }) => {
         height={270}
         className="!h-full w-full object-cover"
       />
-      {dayjs(data.registrationEnd).format("YYYY-MM-DD") === dayjs().format("YYYY-MM-DD") && (
-        <div className="absolute right-0 top-0 inline-flex items-center rounded-bl-xl bg-orange-600 px-[10px] py-[4px]">
+      {msTransform(data.registrationEnd) > dayjs().unix() && (
+        <div className="absolute right-0 top-0 inline-flex items-center rounded-bl-xl bg-primary px-[10px] py-[4px]">
           <Image src="/icon/staticIcon/clock.svg" alt="마감 임박" width={24} height={24} />
-          <span className="text-xs text-white">
-            오늘 {dayjs(data.registrationEnd).format("H")}시 마감
-          </span>
+          <span className="text-xs text-white">{dayRender(data.registrationEnd)}</span>
         </div>
       )}
     </div>
@@ -81,25 +96,30 @@ export const MeetingDetailCard = ({ data }: { data: IMeetingData }) => {
 
 export const MeetingDetailReview = ({ reviews }: { reviews: Array<IAllReview> | undefined }) => {
   return (
-    <div className="border-t-2 border-gray-200 p-6">
-      {reviews && reviews.length > 0 ? (
-        reviews.map((review) => {
-          return (
-            <Review
-              key={review.id}
-              score={review.score}
-              comment={review.comment}
-              gathering={review.Gathering}
-              createdAt={review.createdAt}
-              user={review.User}
-            />
-          )
-        })
-      ) : (
-        <div className="flex items-center justify-center whitespace-nowrap py-80 max-sm:p-40">
-          아직 리뷰가 없어요
-        </div>
-      )}
+    <div className="border-t-2 border-primary py-6">
+      <p className="text-base font-semibold leading-7 text-[#11827] sm:text-lg">
+        이용자들은 이 프로그램을 이렇게 느꼈어요!
+      </p>
+      <div className="mt-4 flex flex-col gap-4">
+        {reviews && reviews.length > 0 ? (
+          reviews.map((review) => {
+            return (
+              <Review
+                key={review.id}
+                score={review.score}
+                comment={review.comment}
+                gathering={review.Gathering}
+                createdAt={review.createdAt}
+                user={review.User}
+              />
+            )
+          })
+        ) : (
+          <div className="flex items-center justify-center whitespace-nowrap py-80 max-sm:p-40">
+            아직 리뷰가 없어요
+          </div>
+        )}
+      </div>
     </div>
   )
 }
@@ -146,24 +166,23 @@ const MeetingDetail = ({ id }: { id: string }) => {
 
   return (
     <>
-      <main
-        ref={ref}
-        className="mx-auto flex min-h-screen max-w-[1200px] flex-col bg-gray-50 px-4 pb-[51px] pt-6 sm:pt-[40px] md:px-6 lg:px-[102px]"
-      >
-        {status === "success" && (
-          <div className="flex flex-col gap-6 max-sm:gap-4">
-            <div className="flex gap-6 max-sm:flex-col">
-              <MeetingDetailImage data={data} />
-              <MeetingDetailCard data={data} />
+      <main ref={ref}>
+        <div className="m-6 flex min-h-screen flex-col rounded-[20px] bg-gray-50 px-6 py-14 md:m-12 md:px-16">
+          {status === "success" && (
+            <div className="flex flex-col gap-6 max-sm:gap-4">
+              <div className="flex gap-6 max-sm:flex-col">
+                <MeetingDetailImage data={data} />
+                <MeetingDetailCard data={data} />
+              </div>
+              <MeetingDetailReview reviews={reviews} />
             </div>
-            <MeetingDetailReview reviews={reviews} />
-          </div>
-        )}
-        {error && (
-          <div className="flex items-center justify-center py-80 max-sm:py-40">
-            모임을 찾을 수 없습니다.
-          </div>
-        )}
+          )}
+          {error && (
+            <div className="flex items-center justify-center py-80 max-sm:py-40">
+              모임을 찾을 수 없습니다.
+            </div>
+          )}
+        </div>
       </main>
       <BottomBanner
         setHeight={setHeight}

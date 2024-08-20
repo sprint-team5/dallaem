@@ -10,11 +10,12 @@ import DateTag from "@/components/pages/findMeeting/MeetingCard/Atoms/DateTag"
 import ParticipantGage from "@/components/pages/findMeeting/MeetingCard/Atoms/ParticipantGage"
 import WishBtn from "@/components/pages/wishlist/WishBtn"
 import Spinner from "@/components/public/Spinner/Spinner"
-import ArrowRight from "@/components/public/icon/staticIcon/ArrowRight"
 import ROUTE from "@/constants/route"
 import { IMeetingData } from "@/types/meeting/meeting"
-import { formatToDate, isCurrentDateAfter } from "@/util/days"
+import { isCurrentDateAfter, msTransform } from "@/util/days"
+import ArrowRightSVG from "@public/icon/staticIcon/arrow_right.svg"
 import { InfiniteData, useMutation, useQueryClient } from "@tanstack/react-query"
+import dayjs from "dayjs"
 
 interface IMeetingListProps {
   data: InfiniteData<Array<IMeetingData>> | null
@@ -33,6 +34,7 @@ export const MeetingCard = ({ data }: { data: IMeetingData }) => {
       queryClient.invalidateQueries({ queryKey: ["meetingList"] })
     },
   })
+
   const joinNow = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     if (await checkLogin()) {
@@ -41,6 +43,22 @@ export const MeetingCard = ({ data }: { data: IMeetingData }) => {
     } else {
       router.push(`${ROUTE.GATHERINGS}?alert=${"로그인이 필요합니다."}`)
     }
+  }
+
+  const dayRender = (registrationEnd: string) => {
+    if (dayjs(registrationEnd).diff(dayjs(), "day") === 7) {
+      return <>다음주 마감</>
+    }
+
+    if (dayjs(registrationEnd).diff(dayjs(), "day") > 0) {
+      return <>{dayjs(registrationEnd).diff(dayjs(), "day")}일 후 마감</>
+    }
+
+    if (dayjs(registrationEnd).diff(dayjs(), "hour") <= 24) {
+      return <>오늘 {dayjs(registrationEnd).diff(dayjs(), "hour")}시 마감</>
+    }
+
+    return null
   }
 
   return (
@@ -54,13 +72,11 @@ export const MeetingCard = ({ data }: { data: IMeetingData }) => {
             height={156}
             className="!h-full object-cover max-sm:w-full"
           />
-          {formatToDate({ date: data.registrationEnd, format: "YYYY-MM-DD" }) ===
-            formatToDate({ format: "YYYY-MM-DD" }) && (
-            <div className="absolute right-0 top-0 inline-flex items-center rounded-bl-xl bg-orange-600 px-[10px] py-[4px]">
+
+          {msTransform(data.registrationEnd) > dayjs().unix() && (
+            <div className="absolute right-0 top-0 inline-flex items-center rounded-bl-xl bg-primary px-[10px] py-[4px]">
               <Image src="/icon/staticIcon/clock.svg" alt="마감 임박" width={24} height={24} />
-              <span className="text-xs text-white">
-                오늘 {formatToDate({ date: data.registrationEnd, format: "H" })}시 마감
-              </span>
+              <span className="text-xs text-white">{dayRender(data.registrationEnd)}</span>
             </div>
           )}
         </div>
@@ -77,36 +93,39 @@ export const MeetingCard = ({ data }: { data: IMeetingData }) => {
           </div>
           <WishBtn list={data} />
         </div>
-        <div className="flex flex-col">
-          <div className="flex items-center">
-            <Image
-              src="/icon/staticIcon/person.svg"
-              alt="참가인원"
-              width={16}
-              height={16}
-              className="mr-[2px]"
-            />
-            <span className="text-sm">{`${data.participantCount}/${data.capacity}`}</span>
-            {Number(data.participantCount) >= 5 && (
-              <>
-                <Image
-                  src="/icon/staticIcon/confirmed.svg"
-                  alt="개설확정"
-                  width={24}
-                  height={24}
-                  className="ml-[11px] mr-[6px]"
-                />
-                <div className="text-sm text-orange-500">개설확정</div>
-              </>
-            )}
+
+        <div className="mt-7 flex items-end gap-6 md:mt-0">
+          <div className="flex-1">
+            <div className="flex items-center">
+              <Image
+                src="/icon/staticIcon/person.svg"
+                alt="참가인원"
+                width={16}
+                height={16}
+                className="mr-[2px]"
+              />
+              <span className="text-sm">{`${data.participantCount}/${data.capacity}`}</span>
+              {Number(data.participantCount) >= 5 && (
+                <>
+                  <Image
+                    src="/icon/staticIcon/confirmed.svg"
+                    alt="개설확정"
+                    width={24}
+                    height={24}
+                    className="ml-[11px] mr-[6px]"
+                  />
+                  <div className="text-sm text-primary">개설확정</div>
+                </>
+              )}
+            </div>
+            <div className="mt-2">
+              <ParticipantGage now={data.participantCount} max={data.capacity} />
+            </div>
           </div>
-          <div className="mt-2 flex items-end gap-6">
-            <ParticipantGage now={data.participantCount} max={data.capacity} />
-            <button type="button" onClick={joinNow} className="flex">
-              <span className="whitespace-nowrap font-semibold text-orange-600">join now</span>
-              <ArrowRight />
-            </button>
-          </div>
+          <button type="button" onClick={joinNow} className="flex items-center gap-2">
+            <span className="whitespace-nowrap font-semibold text-primary">join now</span>
+            <ArrowRightSVG width={18} height={18} className="text-primary" />
+          </button>
         </div>
       </div>
     </div>
@@ -151,4 +170,5 @@ const MeetingList = ({ data, isLoading }: IMeetingListProps) => {
     </>
   )
 }
+
 export default MeetingList
