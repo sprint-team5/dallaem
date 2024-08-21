@@ -20,6 +20,9 @@ const config: Config = {
       boxShadow: {
         expand: "0px 10px 10px -5px rgba(0,0,0,0.04), 0px -10px 10px -5px rgba(0,0,0,0.04)",
       },
+      fontFamily: {
+        tmoneyRoundWind: ["var(--font-tmoneyRoundWind)"],
+      },
     },
   },
   plugins: [],

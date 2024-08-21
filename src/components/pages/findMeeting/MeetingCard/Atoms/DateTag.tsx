@@ -7,7 +7,7 @@ const DateTag = ({ date }: { date: string }) => {
       <span className="whitespace-nowrap rounded bg-gray-900 px-2 py-[2px] text-sm text-white">
         {dateArr[0]}
       </span>
-      <span className="whitespace-nowrap rounded bg-gray-900 px-2 py-[2px] text-sm text-orange-600">
+      <span className="whitespace-nowrap rounded bg-gray-900 px-2 py-[2px] text-sm text-primary">
         {dateArr[1]}
       </span>
     </div>

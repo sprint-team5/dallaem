@@ -9,16 +9,16 @@ import onLogout from "@/actions/Auths/onLogout"
 import Profile from "@/components/public/img/Profile"
 import ROUTE from "@/constants/route"
 import useOutsideClick from "@/util/useOutsideClick"
+import { animated, useSpring } from "@react-spring/web"
 
 // 테일윈드 스타일
-const navBaseStyles = "font-semibold  text-white bg-primary rounded-lg px-[15px] py-[3px]"
 const profileStyles = "w-[40px] h-[40px]"
 
 const profileMenuStyles = {
   container:
     "absolute right-0 top-[62px] flex h-[70px] w-[150px] flex-col rounded-lg bg-white shadow-xl md:top-[66px]",
   navItems: "flex h-1/2 w-full items-center justify-center rounded-lg text-center text-orange-600",
-  hoveredNavItem: "transition-all ease-in-out transform hover:scale-110 delay-[10ms] duration-150",
+  hoveredNavItem: "transition-all ease-in-out transform delay-[10ms] duration-150",
 }
 
 interface IProfileComponentProps {
@@ -36,13 +36,27 @@ const ProfileComponent = ({ isLoggedIn, profileImg }: IProfileComponentProps) =>
     return setIsOpen(false)
   })
 
+  const [{ clipPath }, api] = useSpring(() => {
+    return { clipPath: "circle(0% at 0% 0%)" }
+  })
+
   if (!isLoggedIn) {
     return (
       <Link
         href={ROUTE.SIGNIN}
-        className={`${navBaseStyles} ${profileMenuStyles.hoveredNavItem} text-orange-600`}
+        className="relative flex h-8 w-[80px] items-center justify-center overflow-hidden rounded-lg bg-primary text-sm font-semibold text-white md:w-[100px]"
+        onMouseEnter={() => {
+          return api({ clipPath: "circle(150% at 0% 0%)" })
+        }}
+        onMouseLeave={() => {
+          return api({ clipPath: "circle(0% at 0% 0%)" })
+        }}
       >
-        로그인
+        <animated.div
+          style={{ clipPath }}
+          className="absolute left-0 top-0 h-full w-full bg-[#ed8f60]"
+        />
+        <p className="relative z-10">로그인</p>
       </Link>
     )
   }
