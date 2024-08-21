@@ -19,17 +19,18 @@ const Home = () => {
       })
     },
   })
-
   const meetingQueryClient = getQueryClient()
-
   const options = allReviewOptions({})
   const allReviewQueryClient = getQueryClient()
 
-  if (!meetingQueryClient.getQueryData(meetingOptions.queryKey)) {
+  const hasNotDefaultData = !meetingQueryClient.getQueryData(meetingOptions.queryKey)
+  const hasNotAllReviewData = !allReviewQueryClient.getQueryData(options.queryKey)
+
+  if (hasNotDefaultData) {
     meetingQueryClient.prefetchQuery(meetingOptions)
   }
 
-  if (!allReviewQueryClient.getQueryData(options.queryKey)) {
+  if (hasNotAllReviewData) {
     allReviewQueryClient.prefetchQuery(options)
   }
 
