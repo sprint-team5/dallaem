@@ -89,6 +89,10 @@ export interface ISelectServiceRadioGroupProps {
   setMeetingData: Dispatch<SetStateAction<IMeetingDataState>>
 }
 
+export interface IParams {
+  params: { slug: string }
+}
+
 export interface ISelectTimeButton extends ISelectServiceRadioGroupProps {
   timeList: string[]
 }
