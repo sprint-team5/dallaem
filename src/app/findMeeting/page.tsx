@@ -19,7 +19,7 @@ import LIMIT from "@/constants/limit"
 import { location } from "@/constants/meeting"
 import ROUTE from "@/constants/route"
 import useGetMeetingList from "@/hooks/useGetMeetingList"
-import { IFilterOption } from "@/types/meeting/meeting"
+import { IFilterOption, TCustomFilterEvent } from "@/types/findMeeting/findMeeting"
 import headClassIMG from "@public/img/head_class.png"
 
 const FindMeeting = () => {
@@ -46,10 +46,7 @@ const FindMeeting = () => {
 
   const router = useRouter()
 
-  const onFilterChanged = (
-    e: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLButtonElement> | string,
-    key: string,
-  ) => {
+  const onFilterChanged = (e: TCustomFilterEvent, key: string) => {
     if (key) {
       if (typeof e === "string") {
         if (e === "") {

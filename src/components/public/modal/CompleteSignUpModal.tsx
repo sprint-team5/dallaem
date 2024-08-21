@@ -1,12 +1,6 @@
-import { ReactNode } from "react"
+import { ICompleteSignUpModalProps } from "@/types/findMeeting/findMeeting"
 
 import CloseBtn from "../CloseBtn"
-
-interface ICompleteSignUpModalProps {
-  children: ReactNode
-  isOneBtn: boolean
-  onConfirmClick: () => void
-}
 
 const CompleteSignUpModal = ({ children, isOneBtn, onConfirmClick }: ICompleteSignUpModalProps) => {
   return (

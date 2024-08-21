@@ -1,19 +1,11 @@
 "use client"
 
-import { useRef, useState } from "react"
+import { KeyboardEvent, MouseEvent, useRef, useState } from "react"
 
+import { IFilterProps } from "@/types/findMeeting/findMeeting"
 import useOutsideClick from "@/util/useOutsideClick"
 
 import Arrow from "../icon/dynamicIcon/Arrow"
-
-interface IFilterProps {
-  data: Array<string>
-  placeholder: string
-  selVal?: string
-  onSelect: (
-    event: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLButtonElement>,
-  ) => void
-}
 
 /**
  * @interface IFilterProps
@@ -35,18 +27,18 @@ const Filter = (props: IFilterProps) => {
     setIsOpen(!isOpen)
   }
 
-  const onLabelKeyDownHandler = (e: React.KeyboardEvent<HTMLDivElement>) => {
+  const onLabelKeyDownHandler = (e: KeyboardEvent<HTMLDivElement>) => {
     if (e.key === "Enter") {
       setIsOpen(!isOpen)
     }
   }
 
-  const onListClickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const onListClickHandler = (e: MouseEvent<HTMLButtonElement>) => {
     onSelect(e)
     setIsOpen(false)
   }
 
-  const onListKeyDownHandler = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+  const onListKeyDownHandler = (e: KeyboardEvent<HTMLButtonElement>) => {
     if (e.key === "Enter") {
       onSelect(e)
       setIsOpen(false)
