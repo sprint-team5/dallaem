@@ -8,6 +8,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      colors: {
+        primary: "#ff9660",
+      },
       width: {
         "modal-lg": "520px",
         "modal-md": "343px",
@@ -16,6 +19,9 @@ const config: Config = {
       },
       boxShadow: {
         expand: "0px 10px 10px -5px rgba(0,0,0,0.04), 0px -10px 10px -5px rgba(0,0,0,0.04)",
+      },
+      fontFamily: {
+        tmoneyRoundWind: ["var(--font-tmoneyRoundWind)"],
       },
     },
   },

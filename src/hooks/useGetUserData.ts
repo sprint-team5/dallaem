@@ -1,6 +1,6 @@
 "use client"
 
-import GetUserDataFn from "@/actions/getUserDataFn"
+import GetUserDataFn from "@/actions/Auths/getUserDataFn"
 import { useQuery } from "@tanstack/react-query"
 
 interface UserDataResponse {

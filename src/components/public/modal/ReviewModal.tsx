@@ -1,24 +1,17 @@
 "use client"
 
+import { revalidatePath } from "next/cache"
 import { useRouter } from "next/navigation"
 
 import { ChangeEvent, useState } from "react"
-import { SubmitHandler, useForm } from "react-hook-form"
+import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form"
 
-import addReview from "@/actions/addReview"
+import addReview from "@/actions/Reviews/addReview"
+import { IReviewModalProp, IUserData } from "@/types/mypage/mypage"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 
 import CloseBtn from "../CloseBtn"
 import ReviewHeartBtn from "../Review/ReviewHeartBtn/ReviewHeartBtn"
-
-interface IReviewModalProp {
-  gatheringId: string
-}
-
-interface IUserData extends IReviewModalProp {
-  score: number
-  comment: string
-}
 
 const initialValue = {
   score: 0,
@@ -31,10 +24,12 @@ const ReviewModal = ({ gatheringId }: IReviewModalProp) => {
   const [errorMsg, setErrorMsg] = useState("")
   const router = useRouter()
   const queryClient = useQueryClient()
+
   const addReviewMutation = useMutation({
     mutationFn: addReview,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["mypage"] })
+      revalidatePath("/mypage")
     },
   })
 
@@ -49,8 +44,11 @@ const ReviewModal = ({ gatheringId }: IReviewModalProp) => {
     router.back()
   }
 
-  const errorHandler = (data: any) => {
-    setErrorMsg(data.comment.message)
+  const errorHandler: SubmitErrorHandler<IUserData> = (error) => {
+    if (error && error.comment) {
+      const errorMessage = error.comment.message as string
+      setErrorMsg(errorMessage)
+    }
   }
 
   const heartChangeHandler = (userClick: number) => {
@@ -80,20 +78,22 @@ const ReviewModal = ({ gatheringId }: IReviewModalProp) => {
         onSubmit={handleSubmit(submitHandler, errorHandler)}
         className="absolute left-0 right-0 top-48 z-50 mx-auto w-modal-md rounded-md bg-white p-6 shadow-xl lg:w-modal-lg"
       >
-        <div className="flex justify-between">
+        <div className="mb-2 flex justify-between">
           <h3 className="text-lg font-semibold">리뷰쓰기</h3>
           <CloseBtn />
         </div>
         <ReviewHeartBtn value={userInput.score} setter={heartChangeHandler} />
         <div className="relative pb-6">
-          <p className="mb-3 font-semibold">경험에 대해 남겨주세요.</p>
+          <p className="mb-1 mt-2 font-semibold">
+            경험에 대해 남겨주세요.<span className="ml-1 text-xs text-blue-500">(5자 이상)</span>
+          </p>
           <textarea
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...register("comment", {
               required: true,
               minLength: {
-                value: 10,
-                message: "10자 이상 입력하셔야 합니다.",
+                value: 5,
+                message: "5자 이상 입력하셔야 합니다.",
               },
               maxLength: {
                 value: 200,
@@ -110,7 +110,7 @@ const ReviewModal = ({ gatheringId }: IReviewModalProp) => {
         <div className="flex justify-center gap-3">
           <button
             type="button"
-            className="active: w-1/2 rounded-xl border border-orange-600 py-2.5 text-orange-600 hover:border-orange-500 hover:text-orange-500 active:border-orange-700 active:text-orange-700"
+            className="w-1/2 rounded-xl border border-primary py-2.5 text-primary hover:border-primary/65 hover:text-primary/60 active:border-orange-700 active:text-orange-700"
             onClick={() => {
               return router.back()
             }}

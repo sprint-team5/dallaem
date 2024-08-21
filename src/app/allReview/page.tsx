@@ -1,3 +1,4 @@
+import { Metadata } from "next"
 import Image from "next/image"
 
 import getQueryClient from "@/components/app/queryClient"
@@ -7,14 +8,25 @@ import { allReviewOptions } from "@/hooks/Review/useAllReview"
 import HeadReviewIMG from "@public/img/head_review.png"
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query"
 
+export const metadata: Metadata = {
+  title: "같이달램 | 모든 리뷰",
+  description:
+    "유저가 바쁜 일상 속 휴식을 위한 다양한 모임을 탐색하고 참여하며, 직접 모임을 개설하고 리뷰를 생성할 수 있는 서비스입니다.",
+}
+
 const AllReviewsPage = async () => {
+  const options = allReviewOptions({})
   const queryClient = getQueryClient()
 
-  queryClient.prefetchQuery(allReviewOptions({}))
+  const hasNotDefaultData = !queryClient.getQueryData(options.queryKey)
+
+  if (hasNotDefaultData) {
+    queryClient.prefetchQuery(options)
+  }
 
   return (
     <main>
-      <div className="mx-auto flex min-h-screen max-w-[1200px] flex-col bg-gray-50 px-4 pb-[51px] pt-6 sm:pt-[40px] md:px-6 lg:px-[102px]">
+      <div className="m-6 flex min-h-screen flex-col rounded-[20px] bg-gray-50 px-6 py-14 md:m-12 md:px-16">
         <div className="flex-none">
           <div className="flex items-center gap-4 sm:gap-[13px]">
             <div className="size-[72px] flex-none">
@@ -33,7 +45,7 @@ const AllReviewsPage = async () => {
 
         <Scores />
 
-        <div className="flex flex-1 flex-col border-t-2 border-gray-900 px-4 py-6 sm:px-6">
+        <div className="flex flex-1 flex-col py-6">
           <HydrationBoundary state={dehydrate(queryClient)}>
             <List />
           </HydrationBoundary>

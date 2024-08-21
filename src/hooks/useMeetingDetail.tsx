@@ -1,4 +1,4 @@
-import getMeetingDetail from "@/actions/gatherings/getMeetingDetail"
+import getMeetingDetail from "@/actions/Gatherings/getMeetingDetail"
 import { queryOptions, useQuery } from "@tanstack/react-query"
 
 export const meetingDetailOptions = (id: string) => {

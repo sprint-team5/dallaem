@@ -2,7 +2,7 @@ import Image from "next/image"
 import Link from "next/link"
 
 import Person from "@/components/public/icon/staticIcon/Person"
-import MyCardProps from "@/types/card/props"
+import { MyCardProps } from "@/types/findMeeting/findMeeting"
 import { formatToDate } from "@/util/days"
 
 /**

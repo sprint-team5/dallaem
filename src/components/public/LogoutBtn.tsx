@@ -1,4 +1,4 @@
-import onLogout from "@/actions/onLogout"
+import onLogout from "@/actions/Auths/onLogout"
 
 const LogoutBtn = () => {
   return (

@@ -2,23 +2,15 @@
 
 import { useRouter } from "next/navigation"
 
-import { Dispatch, SetStateAction, useEffect, useRef } from "react"
+import { useEffect, useRef } from "react"
 
-import checkLogin from "@/actions/checkLogin"
-import cancelMeeting from "@/actions/gatherings/cancelMeeting"
-import quitMeeting from "@/actions/quitMeeting"
+import checkLogin from "@/actions/Auths/checkLogin"
+import cancelMeeting from "@/actions/Gatherings/cancelMeeting"
+import quitMeeting from "@/actions/Gatherings/quitMeeting"
 import ROUTE from "@/constants/route"
 import useJoinGathering from "@/hooks/Gatherings/useJoinGathering"
+import { IBannerProps } from "@/types/findMeeting/findMeeting"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-
-interface IBannerProps {
-  id: string
-  isHost: boolean
-  isJoined: boolean
-  limit: number
-  participant: number
-  setHeight: Dispatch<SetStateAction<number>>
-}
 
 const BottomBanner = ({ id, isHost, isJoined, limit, participant, setHeight }: IBannerProps) => {
   const ref = useRef<HTMLDivElement>(null)
@@ -119,7 +111,7 @@ const BottomBanner = ({ id, isHost, isJoined, limit, participant, setHeight }: I
   return (
     <div
       ref={ref}
-      className="fixed bottom-0 left-0 w-full border-t-2 border-gray-900 bg-white px-6 py-5"
+      className="fixed bottom-0 left-0 w-full border-t-2 border-primary bg-white px-6 py-5"
     >
       <div className="mx-auto flex max-w-[996px] items-center justify-between gap-2">
         <div className="break-keep">
@@ -141,14 +133,14 @@ const BottomBanner = ({ id, isHost, isJoined, limit, participant, setHeight }: I
               <button
                 type="button"
                 onClick={onClickQuit}
-                className="w-[80px] rounded-xl border border-orange-600 bg-white py-2 text-sm leading-6 text-orange-600 transition-colors hover:bg-gray-100 md:w-[115px] md:py-[10px] md:text-base"
+                className="w-[80px] rounded-xl border border-primary bg-white py-2 text-sm leading-6 text-primary transition-colors hover:bg-gray-100 md:w-[115px] md:py-[10px] md:text-base"
               >
                 취소하기
               </button>
               <button
                 type="button"
                 onClick={onClickShare}
-                className="w-[80px] rounded-xl border border-orange-600 bg-orange-600 py-2 text-sm leading-6 text-white transition-colors hover:bg-orange-700 md:w-[115px] md:py-[10px] md:text-base"
+                className="w-[80px] rounded-xl border border-primary bg-primary py-2 text-sm leading-6 text-white transition-colors hover:bg-orange-700 md:w-[115px] md:py-[10px] md:text-base"
               >
                 공유하기
               </button>
@@ -157,7 +149,7 @@ const BottomBanner = ({ id, isHost, isJoined, limit, participant, setHeight }: I
             <button
               type="button"
               onClick={onClickJoin}
-              className="w-[80px] rounded-xl border border-orange-600 bg-orange-600 py-2 text-sm leading-6 text-white transition-colors hover:bg-white hover:text-orange-700 md:w-[115px] md:py-[10px] md:text-base"
+              className="w-[80px] rounded-xl border border-primary bg-primary py-2 text-sm leading-6 text-white transition-colors hover:bg-white hover:text-orange-700 md:w-[115px] md:py-[10px] md:text-base"
             >
               참여하기
             </button>

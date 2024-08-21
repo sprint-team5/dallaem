@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react"
 import { useInView } from "react-intersection-observer"
 
-import { IFilterOption } from "@/types/meeting/meeting"
+import { IFilterOption } from "@/types/findMeeting/findMeeting"
 import { IWishListData } from "@/types/wishlist/wishlist"
 import { msTransform } from "@/util/days"
 import dayjs from "dayjs"

@@ -5,34 +5,29 @@ import { useRouter } from "next/navigation"
 
 import { ChangeEvent, useState } from "react"
 
-import editProfileInfo from "@/actions/editProfileInfo"
+import editProfileInfo from "@/actions/Auths/editProfileInfo"
 import CancelButton from "@/components/pages/mypage/CancelButton"
+import { IFile, IProfileEditModalProps } from "@/types/mypage/mypage"
 
 import CloseBtn from "../CloseBtn"
 import Profile from "../img/Profile"
-
-interface IProfileEditModalProps {
-  company: string
-  src?: string
-}
 
 const IMAGE_SIZE_LIMIT = 5242880
 
 const errorMessage = {
   img: "5MB보다 큰 파일은 업로드할 수 없습니다.",
+  noImg: "이미지를 업로드해주세요.",
   companyName: "회사 이름을 입력해주세요.",
 }
 
-const ProfileEditModal = ({ company, src = "" }: IProfileEditModalProps) => {
-  const [imgSrc, setImgSrc] = useState(src)
+const ProfileEditModal = ({ companyName, image = "" }: IProfileEditModalProps) => {
+  const [imgSrc, setImgSrc] = useState(image)
   const [error, setError] = useState({
     img: "",
+    noImg: "",
     companyName: "",
   })
-  const [userProfileInput, setUserProfileInput] = useState<{
-    companyName: string
-    image: null | File
-  }>({
+  const [userProfileInput, setUserProfileInput] = useState<IFile>({
     companyName: "",
     image: null,
   })
@@ -55,6 +50,7 @@ const ProfileEditModal = ({ company, src = "" }: IProfileEditModalProps) => {
       return {
         ...prev,
         img: "",
+        noImg: "",
       }
     })
     setImgSrc(preview)
@@ -93,12 +89,46 @@ const ProfileEditModal = ({ company, src = "" }: IProfileEditModalProps) => {
   }
 
   const submitHandler = async (formData: FormData) => {
-    if (error.companyName || error.img) return
+    const uploadedImg = formData.get("image")
+
+    if (uploadedImg instanceof File) {
+      if (!uploadedImg.name) {
+        setError((prev) => {
+          return {
+            ...prev,
+            noImg: errorMessage.noImg,
+          }
+        })
+        return
+      }
+    } else {
+      setError((prev) => {
+        return {
+          ...prev,
+          noImg: errorMessage.noImg,
+        }
+      })
+
+      return
+    }
+
+    if (userProfileInput.companyName.length < 1) {
+      setError((prev) => {
+        return {
+          ...prev,
+          companyName: errorMessage.companyName,
+        }
+      })
+      return
+    }
+
+    if (error.companyName || error.img || error.noImg) return
+
     await editProfileInfo(formData)
     router.back()
   }
 
-  const disabled = error.companyName || error.img ? true : undefined
+  const disabled = error.companyName || error.img || error.noImg ? true : undefined
 
   return (
     <form
@@ -119,6 +149,7 @@ const ProfileEditModal = ({ company, src = "" }: IProfileEditModalProps) => {
           <input hidden id="image" name="image" type="file" onChange={changeFileHandler} />
         </label>
         {error.img && <p className="absolute text-sm text-red-500">{error.img}</p>}
+        {error.noImg && <p className="absolute text-sm text-red-500">{error.noImg}</p>}
       </div>
       <div className="relative pb-3">
         <label htmlFor="companyName" className="font-semibold">
@@ -126,7 +157,7 @@ const ProfileEditModal = ({ company, src = "" }: IProfileEditModalProps) => {
           <input
             name="companyName"
             className="mt-2 w-full rounded-xl bg-gray-50 px-3 py-2 font-medium placeholder-black"
-            placeholder={company}
+            placeholder={companyName}
             onChange={changeTextHandler}
             value={userProfileInput.companyName}
           />
@@ -138,7 +169,7 @@ const ProfileEditModal = ({ company, src = "" }: IProfileEditModalProps) => {
         <button
           disabled={disabled}
           type="submit"
-          className="w-1/2 rounded-lg bg-gray-400 py-2.5 text-white hover:bg-gray-500 active:bg-gray-700"
+          className="w-1/2 rounded-lg bg-gray-400 py-2.5 text-white transition-all hover:bg-gray-500 active:bg-gray-700"
         >
           수정하기
         </button>

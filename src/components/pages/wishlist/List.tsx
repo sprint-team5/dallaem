@@ -16,7 +16,7 @@ import Sort from "@/components/public/icon/dynamicIcon/Sort"
 import { location } from "@/constants/meeting"
 import ROUTE from "@/constants/route"
 import useWishList from "@/hooks/useWishList"
-import { IFilterOption } from "@/types/meeting/meeting"
+import { IFilterOption } from "@/types/findMeeting/findMeeting"
 import { isCurrentDateAfter } from "@/util/days"
 
 const List = () => {
@@ -80,7 +80,7 @@ const List = () => {
         />
       </div>
 
-      <div className="relative z-30 mt-6 flex justify-between border-t pt-6 sm:mt-4 sm:pt-4">
+      <div className="relative z-30 mt-6 flex justify-between border-t border-primary pt-6 sm:mt-4 sm:pt-4">
         <div className="flex gap-2">
           <Filter
             data={location}

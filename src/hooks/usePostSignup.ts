@@ -1,6 +1,6 @@
 "use client"
 
-import PostSignupFn from "@/actions/postSignupFn"
+import PostSignupFn from "@/actions/Auths/postSignupFn"
 import { useMutation } from "@tanstack/react-query"
 
 const usePostSignup = () => {

@@ -1,23 +1,18 @@
 "use client"
 
-import { useRef, useState } from "react"
+import { KeyboardEvent, MouseEvent, useRef, useState } from "react"
 
 import { sortType } from "@/constants/meeting"
+import { IFilterTabProps } from "@/types/findMeeting/findMeeting"
 import useOutsideClick from "@/util/useOutsideClick"
 
-interface IFilterProps {
-  selVal: string
-  onSelect: (
-    event: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLButtonElement>,
-  ) => void
-}
-
 /**
- * @interface IFilterProps
+ * @interface IFilterTabProps
  * @param {string} selVal - 현재 선택된 필터링 데이터
  * @param {Function} onSelect - 필터링 데이터 선택 시 실행할 함수(setState 함수 전달)
  */
-const FilterSort = (props: IFilterProps) => {
+
+const FilterSort = (props: IFilterTabProps) => {
   const [isOpen, setIsOpen] = useState(false)
   const { selVal, onSelect } = props
 
@@ -30,18 +25,18 @@ const FilterSort = (props: IFilterProps) => {
     setIsOpen(!isOpen)
   }
 
-  const onLabelKeyDownHandler = (e: React.KeyboardEvent<HTMLDivElement>) => {
+  const onLabelKeyDownHandler = (e: KeyboardEvent<HTMLDivElement>) => {
     if (e.key === "Enter") {
       setIsOpen(!isOpen)
     }
   }
 
-  const onListClickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const onListClickHandler = (e: MouseEvent<HTMLButtonElement>) => {
     onSelect(e)
     setIsOpen(false)
   }
 
-  const onListKeyDownHandler = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+  const onListKeyDownHandler = (e: KeyboardEvent<HTMLButtonElement>) => {
     if (e.key === "Enter") {
       onSelect(e)
       setIsOpen(false)

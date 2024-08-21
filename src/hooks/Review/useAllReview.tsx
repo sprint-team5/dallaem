@@ -1,4 +1,4 @@
-import getAllReview from "@/actions/allReviewActions"
+import getAllReview from "@/actions/Reviews/allReviewActions"
 import LIMIT from "@/constants/limit"
 import { IFilter } from "@/types/review/filter"
 import { queryOptions, useInfiniteQuery } from "@tanstack/react-query"

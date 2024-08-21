@@ -45,6 +45,16 @@ const pretendard = localFont({
   ],
 })
 
+const tmoneyRoundWind = localFont({
+  src: [
+    {
+      path: "./font/TmoneyRoundWind/TmoneyRoundWind-ExtraBold.woff2",
+      weight: "900",
+    },
+  ],
+  variable: "--font-tmoneyRoundWind",
+})
+
 export const metadata: Metadata = {
   title: "같이 달램",
   description:
@@ -59,13 +69,12 @@ const RootLayout = ({
   const cookieStore = cookies()
   const userToken = cookieStore.get("userToken")?.value
   return (
-    <html lang="ko" className={pretendard.className}>
+    <html lang="ko" className={`${pretendard.className} ${tmoneyRoundWind.variable}`}>
       <body className="bg-gray-100 pt-[56px] md:pt-[60px]">
         <CountProvider>
           <ToastProvider>
             <QueryProviders>
-              <GNB userToken={userToken} />
-              {children}
+              <GNB userToken={userToken}>{children}</GNB>
               {process.env.NODE_ENV !== "production" && <ReactQueryDevtools position="bottom" />}
             </QueryProviders>
           </ToastProvider>

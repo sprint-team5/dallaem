@@ -16,7 +16,10 @@ const RatingBar = ({
   }, [count, maxScore])
 
   return (
-    <div className="mt-1 flex items-center gap-3 text-sm font-medium leading-5 first:mt-0">
+    <div
+      data-cy="ratingbar"
+      className="mt-1 flex items-center gap-3 text-sm font-medium leading-5 first:mt-0"
+    >
       <p className="w-[21px] flex-none">{rating}점</p>
       <div className="relative h-1 w-[84px] overflow-hidden rounded-full bg-gray-200 sm:w-[240px]">
         <div

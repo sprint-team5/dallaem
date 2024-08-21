@@ -28,3 +28,10 @@ table {
     @apply animate-pulse bg-gray-300;
   }
 }
+
+.swiper-pagination-bullet {
+  @apply size-[5px] cursor-pointer rounded-full bg-gray-300 !important;
+}
+.swiper-pagination-bullet-active {
+  @apply bg-black !important;
+}
