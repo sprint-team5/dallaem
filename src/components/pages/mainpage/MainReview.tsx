@@ -5,8 +5,10 @@ import Image from "next/image"
 import { useEffect } from "react"
 import { useInView } from "react-intersection-observer"
 
+import MainReviewSkeleton from "@/components/public/Skeleton/MainReviewSkeleton"
 import Spinner from "@/components/public/Spinner/Spinner"
 import Heart from "@/components/public/icon/dynamicIcon/Heart"
+import LIMIT from "@/constants/limit"
 import { useAllReview } from "@/hooks/Review/useAllReview"
 import dayjs from "dayjs"
 
@@ -19,7 +21,13 @@ const MainReview = () => {
 
   const render = () => {
     if (isLoading) {
-      return <p>스켈레톤 UI</p>
+      return (
+        <>
+          {new Array(LIMIT).fill(0).map((_, index) => {
+            return <MainReviewSkeleton key={`${index + 1}`} />
+          })}
+        </>
+      )
     }
 
     if (!data || (data && data[0].length === 0)) {

@@ -66,29 +66,17 @@ const NewMeeting = () => {
   const render = () => {
     if (isLoading) {
       return (
-        <Swiper
-          speed={800}
-          slidesPerView={1}
-          spaceBetween={30}
-          breakpoints={{
-            769: {
-              slidesPerView: 2,
-            },
-            1025: {
-              slidesPerView: 3,
-            },
-          }}
-        >
-          <SwiperSlide>
+        <div className="grid grid-cols-1 gap-[30px] md:grid-cols-2 lg:grid-cols-3">
+          <div>
             <MainCardSkeleton />
-          </SwiperSlide>
-          <SwiperSlide>
+          </div>
+          <div className="hidden md:block">
             <MainCardSkeleton />
-          </SwiperSlide>
-          <SwiperSlide>
+          </div>
+          <div className="hidden lg:block">
             <MainCardSkeleton />
-          </SwiperSlide>
-        </Swiper>
+          </div>
+        </div>
       )
     }
 
