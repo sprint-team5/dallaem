@@ -10,7 +10,7 @@ import MainCardSkeleton from "@/components/public/Skeleton/MainCardSkeleton"
 import useGetMeetingList from "@/hooks/useGetMeetingList"
 import { IFilterOption } from "@/types/meeting/meeting"
 import SwiperCore from "swiper"
-import { Pagination } from "swiper/modules"
+import { Autoplay, Pagination } from "swiper/modules"
 import { Swiper, SwiperProps, SwiperSlide } from "swiper/react"
 
 const NewMeeting = () => {
@@ -45,6 +45,10 @@ const NewMeeting = () => {
             slidesPerGroup: 3,
           },
         },
+        autoplay: {
+          delay: 8000,
+          pauseOnMouseEnter: true,
+        },
         pagination: {
           el: dotUl.current,
           clickable: true,
@@ -52,7 +56,7 @@ const NewMeeting = () => {
             return `<li class="${className}"/>`
           },
         },
-        modules: [Pagination],
+        modules: [Pagination, Autoplay],
         onInit: (swiper: SwiperCore) => {
           setRealIndex(swiper.realIndex / 3 + 1)
         },
