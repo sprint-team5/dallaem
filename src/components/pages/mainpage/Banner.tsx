@@ -5,7 +5,7 @@ import Image from "next/image"
 import { useEffect, useRef, useState } from "react"
 
 import SwiperCore from "swiper"
-import { Pagination, Parallax } from "swiper/modules"
+import { Autoplay, Pagination, Parallax } from "swiper/modules"
 import { Swiper, SwiperProps, SwiperSlide } from "swiper/react"
 
 const Banner = () => {
@@ -25,7 +25,10 @@ const Banner = () => {
             return `<li class="${className}"/>`
           },
         },
-        modules: [Pagination, Parallax],
+        autoplay: {
+          delay: 6000,
+        },
+        modules: [Pagination, Parallax, Autoplay],
         speed: 800,
         parallax: true,
         loop: true,

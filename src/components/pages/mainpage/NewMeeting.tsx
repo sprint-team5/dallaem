@@ -78,45 +78,51 @@ const NewMeeting = () => {
               return (
                 <SwiperSlide key={meeting.id}>
                   <Link href={`/findMeeting/${meeting.id}`}>
-                    <div className="relative w-full overflow-hidden rounded-2xl after:block after:pb-[calc(265/463*100%)]">
-                      <Image
-                        src={meeting.image}
-                        alt={`${meeting.name} 이미지`}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                    <div className="mt-[18px] flex items-center">
-                      <h2 className="text-lg font-semibold text-gray-800 after:px-2 after:content-['|']">
-                        {meeting.name}
-                      </h2>{" "}
-                      <span className="text-sm font-medium text-gray-700">{meeting.location}</span>
-                    </div>
-                    <div className="mt-4">
-                      <DateTag date={meeting.dateTime} />
-                    </div>
-                    <div className="mt-5 flex gap-[11px]">
-                      <div className="flex items-center gap-[2px]">
+                    <div className="overflow-hidden rounded-2xl border">
+                      <div className="relative w-full after:block after:pb-[calc(265/463*100%)]">
                         <Image
-                          src="/icon/staticIcon/person.svg"
-                          alt="참가인원"
-                          width={16}
-                          height={16}
-                          className="mr-[2px]"
-                        />{" "}
-                        {meeting.participantCount}/{meeting.capacity}
+                          src={meeting.image}
+                          alt={`${meeting.name} 이미지`}
+                          fill
+                          className="object-cover"
+                        />
                       </div>
-                      {Number(meeting.participantCount) >= 5 && (
-                        <div className="flex items-center gap-1">
-                          <Image
-                            src="/icon/staticIcon/confirmed.svg"
-                            alt="개설확정"
-                            width={24}
-                            height={24}
-                          />{" "}
-                          <span className="text-sm text-primary">개설확정</span>
+                      <div className="p-4 px-5">
+                        <div className="flex items-center">
+                          <h2 className="text-lg font-semibold text-gray-800 after:px-2 after:content-['|']">
+                            {meeting.name}
+                          </h2>{" "}
+                          <span className="text-sm font-medium text-gray-700">
+                            {meeting.location}
+                          </span>
                         </div>
-                      )}
+                        <div className="mt-4">
+                          <DateTag date={meeting.dateTime} />
+                        </div>
+                        <div className="mt-5 flex gap-[11px]">
+                          <div className="flex items-center gap-[2px]">
+                            <Image
+                              src="/icon/staticIcon/person.svg"
+                              alt="참가인원"
+                              width={16}
+                              height={16}
+                              className="mr-[2px]"
+                            />{" "}
+                            {meeting.participantCount}/{meeting.capacity}
+                          </div>
+                          {Number(meeting.participantCount) >= 5 && (
+                            <div className="flex items-center gap-1">
+                              <Image
+                                src="/icon/staticIcon/confirmed.svg"
+                                alt="개설확정"
+                                width={24}
+                                height={24}
+                              />{" "}
+                              <span className="text-sm text-primary">개설확정</span>
+                            </div>
+                          )}
+                        </div>
+                      </div>
                     </div>
                   </Link>
                 </SwiperSlide>

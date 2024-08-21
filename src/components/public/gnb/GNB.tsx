@@ -24,7 +24,7 @@ const wrapperStyles = {
 
 const gnbStyles = {
   container:
-    "fixed left-0 top-0 z-50 flex w-full items-center justify-between whitespace-nowrap border-b border-gray-400 bg-white px-5 md:px-[30px]",
+    "fixed left-0 top-0 z-50 flex w-full items-center justify-between whitespace-nowrap border-b border-gray-300 bg-white px-5 md:px-[30px]",
   wrapper: `${wrapperStyles.default} ${wrapperStyles.mobile} ${wrapperStyles.tablet} ${wrapperStyles.desktop}`,
   hoveredNavItem: "transition-all ease-in-out transform hover:scale-150 delay-[10ms] duration-150",
 }
@@ -52,8 +52,12 @@ const GNB = ({ userToken, children }: IGNBProps) => {
   })
 
   useEffect(() => {
+    setIsOpen(false)
+  }, [currentPath])
+
+  useEffect(() => {
     const checkScreenSize = () => {
-      setIs2XlScreen(window.innerWidth >= 1536) // 1536px is the default '2xl' breakpoint in Tailwind
+      setIs2XlScreen(window.innerWidth >= 1024) // 1536px is the default '2xl' breakpoint in Tailwind
     }
 
     checkScreenSize()
@@ -116,7 +120,7 @@ const GNB = ({ userToken, children }: IGNBProps) => {
           )}
           <Link
             href={ROUTE.HOME}
-            className="font-tmoneyRoundWind mr-auto text-lg font-extrabold text-primary"
+            className="mr-auto font-tmoneyRoundWind text-lg font-extrabold text-primary"
           >
             같이달램
           </Link>
@@ -124,7 +128,7 @@ const GNB = ({ userToken, children }: IGNBProps) => {
         </div>
       </div>
       <div
-        className={`transition-all duration-300 ease-in-out ${is2XlScreen ? "2xl:ml-[220px]" : ""}`}
+        className={`transition-all duration-300 ease-in-out ${is2XlScreen ? "lg:ml-[220px]" : ""}`}
       >
         {children}
       </div>

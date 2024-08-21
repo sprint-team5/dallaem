@@ -2,24 +2,33 @@
 
 import Image from "next/image"
 
+import { useEffect } from "react"
+import { useInView } from "react-intersection-observer"
+
+import Spinner from "@/components/public/Spinner/Spinner"
 import Heart from "@/components/public/icon/dynamicIcon/Heart"
 import { useAllReview } from "@/hooks/Review/useAllReview"
 import dayjs from "dayjs"
 
 const MainReview = () => {
-  const { data } = useAllReview({
-    sortOrder: "asc",
+  const { data, hasNextPage, fetchNextPage, isFetchingNextPage } = useAllReview({
+    sortOrder: "desc",
   })
+
+  const { ref, inView } = useInView({ threshold: 1 })
+
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage()
+    }
+  }, [inView, fetchNextPage, hasNextPage])
 
   return (
     <>
       {data.map((reviews) => {
         return reviews.map((review) => {
           return (
-            <div
-              key={review.id}
-              className="rounded-[20px] border border-primary/60 px-6 py-7 lg:py-9"
-            >
+            <div key={review.id} className="rounded-lg border border-primary/60 px-6 py-7 lg:py-9">
               <div className="flex items-center gap-2">
                 <div className="relative size-8 overflow-hidden rounded-full border">
                   <Image
@@ -55,6 +64,14 @@ const MainReview = () => {
           )
         })
       })}
+
+      {hasNextPage && isFetchingNextPage && (
+        <div className="flex w-full items-center justify-center py-7">
+          <Spinner />
+        </div>
+      )}
+
+      <div ref={ref} className="h-1 w-full" />
     </>
   )
 }

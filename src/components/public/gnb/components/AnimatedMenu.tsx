@@ -16,18 +16,9 @@ const navItems = [
 
 // 테일윈드 스타일
 
-const menuContainer = {
-  default:
-    "absolute left-0 flex flex-col items-stretch justify-between border-r border-r-[##D1D5DB] bg-white shadow-lg",
-  mobile: "top-[56px] h-[calc(100vh-56px)] w-[100vw] md:py-[17px] text-2xl",
-  tablet: "md:top-[60px] md:h-[calc(100vh-60px)] md:w-[220px] md:text-sm",
-  desktop: "",
-}
-
 const menuStyles = {
-  container: `${menuContainer.default} ${menuContainer.mobile} ${menuContainer.tablet} ${menuContainer.desktop}`,
   wrraper: "flex flex-col justify-start ",
-  navItem: "px-[10px] py-[3px] font-semibold text-[#6B7280] text-lg md:text-xl",
+  navItem: "px-[10px] py-[3px] font-semibold text-[#6B7280] text-base md:text-sm lg:text-base",
   currentNavItem: "text-black bg-primary/60",
   hoveredNavItem:
     "transform rounded-md transition-all delay-[10ms] duration-150 ease-in-out hover:bg-primary/60",
@@ -77,7 +68,7 @@ const AnimatedMenu = ({ menuRef }: IAminatedMenuProps) => {
     <animated.div
       ref={menuRef}
       style={containerAnimation}
-      className={`${menuStyles.container} p-5`}
+      className="absolute left-0 top-14 z-50 flex h-[calc(100vh-56px)] w-[80%] flex-col items-stretch justify-between border-r border-r-[##D1D5DB] bg-white p-5 text-2xl shadow-lg md:top-[60px] md:h-[calc(100vh-60px)] md:w-[220px] md:py-[17px] md:text-sm"
     >
       <animated.div style={itemAnimation} className={`${menuStyles.wrraper}`}>
         <div className="flex flex-col gap-5">
@@ -91,13 +82,7 @@ const AnimatedMenu = ({ menuRef }: IAminatedMenuProps) => {
               >
                 {item.label}
                 {isClient && isLabel && wishCount > 0 && (
-                  <span
-                    className={
-                      currentPath === item.href
-                        ? "relative bottom-[1px] ml-1 rounded-full bg-black px-2 py-0 text-sm font-medium text-white"
-                        : "relative bottom-[1px] ml-1 rounded-full bg-primary px-2 py-0 text-sm font-medium text-white"
-                    }
-                  >
+                  <span className="relative bottom-[1px] ml-1 rounded-full bg-primary px-2 py-0 text-sm font-medium text-white">
                     {wishCount}
                   </span>
                 )}
@@ -117,9 +102,9 @@ const AnimatedMenu = ({ menuRef }: IAminatedMenuProps) => {
       </animated.div>
       <animated.span
         style={itemAnimation}
-        className="text-center text-base font-semibold -tracking-wide text-gray-400"
+        className="text-center text-xs font-semibold -tracking-wide text-gray-400"
       >
-        ⓒ 2024 같이달램{" "}
+        ⓒ 2024 같이달램
       </animated.span>
     </animated.div>
   )
