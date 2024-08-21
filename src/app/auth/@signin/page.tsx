@@ -1,3 +1,5 @@
+"use server"
+
 import SigninForm from "@/components/pages/auth/@signin/SigninForm"
 import { HydrationBoundary } from "@tanstack/react-query"
 

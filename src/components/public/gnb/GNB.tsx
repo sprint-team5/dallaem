@@ -91,7 +91,9 @@ const GNB = ({ userToken, children }: IGNBProps) => {
     config: { duration: 150 },
   })
 
-  if (!shouldShowGNB) return null
+  if (!shouldShowGNB) {
+    return children
+  }
 
   const navButtonClick = () => {
     setIsOpen((prev) => {

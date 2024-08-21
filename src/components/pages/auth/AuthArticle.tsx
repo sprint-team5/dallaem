@@ -1,3 +1,7 @@
+"use server"
+
+import { ReactNode } from "react"
+
 import ImgLogin from "@/components/public/img/ImgLogin"
 
 const authLayoutStyles = {
@@ -26,10 +30,10 @@ const wrapperStyles = `${authLayoutStyles.wrapper.default} ${authLayoutStyles.wr
 const imgStyles = `${authLayoutStyles.img.default} ${authLayoutStyles.img.mobile} ${authLayoutStyles.img.tablet} ${authLayoutStyles.img.desktop}`
 
 interface AuthLayoutProps {
-  children: React.ReactNode
+  children: ReactNode
 }
 
-const AuthLayout = ({ children }: AuthLayoutProps) => {
+async function AuthArticle({ children }: AuthLayoutProps) {
   return (
     <div className={containerStyles}>
       <div className={wrapperStyles}>
@@ -45,4 +49,4 @@ const AuthLayout = ({ children }: AuthLayoutProps) => {
   )
 }
 
-export default AuthLayout
+export default AuthArticle
