@@ -12,7 +12,7 @@ import ParticipantGage from "@/components/pages/findMeeting/MeetingCard/Atoms/Pa
 import WishBtn from "@/components/pages/wishlist/WishBtn"
 import Review from "@/components/public/Review/Review"
 import { useMeetingDetail } from "@/hooks/useMeetingDetail"
-import { IMeetingData } from "@/types/meeting/meeting"
+import { IMeetingData } from "@/types/findMeeting/findMeeting"
 import { msTransform } from "@/util/days"
 import { useQuery } from "@tanstack/react-query"
 import dayjs from "dayjs"

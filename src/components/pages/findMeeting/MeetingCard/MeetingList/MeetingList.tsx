@@ -11,7 +11,7 @@ import ParticipantGage from "@/components/pages/findMeeting/MeetingCard/Atoms/Pa
 import WishBtn from "@/components/pages/wishlist/WishBtn"
 import Spinner from "@/components/public/Spinner/Spinner"
 import ROUTE from "@/constants/route"
-import { IMeetingData } from "@/types/meeting/meeting"
+import { IMeetingData } from "@/types/findMeeting/findMeeting"
 import { isCurrentDateAfter, msTransform } from "@/util/days"
 import ArrowRightSVG from "@public/icon/staticIcon/arrow_right.svg"
 import { InfiniteData, useMutation, useQueryClient } from "@tanstack/react-query"

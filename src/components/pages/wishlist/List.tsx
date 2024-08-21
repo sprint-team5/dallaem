@@ -16,7 +16,7 @@ import Sort from "@/components/public/icon/dynamicIcon/Sort"
 import { location } from "@/constants/meeting"
 import ROUTE from "@/constants/route"
 import useWishList from "@/hooks/useWishList"
-import { IFilterOption } from "@/types/meeting/meeting"
+import { IFilterOption } from "@/types/findMeeting/findMeeting"
 import { isCurrentDateAfter } from "@/util/days"
 
 const List = () => {

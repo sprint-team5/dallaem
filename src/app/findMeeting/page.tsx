@@ -19,7 +19,7 @@ import LIMIT from "@/constants/limit"
 import { location } from "@/constants/meeting"
 import ROUTE from "@/constants/route"
 import useGetMeetingList from "@/hooks/useGetMeetingList"
-import { IFilterOption } from "@/types/meeting/meeting"
+import { IFilterOption } from "@/types/findMeeting/findMeeting"
 import headClassIMG from "@public/img/head_class.png"
 
 const FindMeeting = () => {

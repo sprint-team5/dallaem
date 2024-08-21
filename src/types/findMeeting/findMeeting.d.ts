@@ -1,3 +1,5 @@
+import { ReactNode } from "react"
+
 export interface IFilterOption {
   type: string
   sortBy: string
@@ -9,16 +11,20 @@ export interface IFilterOption {
   offset?: number
 }
 
-export interface IMeetingData {
+export interface MyCardProps {
   teamId: string
-  id: number
-  type: string
   name: string
   dateTime: string
-  registrationEnd: string
   location: string
+  image: string
+  id: number
   participantCount: number
   capacity: number
-  image: string
+  children?: ReactNode
+}
+
+export interface IMeetingData extends Omit<MyCardProps, "children"> {
+  type: string
+  registrationEnd: string
   createdBy: number
 }
