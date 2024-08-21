@@ -18,7 +18,9 @@ const AllReviewsPage = async () => {
   const options = allReviewOptions({})
   const queryClient = getQueryClient()
 
-  if (!queryClient.getQueryData(options.queryKey)) {
+  const hasNotDefaultData = !queryClient.getQueryData(options.queryKey)
+
+  if (hasNotDefaultData) {
     queryClient.prefetchQuery(options)
   }
 
