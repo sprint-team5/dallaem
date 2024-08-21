@@ -120,7 +120,7 @@ const GNB = ({ userToken, children }: IGNBProps) => {
           )}
           <Link
             href={ROUTE.HOME}
-            className="mr-auto font-tmoneyRoundWind text-lg font-extrabold text-primary"
+            className="mr-auto font-tmoneyRoundWind text-lg font-extrabold text-primary subpixel-antialiased"
           >
             같이달램
           </Link>

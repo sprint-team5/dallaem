@@ -44,7 +44,7 @@ const ProfileComponent = ({ isLoggedIn, profileImg }: IProfileComponentProps) =>
     return (
       <Link
         href={ROUTE.SIGNIN}
-        className="relative flex h-8 w-[100px] items-center justify-center overflow-hidden rounded-lg bg-primary text-sm font-semibold text-white"
+        className="relative flex h-8 w-[80px] items-center justify-center overflow-hidden rounded-lg bg-primary text-sm font-semibold text-white md:w-[100px]"
         onMouseEnter={() => {
           return api({ clipPath: "circle(150% at 0% 0%)" })
         }}

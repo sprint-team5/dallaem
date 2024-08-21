@@ -6,6 +6,7 @@ import Link from "next/link"
 import { useEffect, useRef, useState } from "react"
 
 import DateTag from "@/components/pages/findMeeting/MeetingCard/Atoms/DateTag"
+import MainCardSkeleton from "@/components/public/Skeleton/MainCardSkeleton"
 import useGetMeetingList from "@/hooks/useGetMeetingList"
 import { IFilterOption } from "@/types/meeting/meeting"
 import SwiperCore from "swiper"
@@ -17,10 +18,19 @@ const NewMeeting = () => {
   const [realIndex, setRealIndex] = useState(1)
   const [swiperSetting, setSwiperSetting] = useState<SwiperProps | null>(null)
 
+  const initialFilterOption: IFilterOption = {
+    type: "DALLAEMFIT",
+    sortBy: "registrationEnd",
+    sortOrder: "desc",
+    limit: 9,
+  }
+
+  const { data, isLoading } = useGetMeetingList(initialFilterOption)
+
   useEffect(() => {
-    if (!swiperSetting) {
+    if (!swiperSetting && data) {
       setSwiperSetting({
-        speed: 600,
+        speed: 800,
         slidesPerView: 1,
         slidesPerGroup: 1,
         spaceBetween: 30,
@@ -43,36 +53,53 @@ const NewMeeting = () => {
           },
         },
         modules: [Pagination],
+        onInit: (swiper: SwiperCore) => {
+          setRealIndex(swiper.realIndex / 3 + 1)
+        },
         onSlideChange: (swiper: SwiperCore) => {
           setRealIndex(swiper.realIndex / 3 + 1)
         },
       })
     }
-  }, [swiperSetting])
+  }, [swiperSetting, data])
 
-  const initialFilterOption: IFilterOption = {
-    type: "DALLAEMFIT",
-    sortBy: "registrationEnd",
-    sortOrder: "desc",
-    limit: 9,
-  }
+  const render = () => {
+    if (isLoading) {
+      return (
+        <Swiper
+          speed={800}
+          slidesPerView={1}
+          spaceBetween={30}
+          breakpoints={{
+            769: {
+              slidesPerView: 2,
+            },
+            1025: {
+              slidesPerView: 3,
+            },
+          }}
+        >
+          <SwiperSlide>
+            <MainCardSkeleton />
+          </SwiperSlide>
+          <SwiperSlide>
+            <MainCardSkeleton />
+          </SwiperSlide>
+          <SwiperSlide>
+            <MainCardSkeleton />
+          </SwiperSlide>
+        </Swiper>
+      )
+    }
 
-  const { data } = useGetMeetingList(initialFilterOption)
+    if (!data) {
+      return <p className="w-full flex-1 items-center justify-center">첫 모임을 등록해주세요! 🖐️</p>
+    }
 
-  return (
-    <>
-      <div className="flex justify-between">
-        <h1 className="text-xl font-bold md:text-2xl">NEW 모임 ⭐</h1>
-        <div className="flex items-center gap-2">
-          <ul ref={dotUl} className="hidden gap-1 lg:flex" />
-          <div className="rounded-full border border-gray-300 px-2 py-[1px] text-[10px] font-semibold">
-            {realIndex} / 3
-          </div>
-        </div>
-      </div>
-      {swiperSetting && (
+    return (
+      swiperSetting && (
         // eslint-disable-next-line react/jsx-props-no-spreading
-        <Swiper {...swiperSetting} className="mt-10">
+        <Swiper {...swiperSetting}>
           {data?.pages.map((pages) => {
             return pages.map((meeting) => {
               return (
@@ -130,7 +157,22 @@ const NewMeeting = () => {
             })
           })}
         </Swiper>
-      )}
+      )
+    )
+  }
+
+  return (
+    <>
+      <div className="flex justify-between">
+        <h1 className="text-xl font-bold md:text-2xl">NEW 모임 ⭐</h1>
+        <div className="flex items-center gap-2">
+          <ul ref={dotUl} className="hidden gap-1 lg:flex" />
+          <div className="rounded-full border border-gray-300 px-2 py-[1px] text-[10px] font-semibold">
+            {realIndex} / 3
+          </div>
+        </div>
+      </div>
+      <div className="mt-10">{render()}</div>
     </>
   )
 }

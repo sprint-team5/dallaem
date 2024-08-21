@@ -15,9 +15,12 @@ export const metadata: Metadata = {
 }
 
 const AllReviewsPage = async () => {
+  const options = allReviewOptions({})
   const queryClient = getQueryClient()
 
-  queryClient.prefetchQuery(allReviewOptions({}))
+  if (!queryClient.getQueryData(options.queryKey)) {
+    queryClient.prefetchQuery(options)
+  }
 
   return (
     <main>
