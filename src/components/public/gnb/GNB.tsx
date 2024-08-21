@@ -5,7 +5,6 @@ import { usePathname, useSearchParams } from "next/navigation"
 
 import { useEffect, useRef, useState } from "react"
 
-import Logo from "@/components/public/img/Logo"
 import ROUTE from "@/constants/route"
 import useGetUserData from "@/hooks/useGetUserData"
 import useOutsideClick from "@/util/useOutsideClick"
@@ -17,7 +16,7 @@ import ProfileComponent from "./components/ProfileComponent"
 
 // 테일윈드 스타일
 const wrapperStyles = {
-  default: "flex items-center justify-between relative w-full px-[30px]",
+  default: "flex items-center justify-between relative w-full ",
   mobile: "h-[55px] text-sm",
   tablet: "md:h-[59px] md:text-lg",
   desktop: "",
@@ -25,12 +24,10 @@ const wrapperStyles = {
 
 const gnbStyles = {
   container:
-    "fixed left-0 top-0 z-50 flex w-full items-center justify-between whitespace-nowrap border-b border-gray-400 bg-white px-4 md:px-6 xl:px-0",
+    "fixed left-0 top-0 z-50 flex w-full items-center justify-between whitespace-nowrap border-b border-gray-400 bg-white px-5 md:px-[30px]",
   wrapper: `${wrapperStyles.default} ${wrapperStyles.mobile} ${wrapperStyles.tablet} ${wrapperStyles.desktop}`,
   hoveredNavItem: "transition-all ease-in-out transform hover:scale-150 delay-[10ms] duration-150",
 }
-
-const logoStyles = `${gnbStyles.hoveredNavItem} scale-125 text-primary w-[60px] h-6 md:w-[70px] md:h-9`
 
 interface IGNBProps {
   userToken: string | undefined
@@ -112,9 +109,16 @@ const GNB = ({ userToken, children }: IGNBProps) => {
           )
         })}
         <div className={gnbStyles.wrapper}>
-          {!is2XlScreen && <AnimatedMenuIcon onClick={navButtonClick} isOpen={isOpen} />}
-          <Link href={ROUTE.HOME} className="ml-5 mr-auto">
-            <Logo state="large" className={logoStyles} />
+          {!is2XlScreen && (
+            <div className="mr-4">
+              <AnimatedMenuIcon onClick={navButtonClick} isOpen={isOpen} />
+            </div>
+          )}
+          <Link
+            href={ROUTE.HOME}
+            className="font-tmoneyRoundWind mr-auto text-lg font-extrabold text-primary"
+          >
+            같이달램
           </Link>
           <ProfileComponent isLoggedIn={isLoggedIn} profileImg={profileImg} />
         </div>

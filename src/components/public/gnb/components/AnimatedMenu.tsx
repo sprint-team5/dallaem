@@ -18,7 +18,7 @@ const navItems = [
 
 const menuContainer = {
   default:
-    "absolute left-0 flex  flex-col items-stretch justify-between border-r border-r-[##D1D5DB] bg-white px-[20px] py-[120px] shadow-lg",
+    "absolute left-0 flex flex-col items-stretch justify-between border-r border-r-[##D1D5DB] bg-white shadow-lg",
   mobile: "top-[56px] h-[calc(100vh-56px)] w-[100vw] md:py-[17px] text-2xl",
   tablet: "md:top-[60px] md:h-[calc(100vh-60px)] md:w-[220px] md:text-sm",
   desktop: "",
@@ -26,12 +26,11 @@ const menuContainer = {
 
 const menuStyles = {
   container: `${menuContainer.default} ${menuContainer.mobile} ${menuContainer.tablet} ${menuContainer.desktop}`,
-  wrraper: "flex flex-col justify-start gap-15 md:gap-10",
-  navItem:
-    "px-[20px] py-[15px] md:px-[10px] md:py-[3px] font-semibold text-[#6B7280] text-lg md:text-xl",
-  currentNavItem: "text-black bg-primary",
+  wrraper: "flex flex-col justify-start ",
+  navItem: "px-[10px] py-[3px] font-semibold text-[#6B7280] text-lg md:text-xl",
+  currentNavItem: "text-black bg-primary/60",
   hoveredNavItem:
-    "transform rounded-md transition-all delay-[10ms] duration-150 ease-in-out hover:bg-primary",
+    "transform rounded-md transition-all delay-[10ms] duration-150 ease-in-out hover:bg-primary/60",
 }
 
 const navBaseStyles = `${menuStyles.navItem} ${menuStyles.hoveredNavItem}`
@@ -75,33 +74,51 @@ const AnimatedMenu = ({ menuRef }: IAminatedMenuProps) => {
   })
 
   return (
-    <animated.div ref={menuRef} style={containerAnimation} className={menuStyles.container}>
-      <animated.div style={itemAnimation} className={menuStyles.wrraper}>
-        {navItems.map((item) => {
-          const isLabel = item.label === "찜한 모임"
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={currentPath === item.href ? currentNavStyles : navBaseStyles}
-            >
-              {item.label}
-              {isClient && isLabel && wishCount > 0 && (
-                <span
-                  className={
-                    currentPath === item.href
-                      ? "relative bottom-[1px] ml-1 rounded-full bg-black px-2 py-0 text-sm font-medium text-white"
-                      : "relative bottom-[1px] ml-1 rounded-full bg-primary px-2 py-0 text-sm font-medium text-white"
-                  }
-                >
-                  {wishCount}
-                </span>
-              )}
-            </Link>
-          )
-        })}
+    <animated.div
+      ref={menuRef}
+      style={containerAnimation}
+      className={`${menuStyles.container} p-5`}
+    >
+      <animated.div style={itemAnimation} className={`${menuStyles.wrraper}`}>
+        <div className="flex flex-col gap-5">
+          {navItems.map((item) => {
+            const isLabel = item.label === "찜한 모임"
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={currentPath === item.href ? currentNavStyles : navBaseStyles}
+              >
+                {item.label}
+                {isClient && isLabel && wishCount > 0 && (
+                  <span
+                    className={
+                      currentPath === item.href
+                        ? "relative bottom-[1px] ml-1 rounded-full bg-black px-2 py-0 text-sm font-medium text-white"
+                        : "relative bottom-[1px] ml-1 rounded-full bg-primary px-2 py-0 text-sm font-medium text-white"
+                    }
+                  >
+                    {wishCount}
+                  </span>
+                )}
+              </Link>
+            )
+          })}
+        </div>
+
+        <div className="mt-10 flex flex-col">
+          <Link
+            href={ROUTE.MY_PAGE}
+            className={currentPath === ROUTE.MY_PAGE ? currentNavStyles : navBaseStyles}
+          >
+            마이페이지
+          </Link>
+        </div>
       </animated.div>
-      <animated.span style={itemAnimation} className="text-center text-[#9CA3AF]">
+      <animated.span
+        style={itemAnimation}
+        className="text-center text-base font-semibold -tracking-wide text-gray-400"
+      >
         ⓒ 2024 같이달램{" "}
       </animated.span>
     </animated.div>

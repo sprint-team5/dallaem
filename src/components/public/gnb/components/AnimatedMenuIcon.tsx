@@ -17,11 +17,7 @@ const AnimatedMenuIcon = ({ onClick, isOpen }: IAnimatedMenuIconProps) => {
 
   return (
     <animated.div style={springProps} className="cursor-pointer" onClick={onClick}>
-      {isOpen ? (
-        <XIcon className="h-5 w-5 md:h-7 md:w-7" />
-      ) : (
-        <MenuIcon className="h-5 w-5 text-primary md:h-7 md:w-7" />
-      )}
+      {isOpen ? <XIcon className="h-5 w-5" /> : <MenuIcon className="h-5 w-5 text-primary" />}
     </animated.div>
   )
 }
