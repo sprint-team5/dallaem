@@ -11,14 +11,14 @@ import ROUTE from "@/constants/route"
 import useOutsideClick from "@/util/useOutsideClick"
 
 // 테일윈드 스타일
-const navBaseStyles = "font-semibold  text-white bg-primary rounded-lg px-[15px] py-[3px]"
+const navBaseStyles = "font-semibold text-white bg-primary rounded-lg"
 const profileStyles = "w-[40px] h-[40px]"
 
 const profileMenuStyles = {
   container:
     "absolute right-0 top-[62px] flex h-[70px] w-[150px] flex-col rounded-lg bg-white shadow-xl md:top-[66px]",
   navItems: "flex h-1/2 w-full items-center justify-center rounded-lg text-center text-orange-600",
-  hoveredNavItem: "transition-all ease-in-out transform hover:scale-110 delay-[10ms] duration-150",
+  hoveredNavItem: "transition-all ease-in-out transform delay-[10ms] duration-150",
 }
 
 interface IProfileComponentProps {
@@ -40,7 +40,7 @@ const ProfileComponent = ({ isLoggedIn, profileImg }: IProfileComponentProps) =>
     return (
       <Link
         href={ROUTE.SIGNIN}
-        className={`${navBaseStyles} ${profileMenuStyles.hoveredNavItem} text-orange-600`}
+        className={`${navBaseStyles} flex h-8 w-[100px] items-center justify-center text-sm`}
       >
         로그인
       </Link>
