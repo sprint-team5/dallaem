@@ -112,6 +112,16 @@ const ProfileEditModal = ({ companyName, image = "" }: IProfileEditModalProps) =
       return
     }
 
+    if (userProfileInput.companyName.length < 1) {
+      setError((prev) => {
+        return {
+          ...prev,
+          companyName: errorMessage.companyName,
+        }
+      })
+      return
+    }
+
     if (error.companyName || error.img || error.noImg) return
 
     await editProfileInfo(formData)
