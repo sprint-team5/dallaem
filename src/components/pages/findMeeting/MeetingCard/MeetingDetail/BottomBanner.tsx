@@ -2,23 +2,15 @@
 
 import { useRouter } from "next/navigation"
 
-import { Dispatch, SetStateAction, useEffect, useRef } from "react"
+import { useEffect, useRef } from "react"
 
 import checkLogin from "@/actions/Auths/checkLogin"
 import cancelMeeting from "@/actions/Gatherings/cancelMeeting"
 import quitMeeting from "@/actions/Gatherings/quitMeeting"
 import ROUTE from "@/constants/route"
 import useJoinGathering from "@/hooks/Gatherings/useJoinGathering"
+import { IBannerProps } from "@/types/findMeeting/findMeeting"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-
-interface IBannerProps {
-  id: string
-  isHost: boolean
-  isJoined: boolean
-  limit: number
-  participant: number
-  setHeight: Dispatch<SetStateAction<number>>
-}
 
 const BottomBanner = ({ id, isHost, isJoined, limit, participant, setHeight }: IBannerProps) => {
   const ref = useRef<HTMLDivElement>(null)

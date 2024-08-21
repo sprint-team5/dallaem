@@ -1,18 +1,7 @@
 import Checkbox from "@/components/public/icon/dynamicIcon/Checkbox"
+import { ISelectServiceButton } from "@/types/findMeeting/findMeeting"
 
-const SelectServiceButton = ({
-  category,
-  detail,
-  state,
-  type,
-  onClick,
-}: {
-  category: string
-  detail: string
-  state: boolean
-  type: string
-  onClick: (type: string) => void
-}) => {
+const SelectServiceButton = ({ category, detail, state, type, onClick }: ISelectServiceButton) => {
   return (
     <button
       type="button"

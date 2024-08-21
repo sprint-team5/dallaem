@@ -9,6 +9,7 @@ import Heart from "@public/icon/dynamicIcon/heart.svg"
 /**
  * @param {IWishListData} list - 카드 리스트
  */
+
 const WishBtn = ({ list }: { list: IWishListData }) => {
   const [isWish, setIsWish] = useState(false)
   const { setWishCount } = useWishCount()

@@ -1,16 +1,10 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { KeyboardEvent, MouseEvent, useEffect, useRef } from "react"
 
 import Dalaemfit from "@/components/public/icon/staticIcon/Dalaemfit"
 import Workation from "@/components/public/icon/staticIcon/Workation"
-
-interface IFilterTabProps {
-  selVal: string
-  onSelect: (
-    event: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLButtonElement>,
-  ) => void
-}
+import { IFilterTabProps } from "@/types/findMeeting/findMeeting"
 
 /**
  * 모임 찾기에서 달램핏, 워케이션 구분 부분
@@ -59,11 +53,11 @@ const FilterTab = (props: IFilterTabProps) => {
     }
   }, [selVal])
 
-  const onClickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const onClickHandler = (e: MouseEvent<HTMLButtonElement>) => {
     onSelect(e)
   }
 
-  const onKeyHandler = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+  const onKeyHandler = (e: KeyboardEvent<HTMLButtonElement>) => {
     if (e.key === "Enter") {
       onSelect(e)
     }

@@ -1,6 +1,6 @@
 "use client"
 
-import { ChangeEventHandler, KeyboardEvent, useState } from "react"
+import { ChangeEvent, KeyboardEvent, useState } from "react"
 import { Value } from "react-calendar/dist/cjs/shared/types"
 
 import Calendars from "@/components/public/Calendars/Calendars"
@@ -10,6 +10,7 @@ import CompleteSignUpModal from "@/components/public/modal/CompleteSignUpModal"
 import { location } from "@/constants/meeting"
 import useCreateGathering from "@/hooks/Gatherings/useCreateGathering"
 import useJoinGathering from "@/hooks/Gatherings/useJoinGathering"
+import { ILabelProps, IMeetingDataState } from "@/types/findMeeting/findMeeting"
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/react"
 import { useQueryClient } from "@tanstack/react-query"
 import dayjs from "dayjs"
@@ -17,29 +18,7 @@ import dayjs from "dayjs"
 import SelectServiceRadioGroup from "./selectComponents/SelectServiceRadioGroup"
 import SelectTimeButton from "./selectComponents/SelectTimeButton"
 
-interface IMeetingData {
-  location: string
-  type: string
-  name: string
-  date: string
-  time: string
-  capacity: number
-  image: {
-    file: File | null
-    name: string
-  }
-  registrationEnd: string
-}
-
-const Label = ({
-  label,
-  htmlFor,
-  children,
-}: {
-  label: string
-  htmlFor: string
-  children: React.ReactNode
-}) => {
+const Label = ({ label, htmlFor, children }: ILabelProps) => {
   return (
     <>
       <label htmlFor={htmlFor} className="mb-3 mt-6 font-semibold text-gray-800">
@@ -53,7 +32,7 @@ const Label = ({
 const CreateMeetingForm = ({ changeState }: { changeState: () => void }) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
-  const [meetingData, setMeetingData] = useState<IMeetingData>({
+  const [meetingData, setMeetingData] = useState<IMeetingDataState>({
     location: "",
     type: "OFFICE_STRETCHING",
     name: "",
@@ -70,7 +49,7 @@ const CreateMeetingForm = ({ changeState }: { changeState: () => void }) => {
 
   const [fileName, setFileName] = useState("")
 
-  const onChangeData = (e: React.ChangeEvent) => {
+  const onChangeData = (e: ChangeEvent) => {
     let target
     switch (e.target.nodeName) {
       case "SELECT":
@@ -88,7 +67,7 @@ const CreateMeetingForm = ({ changeState }: { changeState: () => void }) => {
     }
   }
 
-  const onChangeNumber: ChangeEventHandler<HTMLInputElement> = (e) => {
+  const onChangeNumber = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
 
     if (value === "") {
@@ -121,7 +100,7 @@ const CreateMeetingForm = ({ changeState }: { changeState: () => void }) => {
   }
 
   /** 이미지 등록, 라벨 상태 변경 */
-  const onChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChangeImage = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return
     const file = e.target.files[0]
     if (!file) {
