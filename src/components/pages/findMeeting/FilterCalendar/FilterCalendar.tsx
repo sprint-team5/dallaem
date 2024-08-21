@@ -1,26 +1,21 @@
 "use client"
 
-import { useRef, useState } from "react"
+import { KeyboardEvent, useRef, useState } from "react"
 import { Value } from "react-calendar/dist/cjs/shared/types"
 
 import Calendars from "@/components/public/Calendars/Calendars"
 import Arrow from "@/components/public/icon/dynamicIcon/Arrow"
+import { IFilterCalendarProps } from "@/types/findMeeting/findMeeting"
 import useOutsideClick from "@/util/useOutsideClick"
 import dayjs from "dayjs"
 
-interface IFilterProps {
-  placeholder: string
-  selVal?: string
-  onChange: (e: string) => void
-}
-
 /**
- * @interface IFilterProps
+ * @interface IFilterCalendarProps
  * @param {string} placeholder - 필터링할 데이터가 없을 때 보여줄 문구
  * @param {string} selVal - 현재 선택된 필터링 데이터(optional)
  * @param {Function} onChange - 필터링 데이터 선택 시 실행할 함수(setState 함수 전달)
  */
-const FilterCalendar = (props: IFilterProps) => {
+const FilterCalendar = (props: IFilterCalendarProps) => {
   const [isOpen, setIsOpen] = useState(false)
   const { placeholder, selVal, onChange } = props
 
@@ -33,7 +28,7 @@ const FilterCalendar = (props: IFilterProps) => {
     setIsOpen(!isOpen)
   }
 
-  const onLabelKeyDownHandler = (e: React.KeyboardEvent<HTMLDivElement>) => {
+  const onLabelKeyDownHandler = (e: KeyboardEvent<HTMLDivElement>) => {
     if (e.key === "Enter") {
       setIsOpen(!isOpen)
     }

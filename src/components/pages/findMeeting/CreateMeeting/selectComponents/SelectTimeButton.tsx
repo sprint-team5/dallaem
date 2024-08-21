@@ -1,30 +1,9 @@
-import { Dispatch, SetStateAction } from "react"
+import { MouseEvent } from "react"
 
+import { ISelectTimeButton } from "@/types/findMeeting/findMeeting"
 import dayjs from "dayjs"
 
-interface IMeetingData {
-  location: string
-  type: string
-  name: string
-  date: string
-  time: string
-  capacity: number
-  image: {
-    file: File | null
-    name: string
-  }
-  registrationEnd: string
-}
-
-const SelectTimeButton = ({
-  meetingData,
-  setMeetingData,
-  timeList,
-}: {
-  meetingData: IMeetingData
-  setMeetingData: Dispatch<SetStateAction<IMeetingData>>
-  timeList: string[]
-}) => {
+const SelectTimeButton = ({ meetingData, setMeetingData, timeList }: ISelectTimeButton) => {
   const checkDisabled = (time: string) => {
     if (meetingData.date === "") return true
     const now = dayjs().format("YYYY-MM-DDTHH")
@@ -33,7 +12,7 @@ const SelectTimeButton = ({
     return dayjs(compare).isBefore(now) || dayjs(compare).isSame(now)
   }
 
-  const changeDateTime = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const changeDateTime = (e: MouseEvent<HTMLButtonElement>) => {
     const target = e.target as HTMLButtonElement
     if (target.disabled || !target.textContent) return
     setMeetingData({ ...meetingData, time: target.textContent })

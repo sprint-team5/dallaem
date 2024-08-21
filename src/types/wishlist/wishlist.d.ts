@@ -1,4 +1,4 @@
-import { IMeetingData } from "@/types/meeting/meeting"
+import { IMeetingData } from "@/types/findMeeting/findMeeting"
 
 export interface IWishListData extends IMeetingData {
   wish?: boolean

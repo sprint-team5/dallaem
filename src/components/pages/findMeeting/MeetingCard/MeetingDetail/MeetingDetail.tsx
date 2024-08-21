@@ -12,7 +12,7 @@ import ParticipantGage from "@/components/pages/findMeeting/MeetingCard/Atoms/Pa
 import WishBtn from "@/components/pages/wishlist/WishBtn"
 import Review from "@/components/public/Review/Review"
 import { useMeetingDetail } from "@/hooks/useMeetingDetail"
-import { IMeetingData } from "@/types/meeting/meeting"
+import { IMeetingData } from "@/types/findMeeting/findMeeting"
 import { msTransform } from "@/util/days"
 import { useQuery } from "@tanstack/react-query"
 import dayjs from "dayjs"
@@ -166,6 +166,7 @@ const MeetingDetail = ({ id }: { id: string }) => {
 
   return (
     <>
+      <title>{`같이달램 | ${data.name}`}</title>
       <main ref={ref}>
         <div className="m-6 flex min-h-screen flex-col rounded-[20px] bg-gray-50 px-6 py-14 md:m-12 md:px-16">
           {status === "success" && (
