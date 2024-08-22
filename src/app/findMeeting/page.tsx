@@ -26,7 +26,7 @@ const FindMeeting = () => {
   const initialFilterOption: IFilterOption = {
     type: "DALLAEMFIT",
     sortBy: "registrationEnd",
-    sortOrder: "asc",
+    sortOrder: "desc",
     limit: LIMIT,
   }
 
@@ -134,21 +134,21 @@ const FindMeeting = () => {
           <button
             aria-label="sortButton"
             type="button"
-            className={`group flex size-9 cursor-pointer items-center justify-center rounded-xl border-2 transition-colors ${filterOption.sortOrder === "asc" ? "border-gray-100 bg-white" : "border-gray-100 bg-black"}`}
+            className={`group flex size-9 cursor-pointer items-center justify-center rounded-xl border-2 transition-colors ${filterOption.sortOrder === "desc" ? "border-gray-100 bg-white" : "border-gray-100 bg-black"}`}
             onClick={() => {
-              if (filterOption.sortOrder === "asc") {
+              if (filterOption.sortOrder === "desc") {
                 return updateFilterOption({
-                  sortOrder: "desc",
+                  sortOrder: "asc",
                 })
               }
               return updateFilterOption({
-                sortOrder: "asc",
+                sortOrder: "desc",
               })
             }}
           >
             <Sort
               state="default"
-              className={`transition-colors ${filterOption.sortOrder === "desc" && "text-white"} `}
+              className={`transition-colors ${filterOption.sortOrder === "asc" && "text-white"} `}
             />
           </button>
           <FilterSort
