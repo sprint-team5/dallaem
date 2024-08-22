@@ -22,7 +22,7 @@ const useGNBLogic = (userToken: string | undefined) => {
   })
 
   const checkScreenSize = useCallback(() => {
-    const newIs2XlScreen = window.innerWidth >= 1536
+    const newIs2XlScreen = window.innerWidth >= 1024
     setIs2XlScreen(newIs2XlScreen)
     if (!newIs2XlScreen) {
       setIsOpen(false)
