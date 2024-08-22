@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 
 import useGetUserData from "@/hooks/useGetUserData"
 import useOutsideClick from "@/util/useOutsideClick"
@@ -6,11 +6,14 @@ import useOutsideClick from "@/util/useOutsideClick"
 const useGNBLogic = (userToken: string | undefined) => {
   const [isOpen, setIsOpen] = useState(false)
   const [is2XlScreen, setIs2XlScreen] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
   const { data } = useGetUserData(userToken)
 
-  const isLoggedIn = useMemo(() => {
-    return Boolean(data?.name)
-  }, [data?.name])
+  // data가 변경될 때마다 isLoggedIn 상태를 업데이트
+  useEffect(() => {
+    setIsLoggedIn(Boolean(data?.name))
+  }, [data])
+
   const profileImg = data?.image
 
   const menuRef = useRef<HTMLDivElement>(null)
