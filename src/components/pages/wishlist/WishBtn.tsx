@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation"
 
-import { MouseEventHandler, useEffect, useState } from "react"
+import { MouseEvent, useEffect, useState } from "react"
 
 import checkLogin from "@/actions/Auths/checkLogin"
 import ROUTE from "@/constants/route"
@@ -19,39 +19,38 @@ const WishBtn = ({ list }: { list: IWishListData }) => {
   const [isWish, setIsWish] = useState(false)
   const { setWishCount } = useWishCount()
 
-  const HandlerWish: MouseEventHandler<HTMLButtonElement> = async (e) => {
-    e.stopPropagation()
+  const HandlerWish = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
 
-    if (!(await checkLogin())) {
-      return router.replace(`${ROUTE.GATHERINGS}?alert=${"로그인이 필요합니다."}`)
-    }
+    if (await checkLogin()) {
+      const wish = localStorage.getItem("wishlist")
 
-    const wish = localStorage.getItem("wishlist")
+      if (wish) {
+        const parse: IWishListData[] = JSON.parse(wish)
 
-    if (wish) {
-      const parse: IWishListData[] = JSON.parse(wish)
+        const index = parse.findIndex((item) => {
+          return item.id === list.id
+        })
 
-      const index = parse.findIndex((item) => {
-        return item.id === list.id
-      })
+        if (index > -1) {
+          parse.splice(index, 1)
+        } else {
+          parse.push({ ...list, wish: true })
+        }
 
-      if (index > -1) {
-        parse.splice(index, 1)
+        setWishCount(parse.length)
+        localStorage.setItem("wishlist", JSON.stringify([...parse]))
       } else {
-        parse.push({ ...list, wish: true })
+        localStorage.setItem("wishlist", JSON.stringify([{ ...list, wish: true }]))
+        setWishCount((prev) => {
+          return prev + 1
+        })
       }
 
-      setWishCount(parse.length)
-      localStorage.setItem("wishlist", JSON.stringify([...parse]))
+      setIsWish(!isWish)
     } else {
-      localStorage.setItem("wishlist", JSON.stringify([{ ...list, wish: true }]))
-      setWishCount((prev) => {
-        return prev + 1
-      })
+      router.replace(`${ROUTE.GATHERINGS}?alert=${"로그인이 필요합니다."}`)
     }
-
-    setIsWish(!isWish)
   }
 
   useEffect(() => {
