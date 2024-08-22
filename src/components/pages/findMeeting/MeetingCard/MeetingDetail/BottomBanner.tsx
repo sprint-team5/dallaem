@@ -129,31 +129,29 @@ const BottomBanner = ({ id, isHost, isJoined, limit, participant, setHeight }: I
             </button>
           )}
           {isJoined ? (
-            <>
-              <button
-                type="button"
-                onClick={onClickQuit}
-                className="w-[80px] rounded-xl border border-primary bg-white py-2 text-sm leading-6 text-primary transition-colors hover:bg-gray-100 md:w-[115px] md:py-[10px] md:text-base"
-              >
-                취소하기
-              </button>
-              <button
-                type="button"
-                onClick={onClickShare}
-                className="w-[80px] rounded-xl border border-primary bg-primary py-2 text-sm leading-6 text-white transition-colors hover:bg-orange-700 md:w-[115px] md:py-[10px] md:text-base"
-              >
-                공유하기
-              </button>
-            </>
+            <button
+              type="button"
+              onClick={onClickQuit}
+              className="w-[80px] rounded-xl border border-primary bg-white py-2 text-sm leading-6 text-primary transition-colors hover:bg-gray-100 md:w-[115px] md:py-[10px] md:text-base"
+            >
+              취소하기
+            </button>
           ) : (
             <button
               type="button"
               onClick={onClickJoin}
-              className="w-[80px] rounded-xl border border-primary bg-primary py-2 text-sm leading-6 text-white transition-colors hover:bg-white hover:text-orange-700 md:w-[115px] md:py-[10px] md:text-base"
+              className="w-[80px] rounded-xl border border-primary bg-primary py-2 text-sm leading-6 text-white transition-colors hover:bg-[#e68757] md:w-[115px] md:py-[10px] md:text-base"
             >
               참여하기
             </button>
           )}
+          <button
+            type="button"
+            onClick={onClickShare}
+            className="w-[80px] rounded-xl border border-[#60aaff] bg-[#60aaff] py-2 text-sm leading-6 text-white transition-colors hover:bg-[#5291d9] md:w-[115px] md:py-[10px] md:text-base"
+          >
+            공유하기
+          </button>
         </div>
       </div>
     </div>
