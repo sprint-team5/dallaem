@@ -32,11 +32,12 @@ export const MeetingCard = ({ data }: { data: IMeetingData }) => {
 
   const joinNow = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
+
     if (await checkLogin()) {
       const res = await mutation.mutateAsync()
-      router.push(`${ROUTE.GATHERINGS}?alert=${res}`)
+      router.replace(`${ROUTE.GATHERINGS}?alert=${res}`)
     } else {
-      router.push(`${ROUTE.GATHERINGS}?alert=${"로그인이 필요합니다."}`)
+      router.replace(`${ROUTE.GATHERINGS}?alert=${"로그인이 필요합니다."}`)
     }
   }
 

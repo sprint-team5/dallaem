@@ -1,7 +1,11 @@
 "use client"
 
+import { useRouter } from "next/navigation"
+
 import { MouseEventHandler, useEffect, useState } from "react"
 
+import checkLogin from "@/actions/Auths/checkLogin"
+import ROUTE from "@/constants/route"
 import { useWishCount } from "@/provider/CountProvider"
 import { IWishListData } from "@/types/wishlist/wishlist"
 import Heart from "@public/icon/dynamicIcon/heart.svg"
@@ -11,12 +15,17 @@ import Heart from "@public/icon/dynamicIcon/heart.svg"
  */
 
 const WishBtn = ({ list }: { list: IWishListData }) => {
+  const router = useRouter()
   const [isWish, setIsWish] = useState(false)
   const { setWishCount } = useWishCount()
 
-  const HandlerWish: MouseEventHandler<HTMLButtonElement> = (e) => {
+  const HandlerWish: MouseEventHandler<HTMLButtonElement> = async (e) => {
     e.stopPropagation()
     e.preventDefault()
+
+    if (!(await checkLogin())) {
+      return router.replace(`${ROUTE.GATHERINGS}?alert=${"로그인이 필요합니다."}`)
+    }
 
     const wish = localStorage.getItem("wishlist")
 
