@@ -94,6 +94,7 @@ const FindMeeting = () => {
           </div>
         </div>
       </div>
+
       <div className="relative mt-12 flex justify-between">
         <FilterTab
           selVal={filterOption.type}
@@ -109,6 +110,7 @@ const FindMeeting = () => {
           모임 만들기
         </button>
       </div>
+
       <div className="mb-6 mt-4 flex flex-wrap items-center justify-between gap-4 border-t border-primary pt-4">
         <div className="flex gap-2">
           <Filter
@@ -127,6 +129,7 @@ const FindMeeting = () => {
             }}
           />
         </div>
+
         <div className="ml-auto flex gap-2">
           <button
             aria-label="sortButton"
@@ -165,6 +168,7 @@ const FindMeeting = () => {
         ))}
 
       <MeetingList data={data ?? null} isLoading={isLoading} />
+
       {isFetchingNextPage ? (
         <div className="py-7">
           <Spinner />
