@@ -35,10 +35,15 @@ const useGetMeetingList = (initialFilterOption: IFilterOption) => {
     })
   }
 
+  const initFilterOption = () => {
+    setFilterOption(initialFilterOption)
+  }
+
   return {
     ...query,
     filterOption,
     updateFilterOption,
+    initFilterOption,
   }
 }
 
