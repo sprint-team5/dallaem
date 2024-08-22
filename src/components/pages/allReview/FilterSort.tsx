@@ -7,11 +7,11 @@ import Sort from "@/components/public/icon/dynamicIcon/Sort"
 const sortOrder = [
   {
     label: "최신순",
-    value: "asc",
+    value: "desc",
   },
   {
     label: "오래된순",
-    value: "desc",
+    value: "asc",
   },
 ]
 

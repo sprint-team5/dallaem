@@ -19,7 +19,7 @@ import { IFilter } from "@/types/review/filter"
 
 const List = () => {
   const [filter, setFilter] = useState<IFilter>({
-    sortOrder: "asc",
+    sortOrder: "desc",
   })
   const { ref, inView } = useInView({ threshold: 1 })
 

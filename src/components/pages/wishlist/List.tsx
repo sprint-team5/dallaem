@@ -23,7 +23,7 @@ const List = () => {
   const [filter, setFilter] = useState<IFilterOption>({
     type: "DALLAEMFIT",
     sortBy: "registrationEnd",
-    sortOrder: "asc",
+    sortOrder: "desc",
   })
 
   const { wish, setWish, ref, isLoading, hasMore } = useWishList(filter)
@@ -103,27 +103,27 @@ const List = () => {
           <button
             aria-label="sortButton"
             type="button"
-            className={`group flex size-9 cursor-pointer items-center justify-center rounded-xl border-2 transition-colors ${filter.sortOrder === "asc" ? "border-gray-100 bg-white" : "border-gray-100 bg-black"}`}
+            className={`group flex size-9 cursor-pointer items-center justify-center rounded-xl border-2 transition-colors ${filter.sortOrder === "desc" ? "border-gray-100 bg-white" : "border-gray-100 bg-black"}`}
             onClick={() => {
-              if (filter.sortOrder === "asc") {
+              if (filter.sortOrder === "desc") {
                 return setFilter((prev) => {
                   return {
                     ...prev,
-                    sortOrder: "desc",
+                    sortOrder: "asc",
                   }
                 })
               }
               return setFilter((prev) => {
                 return {
                   ...prev,
-                  sortOrder: "asc",
+                  sortOrder: "desc",
                 }
               })
             }}
           >
             <Sort
               state="default"
-              className={`transition-colors ${filter.sortOrder === "desc" && "text-white"} `}
+              className={`transition-colors ${filter.sortOrder === "asc" && "text-white"} `}
             />
           </button>
           <FilterSort
