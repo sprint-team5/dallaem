@@ -115,7 +115,7 @@ export const MeetingDetailReview = ({ reviews }: { reviews: Array<IAllReview> | 
             )
           })
         ) : (
-          <div className="flex items-center justify-center whitespace-nowrap py-80 max-sm:p-40">
+          <div className="flex items-center justify-center whitespace-nowrap py-60 text-sm text-gray-500 max-sm:p-40">
             아직 리뷰가 없어요
           </div>
         )}
