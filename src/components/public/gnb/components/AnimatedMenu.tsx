@@ -28,9 +28,10 @@ const navBaseStyles = `${menuStyles.navItem} ${menuStyles.hoveredNavItem}`
 const currentNavStyles = `${menuStyles.navItem} ${menuStyles.currentNavItem} ${menuStyles.hoveredNavItem}`
 
 interface IAminatedMenuProps {
+  userToken: string | undefined
   menuRef: React.RefObject<HTMLDivElement>
 }
-const AnimatedMenu = ({ menuRef }: IAminatedMenuProps) => {
+const AnimatedMenu = ({ userToken, menuRef }: IAminatedMenuProps) => {
   const { wishCount } = useWishCount()
   const isClient = typeof window !== "undefined"
   const currentPath = usePathname()
@@ -81,7 +82,7 @@ const AnimatedMenu = ({ menuRef }: IAminatedMenuProps) => {
                 className={currentPath === item.href ? currentNavStyles : navBaseStyles}
               >
                 {item.label}
-                {isClient && isLabel && wishCount > 0 && (
+                {userToken && isClient && isLabel && wishCount > 0 && (
                   <span className="relative bottom-[1px] ml-1 rounded-full bg-primary px-2 py-0 text-sm font-medium text-white">
                     {wishCount}
                   </span>
