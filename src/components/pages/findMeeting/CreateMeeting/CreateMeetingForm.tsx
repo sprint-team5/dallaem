@@ -109,12 +109,7 @@ const CreateMeetingForm = ({ changeState }: { changeState: () => void }) => {
     if (!file) {
       setFileName("")
     } else {
-      const fileReader = new FileReader()
-      fileReader.onload = () => {
-        setImagePreview(fileReader.result as string)
-      }
-      fileReader.readAsDataURL(file)
-
+      setImagePreview(URL.createObjectURL(file))
       setFileName(file.name)
       const image = e.target.files[0]
       setMeetingData({ ...meetingData, image: { file: image, name: file.name } })
