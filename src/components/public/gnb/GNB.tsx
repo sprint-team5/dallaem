@@ -5,11 +5,11 @@ import Link from "next/link"
 import React, { useCallback } from "react"
 
 import ROUTE from "@/constants/route"
+import useGNBLogic from "@/util/useGNBLogic"
 
 import ProfileComponent from "./components/ProfileComponent"
 import SideBarIcon from "./components/SideBarIcon"
 import SideBarMenu from "./components/SideBarMenu"
-import useGNBLogic from "./useGNBLogic"
 
 // 테일윈드 스타일
 const wrapperStyles = {
