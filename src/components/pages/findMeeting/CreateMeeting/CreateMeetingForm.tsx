@@ -176,6 +176,7 @@ const CreateMeetingForm = ({ changeState }: { changeState: () => void }) => {
         setIsModalOpen(true)
       },
     })
+
     setIsModalOpen(true)
   }
 
