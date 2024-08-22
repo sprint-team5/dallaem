@@ -2,8 +2,6 @@
 
 import { usePathname, useSearchParams } from "next/navigation"
 
-import React from "react"
-
 import GNB from "@/components/public/gnb/GNB"
 import ROUTE from "@/constants/route"
 
