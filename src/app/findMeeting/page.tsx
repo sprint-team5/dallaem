@@ -80,7 +80,7 @@ const FindMeeting = () => {
   }, [fetchNextPage, hasNextPage, inView])
 
   return (
-    <div className="m-6 flex min-h-screen flex-col rounded-[20px] bg-gray-50 px-6 py-14 md:m-12 md:px-16">
+    <div className="m-6 flex min-h-screen flex-col rounded-[20px] bg-white px-6 py-14 md:m-12 md:px-16">
       <div className="flex-none">
         <div className="flex items-center gap-4">
           <div className="size-[72px] flex-none">
@@ -156,6 +156,14 @@ const FindMeeting = () => {
           />
         </div>
       </div>
+
+      {!data ||
+        (data.pages[0].length === 0 && (
+          <p className="flex w-full flex-1 items-center justify-center text-sm text-gray-500">
+            첫 모임을 등록해주세요! 🖐️
+          </p>
+        ))}
+
       <MeetingList data={data ?? null} isLoading={isLoading} />
       {isFetchingNextPage ? (
         <div className="py-7">

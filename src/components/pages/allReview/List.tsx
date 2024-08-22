@@ -66,7 +66,7 @@ const List = () => {
     }
 
     if (!data || data[0].length === 0) {
-      return <p className="w-full flex-1 items-center justify-center">아직 리뷰가 없어요</p>
+      return <p className="flex w-full flex-1 items-center justify-center">아직 리뷰가 없어요</p>
     }
 
     return data.map((reviews) => {
