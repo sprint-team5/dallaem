@@ -168,7 +168,10 @@ const CreateMeetingForm = ({ changeState }: { changeState: () => void }) => {
 
     createGathering(params, {
       onSuccess: async (gatheringData) => {
-        queryClient.invalidateQueries({ queryKey: ["meetingList"] })
+        await queryClient.invalidateQueries({ queryKey: ["meetingList"] })
+        await queryClient.invalidateQueries({
+          queryKey: ["mypage"],
+        })
 
         if (gatheringData && gatheringData?.id) {
           await joinGathering(gatheringData.id)
