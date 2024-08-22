@@ -11,6 +11,8 @@ const MyPage = async () => {
     queryFn: () => {
       return fetchMyPageInfo({ offset: 0, limit: LIMIT })
     },
+    staleTime: 1000,
+    gcTime: 1000,
   })
 
   return (
