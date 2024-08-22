@@ -3,7 +3,7 @@
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 
-import { ChangeEvent, useState } from "react"
+import { ChangeEvent, useEffect, useState } from "react"
 
 import editProfileInfo from "@/actions/Auths/editProfileInfo"
 import CancelButton from "@/components/pages/mypage/CancelButton"
@@ -20,7 +20,10 @@ const errorMessage = {
   companyName: "회사 이름을 입력해주세요.",
 }
 
+const ANIMATION_DELAY = 100
+
 const ProfileEditModal = ({ companyName, image = "" }: IProfileEditModalProps) => {
+  const [animationClassName, setAnimationClassName] = useState(false)
   const [imgSrc, setImgSrc] = useState(image)
   const [error, setError] = useState({
     img: "",
@@ -128,12 +131,22 @@ const ProfileEditModal = ({ companyName, image = "" }: IProfileEditModalProps) =
     router.back()
   }
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      return setAnimationClassName(true)
+    }, ANIMATION_DELAY)
+
+    return () => {
+      return clearTimeout(timer)
+    }
+  }, [])
+
   const disabled = error.companyName || error.img || error.noImg ? true : undefined
 
   return (
     <form
       action={submitHandler}
-      className="mt-1/2 absolute left-0 right-0 top-1/3 mx-auto flex w-modal-md flex-col gap-4 rounded-xl border bg-white p-6 shadow-md lg:w-modal-lg"
+      className={`mt-1/2 absolute left-0 right-0 top-1/3 mx-auto flex w-modal-md flex-col gap-4 rounded-xl border bg-white p-6 shadow-md transition-all lg:w-modal-lg ${animationClassName ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}
     >
       <div className="flex items-center justify-between">
         <h3 className="text-lg font-semibold">프로필 수정하기</h3>
