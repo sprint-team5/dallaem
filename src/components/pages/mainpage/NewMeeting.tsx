@@ -84,8 +84,10 @@ const NewMeeting = () => {
       )
     }
 
-    if (!data) {
-      return <p className="w-full flex-1 items-center justify-center">첫 모임을 등록해주세요! 🖐️</p>
+    if (!data || data.pages[0].length === 0) {
+      return (
+        <p className="w-full py-10 text-center text-sm text-gray-500">첫 모임을 등록해주세요! 🖐️</p>
+      )
     }
 
     return (

@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 const MyPageLayout = ({ edit, addReview, children }: IMyPageLayoutProps) => {
   return (
-    <main className="relative mx-6 my-12 min-h-screen rounded-2xl bg-white px-[16px] md:m-12 md:px-[24px]">
+    <main className="relative m-6 flex min-h-screen flex-col rounded-[20px] bg-white px-6 py-14 md:m-12 md:px-16">
       {children}
       {edit}
       {addReview}

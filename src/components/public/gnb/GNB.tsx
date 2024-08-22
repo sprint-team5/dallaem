@@ -109,7 +109,7 @@ const GNB = ({ userToken, children }: IGNBProps) => {
           return (
             item && (
               <animated.div style={style}>
-                <AnimatedMenu menuRef={menuRef} />
+                <AnimatedMenu userToken={userToken} menuRef={menuRef} />
               </animated.div>
             )
           )

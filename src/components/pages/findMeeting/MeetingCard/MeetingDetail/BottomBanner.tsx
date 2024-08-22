@@ -111,9 +111,9 @@ const BottomBanner = ({ id, isHost, isJoined, limit, participant, setHeight }: I
   return (
     <div
       ref={ref}
-      className="fixed bottom-0 left-0 w-full border-t-2 border-primary bg-white px-6 py-5"
+      className="fixed bottom-0 left-0 w-full border-t-2 border-primary bg-white px-6 py-5 transition-all duration-300 lg:left-[220px] lg:w-[calc(100%-220px)]"
     >
-      <div className="mx-auto flex max-w-[996px] items-center justify-between gap-2">
+      <div className="mx-auto flex items-center justify-between gap-2">
         <div className="break-keep">
           <p className="text-sm font-semibold text-gray-900 md:text-base">{renderFirstText()}</p>
           <p className="mt-1 text-xs font-medium text-gray-700">{renderSecondaryText()}</p>
@@ -129,31 +129,29 @@ const BottomBanner = ({ id, isHost, isJoined, limit, participant, setHeight }: I
             </button>
           )}
           {isJoined ? (
-            <>
-              <button
-                type="button"
-                onClick={onClickQuit}
-                className="w-[80px] rounded-xl border border-primary bg-white py-2 text-sm leading-6 text-primary transition-colors hover:bg-gray-100 md:w-[115px] md:py-[10px] md:text-base"
-              >
-                취소하기
-              </button>
-              <button
-                type="button"
-                onClick={onClickShare}
-                className="w-[80px] rounded-xl border border-primary bg-primary py-2 text-sm leading-6 text-white transition-colors hover:bg-orange-700 md:w-[115px] md:py-[10px] md:text-base"
-              >
-                공유하기
-              </button>
-            </>
+            <button
+              type="button"
+              onClick={onClickQuit}
+              className="w-[80px] rounded-xl border border-primary bg-white py-2 text-sm leading-6 text-primary transition-colors hover:bg-gray-100 md:w-[115px] md:py-[10px] md:text-base"
+            >
+              취소하기
+            </button>
           ) : (
             <button
               type="button"
               onClick={onClickJoin}
-              className="w-[80px] rounded-xl border border-primary bg-primary py-2 text-sm leading-6 text-white transition-colors hover:bg-white hover:text-orange-700 md:w-[115px] md:py-[10px] md:text-base"
+              className="w-[80px] rounded-xl border border-primary bg-primary py-2 text-sm leading-6 text-white transition-colors hover:bg-[#e68757] md:w-[115px] md:py-[10px] md:text-base"
             >
               참여하기
             </button>
           )}
+          <button
+            type="button"
+            onClick={onClickShare}
+            className="w-[80px] rounded-xl border border-[#60aaff] bg-[#60aaff] py-2 text-sm leading-6 text-white transition-colors hover:bg-[#5291d9] md:w-[115px] md:py-[10px] md:text-base"
+          >
+            공유하기
+          </button>
         </div>
       </div>
     </div>

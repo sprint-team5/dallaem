@@ -113,7 +113,7 @@ const Scores = () => {
             </div>
           </>
         ) : (
-          <p>리뷰가 없습니다.</p>
+          <p className="text-sm text-gray-500">아직 리뷰가 없어요</p>
         )}
       </div>
     </div>
