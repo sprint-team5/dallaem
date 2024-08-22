@@ -111,9 +111,9 @@ const BottomBanner = ({ id, isHost, isJoined, limit, participant, setHeight }: I
   return (
     <div
       ref={ref}
-      className="fixed bottom-0 left-0 w-full border-t-2 border-primary bg-white px-6 py-5"
+      className="fixed bottom-0 left-0 w-full border-t-2 border-primary bg-white px-6 py-5 transition-all duration-300 lg:left-[220px] lg:w-[calc(100%-220px)]"
     >
-      <div className="mx-auto flex max-w-[996px] items-center justify-between gap-2">
+      <div className="mx-auto flex items-center justify-between gap-2">
         <div className="break-keep">
           <p className="text-sm font-semibold text-gray-900 md:text-base">{renderFirstText()}</p>
           <p className="mt-1 text-xs font-medium text-gray-700">{renderSecondaryText()}</p>
