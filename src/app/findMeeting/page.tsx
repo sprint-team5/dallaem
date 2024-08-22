@@ -12,6 +12,7 @@ import FilterSort from "@/components/pages/findMeeting/FilterSort/FilterSort"
 import FilterTab from "@/components/pages/findMeeting/FilterTab/FilterTab"
 import MeetingList from "@/components/pages/findMeeting/MeetingCard/MeetingList/MeetingList"
 import Filter from "@/components/public/Filter/Filter"
+import ResetFilter from "@/components/public/ResetFilter"
 import Spinner from "@/components/public/Spinner/Spinner"
 import Sort from "@/components/public/icon/dynamicIcon/Sort"
 import CreateMeetingModal from "@/components/public/modal/CreateMeetingModal"
@@ -38,7 +39,7 @@ const FindMeeting = () => {
     isFetchingNextPage,
     filterOption,
     updateFilterOption,
-    initFilterOption,
+    resetFilterOption,
   } = useGetMeetingList(initialFilterOption)
 
   const [isMeetingModal, setIsMeetingModal] = useState(false)
@@ -189,16 +190,12 @@ const FindMeeting = () => {
         )}
       </div>
 
-      {Object.entries(initialFilterOption).toString() !==
-        Object.entries(filterOption).toString() && (
-        <button
-          type="button"
-          className="fixed bottom-5 left-1/2 z-50 -translate-x-1/2 rounded-full bg-[#3e3bf6] px-8 py-2 text-sm text-white transition-colors hover:bg-[#4543bb] lg:left-[calc(50%+110px)] lg:text-base"
-          onClick={initFilterOption}
-        >
-          필터 초기화
-        </button>
-      )}
+      <ResetFilter
+        isVisible={
+          Object.entries(initialFilterOption).toString() !== Object.entries(filterOption).toString()
+        }
+        onClick={resetFilterOption}
+      />
     </>
   )
 }

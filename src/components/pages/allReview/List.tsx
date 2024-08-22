@@ -8,6 +8,7 @@ import { useInView } from "react-intersection-observer"
 import FilterSort from "@/components/pages/allReview/FilterSort"
 import FilterCalendar from "@/components/pages/findMeeting/FilterCalendar/FilterCalendar"
 import Filter from "@/components/public/Filter/Filter"
+import ResetFilter from "@/components/public/ResetFilter"
 import Review from "@/components/public/Review/Review"
 import ReviewSkeleton from "@/components/public/Skeleton/ReviewSkeleton"
 import Spinner from "@/components/public/Spinner/Spinner"
@@ -18,9 +19,11 @@ import { useAllReview } from "@/hooks/Review/useAllReview"
 import { IFilter } from "@/types/review/filter"
 
 const List = () => {
-  const [filter, setFilter] = useState<IFilter>({
+  const filterOptions = {
     sortOrder: "desc",
-  })
+  }
+
+  const [filter, setFilter] = useState<IFilter>(filterOptions)
   const { ref, inView } = useInView({ threshold: 1 })
 
   // TODO: 이벤트를 넘기지 않고 수정할 값만 파싱해서 넘기도록 수정 필요(역할, 책임 등의 문제)
@@ -57,6 +60,10 @@ const List = () => {
   }
 
   const { data, isLoading, hasNextPage, isFetchingNextPage, fetchNextPage } = useAllReview(filter)
+
+  const resetFilterHandler = () => {
+    setFilter(filterOptions)
+  }
 
   const render = () => {
     if (isLoading) {
@@ -135,6 +142,11 @@ const List = () => {
       )}
 
       <div ref={ref} className="h-1 w-full" />
+
+      <ResetFilter
+        isVisible={Object.entries(filterOptions).toString() !== Object.entries(filter).toString()}
+        onClick={resetFilterHandler}
+      />
     </>
   )
 }

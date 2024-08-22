@@ -35,7 +35,7 @@ const useGetMeetingList = (initialFilterOption: IFilterOption) => {
     })
   }
 
-  const initFilterOption = () => {
+  const resetFilterOption = () => {
     setFilterOption(initialFilterOption)
   }
 
@@ -43,7 +43,7 @@ const useGetMeetingList = (initialFilterOption: IFilterOption) => {
     ...query,
     filterOption,
     updateFilterOption,
-    initFilterOption,
+    resetFilterOption,
   }
 }
 
