@@ -1,9 +1,9 @@
 import getAllReview from "@/actions/Reviews/allReviewActions"
 import LIMIT from "@/constants/limit"
-import { IFilter } from "@/types/review/filter"
+import { TReviewFilterOptions } from "@/types/review/review"
 import { queryOptions, useInfiniteQuery } from "@tanstack/react-query"
 
-export const allReviewOptions = (filter: IFilter | {}) => {
+export const allReviewOptions = (filter: TReviewFilterOptions | {}) => {
   return queryOptions({
     queryKey: ["allReview", filter],
     queryFn: () => {
@@ -12,7 +12,7 @@ export const allReviewOptions = (filter: IFilter | {}) => {
   })
 }
 
-export const useAllReview = (filter: IFilter | {}) => {
+export const useAllReview = (filter: TReviewFilterOptions | {}) => {
   const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
     queryKey: ["allReview", filter],
     queryFn: ({ pageParam = 0 }) => {

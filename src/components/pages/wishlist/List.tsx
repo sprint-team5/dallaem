@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 
-import React, { useState } from "react"
+import { useState } from "react"
 
 import FilterCalendar from "@/components/pages/findMeeting/FilterCalendar/FilterCalendar"
 import FilterSort from "@/components/pages/findMeeting/FilterSort/FilterSort"
@@ -17,11 +17,11 @@ import Sort from "@/components/public/icon/dynamicIcon/Sort"
 import { location } from "@/constants/meeting"
 import ROUTE from "@/constants/route"
 import useWishList from "@/hooks/useWishList"
-import { IFilterOption } from "@/types/findMeeting/findMeeting"
+import { IFilterOption, TCustomFilterEvent } from "@/types/findMeeting/findMeeting"
 import { isCurrentDateAfter } from "@/util/days"
 
 const List = () => {
-  const filterOptions = {
+  const filterOptions: IFilterOption = {
     type: "DALLAEMFIT",
     sortBy: "registrationEnd",
     sortOrder: "desc",
@@ -47,15 +47,9 @@ const List = () => {
     })
   }
 
-  // TODO: 이벤트를 넘기지 않고 수정할 값만 파싱해서 넘기도록 수정 필요(역할, 책임 등의 문제)
-  const onFilterChanged = (
-    e: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLButtonElement> | string,
-    key: string,
-  ) => {
+  const onFilterChanged = (e: TCustomFilterEvent, key: string) => {
     if (key) {
-      // 1. date 등 문자열 값을 넘기는 경우
       if (typeof e === "string") {
-        // 1-1. 빈 문자열을 받는 경우 초기화
         if (e === "") {
           if (key in filter) {
             const newFilterOption = { ...filter }
@@ -66,18 +60,32 @@ const List = () => {
         } else {
           setFilter({ ...filter, [key]: e })
         }
-      }
-      // 2. 이벤트 객체를 넘기는 경우
-      else {
+      } else {
         const target = e.target as HTMLButtonElement
         if (target.value) setFilter({ ...filter, [key]: target.value })
-        // 3. 버튼 내의 svg 클릭 하는 경우 (value가 존재하지 않는 문제 때문에 추가, 부모요소의 value를 가져오도록)
         else if (target.parentElement && target.parentElement.tagName.toLowerCase() === "button") {
           const targetParent = target.parentElement as HTMLButtonElement
           if (targetParent.value) setFilter({ ...filter, [key]: targetParent.value })
         }
       }
     }
+  }
+
+  const onSortOrderHandler = () => {
+    if (filter.sortOrder === "desc") {
+      return setFilter((prev) => {
+        return {
+          ...prev,
+          sortOrder: "asc",
+        }
+      })
+    }
+    return setFilter((prev) => {
+      return {
+        ...prev,
+        sortOrder: "desc",
+      }
+    })
   }
 
   return (
@@ -116,22 +124,7 @@ const List = () => {
               aria-label="sortButton"
               type="button"
               className={`group flex size-9 cursor-pointer items-center justify-center rounded-xl border-2 transition-colors ${filter.sortOrder === "desc" ? "border-gray-100 bg-white" : "border-gray-100 bg-black"}`}
-              onClick={() => {
-                if (filter.sortOrder === "desc") {
-                  return setFilter((prev) => {
-                    return {
-                      ...prev,
-                      sortOrder: "asc",
-                    }
-                  })
-                }
-                return setFilter((prev) => {
-                  return {
-                    ...prev,
-                    sortOrder: "desc",
-                  }
-                })
-              }}
+              onClick={onSortOrderHandler}
             >
               <Sort
                 state="default"

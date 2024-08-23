@@ -1,19 +1,10 @@
 "use server"
 
+import { ICustomError } from "@/types/mypage/mypage"
+import { IScoreReview, TScoresType } from "@/types/review/review"
 import { convertParamsToQueryString } from "@/util/fetchParameterParser"
 
-export interface IScoreReview {
-  teamId: string
-  gatheringId: number
-  type: string
-  oneStar: number
-  twoStars: number
-  threeStars: number
-  fourStars: number
-  fiveStars: number
-}
-
-const getScoreReview = async (params: any): Promise<IScoreReview[]> => {
+const getScoreReview = async (params: TScoresType): Promise<IScoreReview[]> => {
   const query = convertParamsToQueryString(params)
 
   try {
@@ -32,8 +23,9 @@ const getScoreReview = async (params: any): Promise<IScoreReview[]> => {
     const data = await response.json()
 
     return data
-  } catch (err: any) {
-    throw new Error(err.message)
+  } catch (err) {
+    const error = err as ICustomError
+    throw new Error(error.message)
   }
 }
 
