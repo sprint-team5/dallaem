@@ -1,5 +1,7 @@
 "use client"
 
+import { IButtonProps, IGetClassesProps } from "@/types/auth/auth"
+
 const baseStyles =
   "flex flex-col items-center justify-center whitespace-nowrap rounded-xl font-semibold py-[10px] px-[16px] w-full"
 
@@ -20,19 +22,7 @@ const buttonStyles = {
     "transition-all ease-in-out transform group-hover:scale-110 delay-[10ms] duration-150",
 }
 
-interface IButtonProps {
-  className?: string
-  borderStyle: "solid" | "outlined"
-  type?: "submit" | "reset" | "button"
-  disabled?: boolean
-  children: React.ReactNode
-  onClick?: () => void
-}
-
-const getButtonClasses = ({
-  borderStyle,
-  disabled,
-}: Omit<IButtonProps, "className" | "type" | "children" | "onClick">) => {
+const getButtonClasses = ({ borderStyle, disabled }: IGetClassesProps) => {
   const {
     default: defaultStyle,
     hover,
