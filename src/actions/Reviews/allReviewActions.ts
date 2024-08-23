@@ -1,29 +1,14 @@
 "use server"
 
 import LIMIT from "@/constants/limit"
-import { IGathering } from "@/types/review/filter"
+import { ICustomError } from "@/types/mypage/mypage"
+import { IAllReview, TReviewFilterOptions } from "@/types/review/review"
 import { convertParamsToQueryString } from "@/util/fetchParameterParser"
 
-export interface IAllReview {
-  teamId: string
-  id: number
-  score: number
-  comment: string
-  createdAt: string
-  Gathering: IGathering
-  User: IUser
-  image: string
-}
-
-export interface IUser {
-  teamId: string
-  id: number
-  email: string
-  name: string
-  image: string
-}
-
-const getAllReview = async (params: any, pageParam: number = 0): Promise<IAllReview[]> => {
+const getAllReview = async (
+  params: TReviewFilterOptions | {},
+  pageParam: number = 0,
+): Promise<IAllReview[]> => {
   const query = convertParamsToQueryString(params)
   try {
     const response = await fetch(
@@ -40,8 +25,9 @@ const getAllReview = async (params: any, pageParam: number = 0): Promise<IAllRev
     }
     const json = await response.json()
     return json
-  } catch (err: any) {
-    throw new Error(err.message)
+  } catch (err) {
+    const error = err as ICustomError
+    throw new Error(error.message)
   }
 }
 

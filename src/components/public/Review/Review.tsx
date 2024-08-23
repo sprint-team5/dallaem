@@ -1,24 +1,8 @@
 import Image from "next/image"
 
 import Heart from "@/components/public/icon/dynamicIcon/Heart"
-import { IGathering } from "@/types/review/filter"
+import { IReviewProps } from "@/types/review/review"
 import dayjs from "dayjs"
-
-interface IUser {
-  teamId: string
-  id: number
-  email: string
-  name: string
-}
-
-export interface IReviewProps {
-  score: number
-  comment: string
-  createdAt: string
-  gathering: IGathering
-  user?: IUser
-  isImage?: boolean
-}
 
 /**
  * @interface IReviewProps

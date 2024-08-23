@@ -1,8 +1,8 @@
 import { useMemo } from "react"
 
-import { IScoreReview } from "@/actions/Reviews/getScoreReview"
+import { TuseScoreCalculation } from "@/types/review/review"
 
-const useScoreCalculation = (scoreData: IScoreReview[] | undefined) => {
+const useScoreCalculation = (scoreData: TuseScoreCalculation) => {
   return useMemo(() => {
     if (!scoreData || scoreData.length === 0) {
       return { allScore: 0, maxScore: 0, ratings: [] }

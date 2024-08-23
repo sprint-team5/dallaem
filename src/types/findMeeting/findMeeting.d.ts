@@ -30,7 +30,11 @@ export interface MyCardProps {
   children?: ReactNode
 }
 
-export interface IMeetingData extends Omit<MyCardProps, "children"> {
+export interface IMeetingData
+  extends Pick<
+    MyCardProps,
+    "teamId" | "name" | "dateTime" | "location" | "image" | "id" | "participantCount" | "capacity"
+  > {
   type: string
   registrationEnd: string
   createdBy: number

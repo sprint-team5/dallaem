@@ -7,10 +7,12 @@ import RatingBar from "@/components/pages/allReview/Scores/Atoms/RatingBar"
 import FilterTab from "@/components/pages/findMeeting/FilterTab/FilterTab"
 import Heart from "@/components/public/icon/dynamicIcon/Heart"
 import useScoreCalculation from "@/hooks/Review/useScoreCalculation"
+import { TCustomFilterEvent } from "@/types/findMeeting/findMeeting"
+import { TScoresType } from "@/types/review/review"
 import { useQuery } from "@tanstack/react-query"
 
 const Scores = () => {
-  const [filter, setFilter] = useState({
+  const [filter, setFilter] = useState<TScoresType>({
     type: "DALLAEMFIT",
   })
 
@@ -35,15 +37,9 @@ const Scores = () => {
     }
   }, [allScore])
 
-  // TODO: 이벤트를 넘기지 않고 수정할 값만 파싱해서 넘기도록 수정 필요(역할, 책임 등의 문제)
-  const onFilterChanged = (
-    e: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLButtonElement> | string,
-    key: string,
-  ) => {
+  const onFilterChanged = (e: TCustomFilterEvent, key: string) => {
     if (key) {
-      // 1. date 등 문자열 값을 넘기는 경우
       if (typeof e === "string") {
-        // 1-1. 빈 문자열을 받는 경우 초기화
         if (e === "") {
           if (key in filter) {
             const newFilterOption = { ...filter }
@@ -54,12 +50,9 @@ const Scores = () => {
         } else {
           setFilter({ ...filter, [key]: e })
         }
-      }
-      // 2. 이벤트 객체를 넘기는 경우
-      else {
+      } else {
         const target = e.target as HTMLButtonElement
         if (target.value) setFilter({ ...filter, [key]: target.value })
-        // 3. 버튼 내의 svg 클릭 하는 경우 (value가 존재하지 않는 문제 때문에 추가, 부모요소의 value를 가져오도록)
         else if (target.parentElement && target.parentElement.tagName.toLowerCase() === "button") {
           const targetParent = target.parentElement as HTMLButtonElement
           if (targetParent.value) setFilter({ ...filter, [key]: targetParent.value })

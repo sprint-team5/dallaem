@@ -1,26 +1,7 @@
 "use server"
 
-import { IGathering } from "@/types/review/filter"
+import { IAllReview } from "@/types/review/review"
 import { convertParamsToQueryString } from "@/util/fetchParameterParser"
-
-export interface IAllReview {
-  teamId: string
-  id: number
-  score: number
-  comment: string
-  createdAt: string
-  Gathering: IGathering
-  User: IUser
-  image: string
-}
-
-export interface IUser {
-  teamId: string
-  id: number
-  email: string
-  name: string
-  image: string
-}
 
 const getAllReviews = async (params: any): Promise<IAllReview[]> => {
   const query = convertParamsToQueryString(params)

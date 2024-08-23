@@ -1,8 +1,9 @@
 "use client"
 
+import { IResetFilterProps } from "@/types/wishlist/wishlist"
 import { animated, useTransition } from "@react-spring/web"
 
-const ResetFilter = ({ onClick, isVisible }: { onClick: () => void; isVisible: boolean }) => {
+const ResetFilter = ({ onClick, isVisible }: IResetFilterProps) => {
   const transitions = useTransition(isVisible, {
     from: { opacity: 0, y: 30 },
     enter: { opacity: 1, y: 0 },
