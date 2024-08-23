@@ -60,6 +60,14 @@ export interface IMeetingDataState
   image: TCustomImage
 }
 
+export interface IGatheringData
+  extends Pick<IMeetingData, "type" | "location" | "name" | "capacity" | "registrationEnd"> {
+  id?: string
+  date: string
+  time: string
+  image: TCustomImage
+}
+
 type TCustomOnSelect = (
   event: MouseEvent<HTMLButtonElement> | KeyboardEvent<HTMLButtonElement>,
 ) => void
