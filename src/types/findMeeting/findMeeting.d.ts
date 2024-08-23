@@ -41,6 +41,12 @@ type TCustomImage = {
   name: string
 }
 
+export interface ICustomResponse {
+  code: string
+  message: string
+  parameter?: string
+}
+
 export interface ILabelProps {
   label: string
   htmlFor: string
