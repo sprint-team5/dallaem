@@ -10,6 +10,7 @@ import Button from "@/components/public/button/Button"
 import InputField from "@/components/public/input/InputField"
 import ROUTE from "@/constants/route"
 import usePostSignin from "@/hooks/usePostSignin"
+import { ISigninData } from "@/types/auth/auth"
 
 import validations from "./Validations"
 
@@ -43,11 +44,6 @@ const signinFormValue = [
     validation: validations.password,
   },
 ]
-
-interface ISigninData {
-  email: string
-  password: string
-}
 
 const SigninForm = () => {
   const router = useRouter()
