@@ -1,5 +1,5 @@
-import { IAllReview } from "@/actions/Reviews/allReviewActions"
 import Review from "@/components/public/Review/Review"
+import { IAllReview } from "@/types/review/review"
 
 const MeetingReviewList = ({ reviews }: { reviews: Array<IAllReview> | undefined }) => {
   return (
