@@ -2,8 +2,8 @@ import type { Metadata } from "next"
 import localFont from "next/font/local"
 import { cookies } from "next/headers"
 
+import RouteValidationLayout from "@/components/app/RouteValidationLayout"
 import QueryProviders from "@/components/app/provider"
-import GNB from "@/components/public/gnb/GNB"
 import { CountProvider } from "@/provider/CountProvider"
 import ToastProvider from "@/provider/ToastProvider"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
@@ -70,11 +70,11 @@ const RootLayout = ({
   const userToken = cookieStore.get("userToken")?.value
   return (
     <html lang="ko" className={`${pretendard.className} ${tmoneyRoundWind.variable}`}>
-      <body className="bg-gray-100 pt-[56px] md:pt-[60px]">
+      <body className="bg-gray-100">
         <CountProvider>
           <ToastProvider>
             <QueryProviders>
-              <GNB userToken={userToken}>{children}</GNB>
+              <RouteValidationLayout userToken={userToken}>{children}</RouteValidationLayout>
               {process.env.NODE_ENV !== "production" && <ReactQueryDevtools position="bottom" />}
             </QueryProviders>
           </ToastProvider>
