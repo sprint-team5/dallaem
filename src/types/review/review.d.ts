@@ -1,4 +1,4 @@
-import { IFilterOption } from "@/types/findMeeting/findMeeting"
+import { IFilterOption, TCustomOnSelect } from "@/types/findMeeting/findMeeting"
 
 export type TScoresType = Pick<IFilterOption, "type">
 
@@ -61,9 +61,7 @@ export interface IReviewProps {
 
 interface IFilterSortProps {
   selVal?: string
-  onSelect: (
-    event: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLButtonElement>,
-  ) => void
+  onSelect: TCustomOnSelect
 }
 
 export interface IAllReview extends TteamID {
