@@ -1,29 +1,9 @@
 "use server"
 
+import { ICustomResponse, IMeetingDataState } from "@/types/findMeeting/findMeeting"
 import { getCookie } from "@/util/cookies"
 
-interface ICustomResponse {
-  code: string
-  message: string
-  parameter?: string
-}
-
-interface IMeetingData {
-  id: string
-  location: string
-  type: string
-  name: string
-  date: string
-  time: string
-  capacity: number
-  image: {
-    file: File | null
-    name: string
-  }
-  registrationEnd: string
-}
-
-const generateGathering = async (formData: FormData): Promise<IMeetingData> => {
+const generateGathering = async (formData: FormData): Promise<IMeetingDataState> => {
   try {
     const token = await getCookie("userToken")
     const data: RequestInit = {
@@ -41,7 +21,7 @@ const generateGathering = async (formData: FormData): Promise<IMeetingData> => {
       throw new Error(json.message)
     }
 
-    const responseData: IMeetingData = await response.json()
+    const responseData: IMeetingDataState = await response.json()
     return responseData
   } catch (error) {
     if (error instanceof Error) {

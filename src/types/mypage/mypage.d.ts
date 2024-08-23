@@ -128,3 +128,14 @@ export interface IReview {
   createdAt: string
   Gathering: IGathering
 }
+
+export interface IAddReviews {
+  gatheringId: string
+  score: string
+  comment: string
+}
+
+export interface IErrorResponse {
+  code: string
+  message: string
+}

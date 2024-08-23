@@ -2,16 +2,7 @@
 
 import { cookies } from "next/headers"
 
-interface IAddReviews {
-  gatheringId: string
-  score: string
-  comment: string
-}
-
-interface IErrorResponse {
-  code: string
-  message: string
-}
+import { IAddReviews, IErrorResponse } from "@/types/mypage/mypage"
 
 const addReview = async (data: IAddReviews) => {
   const userToken = cookies().get("userToken")?.value
@@ -31,8 +22,9 @@ const addReview = async (data: IAddReviews) => {
     }
 
     return response.status
-  } catch (error: any) {
-    throw new Error(error.message)
+  } catch (error) {
+    const customError = error as IErrorResponse
+    throw new Error(customError.message)
   }
 }
 

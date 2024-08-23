@@ -1,30 +1,8 @@
 "use server"
 
-interface EmailExists {
-  code: "EMAIL_EXISTS"
-  message: string
-}
+import { IEmailExists, IMessage, ISignupData, TSignupResponse } from "@/types/auth/auth"
 
-interface ValidationError {
-  code: "VALIDATION_ERROR"
-  parameter: "email"
-  message: string
-}
-
-interface SignupSuccess {
-  message: string
-}
-
-interface ISignupData {
-  name: string
-  email: string
-  companyName: string
-  password: string
-}
-
-type SignupResponse = EmailExists | ValidationError | SignupSuccess
-
-const PostSignupFn = async (signupData: ISignupData): Promise<SignupResponse> => {
+const PostSignupFn = async (signupData: ISignupData): Promise<IMessage> => {
   const response = await fetch(`${process.env.BASE_URL}/${process.env.TEAM_ID}/auths/signup`, {
     method: "POST",
     headers: {
@@ -41,15 +19,15 @@ const PostSignupFn = async (signupData: ISignupData): Promise<SignupResponse> =>
   }
 
   if (result.status === 201 && result.ok) {
-    return result as SignupSuccess
+    return result as IMessage
   }
 
   if (result.status !== 201 && result.code === "EMAIL_EXISTS") {
-    return result as EmailExists
+    return result as IEmailExists
   }
 
   if (result.status !== 201 && result.code === "VALIDATION_ERROR") {
-    return result as ValidationError
+    return result as TSignupResponse
   }
 
   throw new Error(result.message)

@@ -45,6 +45,12 @@ type TCustomImage = {
   name: string
 }
 
+export interface ICustomResponse {
+  code: string
+  message: string
+  parameter?: string
+}
+
 export interface ILabelProps {
   label: string
   htmlFor: string
@@ -53,6 +59,14 @@ export interface ILabelProps {
 
 export interface IMeetingDataState
   extends Pick<IMeetingData, "type" | "location" | "name" | "capacity" | "registrationEnd"> {
+  date: string
+  time: string
+  image: TCustomImage
+}
+
+export interface IGatheringData
+  extends Pick<IMeetingData, "type" | "location" | "name" | "capacity" | "registrationEnd"> {
+  id?: string
   date: string
   time: string
   image: TCustomImage
