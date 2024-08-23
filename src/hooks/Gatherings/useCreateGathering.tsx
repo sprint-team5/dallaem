@@ -1,25 +1,11 @@
 "use client"
 
 import generateGathering from "@/actions/Gatherings/generateGathering"
+import { IMeetingDataState } from "@/types/findMeeting/findMeeting"
 import { useMutation } from "@tanstack/react-query"
 
-interface IMeetingData {
-  id: string
-  location: string
-  type: string
-  name: string
-  date: string
-  time: string
-  capacity: number
-  image: {
-    file: File | null
-    name: string
-  }
-  registrationEnd: string
-}
-
 const useCreateGathering = () => {
-  return useMutation<IMeetingData, Error, FormData>({
+  return useMutation<IMeetingDataState, Error, FormData>({
     mutationFn: (formData: FormData) => {
       return generateGathering(formData)
     },
