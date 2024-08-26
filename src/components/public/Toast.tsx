@@ -10,7 +10,6 @@ import { animated, useTransition } from "@react-spring/web"
 const Toast = () => {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const [isOpen, setIsOpen] = useState(false)
   const [message, setMessage] = useState("")
   const pathname = usePathname()
   const search = searchParams.get("alert")
@@ -26,21 +25,20 @@ const Toast = () => {
 
   useEffect(() => {
     if (!search) return
-    setIsOpen(true)
     setMessage(search)
   }, [search, router, newURL])
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setIsOpen(false)
       router.replace(newURL(), { scroll: false })
+      setMessage("")
     }, 3000)
     return () => {
       clearTimeout(timer)
     }
-  }, [isOpen, router, newURL])
+  }, [message, router, newURL])
 
-  const transitions = useTransition(isOpen, {
+  const transitions = useTransition(message, {
     from: { opacity: 0, x: "100%" },
     enter: { opacity: 1, x: "0%" },
     leave: { opacity: 0, x: "100%" },
@@ -49,7 +47,7 @@ const Toast = () => {
       tension: 120,
       friction: 44,
     },
-    delay: isOpen ? 100 : 0,
+    delay: message ? 100 : 0,
   })
 
   return transitions((style, item) => {
