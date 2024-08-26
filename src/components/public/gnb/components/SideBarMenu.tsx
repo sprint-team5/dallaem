@@ -77,7 +77,7 @@ const SideBarMenu = ({ menuRef, isOpen }: ISideBarMenuProps) => {
       <animated.div
         ref={menuRef}
         style={{ ...style, ...containerAnimation }}
-        className="absolute left-0 top-14 z-50 flex h-[calc(100vh-56px)] w-full flex-col items-stretch justify-between border-r border-r-[##D1D5DB] bg-white p-5 text-2xl shadow-lg md:top-[60px] md:h-[calc(100vh-60px)] md:w-[220px] md:py-[17px] md:text-sm"
+        className="absolute left-0 top-14 z-50 flex h-[calc(100vh-56px)] w-[80%] flex-col items-stretch justify-between border-r border-r-[##D1D5DB] bg-white p-5 text-2xl shadow-lg md:top-[60px] md:h-[calc(100vh-60px)] md:w-[220px] md:py-[17px] md:text-sm"
       >
         <animated.div style={itemAnimation} className={`${menuStyles.wrraper}`}>
           <div className="flex flex-col gap-5">

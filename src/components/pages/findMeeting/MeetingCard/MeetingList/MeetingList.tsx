@@ -35,9 +35,9 @@ export const MeetingCard = ({ data }: { data: IMeetingData }) => {
 
     if (await checkLogin()) {
       const res = await mutation.mutateAsync()
-      router.replace(`${pathname}?alert=${res}`)
+      router.replace(`${pathname}?alert=${res}&type=alert`, { scroll: false })
     } else {
-      router.replace(`${pathname}?alert=${"로그인이 필요합니다."}`)
+      router.replace(`${pathname}?alert=${"로그인이 필요합니다."}`, { scroll: false })
     }
   }
 

@@ -3,67 +3,69 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
 import { useCallback, useEffect, useState } from "react"
+import { IoAlertOutline, IoCheckmark } from "react-icons/io5"
 
-import XSVG from "@public/icon/staticIcon/X.svg"
-import ErrorSVG from "@public/icon/staticIcon/error.svg"
-
-const MODAL_DELAY_TIME = {
-  open: 100,
-  close: 4000,
-}
+import { animated, config, useTransition } from "@react-spring/web"
 
 const Toast = () => {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const [active, setActive] = useState(false)
-  const [errorMsg, setErrorMsg] = useState("")
+  const [isOpen, setIsOpen] = useState(false)
+  const [message, setMessage] = useState("")
   const pathname = usePathname()
   const search = searchParams.get("alert")
+  const type = searchParams.get("type") || "error"
 
   const newURL = useCallback(() => {
     const newParams = new URLSearchParams(searchParams.toString())
+    newParams.delete("type")
     newParams.delete("alert")
     const url = `${pathname}?${newParams.toString()}`
     return url
   }, [pathname, searchParams])
 
   useEffect(() => {
-    if (!search) return setActive(false)
-
-    setErrorMsg(search)
-
-    const firstTime = setTimeout(() => {
-      setActive(true)
-    }, MODAL_DELAY_TIME.open)
-
-    const secondTime = setTimeout(() => {
-      setActive(false)
-      router.replace(newURL(), { scroll: false })
-    }, MODAL_DELAY_TIME.open + MODAL_DELAY_TIME.close)
-
-    return () => {
-      clearTimeout(firstTime)
-      clearTimeout(secondTime)
-    }
+    if (!search) return
+    setIsOpen(true)
+    setMessage(search)
   }, [search, router, newURL])
 
-  const clickHanlder = () => {
-    setActive(false)
-    router.replace(newURL(), { scroll: false })
-  }
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsOpen(false)
+      router.replace(newURL(), { scroll: false })
+    }, 3000)
+    return () => {
+      clearTimeout(timer)
+    }
+  }, [isOpen])
 
-  return (
-    <button
-      type="button"
-      onClick={clickHanlder}
-      className={`fixed top-20 z-50 flex cursor-pointer items-center gap-2 rounded border border-red-400 bg-red-100 py-3 pl-4 pr-6 text-xs font-bold text-red-400 transition-all duration-500 sm:text-sm ${active ? "right-6 translate-x-0" : "right-0 max-w-60 translate-x-full break-keep opacity-0"}`}
-    >
-      <div>
-        <ErrorSVG className="text-red-4 size-5" />
-      </div>
-      {errorMsg}
-      <XSVG className="absolute right-2 top-1 w-3" />
-    </button>
+  const transitions = useTransition(isOpen, {
+    from: { opacity: 0, x: "100%" },
+    enter: { opacity: 1, x: "0%" },
+    leave: { opacity: 0, x: "100%" },
+    config: {
+      duration: 300,
+      tension: 120,
+      friction: 44,
+    },
+    delay: isOpen ? 100 : 0,
+  })
+
+  return transitions((style, item) =>
+    item ? (
+      <animated.div
+        style={style}
+        className={`fixed right-4 top-[90px] z-50 inline-flex items-center gap-2 rounded-full px-4 py-2 shadow-lg ${type === "error" ? "bg-red-100" : "bg-green-100"}`}
+      >
+        <div
+          className={`flex size-4 items-center justify-center rounded-full text-[10px] text-white md:size-5 ${type === "error" ? "bg-red-400" : "bg-green-400"}`}
+        >
+          {type === "error" ? <IoAlertOutline /> : <IoCheckmark />}
+        </div>
+        <p className="text-[10px] text-gray-700 md:text-xs">{message}</p>
+      </animated.div>
+    ) : null,
   )
 }
 
