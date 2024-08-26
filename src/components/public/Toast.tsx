@@ -5,7 +5,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useCallback, useEffect, useState } from "react"
 import { IoAlertOutline, IoCheckmark } from "react-icons/io5"
 
-import { animated, config, useTransition } from "@react-spring/web"
+import { animated, useTransition } from "@react-spring/web"
 
 const Toast = () => {
   const router = useRouter()
@@ -38,7 +38,7 @@ const Toast = () => {
     return () => {
       clearTimeout(timer)
     }
-  }, [isOpen])
+  }, [isOpen, router, newURL])
 
   const transitions = useTransition(isOpen, {
     from: { opacity: 0, x: "100%" },
@@ -52,8 +52,8 @@ const Toast = () => {
     delay: isOpen ? 100 : 0,
   })
 
-  return transitions((style, item) =>
-    item ? (
+  return transitions((style, item) => {
+    return item ? (
       <animated.div
         style={style}
         className={`fixed right-4 top-[90px] z-50 inline-flex items-center gap-2 rounded-full px-4 py-2 shadow-lg ${type === "error" ? "bg-red-100" : "bg-green-100"}`}
@@ -65,8 +65,8 @@ const Toast = () => {
         </div>
         <p className="text-[10px] text-gray-700 md:text-xs">{message}</p>
       </animated.div>
-    ) : null,
-  )
+    ) : null
+  })
 }
 
 export default Toast

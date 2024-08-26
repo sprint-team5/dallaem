@@ -60,9 +60,9 @@ const NewMeeting = () => {
         modules: [Pagination, Autoplay],
         onSlideChange: (swiper: SwiperCore) => {
           const slidesPerGroup = swiper.params.slidesPerGroup || 0
-          const snapLength = swiper.snapGrid.length
+          const snapL = swiper.snapGrid.length
           setRealIndex(swiper.realIndex / slidesPerGroup + 1)
-          setSnapLength(snapLength)
+          setSnapLength(snapL)
         },
       })
     }
