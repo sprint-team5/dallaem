@@ -39,7 +39,7 @@ const ReviewModal = ({ gatheringId }: IReviewModalProp) => {
   const submitHandler: SubmitHandler<IUserData> = async (data) => {
     const userReview = {
       gatheringId,
-      score: userInput.score.toString(),
+      score: userInput.score,
       comment: data.comment,
     }
 

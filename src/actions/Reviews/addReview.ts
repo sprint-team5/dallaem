@@ -2,9 +2,9 @@
 
 import { cookies } from "next/headers"
 
-import { IAddReviews, IErrorResponse } from "@/types/mypage/mypage"
+import { IErrorResponse, IUserData } from "@/types/mypage/mypage"
 
-const addReview = async (data: IAddReviews) => {
+const addReview = async (data: IUserData) => {
   const userToken = cookies().get("userToken")?.value
   try {
     const response = await fetch(`${process.env.BASE_URL}/${process.env.TEAM_ID}/reviews`, {
