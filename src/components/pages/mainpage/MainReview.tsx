@@ -69,7 +69,7 @@ const MainReview = () => {
                       )
                     })}
                 </div>
-                <h3 className="mt-[10px] break-keep text-sm font-medium leading-5">
+                <h3 className="mt-[10px] line-clamp-2 text-ellipsis break-keep text-sm font-medium leading-5">
                   {review.comment}
                 </h3>
                 <p className="mt-[10px] text-xs font-medium leading-4 text-gray-700">
