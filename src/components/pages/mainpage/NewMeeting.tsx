@@ -16,13 +16,14 @@ import { Swiper, SwiperProps, SwiperSlide } from "swiper/react"
 const NewMeeting = () => {
   const dotUl = useRef<HTMLUListElement>(null)
   const [realIndex, setRealIndex] = useState(1)
+  const [snapLength, setSnapLength] = useState(1)
   const [swiperSetting, setSwiperSetting] = useState<SwiperProps | null>(null)
 
   const initialFilterOption: IFilterOption = {
     type: "DALLAEMFIT",
     sortBy: "registrationEnd",
     sortOrder: "desc",
-    limit: 9,
+    limit: 12,
   }
 
   const { data, isLoading } = useGetMeetingList(initialFilterOption)
@@ -40,7 +41,7 @@ const NewMeeting = () => {
             slidesPerView: 2,
             slidesPerGroup: 2,
           },
-          1025: {
+          1280: {
             slidesPerView: 3,
             slidesPerGroup: 3,
           },
@@ -57,11 +58,11 @@ const NewMeeting = () => {
           },
         },
         modules: [Pagination, Autoplay],
-        onInit: (swiper: SwiperCore) => {
-          setRealIndex(swiper.realIndex / 3 + 1)
-        },
         onSlideChange: (swiper: SwiperCore) => {
-          setRealIndex(swiper.realIndex / 3 + 1)
+          const slidesPerGroup = swiper.params.slidesPerGroup || 0
+          const snapL = swiper.snapGrid.length
+          setRealIndex(swiper.realIndex / slidesPerGroup + 1)
+          setSnapLength(snapL)
         },
       })
     }
@@ -77,7 +78,7 @@ const NewMeeting = () => {
           <div className="hidden md:block">
             <MainCardSkeleton />
           </div>
-          <div className="hidden lg:block">
+          <div className="hidden xl:block">
             <MainCardSkeleton />
           </div>
         </div>
@@ -97,9 +98,9 @@ const NewMeeting = () => {
           {data?.pages.map((pages) => {
             return pages.map((meeting) => {
               return (
-                <SwiperSlide key={meeting.id}>
-                  <Link href={`/findMeeting/${meeting.id}`}>
-                    <div className="overflow-hidden rounded-2xl border">
+                <SwiperSlide key={meeting.id} className="!h-auto">
+                  <Link href={`/findMeeting/${meeting.id}`} className="block h-full">
+                    <div className="flex h-full flex-col overflow-hidden rounded-2xl border">
                       <div className="relative w-full after:block after:pb-[calc(265/463*100%)]">
                         <Image
                           src={meeting.image}
@@ -108,8 +109,8 @@ const NewMeeting = () => {
                           className="object-cover"
                         />
                       </div>
-                      <div className="p-4 px-5">
-                        <div className="flex items-center">
+                      <div className="flex-1 p-4 px-5">
+                        <div className="flex flex-wrap items-center">
                           <h2 className="text-lg font-semibold text-gray-800 after:px-2 after:content-['|']">
                             {meeting.name}
                           </h2>{" "}
@@ -162,7 +163,7 @@ const NewMeeting = () => {
         <div className="flex items-center gap-2">
           <ul ref={dotUl} className="hidden gap-1 lg:flex" />
           <div className="rounded-full border border-gray-300 px-2 py-[1px] text-[10px] font-semibold">
-            {realIndex} / 3
+            {realIndex} / {snapLength}
           </div>
         </div>
       </div>

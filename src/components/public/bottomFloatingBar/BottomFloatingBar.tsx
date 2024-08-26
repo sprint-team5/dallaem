@@ -83,7 +83,7 @@ const BottomBanner = ({ id, isHost, isJoined, limit, participant, setHeight }: I
         },
       })
     } else {
-      router.push(`${ROUTE.GATHERINGS}/${id}?alert=${"로그인이 필요합니다."}`)
+      router.replace(`${ROUTE.GATHERINGS}/${id}?alert=${"로그인이 필요합니다."}`)
     }
   }
 
@@ -93,7 +93,9 @@ const BottomBanner = ({ id, isHost, isJoined, limit, participant, setHeight }: I
 
   const onClickShare = () => {
     navigator.clipboard.writeText(window.location.href)
-    router.push(`${ROUTE.GATHERINGS}/${id}?alert=클립보드에 복사됐습니다.`)
+    router.replace(`${ROUTE.GATHERINGS}/${id}?alert=클립보드에 복사됐습니다.&type=alert`, {
+      scroll: false,
+    })
   }
 
   useEffect(() => {

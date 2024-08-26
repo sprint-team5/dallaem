@@ -15,7 +15,7 @@ const Home = () => {
         type: "DALLAEMFIT",
         sortBy: "registrationEnd",
         sortOrder: "desc",
-        limit: 9,
+        limit: 12,
       })
     },
   })
