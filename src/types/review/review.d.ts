@@ -1,5 +1,14 @@
 import { IFilterOption, TCustomOnSelect } from "@/types/findMeeting/findMeeting"
 
+type TteamID = {
+  teamId: string
+}
+
+export type TReviewScoreRatings = {
+  rating: number
+  count: number
+}
+
 export type TScoresType = Pick<IFilterOption, "type">
 
 export type TReviewFilterOptions = Pick<
@@ -7,8 +16,18 @@ export type TReviewFilterOptions = Pick<
   "sortOrder" | "location" | "date" | "createdBy"
 >
 
-type TteamID = {
-  teamId: string
+export type TuseScoreCalculation = IScoreReview[] | undefined
+
+interface IUser extends TteamID {
+  id: number
+  email: string
+  name: string
+  image?: string
+}
+
+interface IFilterSortProps {
+  selVal?: string
+  onSelect: TCustomOnSelect
 }
 
 export interface IGathering extends TteamID {
@@ -35,19 +54,10 @@ export interface IScoreReview extends TteamID {
   fiveStars: number
 }
 
-export type TuseScoreCalculation = IScoreReview[] | undefined
-
 export interface IRatingBar {
   rating: number
   count: number
   maxScore: number
-}
-
-interface IUser extends TteamID {
-  id: number
-  email: string
-  name: string
-  image?: string
 }
 
 export interface IReviewProps {
@@ -59,11 +69,6 @@ export interface IReviewProps {
   isImage?: boolean
 }
 
-interface IFilterSortProps {
-  selVal?: string
-  onSelect: TCustomOnSelect
-}
-
 export interface IAllReview extends TteamID {
   id: number
   score: number
@@ -72,4 +77,10 @@ export interface IAllReview extends TteamID {
   Gathering: IGathering
   User: IUser
   image: string
+}
+
+export interface IReviewScoreReturn {
+  allScore: string
+  maxScore: number
+  ratings: TReviewScoreRatings[]
 }
