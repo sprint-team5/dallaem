@@ -23,14 +23,14 @@ const useGNBLogic = (initialUserToken: string | undefined) => {
 
   // data와 userToken 값의 업데이트에 따라 로그인 유무와 프로필 이미지를 업데이트함
   useEffect(() => {
-    if (data?.image) {
+    if (data) {
       setIsLoggedIn(true)
       setProfileImg(data.image)
     } else {
       setIsLoggedIn(false)
       setProfileImg(null)
     }
-  }, [data?.image, userToken])
+  }, [data, userToken])
 
   const menuRef = useRef<HTMLDivElement>(null)
   useOutsideClick(menuRef, () => {
