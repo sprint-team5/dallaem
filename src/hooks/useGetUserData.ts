@@ -16,7 +16,7 @@ interface UserDataResponse {
 
 const useGetUserData = (userToken: string | undefined) => {
   return useQuery<UserDataResponse>({
-    queryKey: ["profile", userToken],
+    queryKey: ["userData", userToken],
     queryFn: async () => {
       const data = await GetUserDataFn(userToken)
       if (!data.ok) {
@@ -24,6 +24,7 @@ const useGetUserData = (userToken: string | undefined) => {
       }
       return data
     },
+    // userToken이 업데이트되면 자동으로 재요청함
     enabled: !!userToken,
   })
 }

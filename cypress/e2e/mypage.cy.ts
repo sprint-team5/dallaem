@@ -2,8 +2,11 @@
 
 describe("mypage test", () => {
   beforeEach(() => {
+    cy.intercept("/").as("home")
+    cy.viewport(1024, 768)
     cy.login()
-    cy.contains("내 모임 보러가기").click()
+    cy.wait("@home")
+    cy.contains("마이페이지").click()
   })
   it("should be able to visit mypage", () => {
     cy.getCookie("userToken").should("exist")
