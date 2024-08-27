@@ -6,11 +6,11 @@ import GNB from "@/components/public/gnb/GNB"
 import ROUTE from "@/constants/route"
 
 interface INavigationLayoutProps {
-  userToken?: string
+  initialUserToken?: string
   children: React.ReactNode
 }
 
-const RouteValidationLayout = ({ userToken, children }: INavigationLayoutProps) => {
+const RouteValidationLayout = ({ initialUserToken, children }: INavigationLayoutProps) => {
   const pathname = usePathname()
   const searchParams = useSearchParams()
 
@@ -54,7 +54,7 @@ const RouteValidationLayout = ({ userToken, children }: INavigationLayoutProps) 
     return children
   }
 
-  return <GNB userToken={userToken}>{children}</GNB>
+  return <GNB initialUserToken={initialUserToken}>{children}</GNB>
 }
 
 export default RouteValidationLayout
