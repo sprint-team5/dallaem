@@ -19,7 +19,7 @@ function toPublicRedirect(request: NextRequest, path: string) {
 export function middleware(request: NextRequest) {
   const userToken = cookies().get("userToken")?.value
 
-  const checkUserToken = request.cookies.has("userToken") || userToken
+  const checkUserToken = !!userToken
 
   if (!checkUserToken) {
     if (startsWith(request, ROUTE.SAVE_GATHERINGS) || startsWith(request, ROUTE.MY_PAGE)) {

@@ -1,20 +1,36 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 
 import useGetUserData from "@/hooks/useGetUserData"
+import useUserToken from "@/hooks/useUserToken"
 import useOutsideClick from "@/util/useOutsideClick"
 
-const useGNBLogic = (userToken: string | undefined) => {
+const useGNBLogic = (initialUserToken: string | undefined) => {
   const [isOpen, setIsOpen] = useState(false)
   const [is2XlScreen, setIs2XlScreen] = useState(false)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const { data } = useGetUserData(userToken)
+  const [profileImg, setProfileImg] = useState<string | null>(null)
 
-  // data가 변경될 때마다 isLoggedIn 상태를 업데이트
+  const { userToken, updateUserToken } = useUserToken(initialUserToken)
+  // api 요청
+  const { data } = useGetUserData(initialUserToken)
+
+  // 유저 토큰이 업데이트 되면 초기값을 업데이트함
   useEffect(() => {
-    setIsLoggedIn(Boolean(data?.name))
-  }, [data])
+    if (initialUserToken !== userToken) {
+      updateUserToken()
+    }
+  }, [initialUserToken, userToken, updateUserToken])
 
-  const profileImg = data?.image
+  // data와 userToken 값의 업데이트에 따라 로그인 유무와 프로필 이미지를 업데이트함
+  useEffect(() => {
+    if (data) {
+      setIsLoggedIn(true)
+      setProfileImg(data.image)
+    } else {
+      setIsLoggedIn(false)
+      setProfileImg(null)
+    }
+  }, [data, userToken])
 
   const menuRef = useRef<HTMLDivElement>(null)
   useOutsideClick(menuRef, () => {

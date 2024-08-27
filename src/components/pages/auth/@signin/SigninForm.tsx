@@ -76,9 +76,7 @@ const SigninForm = () => {
   const onSubmit: SubmitHandler<ISigninData> = (data) => {
     signin(data, {
       onSuccess: () => {
-        setTimeout(() => {
-          router.replace(ROUTE.HOME)
-        }, 200)
+        router.replace(ROUTE.HOME)
       },
     })
   }
