@@ -1,17 +1,21 @@
 "use client"
 
 import PostSigninFn from "@/actions/Auths/postSigninFn"
-import setCookie from "@/actions/Auths/setCookies"
+import useUserToken from "@/hooks/useUserToken"
+import { setCookie } from "@/util/cookies"
 import { useMutation } from "@tanstack/react-query"
 
 // 사용자 로그인
 const usePostSignin = () => {
+  const { updateUserToken } = useUserToken()
+
   return useMutation({
     mutationFn: PostSigninFn,
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       if ("token" in data) {
         // LoginSuccess 케이스
-        setCookie(data.token)
+        await setCookie(data.token)
+        updateUserToken()
         return data
       }
       // response에 토큰이 없는 경우, 에러로 처리

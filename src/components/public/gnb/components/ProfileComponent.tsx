@@ -1,6 +1,5 @@
 "use client"
 
-import Link from "next/link"
 import { useRouter } from "next/navigation"
 
 import { useRef, useState } from "react"
@@ -42,8 +41,12 @@ const ProfileComponent = ({ isLoggedIn, profileImg }: IProfileComponentProps) =>
 
   if (!isLoggedIn) {
     return (
-      <Link
-        href={ROUTE.SIGNIN}
+      <button
+        type="button"
+        onClick={async () => {
+          await onLogout()
+          return router.push(ROUTE.SIGNIN)
+        }}
         className="relative flex h-8 w-[80px] items-center justify-center overflow-hidden rounded-lg bg-primary text-sm font-semibold text-white md:w-[100px]"
         onMouseEnter={() => {
           return api({ clipPath: "circle(150% at 0% 0%)" })
@@ -57,7 +60,7 @@ const ProfileComponent = ({ isLoggedIn, profileImg }: IProfileComponentProps) =>
           className="absolute left-0 top-0 h-full w-full bg-[#ed8f60]"
         />
         <p className="relative z-10">로그인</p>
-      </Link>
+      </button>
     )
   }
 

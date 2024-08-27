@@ -27,15 +27,15 @@ const gnbStyles = {
 }
 
 interface IGNBProps {
-  userToken: string | undefined
+  initialUserToken: string | undefined
   children: React.ReactNode
 }
 
 const MemoizedProfileComponent = memo(ProfileComponent)
 
-const GNB = ({ userToken, children }: IGNBProps) => {
+const GNB = ({ initialUserToken, children }: IGNBProps) => {
   const { isOpen, is2XlScreen, isLoggedIn, profileImg, menuRef, menuIconClick } =
-    useGNBLogic(userToken)
+    useGNBLogic(initialUserToken)
 
   const menuIconClickHandler = useCallback(() => {
     menuIconClick()
