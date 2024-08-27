@@ -94,7 +94,7 @@ describe("sign-up page test", () => {
     // 회원가입 이후 cookie에 userToken 생성 후 마이페이지 접속 확인
     cy.setCookie("userToken", "testToken")
     cy.visit("/mypage")
-    cy.contains("마이페이지")
+    cy.contains("내 프로필")
   })
 
   it("should be able to visit login page", () => {

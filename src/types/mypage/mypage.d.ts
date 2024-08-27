@@ -5,6 +5,12 @@ import { IGathering } from "@/types/review/filter"
 type TSize = "smallDefault" | "largeDefault" | "largeEdit"
 type TSort = "dateTime" | "registrationEnd" | "joinedAt"
 type TSortOrder = "asc" | "desc"
+type TBoolAndNull = boolean | null
+type TDispatch = ({ type, isReviewed }: IAction) => void
+
+interface IHandlerArg {
+  type: string
+}
 
 export interface IMyPageLayoutProps {
   children: ReactNode
@@ -13,14 +19,18 @@ export interface IMyPageLayoutProps {
 }
 
 export interface IReviewStateButtonProp {
-  onClick: (value: boolean) => void
   hasReview?: boolean
+  onClick: (value: boolean) => void
 }
 
+export interface IObjectType {
+  [key: string]: string
+}
+
+export interface ICustomError extends IObjectType {}
+
 export interface IAddReviewPageProp {
-  searchParams: {
-    [key: string]: string
-  }
+  searchParams: IObjectType
 }
 
 export interface IReviewModalProp {
@@ -30,10 +40,6 @@ export interface IReviewModalProp {
 export interface IUserData extends IReviewModalProp {
   score: number
   comment: string
-}
-
-export interface ICustomError {
-  [key: string]: string
 }
 
 export interface IProfileEditModalProps {
@@ -46,24 +52,19 @@ export interface IFile extends IProfileEditModalProps {
 }
 
 export interface IUserInfo extends IProfileEditModalProps {
-  email: string
-  name: string
   id: string
-}
-
-interface IHandlerArg {
-  type: string
+  name: string
+  email: string
 }
 
 export interface IAction extends IHandlerArg {
   isReviewed?: boolean
 }
 
-export interface IInitialState {
+export interface IInitialState extends Pick<IAction, "isReviewed"> {
   myMeeting: boolean
   myReview: boolean
   myOwnMeeting: boolean
-  isReviewed?: boolean
 }
 
 export interface IProfileProps {
@@ -78,13 +79,12 @@ export interface IMyPageInfoTapButton {
   onClick: ({ type }: IHandlerArg) => void
 }
 
-export interface IDataSort {
+export interface IDataSort extends Pick<IAction, "isReviewed"> {
   dataFetchingKey: string
-  isReviewed?: boolean
 }
 
 export interface IMyPageInfoWrapperProps extends IDataSort {
-  onClick: ({ type, isReviewed }: IAction) => void
+  onClick: TDispatch
 }
 
 export interface IGetMyMeetings {
@@ -96,35 +96,37 @@ export interface IGetMyMeetings {
 
 export interface IFetchMyPageInfo extends IGetMyMeetings {
   fetchingKey?: string
-  reviewMeeting?: boolean | null
-  isReviewed?: boolean | null
+  reviewMeeting?: TBoolAndNull
+  isReviewed?: TBoolAndNull
 }
 
-export interface IGetMyPageRes {
+interface IIds {
   id: number
-  participantCount: number
-  createdBy: number
-  capacity: number
   teamId: string
-  type: string
+}
+
+export interface IGetMyPageRes extends IIds, IHandlerArg {
+  capacity: number
+  createdBy: number
+  participantCount: number
   name: string
-  dateTime: string
-  registrationEnd: string
-  location: string
   image: string
-  canceledAt: string
+  dateTime: string
+  location: string
   joinedAt: string
+  canceledAt: string
+  registrationEnd: string
   isReviewed: boolean
   isCompleted: boolean
 }
 
-export interface IReview {
-  id: number
+export interface IReview extends IIds, IUserData {
   userId: number
-  gatheringId: number
-  score: number
-  teamId: string
-  comment: string
   createdAt: string
   Gathering: IGathering
+}
+
+export interface IErrorResponse {
+  code: string
+  message: string
 }

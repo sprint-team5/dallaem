@@ -47,6 +47,9 @@ jest.mock("next/navigation", () => {
         },
       }
     },
+    usePathname: () => {
+      return jest.fn()
+    },
   }
 })
 

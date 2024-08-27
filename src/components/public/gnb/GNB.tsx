@@ -1,136 +1,64 @@
 "use client"
 
 import Link from "next/link"
-import { usePathname, useSearchParams } from "next/navigation"
 
-import { useEffect, useRef, useState } from "react"
+import { memo, useCallback } from "react"
 
 import ROUTE from "@/constants/route"
-import useGetUserData from "@/hooks/useGetUserData"
-import useOutsideClick from "@/util/useOutsideClick"
-import { animated, useTransition } from "@react-spring/web"
+import useGNBLogic from "@/util/useGNBLogic"
 
-import AnimatedMenu from "./components/AnimatedMenu"
-import AnimatedMenuIcon from "./components/AnimatedMenuIcon"
 import ProfileComponent from "./components/ProfileComponent"
+import SideBarIcon from "./components/SideBarIcon"
+import SideBarMenu from "./components/SideBarMenu"
 
 // 테일윈드 스타일
 const wrapperStyles = {
-  default: "flex items-center justify-between relative w-full ",
+  default: "flex items-center justify-between relative w-full",
   mobile: "h-[55px] text-sm",
   tablet: "md:h-[59px] md:text-lg",
   desktop: "",
 }
 
 const gnbStyles = {
-  container:
-    "fixed left-0 top-0 z-50 flex w-full items-center justify-between whitespace-nowrap border-b border-gray-300 bg-white px-5 md:px-[30px]",
-  wrapper: `${wrapperStyles.default} ${wrapperStyles.mobile} ${wrapperStyles.tablet} ${wrapperStyles.desktop}`,
+  container: "fixed left-0 top-0 z-50 w-full bg-white",
+  wrapper: `${wrapperStyles.default} ${wrapperStyles.mobile} ${wrapperStyles.tablet} ${wrapperStyles.desktop} border-b border-gray-300 px-5 md:px-[30px]`,
   hoveredNavItem: "transition-all ease-in-out transform hover:scale-150 delay-[10ms] duration-150",
+  logo: "mr-auto font-tmoneyRoundWind text-lg font-extrabold text-primary subpixel-antialiased",
 }
 
 interface IGNBProps {
-  userToken: string | undefined
+  initialUserToken: string | undefined
   children: React.ReactNode
 }
 
-const GNB = ({ userToken, children }: IGNBProps) => {
-  const [isOpen, setIsOpen] = useState(false)
-  const [is2XlScreen, setIs2XlScreen] = useState(false)
+const MemoizedProfileComponent = memo(ProfileComponent)
 
-  const { data } = useGetUserData(userToken)
+const GNB = ({ initialUserToken, children }: IGNBProps) => {
+  const { isOpen, is2XlScreen, isLoggedIn, profileImg, menuRef, menuIconClick } =
+    useGNBLogic(initialUserToken)
 
-  const isLoggedIn = Boolean(data?.name)
-  const profileImg = data?.image
-
-  const currentPath = usePathname()
-  const searchParams = useSearchParams()
-
-  const menuRef = useRef<HTMLDivElement>(null)
-  useOutsideClick(menuRef, () => {
-    setIsOpen(false)
-  })
-
-  useEffect(() => {
-    setIsOpen(false)
-  }, [currentPath])
-
-  useEffect(() => {
-    const checkScreenSize = () => {
-      setIs2XlScreen(window.innerWidth >= 1024) // 1536px is the default '2xl' breakpoint in Tailwind
-    }
-
-    checkScreenSize()
-    window.addEventListener("resize", checkScreenSize)
-
-    return () => {
-      return window.removeEventListener("resize", checkScreenSize)
-    }
-  }, [])
-
-  // 현재 경로가 showGNBPaths에 포함되어 있는지 확인
-  function isValidRoute(path: string): boolean {
-    return Object.values(ROUTE).some((route) => {
-      // 쿼리 스트링이 있는 경우
-      if (route.includes("?")) {
-        const [basePath, query] = route.split("?")
-        const [paramKey, paramValue] = query.split("=")
-        return path === basePath && searchParams.get(paramKey) === paramValue
-      }
-      // 쿼리 스트링이 없는 경우
-      return path === route || path.startsWith(`${route}/`)
-    })
-  }
-
-  const shouldShowGNB = isValidRoute(currentPath)
-
-  // 메뉴 전환 애니메이션
-  const menuTransition = useTransition(is2XlScreen || isOpen, {
-    from: { opacity: 0 },
-    enter: { opacity: 1 },
-    leave: { opacity: 0 },
-    config: { duration: 150 },
-  })
-
-  if (!shouldShowGNB) {
-    return children
-  }
-
-  const navButtonClick = () => {
-    setIsOpen((prev) => {
-      return !prev
-    })
-  }
+  const menuIconClickHandler = useCallback(() => {
+    menuIconClick()
+  }, [menuIconClick])
 
   return (
     <>
       <div className={gnbStyles.container}>
-        {menuTransition((style, item) => {
-          return (
-            item && (
-              <animated.div style={style}>
-                <AnimatedMenu menuRef={menuRef} />
-              </animated.div>
-            )
-          )
-        })}
+        <SideBarMenu menuRef={menuRef} isOpen={isOpen || is2XlScreen} />
         <div className={gnbStyles.wrapper}>
           {!is2XlScreen && (
             <div className="mr-4">
-              <AnimatedMenuIcon onClick={navButtonClick} isOpen={isOpen} />
+              <SideBarIcon onClick={menuIconClickHandler} isOpen={isOpen} />
             </div>
           )}
-          <Link
-            href={ROUTE.HOME}
-            className="mr-auto font-tmoneyRoundWind text-lg font-extrabold text-primary subpixel-antialiased"
-          >
+          <Link href={ROUTE.HOME} className={gnbStyles.logo}>
             같이달램
           </Link>
-          <ProfileComponent isLoggedIn={isLoggedIn} profileImg={profileImg} />
+          <MemoizedProfileComponent isLoggedIn={isLoggedIn} profileImg={profileImg} />
         </div>
       </div>
       <div
-        className={`transition-all duration-300 ease-in-out ${is2XlScreen ? "lg:ml-[220px]" : ""}`}
+        className={`pt-[56px] transition-all duration-300 ease-in-out md:pt-[60px] ${is2XlScreen ? "lg:ml-[220px]" : ""}`}
       >
         {children}
       </div>
@@ -138,4 +66,4 @@ const GNB = ({ userToken, children }: IGNBProps) => {
   )
 }
 
-export default GNB
+export default memo(GNB)

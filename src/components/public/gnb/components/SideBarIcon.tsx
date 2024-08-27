@@ -9,7 +9,7 @@ interface IAnimatedMenuIconProps {
   isOpen: boolean
 }
 
-const AnimatedMenuIcon = ({ onClick, isOpen }: IAnimatedMenuIconProps) => {
+const SideBarIcon = ({ onClick, isOpen }: IAnimatedMenuIconProps) => {
   const springProps = useSpring({
     transform: isOpen ? "rotate(90deg)" : "rotate(0deg)",
     config: { tension: 150, friction: 15 },
@@ -26,4 +26,4 @@ const AnimatedMenuIcon = ({ onClick, isOpen }: IAnimatedMenuIconProps) => {
   )
 }
 
-export default AnimatedMenuIcon
+export default SideBarIcon

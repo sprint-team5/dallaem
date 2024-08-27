@@ -1,5 +1,6 @@
 describe("gnb test", () => {
   beforeEach(() => {
+    cy.viewport(1024, 768)
     cy.visit("/")
   })
 
@@ -30,7 +31,7 @@ describe("gnb test", () => {
   })
 
   it("should be able to visit login page", () => {
-    cy.get("a[href*='/auth?mode=signin'").first().click()
+    cy.contains("로그인").click()
     cy.location("pathname").should("eq", "/auth")
     cy.location("search").should("eq", "?mode=signin")
     cy.contains("로그인").should("be.visible")

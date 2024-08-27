@@ -1,14 +1,8 @@
 import { useEffect, useState } from "react"
 
-const RatingBar = ({
-  rating,
-  count,
-  maxScore,
-}: {
-  rating: number
-  count: number
-  maxScore: number
-}) => {
+import { IRatingBar } from "@/types/review/review"
+
+const RatingBar = ({ rating, count, maxScore }: IRatingBar) => {
   const [width, setWidth] = useState("0%")
 
   useEffect(() => {

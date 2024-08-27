@@ -6,7 +6,7 @@ import HeadSavedIMG from "@public/img/head_saved.png"
 const WishListPage = () => {
   return (
     <main>
-      <div className="m-6 flex min-h-screen flex-col rounded-[20px] bg-gray-50 px-6 py-14 md:m-12 md:px-16">
+      <div className="m-6 flex min-h-screen flex-col rounded-[20px] bg-white px-6 py-14 md:m-12 md:px-16">
         <div className="flex-none">
           <div className="flex items-center gap-4 sm:gap-[13px]">
             <div className="size-[72px] flex-none">

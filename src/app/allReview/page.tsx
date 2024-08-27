@@ -10,8 +10,6 @@ import { HydrationBoundary, dehydrate } from "@tanstack/react-query"
 
 export const metadata: Metadata = {
   title: "같이달램 | 모든 리뷰",
-  description:
-    "유저가 바쁜 일상 속 휴식을 위한 다양한 모임을 탐색하고 참여하며, 직접 모임을 개설하고 리뷰를 생성할 수 있는 서비스입니다.",
 }
 
 const AllReviewsPage = async () => {
@@ -26,7 +24,7 @@ const AllReviewsPage = async () => {
 
   return (
     <main>
-      <div className="m-6 flex min-h-screen flex-col rounded-[20px] bg-gray-50 px-6 py-14 md:m-12 md:px-16">
+      <div className="m-6 flex min-h-screen flex-col rounded-[20px] bg-white px-6 py-14 md:m-12 md:px-16">
         <div className="flex-none">
           <div className="flex items-center gap-4 sm:gap-[13px]">
             <div className="size-[72px] flex-none">

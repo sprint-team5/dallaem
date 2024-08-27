@@ -1,5 +1,7 @@
 "use client"
 
+import Image from "next/image"
+
 import { ChangeEvent, KeyboardEvent, useState } from "react"
 import { Value } from "react-calendar/dist/cjs/shared/types"
 
@@ -31,6 +33,7 @@ const Label = ({ label, htmlFor, children }: ILabelProps) => {
 
 const CreateMeetingForm = ({ changeState }: { changeState: () => void }) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [imagePreview, setImagePreview] = useState("")
 
   const [meetingData, setMeetingData] = useState<IMeetingDataState>({
     location: "",
@@ -106,6 +109,7 @@ const CreateMeetingForm = ({ changeState }: { changeState: () => void }) => {
     if (!file) {
       setFileName("")
     } else {
+      setImagePreview(URL.createObjectURL(file))
       setFileName(file.name)
       const image = e.target.files[0]
       setMeetingData({ ...meetingData, image: { file: image, name: file.name } })
@@ -159,7 +163,10 @@ const CreateMeetingForm = ({ changeState }: { changeState: () => void }) => {
 
     createGathering(params, {
       onSuccess: async (gatheringData) => {
-        queryClient.invalidateQueries({ queryKey: ["meetingList"] })
+        await queryClient.invalidateQueries({ queryKey: ["meetingList"] })
+        await queryClient.invalidateQueries({
+          queryKey: ["mypage"],
+        })
 
         if (gatheringData && gatheringData?.id) {
           await joinGathering(gatheringData.id)
@@ -167,6 +174,7 @@ const CreateMeetingForm = ({ changeState }: { changeState: () => void }) => {
         setIsModalOpen(true)
       },
     })
+
     setIsModalOpen(true)
   }
 
@@ -255,6 +263,22 @@ const CreateMeetingForm = ({ changeState }: { changeState: () => void }) => {
           </button>
         </div>
       </Label>
+
+      {imagePreview && (
+        <div className="mt-5">
+          <p className="mb-2 text-sm text-gray-500">미리보기</p>
+          <div className="relative w-full">
+            <Image
+              src={imagePreview}
+              alt="이미지 미리보기"
+              width={0}
+              height={0}
+              sizes="100vw"
+              className="h-auto w-auto border"
+            />
+          </div>
+        </div>
+      )}
 
       <Label label="선택 서비스" htmlFor="service">
         <SelectServiceRadioGroup meetingData={meetingData} setMeetingData={setMeetingData} />

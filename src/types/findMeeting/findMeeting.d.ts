@@ -30,7 +30,11 @@ export interface MyCardProps {
   children?: ReactNode
 }
 
-export interface IMeetingData extends Omit<MyCardProps, "children"> {
+export interface IMeetingData
+  extends Pick<
+    MyCardProps,
+    "teamId" | "name" | "dateTime" | "location" | "image" | "id" | "participantCount" | "capacity"
+  > {
   type: string
   registrationEnd: string
   createdBy: number
@@ -41,6 +45,12 @@ type TCustomImage = {
   name: string
 }
 
+export interface ICustomResponse {
+  code: string
+  message: string
+  parameter?: string
+}
+
 export interface ILabelProps {
   label: string
   htmlFor: string
@@ -49,6 +59,14 @@ export interface ILabelProps {
 
 export interface IMeetingDataState
   extends Pick<IMeetingData, "type" | "location" | "name" | "capacity" | "registrationEnd"> {
+  date: string
+  time: string
+  image: TCustomImage
+}
+
+export interface IGatheringData
+  extends Pick<IMeetingData, "type" | "location" | "name" | "capacity" | "registrationEnd"> {
+  id?: string
   date: string
   time: string
   image: TCustomImage

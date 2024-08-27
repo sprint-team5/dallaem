@@ -1,7 +1,11 @@
 "use client"
 
-import { MouseEventHandler, useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
 
+import { MouseEvent, useEffect, useState } from "react"
+
+import checkLogin from "@/actions/Auths/checkLogin"
+import ROUTE from "@/constants/route"
 import { useWishCount } from "@/provider/CountProvider"
 import { IWishListData } from "@/types/wishlist/wishlist"
 import Heart from "@public/icon/dynamicIcon/heart.svg"
@@ -11,38 +15,42 @@ import Heart from "@public/icon/dynamicIcon/heart.svg"
  */
 
 const WishBtn = ({ list }: { list: IWishListData }) => {
+  const router = useRouter()
   const [isWish, setIsWish] = useState(false)
   const { setWishCount } = useWishCount()
 
-  const HandlerWish: MouseEventHandler<HTMLButtonElement> = (e) => {
-    e.stopPropagation()
+  const HandlerWish = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
 
-    const wish = localStorage.getItem("wishlist")
+    if (await checkLogin()) {
+      const wish = localStorage.getItem("wishlist")
 
-    if (wish) {
-      const parse: IWishListData[] = JSON.parse(wish)
+      if (wish) {
+        const parse: IWishListData[] = JSON.parse(wish)
 
-      const index = parse.findIndex((item) => {
-        return item.id === list.id
-      })
+        const index = parse.findIndex((item) => {
+          return item.id === list.id
+        })
 
-      if (index > -1) {
-        parse.splice(index, 1)
+        if (index > -1) {
+          parse.splice(index, 1)
+        } else {
+          parse.push({ ...list, wish: true })
+        }
+
+        setWishCount(parse.length)
+        localStorage.setItem("wishlist", JSON.stringify([...parse]))
       } else {
-        parse.push({ ...list, wish: true })
+        localStorage.setItem("wishlist", JSON.stringify([{ ...list, wish: true }]))
+        setWishCount((prev) => {
+          return prev + 1
+        })
       }
 
-      setWishCount(parse.length)
-      localStorage.setItem("wishlist", JSON.stringify([...parse]))
+      setIsWish(!isWish)
     } else {
-      localStorage.setItem("wishlist", JSON.stringify([{ ...list, wish: true }]))
-      setWishCount((prev) => {
-        return prev + 1
-      })
+      router.replace(`${ROUTE.GATHERINGS}?alert=${"로그인이 필요합니다."}`)
     }
-
-    setIsWish(!isWish)
   }
 
   useEffect(() => {

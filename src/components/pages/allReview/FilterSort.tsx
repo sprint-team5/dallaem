@@ -3,31 +3,25 @@
 import { useState } from "react"
 
 import Sort from "@/components/public/icon/dynamicIcon/Sort"
+import { IFilterSortProps } from "@/types/review/review"
 
 const sortOrder = [
   {
     label: "최신순",
-    value: "asc",
+    value: "desc",
   },
   {
     label: "오래된순",
-    value: "desc",
+    value: "asc",
   },
 ]
 
-interface IFilterProps {
-  selVal: string
-  onSelect: (
-    event: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLButtonElement>,
-  ) => void
-}
-
 /**
- * @interface IFilterProps
+ * @interface IFilterSortProps
  * @param {string} selVal - 현재 선택된 필터링 데이터
  * @param {Function} onSelect - 필터링 데이터 선택 시 실행할 함수(setState 함수 전달)
  */
-const FilterSort = (props: IFilterProps) => {
+const FilterSort = (props: IFilterSortProps) => {
   const [isOpen, setIsOpen] = useState(false)
   const { selVal, onSelect } = props
 
@@ -71,7 +65,7 @@ const FilterSort = (props: IFilterProps) => {
       >
         <Sort state="default" />
         <span className="flex items-center whitespace-nowrap max-sm:hidden">
-          {getSortType(selVal)}
+          {selVal && getSortType(selVal)}
         </span>
       </div>
       <div

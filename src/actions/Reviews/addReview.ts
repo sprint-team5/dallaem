@@ -2,18 +2,9 @@
 
 import { cookies } from "next/headers"
 
-interface IAddReviews {
-  gatheringId: string
-  score: string
-  comment: string
-}
+import { IErrorResponse, IUserData } from "@/types/mypage/mypage"
 
-interface IErrorResponse {
-  code: string
-  message: string
-}
-
-const addReview = async (data: IAddReviews) => {
+const addReview = async (data: IUserData) => {
   const userToken = cookies().get("userToken")?.value
   try {
     const response = await fetch(`${process.env.BASE_URL}/${process.env.TEAM_ID}/reviews`, {
@@ -31,8 +22,9 @@ const addReview = async (data: IAddReviews) => {
     }
 
     return response.status
-  } catch (error: any) {
-    throw new Error(error.message)
+  } catch (error) {
+    const customError = error as IErrorResponse
+    throw new Error(customError.message)
   }
 }
 

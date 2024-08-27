@@ -38,7 +38,7 @@ const Card = ({
   children,
 }: ICardProps) => {
   return (
-    <Link href={`/findMeeting/${id}`}>
+    <Link href={`/findMeeting/${id}`} prefetch={false}>
       <div className="flex flex-col gap-4 border-b-2 border-dashed border-gray-200 pb-6 sm:flex-row">
         <div className="relative h-[156px] w-full flex-none overflow-hidden rounded-3xl sm:w-[280px]">
           {image ? (

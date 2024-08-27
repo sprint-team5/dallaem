@@ -1,6 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 
 import { MouseEvent } from "react"
 
@@ -10,7 +10,6 @@ import DateTag from "@/components/pages/findMeeting/MeetingCard/Atoms/DateTag"
 import ParticipantGage from "@/components/pages/findMeeting/MeetingCard/Atoms/ParticipantGage"
 import WishBtn from "@/components/pages/wishlist/WishBtn"
 import Spinner from "@/components/public/Spinner/Spinner"
-import ROUTE from "@/constants/route"
 import { IMeetingData, IMeetingListProps } from "@/types/findMeeting/findMeeting"
 import { isCurrentDateAfter, msTransform } from "@/util/days"
 import ArrowRightSVG from "@public/icon/staticIcon/arrow_right.svg"
@@ -20,6 +19,7 @@ import dayjs from "dayjs"
 export const MeetingCard = ({ data }: { data: IMeetingData }) => {
   const router = useRouter()
   const queryClient = useQueryClient()
+  const pathname = usePathname()
 
   const mutation = useMutation({
     mutationFn: () => {
@@ -32,11 +32,12 @@ export const MeetingCard = ({ data }: { data: IMeetingData }) => {
 
   const joinNow = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
+
     if (await checkLogin()) {
       const res = await mutation.mutateAsync()
-      router.push(`${ROUTE.GATHERINGS}?alert=${res}`)
+      router.replace(`${pathname}?alert=${res}&type=alert`, { scroll: false })
     } else {
-      router.push(`${ROUTE.GATHERINGS}?alert=${"로그인이 필요합니다."}`)
+      router.replace(`${pathname}?alert=${"로그인이 필요합니다."}`, { scroll: false })
     }
   }
 

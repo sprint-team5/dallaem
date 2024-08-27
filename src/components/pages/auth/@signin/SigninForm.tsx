@@ -10,6 +10,7 @@ import Button from "@/components/public/button/Button"
 import InputField from "@/components/public/input/InputField"
 import ROUTE from "@/constants/route"
 import usePostSignin from "@/hooks/usePostSignin"
+import { ISigninData } from "@/types/auth/auth"
 
 import validations from "./Validations"
 
@@ -44,11 +45,6 @@ const signinFormValue = [
   },
 ]
 
-interface ISigninData {
-  email: string
-  password: string
-}
-
 const SigninForm = () => {
   const router = useRouter()
 
@@ -80,9 +76,7 @@ const SigninForm = () => {
   const onSubmit: SubmitHandler<ISigninData> = (data) => {
     signin(data, {
       onSuccess: () => {
-        setTimeout(() => {
-          router.replace(ROUTE.HOME)
-        }, 200)
+        router.replace(ROUTE.HOME)
       },
     })
   }

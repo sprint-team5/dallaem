@@ -3,9 +3,9 @@
 import React from "react"
 
 import Bye from "@/components/public/icon/staticIcon/Bye"
-import { IWishListData } from "@/types/wishlist/wishlist"
+import { IByeBtnProps, IWishListData } from "@/types/wishlist/wishlist"
 
-const ByeBtn = ({ list, removeHandler }: { list: IWishListData; removeHandler?: any }) => {
+const ByeBtn = ({ list, removeHandler }: IByeBtnProps) => {
   const HandlerRemove = () => {
     const wish = localStorage.getItem("wishlist")
     if (wish) {

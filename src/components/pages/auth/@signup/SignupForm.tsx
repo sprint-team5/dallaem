@@ -11,6 +11,7 @@ import InputField from "@/components/public/input/InputField"
 import CompleteSignUpModal from "@/components/public/modal/CompleteSignUpModal"
 import ROUTE from "@/constants/route"
 import usePostSignup from "@/hooks/usePostSignup"
+import { ISignupData } from "@/types/auth/auth"
 
 import validations from "./Validations"
 
@@ -65,12 +66,6 @@ const signupFormValue = [
     validation: validations.passwordConfirm,
   },
 ]
-interface ISignupData {
-  email: string
-  password: string
-  name: string
-  companyName: string
-}
 
 const SignupForm = () => {
   const router = useRouter()

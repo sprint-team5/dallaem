@@ -37,6 +37,8 @@ const useInfiniteQueryHook = (keyData: IDataSort) => {
     getNextPageParam: (lastPage, _, lastPageParam) => {
       return lastPage?.hasMore ? lastPageParam + 1 : undefined
     },
+    staleTime: 1000,
+    gcTime: 1000,
   })
 
   return { data, isPending, fetchNextPage, isFetchingNextPage }

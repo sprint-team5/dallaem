@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache"
 import { useRouter } from "next/navigation"
 
-import { ChangeEvent, useState } from "react"
+import { ChangeEvent, useEffect, useState } from "react"
 import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form"
 
 import addReview from "@/actions/Reviews/addReview"
@@ -18,10 +18,13 @@ const initialValue = {
   comment: "남겨주신 리뷰는 프로그램 운영 및 다른 회원 분들께 큰 도움이 됩니다.",
 }
 
+const ANIMATION_DELAY = 100
+
 const ReviewModal = ({ gatheringId }: IReviewModalProp) => {
   const { register, handleSubmit } = useForm<IUserData>()
   const [userInput, setUserInput] = useState(initialValue)
   const [errorMsg, setErrorMsg] = useState("")
+  const [animationClassName, setAnimationClassName] = useState(false)
   const router = useRouter()
   const queryClient = useQueryClient()
 
@@ -36,7 +39,7 @@ const ReviewModal = ({ gatheringId }: IReviewModalProp) => {
   const submitHandler: SubmitHandler<IUserData> = async (data) => {
     const userReview = {
       gatheringId,
-      score: userInput.score.toString(),
+      score: userInput.score,
       comment: data.comment,
     }
 
@@ -70,13 +73,23 @@ const ReviewModal = ({ gatheringId }: IReviewModalProp) => {
     })
   }
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      return setAnimationClassName(true)
+    }, ANIMATION_DELAY)
+
+    return () => {
+      return clearTimeout(timer)
+    }
+  }, [])
+
   const disabled = addReviewMutation.isPending || errorMsg ? true : undefined
 
   return (
     <div className="fixed left-0 top-0 h-screen w-screen bg-gray-950/50">
       <form
         onSubmit={handleSubmit(submitHandler, errorHandler)}
-        className="absolute left-0 right-0 top-48 z-50 mx-auto w-modal-md rounded-md bg-white p-6 shadow-xl lg:w-modal-lg"
+        className={`absolute left-0 right-0 top-48 z-50 mx-auto w-modal-md rounded-md bg-white p-6 shadow-xl lg:w-modal-lg ${animationClassName ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}
       >
         <div className="mb-2 flex justify-between">
           <h3 className="text-lg font-semibold">리뷰쓰기</h3>
