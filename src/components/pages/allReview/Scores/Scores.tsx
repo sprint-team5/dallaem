@@ -29,7 +29,7 @@ const Scores = () => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setClipPath(`inset(0 ${100 - (allScore / 5) * 100}% 0 0)`)
+      setClipPath(`inset(0 ${100 - (Number(allScore) / 5) * 100}% 0 0)`)
     }, 100)
 
     return () => {
@@ -71,8 +71,8 @@ const Scores = () => {
           }}
         />
       </div>
-      <div className="mt-6 flex h-[180px] items-center justify-center gap-5 border-2 border-l-0 border-r-0 border-primary md:gap-[138px] lg:gap-[188px]">
-        {allScore > 0 ? (
+      <div className="mt-6 flex h-[180px] items-center justify-center gap-5 border-2 border-l-0 border-r-0 border-primary md:gap-[138px] xl:gap-[188px]">
+        {Number(allScore) > 0 ? (
           <>
             <div>
               <p className="text-center text-xl font-semibold leading-8 text-gray-900 sm:text-2xl">
