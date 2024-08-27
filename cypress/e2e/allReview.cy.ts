@@ -6,7 +6,7 @@ describe("allReview page test", () => {
   })
 
   it("should allReview page", () => {
-    cy.get(".text-lg").should("have.text", "모든 리뷰")
+    cy.contains("모든 리뷰").should("be.visible")
     cy.contains("같이달램을 이용한 분들은 이렇게 느꼈어요 🫶").should("be.visible")
   })
 
