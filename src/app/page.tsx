@@ -3,6 +3,7 @@ import getQueryClient from "@/components/app/queryClient"
 import Banner from "@/components/pages/mainpage/Banner"
 import MainReview from "@/components/pages/mainpage/MainReview"
 import NewMeeting from "@/components/pages/mainpage/NewMeeting"
+import LIMIT from "@/constants/limit"
 import { allReviewOptions } from "@/hooks/Review/useAllReview"
 import { HydrationBoundary, dehydrate, queryOptions } from "@tanstack/react-query"
 import "swiper/css"
@@ -15,9 +16,11 @@ const Home = () => {
         type: "DALLAEMFIT",
         sortBy: "registrationEnd",
         sortOrder: "desc",
-        limit: 12,
+        limit: LIMIT,
       })
     },
+    staleTime: 1000,
+    gcTime: 1000,
   })
   const meetingQueryClient = getQueryClient()
   const options = allReviewOptions({})
