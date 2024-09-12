@@ -7,7 +7,7 @@
 
 ## 배포 주소
 
-> **배포 주소** : [https://dallaem-publish.vercel.app/auth?mode=signin](https://dallaem-publish.vercel.app/auth?mode=signin) <br />
+> **배포 주소** : [https://dallaem-publish.vercel.app/](https://dallaem-publish.vercel.app/) <br />
 
 개발팀 소개 
 --
