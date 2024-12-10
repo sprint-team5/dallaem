@@ -5,10 +5,6 @@
 
 2024.07 ~ 2024.08
 
-## 배포 주소
-
-> **배포 주소** : [https://dallaem-publish.vercel.app/](https://dallaem-publish.vercel.app/) <br />
-
 개발팀 소개 
 --
 
